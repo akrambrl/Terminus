@@ -10,7 +10,11 @@
 "state": [
 "en fonctionnement"
 ],
-"close": []
+"close": [],
+"coord": [
+48.88451,
+2.25989
+]
 },
 "Q1368326": {
 "name": "Esplanade de La Défense",
@@ -23,7 +27,11 @@
 "state": [
 "en fonctionnement"
 ],
-"close": []
+"close": [],
+"coord": [
+48.88784,
+2.25044
+]
 },
 "Q1392037": {
 "name": "Opéra",
@@ -39,7 +47,11 @@
 "state": [
 "en fonctionnement"
 ],
-"close": []
+"close": [],
+"coord": [
+48.87083,
+2.33222
+]
 },
 "Q1418711": {
 "name": "Nation",
@@ -56,7 +68,11 @@
 "state": [
 "en fonctionnement"
 ],
-"close": []
+"close": [],
+"coord": [
+48.84827,
+2.39583
+]
 },
 "Q1418821": {
 "name": "Stalingrad",
@@ -72,7 +88,11 @@
 "state": [
 "en fonctionnement"
 ],
-"close": []
+"close": [],
+"coord": [
+48.8843,
+2.36597
+]
 },
 "Q1445234": {
 "name": "Franklin D. Roosevelt",
@@ -86,7 +106,11 @@
 "state": [
 "en fonctionnement"
 ],
-"close": []
+"close": [],
+"coord": [
+48.86931,
+2.30831
+]
 },
 "Q1459231": {
 "name": "Victor Hugo",
@@ -99,7 +123,11 @@
 "state": [
 "en fonctionnement"
 ],
-"close": []
+"close": [],
+"coord": [
+48.86972,
+2.285
+]
 },
 "Q1459245": {
 "name": "Porte Dauphine",
@@ -112,7 +140,11 @@
 "state": [
 "en fonctionnement"
 ],
-"close": []
+"close": [],
+"coord": [
+48.87139,
+2.27667
+]
 },
 "Q1461794": {
 "name": "Louvre - Rivoli",
@@ -125,7 +157,11 @@
 "state": [
 "en fonctionnement"
 ],
-"close": []
+"close": [],
+"coord": [
+48.86054,
+2.341
+]
 },
 "Q1467113": {
 "name": "Palais Royal - Musée du Louvre",
@@ -139,7 +175,11 @@
 "state": [
 "en fonctionnement"
 ],
-"close": []
+"close": [],
+"coord": [
+48.86285,
+2.33582
+]
 },
 "Q1511335": {
 "name": "Villiers",
@@ -154,7 +194,11 @@
 "state": [
 "en fonctionnement"
 ],
-"close": []
+"close": [],
+"coord": [
+48.88111,
+2.31472
+]
 },
 "Q1511406": {
 "name": "Havre - Caumartin",
@@ -168,7 +212,11 @@
 "state": [
 "en fonctionnement"
 ],
-"close": []
+"close": [],
+"coord": [
+48.87368,
+2.32732
+]
 },
 "Q1519529": {
 "name": "Saint-Lazare",
@@ -185,7 +233,11 @@
 "state": [
 "en fonctionnement"
 ],
-"close": []
+"close": [],
+"coord": [
+48.87556,
+2.32611
+]
 },
 "Q1535005": {
 "name": "Saint-Paul",
@@ -198,7 +250,11 @@
 "state": [
 "en fonctionnement"
 ],
-"close": []
+"close": [],
+"coord": [
+48.85514,
+2.36065
+]
 },
 "Q1576190": {
 "name": "Pelleport",
@@ -211,7 +267,11 @@
 "state": [
 "en fonctionnement"
 ],
-"close": []
+"close": [],
+"coord": [
+48.86861,
+2.40167
+]
 },
 "Q1576198": {
 "name": "Saint-Fargeau",
@@ -224,7 +284,11 @@
 "state": [
 "en fonctionnement"
 ],
-"close": []
+"close": [],
+"coord": [
+48.87194,
+2.40444
+]
 },
 "Q1576928": {
 "name": "Porte de Vincennes",
@@ -238,7 +302,11 @@
 "state": [
 "en fonctionnement"
 ],
-"close": []
+"close": [],
+"coord": [
+48.84727,
+2.40888
+]
 },
 "Q1577103": {
 "name": "La Chapelle",
@@ -252,7 +320,11 @@
 "state": [
 "en fonctionnement"
 ],
-"close": []
+"close": [],
+"coord": [
+48.88444,
+2.36
+]
 },
 "Q1577219": {
 "name": "Alexandre Dumas",
@@ -265,7 +337,11 @@
 "state": [
 "en fonctionnement"
 ],
-"close": []
+"close": [],
+"coord": [
+48.85583,
+2.39472
+]
 },
 "Q1660212": {
 "name": "Temple",
@@ -278,7 +354,11 @@
 "state": [
 "en fonctionnement"
 ],
-"close": []
+"close": [],
+"coord": [
+48.86649,
+2.36059
+]
 },
 "Q1672055": {
 "name": "Porte de Bagnolet",
@@ -291,7 +371,11 @@
 "state": [
 "en fonctionnement"
 ],
-"close": []
+"close": [],
+"coord": [
+48.86444,
+2.40722
+]
 },
 "Q1717241": {
 "name": "Monceau",
@@ -305,7 +389,11 @@
 "state": [
 "en fonctionnement"
 ],
-"close": []
+"close": [],
+"coord": [
+48.88,
+2.30833
+]
 },
 "Q1783889": {
 "name": "Sentier",
@@ -318,7 +406,11 @@
 "state": [
 "en fonctionnement"
 ],
-"close": []
+"close": [],
+"coord": [
+48.86757,
+2.34639
+]
 },
 "Q1784153": {
 "name": "Malesherbes",
@@ -331,7 +423,11 @@
 "state": [
 "en fonctionnement"
 ],
-"close": []
+"close": [],
+"coord": [
+48.88303,
+2.3089
+]
 },
 "Q1784678": {
 "name": "Saint-Mandé",
@@ -345,7 +441,11 @@
 "state": [
 "en fonctionnement"
 ],
-"close": []
+"close": [],
+"coord": [
+48.8463,
+2.41867
+]
 },
 "Q1785287": {
 "name": "Louise Michel",
@@ -358,7 +458,11 @@
 "state": [
 "en fonctionnement"
 ],
-"close": []
+"close": [],
+"coord": [
+48.88875,
+2.28784
+]
 },
 "Q1785459": {
 "name": "Philippe Auguste",
@@ -372,7 +476,11 @@
 "state": [
 "en fonctionnement"
 ],
-"close": []
+"close": [],
+"coord": [
+48.85827,
+2.39028
+]
 },
 "Q1895301": {
 "name": "Martin Nadaud",
@@ -388,6 +496,10 @@
 "close": [
 "1969-08-23",
 "1971-04-02"
+],
+"coord": [
+48.8649,
+2.39812
 ]
 },
 "Q1969462": {
@@ -401,7 +513,11 @@
 "state": [
 "en fonctionnement"
 ],
-"close": []
+"close": [],
+"coord": [
+48.89731,
+2.28079
+]
 },
 "Q1970334": {
 "name": "Parmentier",
@@ -414,7 +530,11 @@
 "state": [
 "en fonctionnement"
 ],
-"close": []
+"close": [],
+"coord": [
+48.86528,
+2.37444
+]
 },
 "Q25396695": {
 "name": "Grand Pêchers",
@@ -427,7 +547,11 @@
 "state": [
 "bâtiment ou structure en projet"
 ],
-"close": []
+"close": [],
+"coord": [
+48.85794,
+2.46579
+]
 },
 "Q28866840": {
 "name": "Suresnes",
@@ -453,7 +577,11 @@
 "state": [
 "bâtiment ou structure en projet"
 ],
-"close": []
+"close": [],
+"coord": [
+48.84964,
+2.45635
+]
 },
 "Q61084127": {
 "name": "Val de Fontenay",
@@ -466,7 +594,11 @@
 "state": [
 "en construction"
 ],
-"close": []
+"close": [],
+"coord": [
+48.8556,
+2.48967
+]
 },
 "Q61084138": {
 "name": "Nanterre La Folie",
@@ -479,7 +611,11 @@
 "state": [
 "en construction"
 ],
-"close": []
+"close": [],
+"coord": [
+48.89811,
+2.22619
+]
 },
 "Q119911": {
 "name": "Ménilmontant",
@@ -493,7 +629,11 @@
 "state": [
 "en fonctionnement"
 ],
-"close": []
+"close": [],
+"coord": [
+48.86621,
+2.38363
+]
 },
 "Q119971": {
 "name": "Porte d'Orléans",
@@ -506,7 +646,11 @@
 "state": [
 "en fonctionnement"
 ],
-"close": []
+"close": [],
+"coord": [
+48.8226,
+2.32481
+]
 },
 "Q140277": {
 "name": "La Défense",
@@ -519,7 +663,11 @@
 "state": [
 "en fonctionnement"
 ],
-"close": []
+"close": [],
+"coord": [
+48.89193,
+2.23788
+]
 },
 "Q163879": {
 "name": "Simplon",
@@ -532,7 +680,11 @@
 "state": [
 "en fonctionnement"
 ],
-"close": []
+"close": [],
+"coord": [
+48.89463,
+2.34709
+]
 },
 "Q167371": {
 "name": "Porte de Champerret",
@@ -545,7 +697,11 @@
 "state": [
 "en fonctionnement"
 ],
-"close": []
+"close": [],
+"coord": [
+48.88583,
+2.29361
+]
 },
 "Q176582": {
 "name": "Père Lachaise",
@@ -560,7 +716,11 @@
 "state": [
 "en fonctionnement"
 ],
-"close": []
+"close": [],
+"coord": [
+48.86306,
+2.3875
+]
 },
 "Q289916": {
 "name": "Étienne Marcel",
@@ -574,7 +734,11 @@
 "state": [
 "en fonctionnement"
 ],
-"close": []
+"close": [],
+"coord": [
+48.86349,
+2.34867
+]
 },
 "Q338898": {
 "name": "Pigalle",
@@ -589,7 +753,11 @@
 "state": [
 "en fonctionnement"
 ],
-"close": []
+"close": [],
+"coord": [
+48.88222,
+2.3375
+]
 },
 "Q450976": {
 "name": "Alésia",
@@ -602,7 +770,11 @@
 "state": [
 "en fonctionnement"
 ],
-"close": []
+"close": [],
+"coord": [
+48.8284,
+2.32675
+]
 },
 "Q487505": {
 "name": "Anatole France",
@@ -615,7 +787,11 @@
 "state": [
 "en fonctionnement"
 ],
-"close": []
+"close": [],
+"coord": [
+48.89194,
+2.28556
+]
 },
 "Q508256": {
 "name": "Bastille",
@@ -632,7 +808,11 @@
 "state": [
 "en fonctionnement"
 ],
-"close": []
+"close": [],
+"coord": [
+48.85284,
+2.36918
+]
 },
 "Q517844": {
 "name": "Avron",
@@ -646,7 +826,11 @@
 "state": [
 "en fonctionnement"
 ],
-"close": []
+"close": [],
+"coord": [
+48.85148,
+2.39818
+]
 },
 "Q567806": {
 "name": "Rome",
@@ -660,7 +844,11 @@
 "state": [
 "en fonctionnement"
 ],
-"close": []
+"close": [],
+"coord": [
+48.8825,
+2.32194
+]
 },
 "Q568195": {
 "name": "Jaurès",
@@ -676,7 +864,11 @@
 "state": [
 "en fonctionnement"
 ],
-"close": []
+"close": [],
+"coord": [
+48.88278,
+2.37083
+]
 },
 "Q585752": {
 "name": "Château de Vincennes",
@@ -690,7 +882,11 @@
 "state": [
 "en fonctionnement"
 ],
-"close": []
+"close": [],
+"coord": [
+48.84454,
+2.43951
+]
 },
 "Q601484": {
 "name": "Châtelet",
@@ -708,7 +904,11 @@
 "state": [
 "en fonctionnement"
 ],
-"close": []
+"close": [],
+"coord": [
+48.85852,
+2.34712
+]
 },
 "Q606164": {
 "name": "Porte des Lilas",
@@ -723,7 +923,11 @@
 "state": [
 "en fonctionnement"
 ],
-"close": []
+"close": [],
+"coord": [
+48.87694,
+2.40667
+]
 },
 "Q610012": {
 "name": "Place de Clichy",
@@ -740,7 +944,11 @@
 "state": [
 "en fonctionnement"
 ],
-"close": []
+"close": [],
+"coord": [
+48.88389,
+2.3275
+]
 },
 "Q612971": {
 "name": "Anvers",
@@ -754,7 +962,11 @@
 "state": [
 "en fonctionnement"
 ],
-"close": []
+"close": [],
+"coord": [
+48.88278,
+2.34472
+]
 },
 "Q614049": {
 "name": "Gare de Lyon",
@@ -770,6 +982,10 @@
 ],
 "close": [
 "1906-12-17"
+],
+"coord": [
+48.8447,
+2.37407
 ]
 },
 "Q635744": {
@@ -784,7 +1000,11 @@
 "state": [
 "en fonctionnement"
 ],
-"close": []
+"close": [],
+"coord": [
+48.87778,
+2.29861
+]
 },
 "Q645400": {
 "name": "Argentine",
@@ -798,7 +1018,11 @@
 "state": [
 "en fonctionnement"
 ],
-"close": []
+"close": [],
+"coord": [
+48.87553,
+2.28932
+]
 },
 "Q646583": {
 "name": "Courcelles",
@@ -812,7 +1036,11 @@
 "state": [
 "en fonctionnement"
 ],
-"close": []
+"close": [],
+"coord": [
+48.87917,
+2.30417
+]
 },
 "Q647271": {
 "name": "Reuilly - Diderot",
@@ -826,7 +1054,11 @@
 "state": [
 "en fonctionnement"
 ],
-"close": []
+"close": [],
+"coord": [
+48.84724,
+2.38612
+]
 },
 "Q649160": {
 "name": "Les Sablons",
@@ -839,7 +1071,11 @@
 "state": [
 "en fonctionnement"
 ],
-"close": []
+"close": [],
+"coord": [
+48.8809,
+2.27254
+]
 },
 "Q666009": {
 "name": "Tuileries",
@@ -852,7 +1088,11 @@
 "state": [
 "en fonctionnement"
 ],
-"close": []
+"close": [],
+"coord": [
+48.8645,
+2.33031
+]
 },
 "Q669850": {
 "name": "Réaumur - Sébastopol",
@@ -867,7 +1107,11 @@
 "state": [
 "en fonctionnement"
 ],
-"close": []
+"close": [],
+"coord": [
+48.86631,
+2.35204
+]
 },
 "Q670081": {
 "name": "Pereire",
@@ -880,7 +1124,11 @@
 "state": [
 "en fonctionnement"
 ],
-"close": []
+"close": [],
+"coord": [
+48.88472,
+2.29917
+]
 },
 "Q690975": {
 "name": "George V",
@@ -893,7 +1141,11 @@
 "state": [
 "en fonctionnement"
 ],
-"close": []
+"close": [],
+"coord": [
+48.87198,
+2.30046
+]
 },
 "Q713944": {
 "name": "Arts et Métiers",
@@ -907,7 +1159,11 @@
 "state": [
 "en fonctionnement"
 ],
-"close": []
+"close": [],
+"coord": [
+48.86528,
+2.35694
+]
 },
 "Q763411": {
 "name": "Saint-Placide",
@@ -920,7 +1176,11 @@
 "state": [
 "en fonctionnement"
 ],
-"close": []
+"close": [],
+"coord": [
+48.84681,
+2.32696
+]
 },
 "Q764465": {
 "name": "Montparnasse - Bienvenüe",
@@ -938,7 +1198,11 @@
 "state": [
 "en fonctionnement"
 ],
-"close": []
+"close": [],
+"coord": [
+48.84304,
+2.32264
+]
 },
 "Q766618": {
 "name": "Europe",
@@ -951,7 +1215,11 @@
 "state": [
 "en fonctionnement"
 ],
-"close": []
+"close": [],
+"coord": [
+48.87889,
+2.3225
+]
 },
 "Q781873": {
 "name": "Saint-Germain-des-Prés",
@@ -964,7 +1232,11 @@
 "state": [
 "en fonctionnement"
 ],
-"close": []
+"close": [],
+"coord": [
+48.85361,
+2.33372
+]
 },
 "Q800624": {
 "name": "Charles de Gaulle - Étoile",
@@ -985,6 +1257,10 @@
 "1931-05-17",
 "1931-12-06",
 "1942-10-06"
+],
+"coord": [
+48.87441,
+2.29576
 ]
 },
 "Q807893": {
@@ -1001,7 +1277,11 @@
 "state": [
 "en fonctionnement"
 ],
-"close": []
+"close": [],
+"coord": [
+48.88362,
+2.34974
+]
 },
 "Q815946": {
 "name": "Belleville",
@@ -1018,7 +1298,11 @@
 "state": [
 "en fonctionnement"
 ],
-"close": []
+"close": [],
+"coord": [
+48.87222,
+2.37778
+]
 },
 "Q881406": {
 "name": "Blanche",
@@ -1032,7 +1316,11 @@
 "state": [
 "en fonctionnement"
 ],
-"close": []
+"close": [],
+"coord": [
+48.88361,
+2.33361
+]
 },
 "Q895259": {
 "name": "Bourse",
@@ -1045,7 +1333,11 @@
 "state": [
 "en fonctionnement"
 ],
-"close": []
+"close": [],
+"coord": [
+48.86885,
+2.34137
+]
 },
 "Q915581": {
 "name": "Gallieni",
@@ -1058,7 +1350,11 @@
 "state": [
 "en fonctionnement"
 ],
-"close": []
+"close": [],
+"coord": [
+48.865,
+2.41666
+]
 },
 "Q944564": {
 "name": "Wagram",
@@ -1071,7 +1367,11 @@
 "state": [
 "en fonctionnement"
 ],
-"close": []
+"close": [],
+"coord": [
+48.88417,
+2.30361
+]
 },
 "Q945229": {
 "name": "Quatre-Septembre",
@@ -1084,7 +1384,11 @@
 "state": [
 "en fonctionnement"
 ],
-"close": []
+"close": [],
+"coord": [
+48.86972,
+2.33667
+]
 },
 "Q946826": {
 "name": "Gambetta",
@@ -1098,7 +1402,11 @@
 "state": [
 "en fonctionnement"
 ],
-"close": []
+"close": [],
+"coord": [
+48.86472,
+2.39833
+]
 },
 "Q968939": {
 "name": "Hôtel de Ville",
@@ -1112,7 +1420,11 @@
 "state": [
 "en fonctionnement"
 ],
-"close": []
+"close": [],
+"coord": [
+48.85759,
+2.35159
+]
 },
 "Q970075": {
 "name": "Concorde",
@@ -1128,7 +1440,11 @@
 "state": [
 "en fonctionnement"
 ],
-"close": []
+"close": [],
+"coord": [
+48.86618,
+2.3233
+]
 },
 "Q1019487": {
 "name": "Bérault",
@@ -1142,7 +1458,11 @@
 "state": [
 "en fonctionnement"
 ],
-"close": []
+"close": [],
+"coord": [
+48.84533,
+2.42924
+]
 },
 "Q571159": {
 "name": "Bibliothèque François-Mitterrand",
@@ -1156,7 +1476,11 @@
 "state": [
 "en fonctionnement"
 ],
-"close": []
+"close": [],
+"coord": [
+48.82983,
+2.3767
+]
 },
 "Q780625": {
 "name": "La Fourche",
@@ -1170,7 +1494,11 @@
 "state": [
 "en fonctionnement"
 ],
-"close": []
+"close": [],
+"coord": [
+48.88694,
+2.32583
+]
 },
 "Q810151": {
 "name": "Basilique de Saint-Denis",
@@ -1183,7 +1511,11 @@
 "state": [
 "en fonctionnement"
 ],
-"close": []
+"close": [],
+"coord": [
+48.93806,
+2.36083
+]
 },
 "Q818853": {
 "name": "Bercy",
@@ -1197,7 +1529,11 @@
 "state": [
 "en fonctionnement"
 ],
-"close": []
+"close": [],
+"coord": [
+48.83972,
+2.38028
+]
 },
 "Q923435": {
 "name": "Brochant",
@@ -1210,7 +1546,11 @@
 "state": [
 "en fonctionnement"
 ],
-"close": []
+"close": [],
+"coord": [
+48.89083,
+2.31972
+]
 },
 "Q941204": {
 "name": "Port de Gennevilliers",
@@ -1223,7 +1563,11 @@
 "state": [
 "annulé/abandonné"
 ],
-"close": []
+"close": [],
+"coord": [
+48.938,
+2.27828
+]
 },
 "Q962861": {
 "name": "Les Agnettes",
@@ -1237,7 +1581,11 @@
 "state": [
 "en fonctionnement"
 ],
-"close": []
+"close": [],
+"coord": [
+48.92318,
+2.28644
+]
 },
 "Q1044915": {
 "name": "Carrefour Pleyel",
@@ -1250,7 +1598,11 @@
 "state": [
 "en fonctionnement"
 ],
-"close": []
+"close": [],
+"coord": [
+48.91954,
+2.34313
+]
 },
 "Q1061527": {
 "name": "Champs-Élysées - Clemenceau",
@@ -1264,7 +1616,11 @@
 "state": [
 "en fonctionnement"
 ],
-"close": []
+"close": [],
+"coord": [
+48.86741,
+2.31396
+]
 },
 "Q1090894": {
 "name": "Châtillon - Montrouge",
@@ -1278,7 +1634,11 @@
 "state": [
 "en fonctionnement"
 ],
-"close": []
+"close": [],
+"coord": [
+48.81076,
+2.30161
+]
 },
 "Q1137613": {
 "name": "Cour Saint-Émilion",
@@ -1291,7 +1651,11 @@
 "state": [
 "en fonctionnement"
 ],
-"close": []
+"close": [],
+"coord": [
+48.83355,
+2.38596
+]
 },
 "Q1267446": {
 "name": "Duroc",
@@ -1307,7 +1671,11 @@
 "state": [
 "en fonctionnement"
 ],
-"close": []
+"close": [],
+"coord": [
+48.84694,
+2.31639
+]
 },
 "Q1344485": {
 "name": "Plaisance",
@@ -1320,7 +1688,11 @@
 "state": [
 "en fonctionnement"
 ],
-"close": []
+"close": [],
+"coord": [
+48.83139,
+2.31361
+]
 },
 "Q1392295": {
 "name": "Saint-François-Xavier",
@@ -1333,7 +1705,11 @@
 "state": [
 "en fonctionnement"
 ],
-"close": []
+"close": [],
+"coord": [
+48.85194,
+2.31444
+]
 },
 "Q1417199": {
 "name": "Madeleine",
@@ -1348,7 +1724,11 @@
 "state": [
 "en fonctionnement"
 ],
-"close": []
+"close": [],
+"coord": [
+48.86972,
+2.32444
+]
 },
 "Q1501462": {
 "name": "Pyramides",
@@ -1362,7 +1742,11 @@
 "state": [
 "en fonctionnement"
 ],
-"close": []
+"close": [],
+"coord": [
+48.86583,
+2.33472
+]
 },
 "Q1528456": {
 "name": "Invalides",
@@ -1376,7 +1760,11 @@
 "state": [
 "en fonctionnement"
 ],
-"close": []
+"close": [],
+"coord": [
+48.86083,
+2.31472
+]
 },
 "Q1547535": {
 "name": "Porte de Vanves",
@@ -1389,7 +1777,11 @@
 "state": [
 "en fonctionnement"
 ],
-"close": []
+"close": [],
+"coord": [
+48.82794,
+2.30588
+]
 },
 "Q1576642": {
 "name": "Maison Blanche",
@@ -1403,7 +1795,11 @@
 "state": [
 "en fonctionnement"
 ],
-"close": []
+"close": [],
+"coord": [
+48.82222,
+2.35861
+]
 },
 "Q1578045": {
 "name": "Miromesnil",
@@ -1417,7 +1813,11 @@
 "state": [
 "en fonctionnement"
 ],
-"close": []
+"close": [],
+"coord": [
+48.8737,
+2.31451
+]
 },
 "Q1673779": {
 "name": "Olympiades",
@@ -1430,7 +1830,11 @@
 "state": [
 "en fonctionnement"
 ],
-"close": []
+"close": [],
+"coord": [
+48.8269,
+2.36623
+]
 },
 "Q1684455": {
 "name": "Pernety",
@@ -1443,7 +1847,11 @@
 "state": [
 "en fonctionnement"
 ],
-"close": []
+"close": [],
+"coord": [
+48.83417,
+2.31833
+]
 },
 "Q1731762": {
 "name": "Malakoff – Rue Étienne-Dolet",
@@ -1456,7 +1864,11 @@
 "state": [
 "en fonctionnement"
 ],
-"close": []
+"close": [],
+"coord": [
+48.81472,
+2.29722
+]
 },
 "Q1783803": {
 "name": "Saint-Denis - Université",
@@ -1469,7 +1881,11 @@
 "state": [
 "en fonctionnement"
 ],
-"close": []
+"close": [],
+"coord": [
+48.94583,
+2.36361
+]
 },
 "Q1866688": {
 "name": "Liège",
@@ -1483,7 +1899,11 @@
 "state": [
 "en fonctionnement"
 ],
-"close": []
+"close": [],
+"coord": [
+48.87972,
+2.32694
+]
 },
 "Q1885852": {
 "name": "Mairie de Clichy",
@@ -1496,7 +1916,11 @@
 "state": [
 "en fonctionnement"
 ],
-"close": []
+"close": [],
+"coord": [
+48.90389,
+2.30528
+]
 },
 "Q1885854": {
 "name": "Mairie de Saint-Ouen",
@@ -1510,7 +1934,11 @@
 "state": [
 "en fonctionnement"
 ],
-"close": []
+"close": [],
+"coord": [
+48.91167,
+2.33361
+]
 },
 "Q1886721": {
 "name": "Malakoff - Plateau de Vanves",
@@ -1523,7 +1951,11 @@
 "state": [
 "en fonctionnement"
 ],
-"close": []
+"close": [],
+"coord": [
+48.82278,
+2.29833
+]
 },
 "Q1969873": {
 "name": "Saint-Denis - Porte de Paris",
@@ -1536,7 +1968,11 @@
 "state": [
 "en fonctionnement"
 ],
-"close": []
+"close": [],
+"coord": [
+48.93,
+2.3575
+]
 },
 "Q1969959": {
 "name": "Porte de Clichy",
@@ -1550,7 +1986,11 @@
 "state": [
 "en fonctionnement"
 ],
-"close": []
+"close": [],
+"coord": [
+48.89389,
+2.31333
+]
 },
 "Q2979015": {
 "name": "Saint-Ouen",
@@ -1564,7 +2004,11 @@
 "state": [
 "en fonctionnement"
 ],
-"close": []
+"close": [],
+"coord": [
+48.9045,
+2.32181
+]
 },
 "Q3396323": {
 "name": "Pont Cardinet",
@@ -1577,7 +2021,11 @@
 "state": [
 "en fonctionnement"
 ],
-"close": []
+"close": [],
+"coord": [
+48.88858,
+2.31539
+]
 },
 "Q3462074": {
 "name": "Saint-Denis Pleyel",
@@ -1590,7 +2038,11 @@
 "state": [
 "en fonctionnement"
 ],
-"close": []
+"close": [],
+"coord": [
+48.9176,
+2.34667
+]
 },
 "Q16041258": {
 "name": "Villejuif - Gustave Roussy",
@@ -1603,7 +2055,11 @@
 "state": [
 "en fonctionnement"
 ],
-"close": []
+"close": [],
+"coord": [
+48.79306,
+2.34937
+]
 },
 "Q21294263": {
 "name": "Aéroport d'Orly",
@@ -1616,7 +2072,11 @@
 "state": [
 "en fonctionnement"
 ],
-"close": []
+"close": [],
+"coord": [
+48.72875,
+2.36237
+]
 },
 "Q25478742": {
 "name": "Hôpital Bicêtre",
@@ -1629,7 +2089,11 @@
 "state": [
 "en fonctionnement"
 ],
-"close": []
+"close": [],
+"coord": [
+48.80972,
+2.34972
+]
 },
 "Q25478746": {
 "name": "L'Haÿ-les-Roses",
@@ -1642,7 +2106,11 @@
 "state": [
 "en fonctionnement"
 ],
-"close": []
+"close": [],
+"coord": [
+48.77528,
+2.35417
+]
 },
 "Q25478754": {
 "name": "Chevilly-Larue",
@@ -1655,7 +2123,11 @@
 "state": [
 "en fonctionnement"
 ],
-"close": []
+"close": [],
+"coord": [
+48.75917,
+2.36639
+]
 },
 "Q50724143": {
 "name": "Thiais - Orly",
@@ -1668,7 +2140,11 @@
 "state": [
 "en fonctionnement"
 ],
-"close": []
+"close": [],
+"coord": [
+48.7475,
+2.37306
+]
 },
 "Q181669": {
 "name": "Porte de Saint-Ouen",
@@ -1682,7 +2158,11 @@
 "state": [
 "en fonctionnement"
 ],
-"close": []
+"close": [],
+"coord": [
+48.89667,
+2.32861
+]
 },
 "Q238902": {
 "name": "Volontaires",
@@ -1695,7 +2175,11 @@
 "state": [
 "en fonctionnement"
 ],
-"close": []
+"close": [],
+"coord": [
+48.84139,
+2.3075
+]
 },
 "Q274534": {
 "name": "Église d'Auteuil",
@@ -1708,7 +2192,11 @@
 "state": [
 "en fonctionnement"
 ],
-"close": []
+"close": [],
+"coord": [
+48.84717,
+2.26902
+]
 },
 "Q306256": {
 "name": "Abbesses",
@@ -1721,7 +2209,11 @@
 "state": [
 "en fonctionnement"
 ],
-"close": []
+"close": [],
+"coord": [
+48.88444,
+2.33861
+]
 },
 "Q377782": {
 "name": "Gaîté",
@@ -1734,7 +2226,11 @@
 "state": [
 "en fonctionnement"
 ],
-"close": []
+"close": [],
+"coord": [
+48.83889,
+2.3225
+]
 },
 "Q382659": {
 "name": "Porte de la Chapelle",
@@ -1747,7 +2243,11 @@
 "state": [
 "en fonctionnement"
 ],
-"close": []
+"close": [],
+"coord": [
+48.89722,
+2.35917
+]
 },
 "Q426440": {
 "name": "Boulogne - Jean Jaurès",
@@ -1760,7 +2260,11 @@
 "state": [
 "en fonctionnement"
 ],
-"close": []
+"close": [],
+"coord": [
+48.84222,
+2.23889
+]
 },
 "Q517739": {
 "name": "Mirabeau",
@@ -1773,7 +2277,11 @@
 "state": [
 "en fonctionnement"
 ],
-"close": []
+"close": [],
+"coord": [
+48.84674,
+2.27171
+]
 },
 "Q568013": {
 "name": "Falguière",
@@ -1786,7 +2294,11 @@
 "state": [
 "en fonctionnement"
 ],
-"close": []
+"close": [],
+"coord": [
+48.84444,
+2.31806
+]
 },
 "Q575604": {
 "name": "Notre-Dame-de-Lorette",
@@ -1799,7 +2311,11 @@
 "state": [
 "en fonctionnement"
 ],
-"close": []
+"close": [],
+"coord": [
+48.87611,
+2.33861
+]
 },
 "Q586851": {
 "name": "Garibaldi",
@@ -1812,7 +2328,11 @@
 "state": [
 "en fonctionnement"
 ],
-"close": []
+"close": [],
+"coord": [
+48.90639,
+2.33194
+]
 },
 "Q607342": {
 "name": "Cardinal Lemoine",
@@ -1825,7 +2345,11 @@
 "state": [
 "en fonctionnement"
 ],
-"close": []
+"close": [],
+"coord": [
+48.84662,
+2.35165
+]
 },
 "Q614636": {
 "name": "Varenne",
@@ -1838,7 +2362,11 @@
 "state": [
 "en fonctionnement"
 ],
-"close": []
+"close": [],
+"coord": [
+48.85611,
+2.31472
+]
 },
 "Q617430": {
 "name": "Jules Joffrin",
@@ -1851,7 +2379,11 @@
 "state": [
 "en fonctionnement"
 ],
-"close": []
+"close": [],
+"coord": [
+48.8925,
+2.34472
+]
 },
 "Q630642": {
 "name": "Convention",
@@ -1864,7 +2396,11 @@
 "state": [
 "en fonctionnement"
 ],
-"close": []
+"close": [],
+"coord": [
+48.8375,
+2.29667
+]
 },
 "Q632881": {
 "name": "Charles Michels",
@@ -1877,7 +2413,11 @@
 "state": [
 "en fonctionnement"
 ],
-"close": []
+"close": [],
+"coord": [
+48.84667,
+2.28694
+]
 },
 "Q645691": {
 "name": "Gabriel Péri",
@@ -1891,7 +2431,11 @@
 "state": [
 "en fonctionnement"
 ],
-"close": []
+"close": [],
+"coord": [
+48.91639,
+2.29417
+]
 },
 "Q646376": {
 "name": "Rambuteau",
@@ -1905,7 +2449,11 @@
 "state": [
 "en fonctionnement"
 ],
-"close": []
+"close": [],
+"coord": [
+48.86178,
+2.35381
+]
 },
 "Q683544": {
 "name": "Mairie des Lilas",
@@ -1918,7 +2466,11 @@
 "state": [
 "en fonctionnement"
 ],
-"close": []
+"close": [],
+"coord": [
+48.87972,
+2.41611
+]
 },
 "Q733618": {
 "name": "Les Courtilles",
@@ -1932,7 +2484,11 @@
 "state": [
 "en fonctionnement"
 ],
-"close": []
+"close": [],
+"coord": [
+48.93061,
+2.28379
+]
 },
 "Q738879": {
 "name": "Guy Môquet",
@@ -1946,7 +2502,11 @@
 "state": [
 "en fonctionnement"
 ],
-"close": []
+"close": [],
+"coord": [
+48.89222,
+2.32722
+]
 },
 "Q740744": {
 "name": "Assemblée nationale",
@@ -1959,7 +2519,11 @@
 "state": [
 "en fonctionnement"
 ],
-"close": []
+"close": [],
+"coord": [
+48.86056,
+2.32111
+]
 },
 "Q766186": {
 "name": "Aimé Césaire",
@@ -1972,7 +2536,11 @@
 "state": [
 "en fonctionnement"
 ],
-"close": []
+"close": [],
+"coord": [
+48.90832,
+2.37802
+]
 },
 "Q769848": {
 "name": "Vaugirard",
@@ -1985,7 +2553,11 @@
 "state": [
 "en fonctionnement"
 ],
-"close": []
+"close": [],
+"coord": [
+48.83972,
+2.30139
+]
 },
 "Q790593": {
 "name": "Avenue Émile Zola",
@@ -1998,7 +2570,11 @@
 "state": [
 "en fonctionnement"
 ],
-"close": []
+"close": [],
+"coord": [
+48.84701,
+2.29532
+]
 },
 "Q895108": {
 "name": "Boulogne - Pont de Saint-Cloud",
@@ -2011,7 +2587,11 @@
 "state": [
 "en fonctionnement"
 ],
-"close": []
+"close": [],
+"coord": [
+48.84068,
+2.22833
+]
 },
 "Q927829": {
 "name": "Chardon-Lagache",
@@ -2024,7 +2604,11 @@
 "state": [
 "en fonctionnement"
 ],
-"close": []
+"close": [],
+"coord": [
+48.84542,
+2.26717
+]
 },
 "Q954566": {
 "name": "Rue du Bac",
@@ -2037,7 +2621,11 @@
 "state": [
 "en fonctionnement"
 ],
-"close": []
+"close": [],
+"coord": [
+48.85556,
+2.32556
+]
 },
 "Q974510": {
 "name": "Mabillon",
@@ -2050,7 +2638,11 @@
 "state": [
 "en fonctionnement"
 ],
-"close": []
+"close": [],
+"coord": [
+48.85278,
+2.33528
+]
 },
 "Q980380": {
 "name": "Lamarck - Caulaincourt",
@@ -2063,7 +2655,11 @@
 "state": [
 "en fonctionnement"
 ],
-"close": []
+"close": [],
+"coord": [
+48.88972,
+2.33861
+]
 },
 "Q995228": {
 "name": "Michel-Ange - Auteuil",
@@ -2077,7 +2673,11 @@
 "state": [
 "en fonctionnement"
 ],
-"close": []
+"close": [],
+"coord": [
+48.84795,
+2.26413
+]
 },
 "Q1103432": {
 "name": "Cluny - La Sorbonne",
@@ -2091,7 +2691,11 @@
 "state": [
 "en fonctionnement"
 ],
-"close": []
+"close": [],
+"coord": [
+48.85105,
+2.34427
+]
 },
 "Q1132595": {
 "name": "Corentin Celton",
@@ -2104,7 +2708,11 @@
 "state": [
 "en fonctionnement"
 ],
-"close": []
+"close": [],
+"coord": [
+48.82694,
+2.27889
+]
 },
 "Q1185683": {
 "name": "Front Populaire",
@@ -2118,7 +2726,11 @@
 "state": [
 "en fonctionnement"
 ],
-"close": []
+"close": [],
+"coord": [
+48.90694,
+2.36583
+]
 },
 "Q1228836": {
 "name": "Michel-Ange - Molitor",
@@ -2132,7 +2744,11 @@
 "state": [
 "en fonctionnement"
 ],
-"close": []
+"close": [],
+"coord": [
+48.84516,
+2.26168
+]
 },
 "Q1263417": {
 "name": "Télégraphe",
@@ -2146,7 +2762,11 @@
 "state": [
 "en fonctionnement"
 ],
-"close": []
+"close": [],
+"coord": [
+48.87528,
+2.39833
+]
 },
 "Q1316395": {
 "name": "Trinité - d'Estienne d'Orves",
@@ -2159,7 +2779,11 @@
 "state": [
 "en fonctionnement"
 ],
-"close": []
+"close": [],
+"coord": [
+48.87633,
+2.33264
+]
 },
 "Q1341849": {
 "name": "République",
@@ -2178,7 +2802,11 @@
 "state": [
 "en fonctionnement"
 ],
-"close": []
+"close": [],
+"coord": [
+48.8675,
+2.36333
+]
 },
 "Q1368640": {
 "name": "Solférino",
@@ -2191,7 +2819,11 @@
 "state": [
 "en fonctionnement"
 ],
-"close": []
+"close": [],
+"coord": [
+48.85833,
+2.32333
+]
 },
 "Q1415143": {
 "name": "La Motte-Picquet - Grenelle",
@@ -2206,7 +2838,11 @@
 "state": [
 "en fonctionnement"
 ],
-"close": []
+"close": [],
+"coord": [
+48.84898,
+2.2982
+]
 },
 "Q1463644": {
 "name": "Jussieu",
@@ -2220,7 +2856,11 @@
 "state": [
 "en fonctionnement"
 ],
-"close": []
+"close": [],
+"coord": [
+48.84605,
+2.35574
+]
 },
 "Q1494179": {
 "name": "Gare d'Austerlitz",
@@ -2235,7 +2875,11 @@
 "state": [
 "en fonctionnement"
 ],
-"close": []
+"close": [],
+"coord": [
+48.8425,
+2.36472
+]
 },
 "Q1511318": {
 "name": "Odéon",
@@ -2249,7 +2893,11 @@
 "state": [
 "en fonctionnement"
 ],
-"close": []
+"close": [],
+"coord": [
+48.85225,
+2.33856
+]
 },
 "Q1511378": {
 "name": "Javel - André Citroën",
@@ -2262,7 +2910,11 @@
 "state": [
 "en fonctionnement"
 ],
-"close": []
+"close": [],
+"coord": [
+48.84611,
+2.27861
+]
 },
 "Q1511392": {
 "name": "Ségur",
@@ -2276,7 +2928,11 @@
 "state": [
 "en fonctionnement"
 ],
-"close": []
+"close": [],
+"coord": [
+48.84701,
+2.30749
+]
 },
 "Q1511414": {
 "name": "Vaneau",
@@ -2290,7 +2946,11 @@
 "state": [
 "en fonctionnement"
 ],
-"close": []
+"close": [],
+"coord": [
+48.84889,
+2.32139
+]
 },
 "Q1517347": {
 "name": "Jourdain",
@@ -2304,7 +2964,11 @@
 "state": [
 "en fonctionnement"
 ],
-"close": []
+"close": [],
+"coord": [
+48.875,
+2.39083
+]
 },
 "Q1536969": {
 "name": "Goncourt",
@@ -2318,7 +2982,11 @@
 "state": [
 "en fonctionnement"
 ],
-"close": []
+"close": [],
+"coord": [
+48.86989,
+2.37108
+]
 },
 "Q1578078": {
 "name": "Porte d'Auteuil",
@@ -2331,7 +2999,11 @@
 "state": [
 "en fonctionnement"
 ],
-"close": []
+"close": [],
+"coord": [
+48.84806,
+2.25889
+]
 },
 "Q1578089": {
 "name": "Sèvres - Babylone",
@@ -2346,7 +3018,11 @@
 "state": [
 "en fonctionnement"
 ],
-"close": []
+"close": [],
+"coord": [
+48.85139,
+2.32667
+]
 },
 "Q168170": {
 "name": "La Muette",
@@ -2359,7 +3035,11 @@
 "state": [
 "en fonctionnement"
 ],
-"close": []
+"close": [],
+"coord": [
+48.85772,
+2.27372
+]
 },
 "Q273476": {
 "name": "École Militaire",
@@ -2372,7 +3052,11 @@
 "state": [
 "en fonctionnement"
 ],
-"close": []
+"close": [],
+"coord": [
+48.855,
+2.30667
+]
 },
 "Q273645": {
 "name": "École vétérinaire de Maisons-Alfort",
@@ -2385,7 +3069,11 @@
 "state": [
 "en fonctionnement"
 ],
-"close": []
+"close": [],
+"coord": [
+48.815,
+2.42167
+]
 },
 "Q337855": {
 "name": "Faidherbe - Chaligny",
@@ -2399,7 +3087,11 @@
 "state": [
 "en fonctionnement"
 ],
-"close": []
+"close": [],
+"coord": [
+48.85033,
+2.38419
+]
 },
 "Q524191": {
 "name": "Chemin Vert",
@@ -2413,7 +3105,11 @@
 "state": [
 "en fonctionnement"
 ],
-"close": []
+"close": [],
+"coord": [
+48.85667,
+2.36806
+]
 },
 "Q550042": {
 "name": "Saint-Sébastien - Froissart",
@@ -2427,7 +3123,11 @@
 "state": [
 "en fonctionnement"
 ],
-"close": []
+"close": [],
+"coord": [
+48.86028,
+2.36722
+]
 },
 "Q592367": {
 "name": "Créteil - Université",
@@ -2440,7 +3140,11 @@
 "state": [
 "en fonctionnement"
 ],
-"close": []
+"close": [],
+"coord": [
+48.78984,
+2.45062
+]
 },
 "Q608305": {
 "name": "Commerce",
@@ -2453,7 +3157,11 @@
 "state": [
 "en fonctionnement"
 ],
-"close": []
+"close": [],
+"coord": [
+48.84467,
+2.29377
+]
 },
 "Q613123": {
 "name": "Marcel Sembat",
@@ -2466,7 +3174,11 @@
 "state": [
 "en fonctionnement"
 ],
-"close": []
+"close": [],
+"coord": [
+48.83392,
+2.24474
+]
 },
 "Q616619": {
 "name": "Michel Bizot",
@@ -2479,7 +3191,11 @@
 "state": [
 "en fonctionnement"
 ],
-"close": []
+"close": [],
+"coord": [
+48.83707,
+2.40246
+]
 },
 "Q631846": {
 "name": "Maraîchers",
@@ -2492,7 +3208,11 @@
 "state": [
 "en fonctionnement"
 ],
-"close": []
+"close": [],
+"coord": [
+48.85278,
+2.40667
+]
 },
 "Q649273": {
 "name": "Saint-Augustin",
@@ -2505,7 +3225,11 @@
 "state": [
 "en fonctionnement"
 ],
-"close": []
+"close": [],
+"coord": [
+48.87417,
+2.32194
+]
 },
 "Q668351": {
 "name": "Mairie de Montreuil",
@@ -2518,7 +3242,11 @@
 "state": [
 "en fonctionnement"
 ],
-"close": []
+"close": [],
+"coord": [
+48.86222,
+2.44194
+]
 },
 "Q680787": {
 "name": "Ledru-Rollin",
@@ -2532,7 +3260,11 @@
 "state": [
 "en fonctionnement"
 ],
-"close": []
+"close": [],
+"coord": [
+48.85133,
+2.37611
+]
 },
 "Q751245": {
 "name": "Pré-Saint-Gervais",
@@ -2545,7 +3277,11 @@
 "state": [
 "en fonctionnement"
 ],
-"close": []
+"close": [],
+"coord": [
+48.88028,
+2.39889
+]
 },
 "Q761518": {
 "name": "Billancourt",
@@ -2558,7 +3294,11 @@
 "state": [
 "en fonctionnement"
 ],
-"close": []
+"close": [],
+"coord": [
+48.83194,
+2.23806
+]
 },
 "Q766906": {
 "name": "Maisons-Alfort - Les Juilliottes",
@@ -2571,7 +3311,11 @@
 "state": [
 "en fonctionnement"
 ],
-"close": []
+"close": [],
+"coord": [
+48.8025,
+2.44639
+]
 },
 "Q771548": {
 "name": "Rue de la Pompe",
@@ -2584,7 +3328,11 @@
 "state": [
 "en fonctionnement"
 ],
-"close": []
+"close": [],
+"coord": [
+48.86401,
+2.27809
+]
 },
 "Q804647": {
 "name": "Balard",
@@ -2597,7 +3345,11 @@
 "state": [
 "en fonctionnement"
 ],
-"close": []
+"close": [],
+"coord": [
+48.8364,
+2.27838
+]
 },
 "Q891362": {
 "name": "Bolivar",
@@ -2610,7 +3362,11 @@
 "state": [
 "en fonctionnement"
 ],
-"close": []
+"close": [],
+"coord": [
+48.88056,
+2.375
+]
 },
 "Q892720": {
 "name": "Bonne Nouvelle",
@@ -2626,7 +3382,11 @@
 "state": [
 "en fonctionnement"
 ],
-"close": []
+"close": [],
+"coord": [
+48.87054,
+2.34872
+]
 },
 "Q894930": {
 "name": "Botzaris",
@@ -2639,7 +3399,11 @@
 "state": [
 "en fonctionnement"
 ],
-"close": []
+"close": [],
+"coord": [
+48.87944,
+2.38806
+]
 },
 "Q894984": {
 "name": "Boucicaut",
@@ -2652,7 +3416,11 @@
 "state": [
 "en fonctionnement"
 ],
-"close": []
+"close": [],
+"coord": [
+48.84109,
+2.28779
+]
 },
 "Q935233": {
 "name": "Pointe du Lac",
@@ -2665,7 +3433,11 @@
 "state": [
 "en fonctionnement"
 ],
-"close": []
+"close": [],
+"coord": [
+48.76879,
+2.46481
+]
 },
 "Q946441": {
 "name": "Porte Dorée",
@@ -2678,7 +3450,11 @@
 "state": [
 "en fonctionnement"
 ],
-"close": []
+"close": [],
+"coord": [
+48.83528,
+2.40583
+]
 },
 "Q948012": {
 "name": "Charonne",
@@ -2691,7 +3467,11 @@
 "state": [
 "en fonctionnement"
 ],
-"close": []
+"close": [],
+"coord": [
+48.855,
+2.38444
+]
 },
 "Q951466": {
 "name": "Chaussée d'Antin - La Fayette",
@@ -2705,7 +3485,11 @@
 "state": [
 "en fonctionnement"
 ],
-"close": []
+"close": [],
+"coord": [
+48.87278,
+2.33361
+]
 },
 "Q968336": {
 "name": "Porte de Montreuil",
@@ -2718,7 +3502,11 @@
 "state": [
 "en fonctionnement"
 ],
-"close": []
+"close": [],
+"coord": [
+48.85361,
+2.41222
+]
 },
 "Q970844": {
 "name": "Exelmans",
@@ -2731,7 +3519,11 @@
 "state": [
 "en fonctionnement"
 ],
-"close": []
+"close": [],
+"coord": [
+48.84294,
+2.26004
+]
 },
 "Q999159": {
 "name": "Montgallet",
@@ -2744,7 +3536,11 @@
 "state": [
 "en fonctionnement"
 ],
-"close": []
+"close": [],
+"coord": [
+48.84421,
+2.3903
+]
 },
 "Q1018164": {
 "name": "Buttes Chaumont",
@@ -2757,7 +3553,11 @@
 "state": [
 "en fonctionnement"
 ],
-"close": []
+"close": [],
+"coord": [
+48.87861,
+2.38167
+]
 },
 "Q1018331": {
 "name": "Buzenval",
@@ -2770,7 +3570,11 @@
 "state": [
 "en fonctionnement"
 ],
-"close": []
+"close": [],
+"coord": [
+48.85176,
+2.40135
+]
 },
 "Q1063134": {
 "name": "Charenton - Écoles",
@@ -2783,7 +3587,11 @@
 "state": [
 "en fonctionnement"
 ],
-"close": []
+"close": [],
+"coord": [
+48.82139,
+2.41361
+]
 },
 "Q1091392": {
 "name": "Saint-Martin",
@@ -2799,6 +3607,10 @@
 ],
 "close": [
 "1939-09-02"
+],
+"coord": [
+48.8684,
+2.35866
 ]
 },
 "Q1140796": {
@@ -2812,7 +3624,11 @@
 "state": [
 "en fonctionnement"
 ],
-"close": []
+"close": [],
+"coord": [
+48.85806,
+2.43576
+]
 },
 "Q1142525": {
 "name": "Créteil - L'Échat",
@@ -2825,7 +3641,11 @@
 "state": [
 "en fonctionnement"
 ],
-"close": []
+"close": [],
+"coord": [
+48.79653,
+2.44939
+]
 },
 "Q1165108": {
 "name": "Danube",
@@ -2838,7 +3658,11 @@
 "state": [
 "en fonctionnement"
 ],
-"close": []
+"close": [],
+"coord": [
+48.882,
+2.39307
+]
 },
 "Q1172977": {
 "name": "Daumesnil",
@@ -2852,7 +3676,11 @@
 "state": [
 "en fonctionnement"
 ],
-"close": []
+"close": [],
+"coord": [
+48.83961,
+2.3958
+]
 },
 "Q1237945": {
 "name": "Iéna",
@@ -2865,7 +3693,11 @@
 "state": [
 "en fonctionnement"
 ],
-"close": []
+"close": [],
+"coord": [
+48.86467,
+2.29378
+]
 },
 "Q1272925": {
 "name": "Trocadéro",
@@ -2879,7 +3711,11 @@
 "state": [
 "en fonctionnement"
 ],
-"close": []
+"close": [],
+"coord": [
+48.8633,
+2.28706
+]
 },
 "Q1403165": {
 "name": "Strasbourg - Saint-Denis",
@@ -2896,7 +3732,11 @@
 "state": [
 "en fonctionnement"
 ],
-"close": []
+"close": [],
+"coord": [
+48.8692,
+2.3541
+]
 },
 "Q1405224": {
 "name": "Maisons-Alfort - Stade",
@@ -2909,7 +3749,11 @@
 "state": [
 "en fonctionnement"
 ],
-"close": []
+"close": [],
+"coord": [
+48.80861,
+2.43583
+]
 },
 "Q1412692": {
 "name": "Richelieu - Drouot",
@@ -2924,7 +3768,11 @@
 "state": [
 "en fonctionnement"
 ],
-"close": []
+"close": [],
+"coord": [
+48.87194,
+2.33861
+]
 },
 "Q1414178": {
 "name": "Filles du Calvaire",
@@ -2938,7 +3786,11 @@
 "state": [
 "en fonctionnement"
 ],
-"close": []
+"close": [],
+"coord": [
+48.86407,
+2.36612
+]
 },
 "Q1450538": {
 "name": "Saint-Ambroise",
@@ -2951,7 +3803,11 @@
 "state": [
 "en fonctionnement"
 ],
-"close": []
+"close": [],
+"coord": [
+48.86139,
+2.37389
+]
 },
 "Q1451224": {
 "name": "Porte de Saint-Cloud",
@@ -2964,7 +3820,11 @@
 "state": [
 "en fonctionnement"
 ],
-"close": []
+"close": [],
+"coord": [
+48.83806,
+2.25667
+]
 },
 "Q1479476": {
 "name": "Félix Faure",
@@ -2977,7 +3837,11 @@
 "state": [
 "en fonctionnement"
 ],
-"close": []
+"close": [],
+"coord": [
+48.84266,
+2.29174
+]
 },
 "Q1494172": {
 "name": "Gare de l'Est",
@@ -2992,7 +3856,11 @@
 "state": [
 "en fonctionnement"
 ],
-"close": []
+"close": [],
+"coord": [
+48.87606,
+2.35792
+]
 },
 "Q1514082": {
 "name": "La Tour-Maubourg",
@@ -3005,7 +3873,11 @@
 "state": [
 "en fonctionnement"
 ],
-"close": []
+"close": [],
+"coord": [
+48.8575,
+2.31028
+]
 },
 "Q1537246": {
 "name": "Place d'Italie",
@@ -3020,7 +3892,11 @@
 "state": [
 "en fonctionnement"
 ],
-"close": []
+"close": [],
+"coord": [
+48.83139,
+2.35556
+]
 },
 "Q1537255": {
 "name": "Louis Blanc",
@@ -3034,7 +3910,11 @@
 "state": [
 "en fonctionnement"
 ],
-"close": []
+"close": [],
+"coord": [
+48.88111,
+2.36472
+]
 },
 "Q1543053": {
 "name": "Grands Boulevards",
@@ -3049,7 +3929,11 @@
 "state": [
 "en fonctionnement"
 ],
-"close": []
+"close": [],
+"coord": [
+48.87143,
+2.34349
+]
 },
 "Q120303": {
 "name": "Corentin Cariou",
@@ -3062,7 +3946,11 @@
 "state": [
 "en fonctionnement"
 ],
-"close": []
+"close": [],
+"coord": [
+48.89444,
+2.38167
+]
 },
 "Q177476": {
 "name": "Place Monge",
@@ -3075,7 +3963,11 @@
 "state": [
 "en fonctionnement"
 ],
-"close": []
+"close": [],
+"coord": [
+48.84361,
+2.35222
+]
 },
 "Q254308": {
 "name": "Kléber",
@@ -3088,7 +3980,11 @@
 "state": [
 "en fonctionnement"
 ],
-"close": []
+"close": [],
+"coord": [
+48.87083,
+2.29306
+]
 },
 "Q257465": {
 "name": "Sully - Morland",
@@ -3101,7 +3997,11 @@
 "state": [
 "en fonctionnement"
 ],
-"close": []
+"close": [],
+"coord": [
+48.85139,
+2.36167
+]
 },
 "Q274526": {
 "name": "Église de Pantin",
@@ -3114,7 +4014,11 @@
 "state": [
 "en fonctionnement"
 ],
-"close": []
+"close": [],
+"coord": [
+48.89361,
+2.41278
+]
 },
 "Q282600": {
 "name": "Pont Marie",
@@ -3127,7 +4031,11 @@
 "state": [
 "en fonctionnement"
 ],
-"close": []
+"close": [],
+"coord": [
+48.85306,
+2.3575
+]
 },
 "Q476557": {
 "name": "Villejuif - Léo Lagrange",
@@ -3140,7 +4048,11 @@
 "state": [
 "en fonctionnement"
 ],
-"close": []
+"close": [],
+"coord": [
+48.80361,
+2.36389
+]
 },
 "Q571446": {
 "name": "Porte de la Villette",
@@ -3153,7 +4065,11 @@
 "state": [
 "en fonctionnement"
 ],
-"close": []
+"close": [],
+"coord": [
+48.8974,
+2.38559
+]
 },
 "Q585712": {
 "name": "Hoche",
@@ -3166,7 +4082,11 @@
 "state": [
 "en fonctionnement"
 ],
-"close": []
+"close": [],
+"coord": [
+48.89139,
+2.40306
+]
 },
 "Q587093": {
 "name": "Saint-Marcel",
@@ -3179,7 +4099,11 @@
 "state": [
 "en fonctionnement"
 ],
-"close": []
+"close": [],
+"coord": [
+48.83778,
+2.36028
+]
 },
 "Q589686": {
 "name": "Picpus",
@@ -3192,7 +4116,11 @@
 "state": [
 "en fonctionnement"
 ],
-"close": []
+"close": [],
+"coord": [
+48.84508,
+2.4011
+]
 },
 "Q593257": {
 "name": "Bobigny - Pablo Picasso",
@@ -3205,7 +4133,11 @@
 "state": [
 "en fonctionnement"
 ],
-"close": []
+"close": [],
+"coord": [
+48.9069,
+2.44922
+]
 },
 "Q602615": {
 "name": "Dugommier",
@@ -3218,7 +4150,11 @@
 "state": [
 "en fonctionnement"
 ],
-"close": []
+"close": [],
+"coord": [
+48.83905,
+2.38996
+]
 },
 "Q661846": {
 "name": "Nationale",
@@ -3231,7 +4167,11 @@
 "state": [
 "en fonctionnement"
 ],
-"close": []
+"close": [],
+"coord": [
+48.83306,
+2.3625
+]
 },
 "Q683208": {
 "name": "Campo-Formio",
@@ -3244,7 +4184,11 @@
 "state": [
 "en fonctionnement"
 ],
-"close": []
+"close": [],
+"coord": [
+48.835,
+2.35806
+]
 },
 "Q746288": {
 "name": "Crimée",
@@ -3257,7 +4201,11 @@
 "state": [
 "en fonctionnement"
 ],
-"close": []
+"close": [],
+"coord": [
+48.89082,
+2.37734
+]
 },
 "Q758464": {
 "name": "Aubervilliers - Pantin - Quatre Chemins",
@@ -3270,7 +4218,11 @@
 "state": [
 "en fonctionnement"
 ],
-"close": []
+"close": [],
+"coord": [
+48.90389,
+2.39222
+]
 },
 "Q764106": {
 "name": "Poissonnière",
@@ -3284,7 +4236,11 @@
 "state": [
 "en fonctionnement"
 ],
-"close": []
+"close": [],
+"coord": [
+48.87694,
+2.34833
+]
 },
 "Q777553": {
 "name": "Bréguet - Sabin",
@@ -3297,7 +4253,11 @@
 "state": [
 "en fonctionnement"
 ],
-"close": []
+"close": [],
+"coord": [
+48.85675,
+2.37054
+]
 },
 "Q815061": {
 "name": "Bel-Air",
@@ -3310,7 +4270,11 @@
 "state": [
 "en fonctionnement"
 ],
-"close": []
+"close": [],
+"coord": [
+48.84135,
+2.40093
+]
 },
 "Q888758": {
 "name": "Bobigny - Pantin - Raymond Queneau",
@@ -3324,7 +4288,11 @@
 "state": [
 "en fonctionnement"
 ],
-"close": []
+"close": [],
+"coord": [
+48.89528,
+2.42472
+]
 },
 "Q891105": {
 "name": "Boissière",
@@ -3337,7 +4305,11 @@
 "state": [
 "en fonctionnement"
 ],
-"close": []
+"close": [],
+"coord": [
+48.86694,
+2.29
+]
 },
 "Q930284": {
 "name": "Le Kremlin-Bicêtre",
@@ -3350,7 +4322,11 @@
 "state": [
 "en fonctionnement"
 ],
-"close": []
+"close": [],
+"coord": [
+48.81,
+2.362
+]
 },
 "Q937680": {
 "name": "Chevaleret",
@@ -3363,7 +4339,11 @@
 "state": [
 "en fonctionnement"
 ],
-"close": []
+"close": [],
+"coord": [
+48.83495,
+2.36806
+]
 },
 "Q938430": {
 "name": "Censier - Daubenton",
@@ -3376,7 +4356,11 @@
 "state": [
 "en fonctionnement"
 ],
-"close": []
+"close": [],
+"coord": [
+48.84083,
+2.35167
+]
 },
 "Q950314": {
 "name": "Corvisart",
@@ -3389,7 +4373,11 @@
 "state": [
 "en fonctionnement"
 ],
-"close": []
+"close": [],
+"coord": [
+48.82987,
+2.35051
+]
 },
 "Q953454": {
 "name": "Porte de Choisy",
@@ -3402,7 +4390,11 @@
 "state": [
 "en fonctionnement"
 ],
-"close": []
+"close": [],
+"coord": [
+48.81994,
+2.36442
+]
 },
 "Q954301": {
 "name": "Vavin",
@@ -3416,7 +4408,11 @@
 "state": [
 "en fonctionnement"
 ],
-"close": []
+"close": [],
+"coord": [
+48.842,
+2.329
+]
 },
 "Q957172": {
 "name": "Château Rouge",
@@ -3429,7 +4425,11 @@
 "state": [
 "en fonctionnement"
 ],
-"close": []
+"close": [],
+"coord": [
+48.88718,
+2.34983
+]
 },
 "Q961089": {
 "name": "Villejuif - Paul Vaillant-Couturier",
@@ -3442,7 +4442,11 @@
 "state": [
 "en fonctionnement"
 ],
-"close": []
+"close": [],
+"coord": [
+48.79583,
+2.36806
+]
 },
 "Q1025135": {
 "name": "Cadet",
@@ -3455,7 +4459,11 @@
 "state": [
 "en fonctionnement"
 ],
-"close": []
+"close": [],
+"coord": [
+48.87598,
+2.34449
+]
 },
 "Q1028368": {
 "name": "Cambronne",
@@ -3468,7 +4476,11 @@
 "state": [
 "en fonctionnement"
 ],
-"close": []
+"close": [],
+"coord": [
+48.84751,
+2.30295
+]
 },
 "Q1090315": {
 "name": "Château-Landon",
@@ -3481,7 +4493,11 @@
 "state": [
 "en fonctionnement"
 ],
-"close": []
+"close": [],
+"coord": [
+48.87833,
+2.36194
+]
 },
 "Q1090753": {
 "name": "Château d'Eau",
@@ -3494,7 +4510,11 @@
 "state": [
 "en fonctionnement"
 ],
-"close": []
+"close": [],
+"coord": [
+48.87259,
+2.35547
+]
 },
 "Q1094294": {
 "name": "Cité",
@@ -3507,7 +4527,11 @@
 "state": [
 "en fonctionnement"
 ],
-"close": []
+"close": [],
+"coord": [
+48.85529,
+2.34755
+]
 },
 "Q1187054": {
 "name": "Denfert-Rochereau",
@@ -3521,7 +4545,11 @@
 "state": [
 "en fonctionnement"
 ],
-"close": []
+"close": [],
+"coord": [
+48.83359,
+2.33189
+]
 },
 "Q1266508": {
 "name": "Dupleix",
@@ -3534,7 +4562,11 @@
 "state": [
 "en fonctionnement"
 ],
-"close": []
+"close": [],
+"coord": [
+48.85039,
+2.29361
+]
 },
 "Q1267664": {
 "name": "Villejuif - Louis Aragon",
@@ -3547,7 +4579,11 @@
 "state": [
 "en fonctionnement"
 ],
-"close": []
+"close": [],
+"coord": [
+48.78717,
+2.36756
+]
 },
 "Q1284106": {
 "name": "Edgar Quinet",
@@ -3560,7 +4596,11 @@
 "state": [
 "en fonctionnement"
 ],
-"close": []
+"close": [],
+"coord": [
+48.84028,
+2.32667
+]
 },
 "Q1320288": {
 "name": "La Courneuve - 8 Mai 1945",
@@ -3573,7 +4613,11 @@
 "state": [
 "en fonctionnement"
 ],
-"close": []
+"close": [],
+"coord": [
+48.92056,
+2.41056
+]
 },
 "Q1406323": {
 "name": "Mouton-Duvernet",
@@ -3586,7 +4630,11 @@
 "state": [
 "en fonctionnement"
 ],
-"close": []
+"close": [],
+"coord": [
+48.83132,
+2.32943
+]
 },
 "Q1438901": {
 "name": "Fort d'Aubervilliers",
@@ -3599,7 +4647,11 @@
 "state": [
 "en fonctionnement"
 ],
-"close": []
+"close": [],
+"coord": [
+48.91417,
+2.40361
+]
 },
 "Q1458421": {
 "name": "Pont-Neuf",
@@ -3612,7 +4664,11 @@
 "state": [
 "en fonctionnement"
 ],
-"close": []
+"close": [],
+"coord": [
+48.85858,
+2.34222
+]
 },
 "Q1494174": {
 "name": "Gare du Nord",
@@ -3626,7 +4682,11 @@
 "state": [
 "en fonctionnement"
 ],
-"close": []
+"close": [],
+"coord": [
+48.87997,
+2.3547
+]
 },
 "Q1495676": {
 "name": "Ourcq",
@@ -3639,7 +4699,11 @@
 "state": [
 "en fonctionnement"
 ],
-"close": []
+"close": [],
+"coord": [
+48.88667,
+2.38556
+]
 },
 "Q1529016": {
 "name": "Glacière",
@@ -3652,7 +4716,11 @@
 "state": [
 "en fonctionnement"
 ],
-"close": []
+"close": [],
+"coord": [
+48.83113,
+2.34348
+]
 },
 "Q1572249": {
 "name": "Laumière",
@@ -3665,7 +4733,11 @@
 "state": [
 "en fonctionnement"
 ],
-"close": []
+"close": [],
+"coord": [
+48.885,
+2.37861
+]
 },
 "Q1576609": {
 "name": "Passy",
@@ -3678,7 +4750,11 @@
 "state": [
 "en fonctionnement"
 ],
-"close": []
+"close": [],
+"coord": [
+48.85744,
+2.28578
+]
 },
 "Q1576810": {
 "name": "Les Halles",
@@ -3691,7 +4767,11 @@
 "state": [
 "en fonctionnement"
 ],
-"close": []
+"close": [],
+"coord": [
+48.86219,
+2.34584
+]
 },
 "Q1110656": {
 "name": "Colonel Fabien",
@@ -3705,7 +4785,11 @@
 "state": [
 "en fonctionnement"
 ],
-"close": []
+"close": [],
+"coord": [
+48.87795,
+2.37026
+]
 },
 "Q1137705": {
 "name": "Couronnes",
@@ -3719,7 +4803,11 @@
 "state": [
 "en fonctionnement"
 ],
-"close": []
+"close": [],
+"coord": [
+48.86927,
+2.38015
+]
 },
 "Q1315757": {
 "name": "Rue Saint-Maur",
@@ -3732,7 +4820,11 @@
 "state": [
 "en fonctionnement"
 ],
-"close": []
+"close": [],
+"coord": [
+48.86433,
+2.37948
+]
 },
 "Q1344536": {
 "name": "Porte Maillot",
@@ -3746,7 +4838,11 @@
 "state": [
 "en fonctionnement"
 ],
-"close": []
+"close": [],
+"coord": [
+48.87796,
+2.28184
+]
 },
 "Q1576648": {
 "name": "Tolbiac",
@@ -3759,7 +4855,11 @@
 "state": [
 "en fonctionnement"
 ],
-"close": []
+"close": [],
+"coord": [
+48.8264,
+2.35722
+]
 },
 "Q1578030": {
 "name": "Oberkampf",
@@ -3773,7 +4873,11 @@
 "state": [
 "en fonctionnement"
 ],
-"close": []
+"close": [],
+"coord": [
+48.86444,
+2.36889
+]
 },
 "Q1651903": {
 "name": "Lourmel",
@@ -3786,7 +4890,11 @@
 "state": [
 "en fonctionnement"
 ],
-"close": []
+"close": [],
+"coord": [
+48.83861,
+2.28167
+]
 },
 "Q1666283": {
 "name": "Porte de Charenton",
@@ -3799,7 +4907,11 @@
 "state": [
 "en fonctionnement"
 ],
-"close": []
+"close": [],
+"coord": [
+48.83222,
+2.39904
+]
 },
 "Q1683797": {
 "name": "Jasmin",
@@ -3812,7 +4924,11 @@
 "state": [
 "en fonctionnement"
 ],
-"close": []
+"close": [],
+"coord": [
+48.85167,
+2.26778
+]
 },
 "Q1725892": {
 "name": "Liberté",
@@ -3825,7 +4941,11 @@
 "state": [
 "en fonctionnement"
 ],
-"close": []
+"close": [],
+"coord": [
+48.82583,
+2.40694
+]
 },
 "Q1768692": {
 "name": "Alma - Marceau",
@@ -3838,7 +4958,11 @@
 "state": [
 "en fonctionnement"
 ],
-"close": []
+"close": [],
+"coord": [
+48.86497,
+2.30064
+]
 },
 "Q1772478": {
 "name": "Riquet",
@@ -3851,7 +4975,11 @@
 "state": [
 "en fonctionnement"
 ],
-"close": []
+"close": [],
+"coord": [
+48.88778,
+2.37333
+]
 },
 "Q1783617": {
 "name": "Les Gobelins",
@@ -3864,7 +4992,11 @@
 "state": [
 "en fonctionnement"
 ],
-"close": []
+"close": [],
+"coord": [
+48.83583,
+2.3525
+]
 },
 "Q1783630": {
 "name": "Porte d'Italie",
@@ -3877,7 +5009,11 @@
 "state": [
 "en fonctionnement"
 ],
-"close": []
+"close": [],
+"coord": [
+48.81915,
+2.35982
+]
 },
 "Q1783997": {
 "name": "Mairie d'Ivry",
@@ -3890,7 +5026,11 @@
 "state": [
 "en fonctionnement"
 ],
-"close": []
+"close": [],
+"coord": [
+48.81099,
+2.38397
+]
 },
 "Q1784003": {
 "name": "Pierre et Marie Curie",
@@ -3903,7 +5043,11 @@
 "state": [
 "en fonctionnement"
 ],
-"close": []
+"close": [],
+"coord": [
+48.81528,
+2.37778
+]
 },
 "Q1784008": {
 "name": "Le Peletier",
@@ -3916,7 +5060,11 @@
 "state": [
 "en fonctionnement"
 ],
-"close": []
+"close": [],
+"coord": [
+48.87472,
+2.33944
+]
 },
 "Q1784015": {
 "name": "Porte d'Ivry",
@@ -3929,7 +5077,11 @@
 "state": [
 "en fonctionnement"
 ],
-"close": []
+"close": [],
+"coord": [
+48.8216,
+2.36934
+]
 },
 "Q1784141": {
 "name": "Robespierre",
@@ -3942,7 +5094,11 @@
 "state": [
 "en fonctionnement"
 ],
-"close": []
+"close": [],
+"coord": [
+48.85568,
+2.42368
+]
 },
 "Q1784247": {
 "name": "Saint-Philippe du Roule",
@@ -3955,7 +5111,11 @@
 "state": [
 "en fonctionnement"
 ],
-"close": []
+"close": [],
+"coord": [
+48.87233,
+2.31008
+]
 },
 "Q1789126": {
 "name": "Voltaire",
@@ -3968,7 +5128,11 @@
 "state": [
 "en fonctionnement"
 ],
-"close": []
+"close": [],
+"coord": [
+48.85806,
+2.38028
+]
 },
 "Q1789135": {
 "name": "Place des Fêtes",
@@ -3982,7 +5146,11 @@
 "state": [
 "en fonctionnement"
 ],
-"close": []
+"close": [],
+"coord": [
+48.87667,
+2.39333
+]
 },
 "Q1845408": {
 "name": "Créteil - Préfecture",
@@ -3995,7 +5163,11 @@
 "state": [
 "en fonctionnement"
 ],
-"close": []
+"close": [],
+"coord": [
+48.77977,
+2.45932
+]
 },
 "Q1969472": {
 "name": "Rue des Boulets",
@@ -4008,7 +5180,11 @@
 "state": [
 "en fonctionnement"
 ],
-"close": []
+"close": [],
+"coord": [
+48.85167,
+2.39
+]
 },
 "Q1969904": {
 "name": "Pont de Sèvres",
@@ -4021,7 +5197,11 @@
 "state": [
 "en fonctionnement"
 ],
-"close": []
+"close": [],
+"coord": [
+48.82944,
+2.23083
+]
 },
 "Q1969938": {
 "name": "Ranelagh",
@@ -4034,7 +5214,11 @@
 "state": [
 "en fonctionnement"
 ],
-"close": []
+"close": [],
+"coord": [
+48.85472,
+2.26944
+]
 },
 "Q2687093": {
 "name": "Champ de Mars",
@@ -4049,6 +5233,10 @@
 ],
 "close": [
 "1939-09-02"
+],
+"coord": [
+48.8513,
+2.30105
 ]
 },
 "Q1578103": {
@@ -4063,7 +5251,11 @@
 "state": [
 "en fonctionnement"
 ],
-"close": []
+"close": [],
+"coord": [
+48.84278,
+2.31278
+]
 },
 "Q1612093": {
 "name": "Mairie d'Aubervilliers",
@@ -4076,7 +5268,11 @@
 "state": [
 "en fonctionnement"
 ],
-"close": []
+"close": [],
+"coord": [
+48.9138,
+2.38065
+]
 },
 "Q1622759": {
 "name": "Marx Dormoy",
@@ -4089,7 +5285,11 @@
 "state": [
 "en fonctionnement"
 ],
-"close": []
+"close": [],
+"coord": [
+48.89056,
+2.36
+]
 },
 "Q1789145": {
 "name": "Maubert - Mutualité",
@@ -4102,7 +5302,11 @@
 "state": [
 "en fonctionnement"
 ],
-"close": []
+"close": [],
+"coord": [
+48.85019,
+2.34811
+]
 },
 "Q1885858": {
 "name": "Mairie d'Issy",
@@ -4115,7 +5319,11 @@
 "state": [
 "en fonctionnement"
 ],
-"close": []
+"close": [],
+"coord": [
+48.82417,
+2.27333
+]
 },
 "Q1892927": {
 "name": "Marcadet - Poissonniers",
@@ -4129,7 +5337,11 @@
 "state": [
 "en fonctionnement"
 ],
-"close": []
+"close": [],
+"coord": [
+48.89088,
+2.34984
+]
 },
 "Q1937499": {
 "name": "Saint-Georges",
@@ -4142,7 +5354,11 @@
 "state": [
 "en fonctionnement"
 ],
-"close": []
+"close": [],
+"coord": [
+48.87833,
+2.3375
+]
 },
 "Q1969289": {
 "name": "Porte de Versailles",
@@ -4155,7 +5371,11 @@
 "state": [
 "en fonctionnement"
 ],
-"close": []
+"close": [],
+"coord": [
+48.83222,
+2.28778
+]
 },
 "Q1969303": {
 "name": "Pyrénées",
@@ -4169,7 +5389,11 @@
 "state": [
 "en fonctionnement"
 ],
-"close": []
+"close": [],
+"coord": [
+48.87388,
+2.38525
+]
 },
 "Q1969677": {
 "name": "Rennes",
@@ -4182,7 +5406,11 @@
 "state": [
 "en fonctionnement"
 ],
-"close": []
+"close": [],
+"coord": [
+48.84806,
+2.32778
+]
 },
 "Q1970325": {
 "name": "Notre-Dame-des-Champs",
@@ -4195,7 +5423,11 @@
 "state": [
 "en fonctionnement"
 ],
-"close": []
+"close": [],
+"coord": [
+48.84444,
+2.32889
+]
 },
 "Q16040484": {
 "name": "Montreuil - Hôpital",
@@ -4210,7 +5442,11 @@
 "state": [
 "en fonctionnement"
 ],
-"close": []
+"close": [],
+"coord": [
+48.8783,
+2.45456
+]
 },
 "Q16040556": {
 "name": "La Dhuys",
@@ -4224,7 +5460,11 @@
 "state": [
 "en fonctionnement"
 ],
-"close": []
+"close": [],
+"coord": [
+48.87745,
+2.46512
+]
 },
 "Q16040585": {
 "name": "Serge Gainsbourg",
@@ -4237,7 +5477,11 @@
 "state": [
 "en fonctionnement"
 ],
-"close": []
+"close": [],
+"coord": [
+48.88136,
+2.42743
+]
 },
 "Q16040626": {
 "name": "Coteaux Beauclair",
@@ -4251,7 +5495,11 @@
 "state": [
 "en fonctionnement"
 ],
-"close": []
+"close": [],
+"coord": [
+48.88224,
+2.46735
+]
 },
 "Q16040875": {
 "name": "Romainville - Carnot",
@@ -4265,7 +5513,11 @@
 "state": [
 "en fonctionnement"
 ],
-"close": []
+"close": [],
+"coord": [
+48.88317,
+2.44052
+]
 },
 "Q16041052": {
 "name": "Rosny-Bois-Perrier",
@@ -4278,7 +5530,11 @@
 "state": [
 "en fonctionnement"
 ],
-"close": []
+"close": [],
+"coord": [
+48.88242,
+2.48083
+]
 },
 "Q19945187": {
 "name": "Noisy - Champs",
@@ -4291,7 +5547,11 @@
 "state": [
 "en construction"
 ],
-"close": []
+"close": [],
+"coord": [
+48.8429,
+2.58
+]
 },
 "Q65225500": {
 "name": "Ivry-Gambetta",
@@ -4304,7 +5564,11 @@
 "state": [
 "bâtiment ou structure en projet"
 ],
-"close": []
+"close": [],
+"coord": [
+48.81454,
+2.40218
+]
 },
 "Q65225503": {
 "name": "Ivry Port - Mandela",
@@ -4317,7 +5581,11 @@
 "state": [
 "bâtiment ou structure en projet"
 ],
-"close": []
+"close": [],
+"coord": [
+48.82106,
+2.39508
+]
 },
 "Q65225578": {
 "name": "Bruneseau - Masséna",
@@ -4330,7 +5598,11 @@
 "state": [
 "bâtiment ou structure en projet"
 ],
-"close": []
+"close": [],
+"coord": [
+48.82422,
+2.38311
+]
 },
 "Q65225625": {
 "name": "Neuilly-Fauvettes",
@@ -4343,7 +5615,11 @@
 "state": [
 "bâtiment ou structure en projet"
 ],
-"close": []
+"close": [],
+"coord": [
+48.8702,
+2.52954
+]
 },
 "Q65225628": {
 "name": "Neuilly-Hôpitaux",
@@ -4356,7 +5632,11 @@
 "state": [
 "bâtiment ou structure en projet"
 ],
-"close": []
+"close": [],
+"coord": [
+48.86409,
+2.54712
+]
 },
 "Q65225725": {
 "name": "Villemomble",
@@ -4369,7 +5649,11 @@
 "state": [
 "bâtiment ou structure en projet"
 ],
-"close": []
+"close": [],
+"coord": [
+48.88232,
+2.50716
+]
 },
 "Q85968663": {
 "name": "Parc de Saint-Cloud",
@@ -4393,7 +5677,11 @@
 "state": [
 "bâtiment ou structure en projet"
 ],
-"close": []
+"close": [],
+"coord": [
+48.86977,
+2.44968
+]
 },
 "Q1677923": {
 "name": "Jacques Bonsergent",
@@ -4406,7 +5694,11 @@
 "state": [
 "en fonctionnement"
 ],
-"close": []
+"close": [],
+"coord": [
+48.87111,
+2.36056
+]
 },
 "Q1783894": {
 "name": "Saint-Sulpice",
@@ -4419,7 +5711,11 @@
 "state": [
 "en fonctionnement"
 ],
-"close": []
+"close": [],
+"coord": [
+48.8508,
+2.33087
+]
 },
 "Q1783899": {
 "name": "Bir-Hakeim",
@@ -4432,7 +5728,11 @@
 "state": [
 "en fonctionnement"
 ],
-"close": []
+"close": [],
+"coord": [
+48.85388,
+2.28939
+]
 },
 "Q1785048": {
 "name": "Porte de Pantin",
@@ -4445,7 +5745,11 @@
 "state": [
 "en fonctionnement"
 ],
-"close": []
+"close": [],
+"coord": [
+48.88866,
+2.39268
+]
 },
 "Q1789070": {
 "name": "Richard-Lenoir",
@@ -4458,7 +5762,11 @@
 "state": [
 "en fonctionnement"
 ],
-"close": []
+"close": [],
+"coord": [
+48.85972,
+2.37194
+]
 },
 "Q1969443": {
 "name": "Sèvres - Lecourbe",
@@ -4471,7 +5779,11 @@
 "state": [
 "en fonctionnement"
 ],
-"close": []
+"close": [],
+"coord": [
+48.84556,
+2.30944
+]
 },
 "Q1969480": {
 "name": "Porte de Clignancourt",
@@ -4484,7 +5796,11 @@
 "state": [
 "en fonctionnement"
 ],
-"close": []
+"close": [],
+"coord": [
+48.89729,
+2.34478
+]
 },
 "Q1969501": {
 "name": "Quai de la Rapée",
@@ -4497,7 +5813,11 @@
 "state": [
 "en fonctionnement"
 ],
-"close": []
+"close": [],
+"coord": [
+48.84639,
+2.36556
+]
 },
 "Q1969659": {
 "name": "Quai de la Gare",
@@ -4510,7 +5830,11 @@
 "state": [
 "en fonctionnement"
 ],
-"close": []
+"close": [],
+"coord": [
+48.83694,
+2.37306
+]
 },
 "Q1999538": {
 "name": "Saint-Jacques",
@@ -4523,7 +5847,11 @@
 "state": [
 "en fonctionnement"
 ],
-"close": []
+"close": [],
+"coord": [
+48.83278,
+2.33694
+]
 },
 "Q2270685": {
 "name": "Mairie de Montrouge",
@@ -4536,7 +5864,11 @@
 "state": [
 "en fonctionnement"
 ],
-"close": []
+"close": [],
+"coord": [
+48.81806,
+2.31954
+]
 },
 "Q2879106": {
 "name": "Bagneux - Lucie Aubrac",
@@ -4549,7 +5881,11 @@
 "state": [
 "en fonctionnement"
 ],
-"close": []
+"close": [],
+"coord": [
+48.8027,
+2.31736
+]
 },
 "Q3501980": {
 "name": "Barbara",
@@ -4563,7 +5899,11 @@
 "state": [
 "en fonctionnement"
 ],
-"close": []
+"close": [],
+"coord": [
+48.8092,
+2.31767
+]
 },
 "Q31190681": {
 "name": "Bobigny - La Folie",
@@ -4576,7 +5916,11 @@
 "state": [
 "bâtiment ou structure en projet"
 ],
-"close": []
+"close": [],
+"coord": [
+48.89861,
+2.43694
+]
 },
 "Q1578058": {
 "name": "Raspail",
@@ -4590,7 +5934,11 @@
 "state": [
 "en fonctionnement"
 ],
-"close": []
+"close": [],
+"coord": [
+48.83896,
+2.33058
+]
 },
 "Q1598555": {
 "name": "Saint-Michel",
@@ -4604,6 +5952,10 @@
 "state": [
 "en fonctionnement"
 ],
-"close": []
+"close": [],
+"coord": [
+48.85329,
+2.34347
+]
 }
 }

@@ -61,6 +61,8 @@ for qid, s in raw.items():
         'arr': sorted(arr),
         'communes': sorted(communes),
         'terminus': name in TERMINI,
+        'lat': s['coord'][0],
+        'lon': s['coord'][1],
     })
 
 missing = TERMINI - {s['name'] for s in stations}

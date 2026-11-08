@@ -1,6 +1,8 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export interface SavedGame {
+  /** Signature de la grille jouée (voir puzzleSignature). */
+  puzzle?: string;
   /** cells[r][c] = identifiant de la station trouvée, ou null. */
   cells: (string | null)[][];
   guessesLeft: number;

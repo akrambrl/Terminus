@@ -6,7 +6,7 @@ import { Grid } from './src/components/Grid';
 import { InfoModal, infoStyles } from './src/components/InfoModal';
 import { LineBadge } from './src/components/LineBadge';
 import { SearchModal } from './src/components/SearchModal';
-import { dailyNumber, dailySeed, generatePuzzle, todayKey } from './src/game/generator';
+import { dailyNumber, dailySeed, generatePuzzle, puzzleSignature, todayKey } from './src/game/generator';
 import { STATION_BY_ID } from './src/game/lookup';
 import {
   EMPTY_STATS,
@@ -82,7 +82,7 @@ function Game() {
   useEffect(() => {
     (async () => {
       const [saved, s, seen] = await Promise.all([loadDaily(day), loadStats(), hasSeenHelp()]);
-      if (saved) {
+      if (saved && saved.puzzle === puzzleSignature(generatePuzzle(dailySeed(day)))) {
         setCells(saved.cells);
         setGuessesLeft(saved.guessesLeft);
         setFinished(saved.finished);
@@ -100,13 +100,13 @@ function Game() {
     async (finalCells: (string | null)[][], left: number) => {
       setFinished(true);
       if (mode === 'daily') {
-        await saveDaily(day, { cells: finalCells, guessesLeft: left, finished: true });
+        await saveDaily(day, { puzzle: puzzleSignature(puzzle), cells: finalCells, guessesLeft: left, finished: true });
         const count = finalCells.flat().filter(Boolean).length;
         setStats(await recordDaily(day, count, yesterdayKey(day)));
       }
       setTimeout(() => setShowResult(true), 400);
     },
-    [mode, day],
+    [mode, day, puzzle],
   );
 
   const submit = (station: Station) => {
@@ -130,7 +130,7 @@ function Game() {
       setActive(null);
       finish(next, left);
     } else if (mode === 'daily') {
-      saveDaily(day, { cells: next, guessesLeft: left, finished: false });
+      saveDaily(day, { puzzle: puzzleSignature(puzzle), cells: next, guessesLeft: left, finished: false });
     }
   };
 
@@ -144,7 +144,8 @@ function Game() {
   };
 
   const backToDaily = async () => {
-    const saved = await loadDaily(day);
+    const loadedGame = await loadDaily(day);
+    const saved = loadedGame?.puzzle === puzzleSignature(generatePuzzle(dailySeed(day))) ? loadedGame : null;
     setMode('daily');
     setCells(saved?.cells ?? emptyCells());
     setGuessesLeft(saved?.guessesLeft ?? MAX_GUESSES);
@@ -321,7 +322,7 @@ function Game() {
         </Text>
         <Text style={infoStyles.p}>
           Chaque case doit recevoir une station qui respecte à la fois le critère de sa ligne et celui de sa colonne.
-          Par exemple : une station de la ligne 4 située dans le 6e arrondissement.
+          Par exemple : une station de la ligne 6 à moins de 2 km de la tour Eiffel.
         </Text>
         <Text style={infoStyles.p}>
           Tu as <Text style={infoStyles.strong}>9 essais</Text> et chaque station ne peut servir qu'une fois.

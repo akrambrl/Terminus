@@ -11,9 +11,11 @@ export interface Station {
   /** Communes hors Paris. */
   communes: string[];
   terminus: boolean;
+  lat: number;
+  lon: number;
 }
 
-export type CriterionKind = 'line' | 'transfer' | 'place' | 'name' | 'terminus';
+export type CriterionKind = 'line' | 'transfer' | 'place' | 'near' | 'name';
 
 export interface Criterion {
   id: string;
@@ -23,6 +25,8 @@ export interface Criterion {
   /** Explication plus complète (aide, résultats). */
   description: string;
   line?: LineId;
+  /** Critère de proximité : rayon et monument, pour l'affichage sur deux lignes. */
+  near?: { km: number; place: string };
   test: (s: Station) => boolean;
 }
 

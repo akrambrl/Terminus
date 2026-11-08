@@ -8,19 +8,19 @@ const MIN_ANSWERS = 2;
 /** Poids de chaque famille de critères : les lignes doivent dominer. */
 const KIND_WEIGHTS: [CriterionKind, number][] = [
   ['line', 5],
-  ['place', 3],
+  ['near', 3],
+  ['place', 2],
   ['name', 2],
   ['transfer', 1],
-  ['terminus', 1],
 ];
 
 /** Nombre maximum de critères de chaque famille dans une grille. */
 const KIND_MAX: Record<CriterionKind, number> = {
   line: 6,
-  place: 2,
+  near: 2,
+  place: 1,
   name: 2,
   transfer: 1,
-  terminus: 1,
 };
 
 function pickKind(rng: () => number): CriterionKind {
@@ -79,6 +79,7 @@ export function generatePuzzle(seed: string): Puzzle {
     const count = (k: CriterionKind) => chosen.filter((c) => c.kind === k).length;
     if (count('line') < 2) continue;
     if (KIND_WEIGHTS.some(([k]) => count(k) > KIND_MAX[k])) continue;
+    if (chosen.filter((c) => c.id.startsWith('letter-')).length > 1) continue;
     if (!rows.every((r) => cols.every((c) => compatible(r, c)))) continue;
 
     const answers = rows.map((r) =>
@@ -96,6 +97,11 @@ export function generatePuzzle(seed: string): Puzzle {
     };
   }
   throw new Error(`Impossible de générer une grille pour la graine ${seed}`);
+}
+
+/** Identifiant de la grille (ses critères), pour ne pas recharger une sauvegarde d'une autre grille. */
+export function puzzleSignature(p: Puzzle): string {
+  return [...p.rows, ...p.cols].map((c) => c.id).join('|');
 }
 
 /** Date locale au format AAAA-MM-JJ. */

@@ -67,13 +67,6 @@ const placeCriteria: Criterion[] = [
     description: 'La station est dans Paris, rive gauche (5e, 6e, 7e, 13e, 14e ou 15e).',
     test: (s) => s.arr.length > 0 && s.arr.every((a) => LEFT_BANK.has(a)),
   },
-  {
-    id: 'right-bank',
-    kind: 'place',
-    label: 'Rive droite',
-    description: 'La station est dans Paris, rive droite.',
-    test: (s) => s.arr.length > 0 && s.arr.every((a) => !LEFT_BANK.has(a)),
-  },
 ];
 
 const nameCriteria: Criterion[] = [
@@ -122,22 +115,54 @@ const nameCriteria: Criterion[] = [
   })),
 ];
 
-const terminusCriteria: Criterion[] = [
-  {
-    id: 'terminus',
-    kind: 'terminus',
-    label: 'Terminus',
-    description: "La station est le terminus d'au moins une ligne.",
-    test: (s) => s.terminus,
-  },
+/** Distance à vol d'oiseau en kilomètres (formule de haversine). */
+function distanceKm(lat1: number, lon1: number, lat2: number, lon2: number): number {
+  const rad = Math.PI / 180;
+  const dLat = (lat2 - lat1) * rad;
+  const dLon = (lon2 - lon1) * rad;
+  const h =
+    Math.sin(dLat / 2) ** 2 + Math.cos(lat1 * rad) * Math.cos(lat2 * rad) * Math.sin(dLon / 2) ** 2;
+  return 2 * 6371 * Math.asin(Math.sqrt(h));
+}
+
+/**
+ * Monuments et rayon choisi pour que 25 à 45 stations conviennent à chaque fois.
+ * `place` s'affiche dans la grille, `of` sert dans les phrases (« de la tour Eiffel »).
+ */
+const MONUMENTS: { id: string; place: string; of: string; lat: number; lon: number; km: number }[] = [
+  { id: 'eiffel', place: 'Tour Eiffel', of: 'de la tour Eiffel', lat: 48.8584, lon: 2.2945, km: 2 },
+  { id: 'notre-dame', place: 'Notre-Dame', of: 'de Notre-Dame', lat: 48.853, lon: 2.3499, km: 1.5 },
+  { id: 'sacre-coeur', place: 'Sacré-Cœur', of: 'du Sacré-Cœur', lat: 48.8867, lon: 2.3431, km: 2 },
+  { id: 'arc', place: 'Arc de Triomphe', of: "de l'Arc de Triomphe", lat: 48.8738, lon: 2.295, km: 2 },
+  { id: 'louvre', place: 'Louvre', of: 'du Louvre', lat: 48.8606, lon: 2.3376, km: 1.5 },
+  { id: 'pantheon', place: 'Panthéon', of: 'du Panthéon', lat: 48.8462, lon: 2.3464, km: 1.5 },
+  { id: 'opera', place: 'Opéra Garnier', of: "de l'Opéra Garnier", lat: 48.872, lon: 2.3316, km: 1.5 },
+  { id: 'montparnasse', place: 'Tour Montparnasse', of: 'de la tour Montparnasse', lat: 48.8421, lon: 2.3219, km: 2 },
+  { id: 'pompidou', place: 'Centre Pompidou', of: 'du Centre Pompidou', lat: 48.8607, lon: 2.3522, km: 1.5 },
+  { id: 'invalides', place: 'Invalides', of: 'des Invalides', lat: 48.8556, lon: 2.3126, km: 2 },
+  { id: 'pere-lachaise', place: 'Père-Lachaise', of: 'du Père-Lachaise', lat: 48.8614, lon: 2.3933, km: 2 },
+  { id: 'bnf', place: 'Bibliothèque F.-Mitterrand', of: 'de la Bibliothèque François-Mitterrand', lat: 48.8336, lon: 2.3758, km: 2 },
+  { id: 'philharmonie', place: 'Philharmonie', of: 'de la Philharmonie (La Villette)', lat: 48.8913, lon: 2.3936, km: 3 },
+  { id: 'parc-princes', place: 'Parc des Princes', of: 'du Parc des Princes', lat: 48.8414, lon: 2.253, km: 3 },
 ];
+
+const formatKm = (km: number) => `${String(km).replace('.', ',')} km`;
+
+const nearCriteria: Criterion[] = MONUMENTS.map((m) => ({
+  id: `near-${m.id}`,
+  kind: 'near',
+  label: `À moins de ${formatKm(m.km)} ${m.of}`,
+  description: `La station est à moins de ${formatKm(m.km)} ${m.of}, à vol d'oiseau.`,
+  near: { km: m.km, place: m.place },
+  test: (s) => distanceKm(m.lat, m.lon, s.lat, s.lon) < m.km,
+}));
 
 export const ALL_CRITERIA: Criterion[] = [
   ...lineCriteria,
   ...transferCriteria,
   ...placeCriteria,
+  ...nearCriteria,
   ...nameCriteria,
-  ...terminusCriteria,
 ];
 
 /** Critères trop rares pour être intéressants (moins de 6 stations) sont écartés. */

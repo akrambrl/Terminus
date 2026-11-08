@@ -36,7 +36,7 @@ export const kindColors: Record<Exclude<CriterionKind, 'line'>, { bg: string; fg
   place: { bg: palette.ultramarine, fg: '#FFFFFF' },
   name: { bg: palette.pink, fg: '#FFFFFF' },
   transfer: { bg: palette.tomato, fg: '#FFFFFF' },
-  terminus: { bg: palette.mint, fg: '#FFFFFF' },
+  near: { bg: palette.mint, fg: '#FFFFFF' },
 };
 
 /** Couleurs des tuiles du logo, dans l'ordre. */
