@@ -18,11 +18,13 @@ html = open(index, encoding='utf-8').read()
 html = html.replace('<html lang="en">', '<html lang="fr">')
 html = html.replace(
     '<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />',
-    '<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />',
+    # Pas de viewport-fit=cover : la page commence sous la barre d'état d'iOS, sans le voile
+    # flou qu'iOS ajoute quand le contenu passe dessous.
+    '<meta name="viewport" content="width=device-width, initial-scale=1" />',
 )
 head = f'''
     <meta name="description" content="Le jeu de grille quotidien sur les stations du métro parisien." />
-    <meta name="theme-color" content="#15123D" />
+    <meta name="theme-color" content="#EEF1FF" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="default" />
