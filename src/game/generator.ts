@@ -80,6 +80,7 @@ export function generatePuzzle(seed: string): Puzzle {
     if (count('line') < 2) continue;
     if (KIND_WEIGHTS.some(([k]) => count(k) > KIND_MAX[k])) continue;
     if (chosen.filter((c) => c.id.startsWith('letter-')).length > 1) continue;
+    if (chosen.filter((c) => c.id.startsWith('contains-')).length > 1) continue;
     if (!rows.every((r) => cols.every((c) => compatible(r, c)))) continue;
 
     const answers = rows.map((r) =>

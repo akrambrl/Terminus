@@ -111,6 +111,14 @@ const nameCriteria: Criterion[] = [
     description: `Le nom de la station commence par la lettre ${letter}.`,
     test: (s) => normalize(s.name).startsWith(letter.toLowerCase()),
   })),
+  // Lettres choisies pour donner entre 14 et 64 stations (ni trop rares, ni trop fréquentes).
+  ...['F', 'G', 'H', 'J', 'Q', 'V', 'Y'].map<Criterion>((letter) => ({
+    id: `contains-${letter}`,
+    kind: 'name',
+    label: `Contient un ${letter}`,
+    description: `Le nom de la station contient la lettre ${letter}, n'importe où (accents ignorés).`,
+    test: (s) => normalize(s.name).includes(letter.toLowerCase()),
+  })),
 ];
 
 /** Distance à vol d'oiseau en kilomètres (formule de haversine). */
@@ -146,14 +154,56 @@ const MONUMENTS: { id: string; place: string; of: string; lat: number; lon: numb
 
 const formatKm = (km: number) => `${String(km).replace('.', ',')} km`;
 
-const nearCriteria: Criterion[] = MONUMENTS.map((m) => ({
+/**
+ * Cours de la Seine, d'Ivry à Saint-Denis, tracé point par point à partir des ponts (précision ~100 m).
+ * [latitude, longitude]
+ */
+const SEINE: [number, number][] = [
+  [48.79, 2.415], [48.8165, 2.403], [48.824, 2.394], [48.8275, 2.387], [48.8325, 2.381],
+  [48.8385, 2.3765], [48.8445, 2.3655], [48.8505, 2.359], [48.853, 2.349], [48.8575, 2.3415],
+  [48.8585, 2.3375], [48.8605, 2.33], [48.864, 2.3195], [48.864, 2.3135], [48.864, 2.302],
+  [48.8595, 2.2925], [48.855, 2.2875], [48.8505, 2.2805], [48.8465, 2.2755], [48.8395, 2.27],
+  [48.8365, 2.267], [48.829, 2.26], [48.8255, 2.249], [48.8245, 2.23], [48.833, 2.2215],
+  [48.8425, 2.2205], [48.856, 2.2215], [48.87, 2.227], [48.8765, 2.2395], [48.8855, 2.2525],
+  [48.899, 2.2745], [48.9055, 2.29], [48.9095, 2.2965], [48.915, 2.32], [48.925, 2.338],
+  [48.933, 2.345], [48.942, 2.35],
+];
+
+/** Distance (km) entre une station et le tracé de la Seine. */
+function distanceToSeineKm(lat: number, lon: number): number {
+  const kx = 111.32 * Math.cos((48.86 * Math.PI) / 180);
+  const ky = 110.57;
+  const px = lon * kx;
+  const py = lat * ky;
+  let best = Infinity;
+  for (let i = 0; i < SEINE.length - 1; i++) {
+    const [ax, ay] = [SEINE[i][1] * kx, SEINE[i][0] * ky];
+    const [bx, by] = [SEINE[i + 1][1] * kx, SEINE[i + 1][0] * ky];
+    const [vx, vy] = [bx - ax, by - ay];
+    const t = Math.max(0, Math.min(1, ((px - ax) * vx + (py - ay) * vy) / (vx * vx + vy * vy)));
+    best = Math.min(best, Math.hypot(px - ax - t * vx, py - ay - t * vy));
+  }
+  return best;
+}
+
+const nearCriteria: Criterion[] = [
+  {
+    id: 'near-seine',
+    kind: 'near',
+    label: 'À moins de 1 km de la Seine',
+    description: "La station est à moins de 1 km de la Seine, à vol d'oiseau.",
+    near: { km: 1, place: 'Seine' },
+    test: (s) => distanceToSeineKm(s.lat, s.lon) < 1,
+  },
+  ...MONUMENTS.map<Criterion>((m) => ({
   id: `near-${m.id}`,
   kind: 'near',
   label: `À moins de ${formatKm(m.km)} ${m.of}`,
   description: `La station est à moins de ${formatKm(m.km)} ${m.of}, à vol d'oiseau.`,
   near: { km: m.km, place: m.place },
   test: (s) => distanceKm(m.lat, m.lon, s.lat, s.lon) < m.km,
-}));
+  })),
+];
 
 export const ALL_CRITERIA: Criterion[] = [
   ...lineCriteria,
