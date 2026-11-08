@@ -11,6 +11,8 @@ export interface Station {
   /** Communes hors Paris. */
   communes: string[];
   terminus: boolean;
+  /** Lignes de RER en correspondance (A à E). */
+  rer: string[];
   lat: number;
   lon: number;
 }

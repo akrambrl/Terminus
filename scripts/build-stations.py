@@ -34,6 +34,33 @@ TERMINI = {
     'Châtillon - Montrouge', 'Saint-Denis - Université', 'Les Courtilles',
     'Saint-Denis Pleyel', "Aéroport d'Orly",
 }
+# Correspondances officielles avec le RER (saisie manuelle, liste volontairement prudente :
+# les liaisons à pied non signalées comme correspondance sont exclues).
+RER = {
+    'La Défense': ['A', 'E'],
+    'Charles de Gaulle - Étoile': ['A'],
+    'Opéra': ['A'],
+    'Havre - Caumartin': ['A', 'E'],
+    'Saint-Lazare': ['E'],
+    'Châtelet': ['A', 'B', 'D'],
+    'Les Halles': ['A', 'B', 'D'],
+    'Gare de Lyon': ['A', 'D'],
+    'Nation': ['A'],
+    'Gare du Nord': ['B', 'D', 'E'],
+    'Saint-Michel': ['B', 'C'],
+    'Cluny - La Sorbonne': ['B', 'C'],
+    'Denfert-Rochereau': ['B'],
+    "Gare d'Austerlitz": ['C'],
+    'Bibliothèque François-Mitterrand': ['C'],
+    'Invalides': ['C'],
+    'Bir-Hakeim': ['C'],
+    'Javel - André Citroën': ['C'],
+    'Porte Maillot': ['C', 'E'],
+    'Pereire': ['C'],
+    'Porte de Clichy': ['C'],
+    'Saint-Ouen': ['C'],
+    'Rosny-Bois-Perrier': ['E'],
+}
 LINE_ORDER = ['1','2','3','3bis','4','5','6','7','7bis','8','9','10','11','12','13','14']
 
 stations = []
@@ -61,13 +88,14 @@ for qid, s in raw.items():
         'arr': sorted(arr),
         'communes': sorted(communes),
         'terminus': name in TERMINI,
+        'rer': RER.get(name, []),
         'lat': s['coord'][0],
         'lon': s['coord'][1],
     })
 
-missing = TERMINI - {s['name'] for s in stations}
+missing = (TERMINI | set(RER)) - {s['name'] for s in stations}
 if missing:
-    raise SystemExit(f'Terminus introuvables : {missing}')
+    raise SystemExit(f'Stations introuvables : {missing}')
 stations.sort(key=lambda s: s['name'])
 out = os.path.join(ROOT, 'src', 'data', 'stations.ts')
 with open(out, 'w', encoding='utf-8') as f:

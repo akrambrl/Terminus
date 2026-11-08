@@ -281,6 +281,7 @@ function Game() {
                     {s.lines.map((l) => (
                       <LineBadge key={l} line={l as LineId} size={18} />
                     ))}
+                    {s.rer.length > 0 && <Text style={styles.rer}>RER {s.rer.join(' ')}</Text>}
                   </View>
                 </View>
               );
@@ -453,5 +454,15 @@ const styles = StyleSheet.create({
   },
   answerName: { fontSize: 15, fontFamily: fonts.bold, color: colors.ink, flexShrink: 1 },
   answerMine: { fontFamily: fonts.heavy, color: palette.mint },
-  answerLines: { flexDirection: 'row', gap: 3 },
+  answerLines: { flexDirection: 'row', alignItems: 'center', gap: 3 },
+  rer: {
+    fontFamily: fonts.heavy,
+    fontSize: 10,
+    color: '#FFFFFF',
+    backgroundColor: colors.ink,
+    borderRadius: 5,
+    paddingHorizontal: 5,
+    paddingVertical: 2,
+    overflow: 'hidden',
+  },
 });

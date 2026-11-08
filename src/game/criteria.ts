@@ -35,6 +35,13 @@ const transferCriteria: Criterion[] = [
     test: (s) => s.lines.length >= 2,
   },
   {
+    id: 'rer',
+    kind: 'transfer',
+    label: 'Correspondance RER',
+    description: 'La station est en correspondance avec au moins une ligne de RER (A, B, C, D ou E).',
+    test: (s) => s.rer.length > 0,
+  },
+  {
     id: 'transfer3',
     kind: 'transfer',
     label: '3 lignes ou +',

@@ -14,6 +14,7 @@ export const STATIONS: Station[] = [
     ],
     "communes": [],
     "terminus": false,
+    "rer": [],
     "lat": 48.88444,
     "lon": 2.33861
   },
@@ -28,6 +29,7 @@ export const STATIONS: Station[] = [
       "Aubervilliers"
     ],
     "terminus": false,
+    "rer": [],
     "lat": 48.90832,
     "lon": 2.37802
   },
@@ -42,6 +44,7 @@ export const STATIONS: Station[] = [
     ],
     "communes": [],
     "terminus": false,
+    "rer": [],
     "lat": 48.85583,
     "lon": 2.39472
   },
@@ -56,6 +59,7 @@ export const STATIONS: Station[] = [
     ],
     "communes": [],
     "terminus": false,
+    "rer": [],
     "lat": 48.86497,
     "lon": 2.30064
   },
@@ -70,6 +74,7 @@ export const STATIONS: Station[] = [
     ],
     "communes": [],
     "terminus": false,
+    "rer": [],
     "lat": 48.8284,
     "lon": 2.32675
   },
@@ -84,6 +89,7 @@ export const STATIONS: Station[] = [
       "Levallois-Perret"
     ],
     "terminus": false,
+    "rer": [],
     "lat": 48.89194,
     "lon": 2.28556
   },
@@ -99,6 +105,7 @@ export const STATIONS: Station[] = [
     ],
     "communes": [],
     "terminus": false,
+    "rer": [],
     "lat": 48.88278,
     "lon": 2.34472
   },
@@ -114,6 +121,7 @@ export const STATIONS: Station[] = [
     ],
     "communes": [],
     "terminus": false,
+    "rer": [],
     "lat": 48.87553,
     "lon": 2.28932
   },
@@ -129,6 +137,7 @@ export const STATIONS: Station[] = [
     ],
     "communes": [],
     "terminus": false,
+    "rer": [],
     "lat": 48.86528,
     "lon": 2.35694
   },
@@ -143,6 +152,7 @@ export const STATIONS: Station[] = [
     ],
     "communes": [],
     "terminus": false,
+    "rer": [],
     "lat": 48.86056,
     "lon": 2.32111
   },
@@ -157,6 +167,7 @@ export const STATIONS: Station[] = [
       "Aubervilliers"
     ],
     "terminus": false,
+    "rer": [],
     "lat": 48.90389,
     "lon": 2.39222
   },
@@ -171,6 +182,7 @@ export const STATIONS: Station[] = [
     ],
     "communes": [],
     "terminus": false,
+    "rer": [],
     "lat": 48.84701,
     "lon": 2.29532
   },
@@ -186,6 +198,7 @@ export const STATIONS: Station[] = [
     ],
     "communes": [],
     "terminus": false,
+    "rer": [],
     "lat": 48.85148,
     "lon": 2.39818
   },
@@ -200,6 +213,7 @@ export const STATIONS: Station[] = [
       "Paray-Vieille-Poste"
     ],
     "terminus": true,
+    "rer": [],
     "lat": 48.72875,
     "lon": 2.36237
   },
@@ -214,6 +228,7 @@ export const STATIONS: Station[] = [
       "Bagneux"
     ],
     "terminus": true,
+    "rer": [],
     "lat": 48.8027,
     "lon": 2.31736
   },
@@ -228,6 +243,7 @@ export const STATIONS: Station[] = [
     ],
     "communes": [],
     "terminus": true,
+    "rer": [],
     "lat": 48.8364,
     "lon": 2.27838
   },
@@ -243,6 +259,7 @@ export const STATIONS: Station[] = [
       "Montrouge"
     ],
     "terminus": false,
+    "rer": [],
     "lat": 48.8092,
     "lon": 2.31767
   },
@@ -260,6 +277,7 @@ export const STATIONS: Station[] = [
     ],
     "communes": [],
     "terminus": false,
+    "rer": [],
     "lat": 48.88362,
     "lon": 2.34974
   },
@@ -274,6 +292,7 @@ export const STATIONS: Station[] = [
       "Saint-Denis"
     ],
     "terminus": false,
+    "rer": [],
     "lat": 48.93806,
     "lon": 2.36083
   },
@@ -292,6 +311,7 @@ export const STATIONS: Station[] = [
     ],
     "communes": [],
     "terminus": false,
+    "rer": [],
     "lat": 48.85284,
     "lon": 2.36918
   },
@@ -306,6 +326,7 @@ export const STATIONS: Station[] = [
     ],
     "communes": [],
     "terminus": false,
+    "rer": [],
     "lat": 48.84135,
     "lon": 2.40093
   },
@@ -324,6 +345,7 @@ export const STATIONS: Station[] = [
     ],
     "communes": [],
     "terminus": false,
+    "rer": [],
     "lat": 48.87222,
     "lon": 2.37778
   },
@@ -339,6 +361,7 @@ export const STATIONS: Station[] = [
     ],
     "communes": [],
     "terminus": false,
+    "rer": [],
     "lat": 48.83972,
     "lon": 2.38028
   },
@@ -353,6 +376,9 @@ export const STATIONS: Station[] = [
     ],
     "communes": [],
     "terminus": false,
+    "rer": [
+      "C"
+    ],
     "lat": 48.82983,
     "lon": 2.3767
   },
@@ -367,6 +393,7 @@ export const STATIONS: Station[] = [
       "Boulogne-Billancourt"
     ],
     "terminus": false,
+    "rer": [],
     "lat": 48.83194,
     "lon": 2.23806
   },
@@ -381,6 +408,9 @@ export const STATIONS: Station[] = [
     ],
     "communes": [],
     "terminus": false,
+    "rer": [
+      "C"
+    ],
     "lat": 48.85388,
     "lon": 2.28939
   },
@@ -396,6 +426,7 @@ export const STATIONS: Station[] = [
     ],
     "communes": [],
     "terminus": false,
+    "rer": [],
     "lat": 48.88361,
     "lon": 2.33361
   },
@@ -410,6 +441,7 @@ export const STATIONS: Station[] = [
       "Bobigny"
     ],
     "terminus": true,
+    "rer": [],
     "lat": 48.9069,
     "lon": 2.44922
   },
@@ -425,6 +457,7 @@ export const STATIONS: Station[] = [
       "Pantin"
     ],
     "terminus": false,
+    "rer": [],
     "lat": 48.89528,
     "lon": 2.42472
   },
@@ -439,6 +472,7 @@ export const STATIONS: Station[] = [
     ],
     "communes": [],
     "terminus": false,
+    "rer": [],
     "lat": 48.86694,
     "lon": 2.29
   },
@@ -453,6 +487,7 @@ export const STATIONS: Station[] = [
     ],
     "communes": [],
     "terminus": false,
+    "rer": [],
     "lat": 48.88056,
     "lon": 2.375
   },
@@ -470,6 +505,7 @@ export const STATIONS: Station[] = [
     ],
     "communes": [],
     "terminus": false,
+    "rer": [],
     "lat": 48.87054,
     "lon": 2.34872
   },
@@ -484,6 +520,7 @@ export const STATIONS: Station[] = [
     ],
     "communes": [],
     "terminus": false,
+    "rer": [],
     "lat": 48.87944,
     "lon": 2.38806
   },
@@ -498,6 +535,7 @@ export const STATIONS: Station[] = [
     ],
     "communes": [],
     "terminus": false,
+    "rer": [],
     "lat": 48.84109,
     "lon": 2.28779
   },
@@ -512,6 +550,7 @@ export const STATIONS: Station[] = [
       "Boulogne-Billancourt"
     ],
     "terminus": false,
+    "rer": [],
     "lat": 48.84222,
     "lon": 2.23889
   },
@@ -526,6 +565,7 @@ export const STATIONS: Station[] = [
       "Boulogne-Billancourt"
     ],
     "terminus": true,
+    "rer": [],
     "lat": 48.84068,
     "lon": 2.22833
   },
@@ -540,6 +580,7 @@ export const STATIONS: Station[] = [
     ],
     "communes": [],
     "terminus": false,
+    "rer": [],
     "lat": 48.86885,
     "lon": 2.34137
   },
@@ -554,6 +595,7 @@ export const STATIONS: Station[] = [
     ],
     "communes": [],
     "terminus": false,
+    "rer": [],
     "lat": 48.89083,
     "lon": 2.31972
   },
@@ -568,6 +610,7 @@ export const STATIONS: Station[] = [
     ],
     "communes": [],
     "terminus": false,
+    "rer": [],
     "lat": 48.85675,
     "lon": 2.37054
   },
@@ -582,6 +625,7 @@ export const STATIONS: Station[] = [
     ],
     "communes": [],
     "terminus": false,
+    "rer": [],
     "lat": 48.87861,
     "lon": 2.38167
   },
@@ -596,6 +640,7 @@ export const STATIONS: Station[] = [
     ],
     "communes": [],
     "terminus": false,
+    "rer": [],
     "lat": 48.85176,
     "lon": 2.40135
   },
@@ -611,6 +656,7 @@ export const STATIONS: Station[] = [
       "Vincennes"
     ],
     "terminus": false,
+    "rer": [],
     "lat": 48.84533,
     "lon": 2.42924
   },
@@ -625,6 +671,7 @@ export const STATIONS: Station[] = [
     ],
     "communes": [],
     "terminus": false,
+    "rer": [],
     "lat": 48.87598,
     "lon": 2.34449
   },
@@ -639,6 +686,7 @@ export const STATIONS: Station[] = [
     ],
     "communes": [],
     "terminus": false,
+    "rer": [],
     "lat": 48.84751,
     "lon": 2.30295
   },
@@ -653,6 +701,7 @@ export const STATIONS: Station[] = [
     ],
     "communes": [],
     "terminus": false,
+    "rer": [],
     "lat": 48.835,
     "lon": 2.35806
   },
@@ -667,6 +716,7 @@ export const STATIONS: Station[] = [
     ],
     "communes": [],
     "terminus": false,
+    "rer": [],
     "lat": 48.84662,
     "lon": 2.35165
   },
@@ -681,6 +731,7 @@ export const STATIONS: Station[] = [
       "Saint-Denis"
     ],
     "terminus": false,
+    "rer": [],
     "lat": 48.91954,
     "lon": 2.34313
   },
@@ -695,6 +746,7 @@ export const STATIONS: Station[] = [
     ],
     "communes": [],
     "terminus": false,
+    "rer": [],
     "lat": 48.84083,
     "lon": 2.35167
   },
@@ -710,6 +762,7 @@ export const STATIONS: Station[] = [
     ],
     "communes": [],
     "terminus": false,
+    "rer": [],
     "lat": 48.86741,
     "lon": 2.31396
   },
@@ -724,6 +777,7 @@ export const STATIONS: Station[] = [
     ],
     "communes": [],
     "terminus": false,
+    "rer": [],
     "lat": 48.84542,
     "lon": 2.26717
   },
@@ -738,6 +792,7 @@ export const STATIONS: Station[] = [
       "Charenton-le-Pont"
     ],
     "terminus": false,
+    "rer": [],
     "lat": 48.82139,
     "lon": 2.41361
   },
@@ -752,6 +807,7 @@ export const STATIONS: Station[] = [
     ],
     "communes": [],
     "terminus": false,
+    "rer": [],
     "lat": 48.84667,
     "lon": 2.28694
   },
@@ -769,6 +825,9 @@ export const STATIONS: Station[] = [
     ],
     "communes": [],
     "terminus": true,
+    "rer": [
+      "A"
+    ],
     "lat": 48.87441,
     "lon": 2.29576
   },
@@ -783,6 +842,7 @@ export const STATIONS: Station[] = [
     ],
     "communes": [],
     "terminus": false,
+    "rer": [],
     "lat": 48.855,
     "lon": 2.38444
   },
@@ -798,6 +858,7 @@ export const STATIONS: Station[] = [
     ],
     "communes": [],
     "terminus": false,
+    "rer": [],
     "lat": 48.87278,
     "lon": 2.33361
   },
@@ -813,6 +874,7 @@ export const STATIONS: Station[] = [
     ],
     "communes": [],
     "terminus": false,
+    "rer": [],
     "lat": 48.85667,
     "lon": 2.36806
   },
@@ -827,6 +889,7 @@ export const STATIONS: Station[] = [
     ],
     "communes": [],
     "terminus": false,
+    "rer": [],
     "lat": 48.83495,
     "lon": 2.36806
   },
@@ -841,6 +904,7 @@ export const STATIONS: Station[] = [
       "Chevilly-Larue"
     ],
     "terminus": false,
+    "rer": [],
     "lat": 48.75917,
     "lon": 2.36639
   },
@@ -855,6 +919,7 @@ export const STATIONS: Station[] = [
     ],
     "communes": [],
     "terminus": false,
+    "rer": [],
     "lat": 48.88718,
     "lon": 2.34983
   },
@@ -869,6 +934,7 @@ export const STATIONS: Station[] = [
     ],
     "communes": [],
     "terminus": false,
+    "rer": [],
     "lat": 48.87259,
     "lon": 2.35547
   },
@@ -885,6 +951,7 @@ export const STATIONS: Station[] = [
       "Vincennes"
     ],
     "terminus": true,
+    "rer": [],
     "lat": 48.84454,
     "lon": 2.43951
   },
@@ -899,6 +966,7 @@ export const STATIONS: Station[] = [
     ],
     "communes": [],
     "terminus": false,
+    "rer": [],
     "lat": 48.87833,
     "lon": 2.36194
   },
@@ -918,6 +986,11 @@ export const STATIONS: Station[] = [
     ],
     "communes": [],
     "terminus": true,
+    "rer": [
+      "A",
+      "B",
+      "D"
+    ],
     "lat": 48.85852,
     "lon": 2.34712
   },
@@ -933,6 +1006,7 @@ export const STATIONS: Station[] = [
       "Montrouge"
     ],
     "terminus": true,
+    "rer": [],
     "lat": 48.81076,
     "lon": 2.30161
   },
@@ -947,6 +1021,7 @@ export const STATIONS: Station[] = [
     ],
     "communes": [],
     "terminus": false,
+    "rer": [],
     "lat": 48.85529,
     "lon": 2.34755
   },
@@ -962,6 +1037,10 @@ export const STATIONS: Station[] = [
     ],
     "communes": [],
     "terminus": false,
+    "rer": [
+      "B",
+      "C"
+    ],
     "lat": 48.85105,
     "lon": 2.34427
   },
@@ -977,6 +1056,7 @@ export const STATIONS: Station[] = [
     ],
     "communes": [],
     "terminus": false,
+    "rer": [],
     "lat": 48.87795,
     "lon": 2.37026
   },
@@ -991,6 +1071,7 @@ export const STATIONS: Station[] = [
     ],
     "communes": [],
     "terminus": false,
+    "rer": [],
     "lat": 48.84467,
     "lon": 2.29377
   },
@@ -1008,6 +1089,7 @@ export const STATIONS: Station[] = [
     ],
     "communes": [],
     "terminus": false,
+    "rer": [],
     "lat": 48.86618,
     "lon": 2.3233
   },
@@ -1022,6 +1104,7 @@ export const STATIONS: Station[] = [
     ],
     "communes": [],
     "terminus": false,
+    "rer": [],
     "lat": 48.8375,
     "lon": 2.29667
   },
@@ -1036,6 +1119,7 @@ export const STATIONS: Station[] = [
     ],
     "communes": [],
     "terminus": false,
+    "rer": [],
     "lat": 48.89444,
     "lon": 2.38167
   },
@@ -1050,6 +1134,7 @@ export const STATIONS: Station[] = [
       "Issy-les-Moulineaux"
     ],
     "terminus": false,
+    "rer": [],
     "lat": 48.82694,
     "lon": 2.27889
   },
@@ -1064,6 +1149,7 @@ export const STATIONS: Station[] = [
     ],
     "communes": [],
     "terminus": false,
+    "rer": [],
     "lat": 48.82987,
     "lon": 2.35051
   },
@@ -1079,6 +1165,7 @@ export const STATIONS: Station[] = [
       "Rosny-sous-Bois"
     ],
     "terminus": false,
+    "rer": [],
     "lat": 48.88224,
     "lon": 2.46735
   },
@@ -1093,6 +1180,7 @@ export const STATIONS: Station[] = [
     ],
     "communes": [],
     "terminus": false,
+    "rer": [],
     "lat": 48.83355,
     "lon": 2.38596
   },
@@ -1108,6 +1196,7 @@ export const STATIONS: Station[] = [
     ],
     "communes": [],
     "terminus": false,
+    "rer": [],
     "lat": 48.87917,
     "lon": 2.30417
   },
@@ -1123,6 +1212,7 @@ export const STATIONS: Station[] = [
     ],
     "communes": [],
     "terminus": false,
+    "rer": [],
     "lat": 48.86927,
     "lon": 2.38015
   },
@@ -1137,6 +1227,7 @@ export const STATIONS: Station[] = [
     ],
     "communes": [],
     "terminus": false,
+    "rer": [],
     "lat": 48.89082,
     "lon": 2.37734
   },
@@ -1151,6 +1242,7 @@ export const STATIONS: Station[] = [
       "Montreuil"
     ],
     "terminus": false,
+    "rer": [],
     "lat": 48.85806,
     "lon": 2.43576
   },
@@ -1165,6 +1257,7 @@ export const STATIONS: Station[] = [
       "Créteil"
     ],
     "terminus": false,
+    "rer": [],
     "lat": 48.79653,
     "lon": 2.44939
   },
@@ -1179,6 +1272,7 @@ export const STATIONS: Station[] = [
       "Créteil"
     ],
     "terminus": false,
+    "rer": [],
     "lat": 48.77977,
     "lon": 2.45932
   },
@@ -1193,6 +1287,7 @@ export const STATIONS: Station[] = [
       "Créteil"
     ],
     "terminus": false,
+    "rer": [],
     "lat": 48.78984,
     "lon": 2.45062
   },
@@ -1207,6 +1302,7 @@ export const STATIONS: Station[] = [
     ],
     "communes": [],
     "terminus": false,
+    "rer": [],
     "lat": 48.882,
     "lon": 2.39307
   },
@@ -1222,6 +1318,7 @@ export const STATIONS: Station[] = [
     ],
     "communes": [],
     "terminus": false,
+    "rer": [],
     "lat": 48.83961,
     "lon": 2.3958
   },
@@ -1237,6 +1334,9 @@ export const STATIONS: Station[] = [
     ],
     "communes": [],
     "terminus": false,
+    "rer": [
+      "B"
+    ],
     "lat": 48.83359,
     "lon": 2.33189
   },
@@ -1251,6 +1351,7 @@ export const STATIONS: Station[] = [
     ],
     "communes": [],
     "terminus": false,
+    "rer": [],
     "lat": 48.83905,
     "lon": 2.38996
   },
@@ -1265,6 +1366,7 @@ export const STATIONS: Station[] = [
     ],
     "communes": [],
     "terminus": false,
+    "rer": [],
     "lat": 48.85039,
     "lon": 2.29361
   },
@@ -1282,6 +1384,7 @@ export const STATIONS: Station[] = [
     ],
     "communes": [],
     "terminus": false,
+    "rer": [],
     "lat": 48.84694,
     "lon": 2.31639
   },
@@ -1296,6 +1399,7 @@ export const STATIONS: Station[] = [
     ],
     "communes": [],
     "terminus": false,
+    "rer": [],
     "lat": 48.84028,
     "lon": 2.32667
   },
@@ -1310,6 +1414,7 @@ export const STATIONS: Station[] = [
       "Puteaux"
     ],
     "terminus": false,
+    "rer": [],
     "lat": 48.88784,
     "lon": 2.25044
   },
@@ -1324,6 +1429,7 @@ export const STATIONS: Station[] = [
     ],
     "communes": [],
     "terminus": false,
+    "rer": [],
     "lat": 48.87889,
     "lon": 2.3225
   },
@@ -1338,6 +1444,7 @@ export const STATIONS: Station[] = [
     ],
     "communes": [],
     "terminus": false,
+    "rer": [],
     "lat": 48.84294,
     "lon": 2.26004
   },
@@ -1353,6 +1460,7 @@ export const STATIONS: Station[] = [
     ],
     "communes": [],
     "terminus": false,
+    "rer": [],
     "lat": 48.85033,
     "lon": 2.38419
   },
@@ -1367,6 +1475,7 @@ export const STATIONS: Station[] = [
     ],
     "communes": [],
     "terminus": false,
+    "rer": [],
     "lat": 48.84444,
     "lon": 2.31806
   },
@@ -1382,6 +1491,7 @@ export const STATIONS: Station[] = [
     ],
     "communes": [],
     "terminus": false,
+    "rer": [],
     "lat": 48.86407,
     "lon": 2.36612
   },
@@ -1396,6 +1506,7 @@ export const STATIONS: Station[] = [
       "Aubervilliers"
     ],
     "terminus": false,
+    "rer": [],
     "lat": 48.91417,
     "lon": 2.40361
   },
@@ -1411,6 +1522,7 @@ export const STATIONS: Station[] = [
     ],
     "communes": [],
     "terminus": false,
+    "rer": [],
     "lat": 48.86931,
     "lon": 2.30831
   },
@@ -1426,6 +1538,7 @@ export const STATIONS: Station[] = [
       "Saint-Denis"
     ],
     "terminus": false,
+    "rer": [],
     "lat": 48.90694,
     "lon": 2.36583
   },
@@ -1440,6 +1553,7 @@ export const STATIONS: Station[] = [
     ],
     "communes": [],
     "terminus": false,
+    "rer": [],
     "lat": 48.84266,
     "lon": 2.29174
   },
@@ -1455,6 +1569,7 @@ export const STATIONS: Station[] = [
       "Gennevilliers"
     ],
     "terminus": false,
+    "rer": [],
     "lat": 48.91639,
     "lon": 2.29417
   },
@@ -1469,6 +1584,7 @@ export const STATIONS: Station[] = [
       "Bagnolet"
     ],
     "terminus": true,
+    "rer": [],
     "lat": 48.865,
     "lon": 2.41666
   },
@@ -1484,6 +1600,7 @@ export const STATIONS: Station[] = [
     ],
     "communes": [],
     "terminus": true,
+    "rer": [],
     "lat": 48.86472,
     "lon": 2.39833
   },
@@ -1500,6 +1617,9 @@ export const STATIONS: Station[] = [
     ],
     "communes": [],
     "terminus": true,
+    "rer": [
+      "C"
+    ],
     "lat": 48.8425,
     "lon": 2.36472
   },
@@ -1515,6 +1635,10 @@ export const STATIONS: Station[] = [
     ],
     "communes": [],
     "terminus": false,
+    "rer": [
+      "A",
+      "D"
+    ],
     "lat": 48.8447,
     "lon": 2.37407
   },
@@ -1531,6 +1655,7 @@ export const STATIONS: Station[] = [
     ],
     "communes": [],
     "terminus": false,
+    "rer": [],
     "lat": 48.87606,
     "lon": 2.35792
   },
@@ -1546,6 +1671,11 @@ export const STATIONS: Station[] = [
     ],
     "communes": [],
     "terminus": false,
+    "rer": [
+      "B",
+      "D",
+      "E"
+    ],
     "lat": 48.87997,
     "lon": 2.3547
   },
@@ -1560,6 +1690,7 @@ export const STATIONS: Station[] = [
       "Saint-Ouen-sur-Seine"
     ],
     "terminus": false,
+    "rer": [],
     "lat": 48.90639,
     "lon": 2.33194
   },
@@ -1574,6 +1705,7 @@ export const STATIONS: Station[] = [
     ],
     "communes": [],
     "terminus": false,
+    "rer": [],
     "lat": 48.83889,
     "lon": 2.3225
   },
@@ -1588,6 +1720,7 @@ export const STATIONS: Station[] = [
     ],
     "communes": [],
     "terminus": false,
+    "rer": [],
     "lat": 48.87198,
     "lon": 2.30046
   },
@@ -1602,6 +1735,7 @@ export const STATIONS: Station[] = [
     ],
     "communes": [],
     "terminus": false,
+    "rer": [],
     "lat": 48.83113,
     "lon": 2.34348
   },
@@ -1617,6 +1751,7 @@ export const STATIONS: Station[] = [
     ],
     "communes": [],
     "terminus": false,
+    "rer": [],
     "lat": 48.86989,
     "lon": 2.37108
   },
@@ -1633,6 +1768,7 @@ export const STATIONS: Station[] = [
     ],
     "communes": [],
     "terminus": false,
+    "rer": [],
     "lat": 48.87143,
     "lon": 2.34349
   },
@@ -1648,6 +1784,7 @@ export const STATIONS: Station[] = [
     ],
     "communes": [],
     "terminus": false,
+    "rer": [],
     "lat": 48.89222,
     "lon": 2.32722
   },
@@ -1663,6 +1800,10 @@ export const STATIONS: Station[] = [
     ],
     "communes": [],
     "terminus": false,
+    "rer": [
+      "A",
+      "E"
+    ],
     "lat": 48.87368,
     "lon": 2.32732
   },
@@ -1677,6 +1818,7 @@ export const STATIONS: Station[] = [
       "Pantin"
     ],
     "terminus": false,
+    "rer": [],
     "lat": 48.89139,
     "lon": 2.40306
   },
@@ -1691,6 +1833,7 @@ export const STATIONS: Station[] = [
       "Le Kremlin-Bicêtre"
     ],
     "terminus": false,
+    "rer": [],
     "lat": 48.80972,
     "lon": 2.34972
   },
@@ -1706,6 +1849,7 @@ export const STATIONS: Station[] = [
     ],
     "communes": [],
     "terminus": false,
+    "rer": [],
     "lat": 48.85759,
     "lon": 2.35159
   },
@@ -1721,6 +1865,9 @@ export const STATIONS: Station[] = [
     ],
     "communes": [],
     "terminus": false,
+    "rer": [
+      "C"
+    ],
     "lat": 48.86083,
     "lon": 2.31472
   },
@@ -1735,6 +1882,7 @@ export const STATIONS: Station[] = [
     ],
     "communes": [],
     "terminus": false,
+    "rer": [],
     "lat": 48.86467,
     "lon": 2.29378
   },
@@ -1749,6 +1897,7 @@ export const STATIONS: Station[] = [
     ],
     "communes": [],
     "terminus": false,
+    "rer": [],
     "lat": 48.87111,
     "lon": 2.36056
   },
@@ -1763,6 +1912,7 @@ export const STATIONS: Station[] = [
     ],
     "communes": [],
     "terminus": false,
+    "rer": [],
     "lat": 48.85167,
     "lon": 2.26778
   },
@@ -1780,6 +1930,7 @@ export const STATIONS: Station[] = [
     ],
     "communes": [],
     "terminus": false,
+    "rer": [],
     "lat": 48.88278,
     "lon": 2.37083
   },
@@ -1794,6 +1945,9 @@ export const STATIONS: Station[] = [
     ],
     "communes": [],
     "terminus": false,
+    "rer": [
+      "C"
+    ],
     "lat": 48.84611,
     "lon": 2.27861
   },
@@ -1809,6 +1963,7 @@ export const STATIONS: Station[] = [
     ],
     "communes": [],
     "terminus": false,
+    "rer": [],
     "lat": 48.875,
     "lon": 2.39083
   },
@@ -1823,6 +1978,7 @@ export const STATIONS: Station[] = [
     ],
     "communes": [],
     "terminus": false,
+    "rer": [],
     "lat": 48.8925,
     "lon": 2.34472
   },
@@ -1838,6 +1994,7 @@ export const STATIONS: Station[] = [
     ],
     "communes": [],
     "terminus": false,
+    "rer": [],
     "lat": 48.84605,
     "lon": 2.35574
   },
@@ -1852,6 +2009,7 @@ export const STATIONS: Station[] = [
     ],
     "communes": [],
     "terminus": false,
+    "rer": [],
     "lat": 48.87083,
     "lon": 2.29306
   },
@@ -1866,6 +2024,7 @@ export const STATIONS: Station[] = [
       "L'Haÿ-les-Roses"
     ],
     "terminus": false,
+    "rer": [],
     "lat": 48.77528,
     "lon": 2.35417
   },
@@ -1881,6 +2040,7 @@ export const STATIONS: Station[] = [
     ],
     "communes": [],
     "terminus": false,
+    "rer": [],
     "lat": 48.88444,
     "lon": 2.36
   },
@@ -1895,6 +2055,7 @@ export const STATIONS: Station[] = [
       "La Courneuve"
     ],
     "terminus": true,
+    "rer": [],
     "lat": 48.92056,
     "lon": 2.41056
   },
@@ -1910,6 +2071,7 @@ export const STATIONS: Station[] = [
       "Rosny-sous-Bois"
     ],
     "terminus": false,
+    "rer": [],
     "lat": 48.87745,
     "lon": 2.46512
   },
@@ -1924,6 +2086,10 @@ export const STATIONS: Station[] = [
       "Puteaux"
     ],
     "terminus": true,
+    "rer": [
+      "A",
+      "E"
+    ],
     "lat": 48.89193,
     "lon": 2.23788
   },
@@ -1939,6 +2105,7 @@ export const STATIONS: Station[] = [
     ],
     "communes": [],
     "terminus": false,
+    "rer": [],
     "lat": 48.88694,
     "lon": 2.32583
   },
@@ -1955,6 +2122,7 @@ export const STATIONS: Station[] = [
     ],
     "communes": [],
     "terminus": false,
+    "rer": [],
     "lat": 48.84898,
     "lon": 2.2982
   },
@@ -1969,6 +2137,7 @@ export const STATIONS: Station[] = [
     ],
     "communes": [],
     "terminus": false,
+    "rer": [],
     "lat": 48.85772,
     "lon": 2.27372
   },
@@ -1983,6 +2152,7 @@ export const STATIONS: Station[] = [
     ],
     "communes": [],
     "terminus": false,
+    "rer": [],
     "lat": 48.8575,
     "lon": 2.31028
   },
@@ -1997,6 +2167,7 @@ export const STATIONS: Station[] = [
     ],
     "communes": [],
     "terminus": false,
+    "rer": [],
     "lat": 48.88972,
     "lon": 2.33861
   },
@@ -2011,6 +2182,7 @@ export const STATIONS: Station[] = [
     ],
     "communes": [],
     "terminus": false,
+    "rer": [],
     "lat": 48.885,
     "lon": 2.37861
   },
@@ -2025,6 +2197,7 @@ export const STATIONS: Station[] = [
       "Le Kremlin-Bicêtre"
     ],
     "terminus": false,
+    "rer": [],
     "lat": 48.81,
     "lon": 2.362
   },
@@ -2039,6 +2212,7 @@ export const STATIONS: Station[] = [
     ],
     "communes": [],
     "terminus": false,
+    "rer": [],
     "lat": 48.87472,
     "lon": 2.33944
   },
@@ -2054,6 +2228,7 @@ export const STATIONS: Station[] = [
     ],
     "communes": [],
     "terminus": false,
+    "rer": [],
     "lat": 48.85133,
     "lon": 2.37611
   },
@@ -2069,6 +2244,7 @@ export const STATIONS: Station[] = [
       "Gennevilliers"
     ],
     "terminus": false,
+    "rer": [],
     "lat": 48.92318,
     "lon": 2.28644
   },
@@ -2084,6 +2260,7 @@ export const STATIONS: Station[] = [
       "Gennevilliers"
     ],
     "terminus": true,
+    "rer": [],
     "lat": 48.93061,
     "lon": 2.28379
   },
@@ -2098,6 +2275,7 @@ export const STATIONS: Station[] = [
     ],
     "communes": [],
     "terminus": false,
+    "rer": [],
     "lat": 48.83583,
     "lon": 2.3525
   },
@@ -2112,6 +2290,11 @@ export const STATIONS: Station[] = [
     ],
     "communes": [],
     "terminus": false,
+    "rer": [
+      "A",
+      "B",
+      "D"
+    ],
     "lat": 48.86219,
     "lon": 2.34584
   },
@@ -2126,6 +2309,7 @@ export const STATIONS: Station[] = [
       "Neuilly-sur-Seine"
     ],
     "terminus": false,
+    "rer": [],
     "lat": 48.8809,
     "lon": 2.27254
   },
@@ -2140,6 +2324,7 @@ export const STATIONS: Station[] = [
       "Charenton-le-Pont"
     ],
     "terminus": false,
+    "rer": [],
     "lat": 48.82583,
     "lon": 2.40694
   },
@@ -2155,6 +2340,7 @@ export const STATIONS: Station[] = [
     ],
     "communes": [],
     "terminus": false,
+    "rer": [],
     "lat": 48.87972,
     "lon": 2.32694
   },
@@ -2170,6 +2356,7 @@ export const STATIONS: Station[] = [
     ],
     "communes": [],
     "terminus": true,
+    "rer": [],
     "lat": 48.88111,
     "lon": 2.36472
   },
@@ -2184,6 +2371,7 @@ export const STATIONS: Station[] = [
       "Levallois-Perret"
     ],
     "terminus": false,
+    "rer": [],
     "lat": 48.88875,
     "lon": 2.28784
   },
@@ -2198,6 +2386,7 @@ export const STATIONS: Station[] = [
     ],
     "communes": [],
     "terminus": false,
+    "rer": [],
     "lat": 48.83861,
     "lon": 2.28167
   },
@@ -2212,6 +2401,7 @@ export const STATIONS: Station[] = [
     ],
     "communes": [],
     "terminus": false,
+    "rer": [],
     "lat": 48.86054,
     "lon": 2.341
   },
@@ -2226,6 +2416,7 @@ export const STATIONS: Station[] = [
     ],
     "communes": [],
     "terminus": false,
+    "rer": [],
     "lat": 48.85278,
     "lon": 2.33528
   },
@@ -2242,6 +2433,7 @@ export const STATIONS: Station[] = [
     ],
     "communes": [],
     "terminus": false,
+    "rer": [],
     "lat": 48.86972,
     "lon": 2.32444
   },
@@ -2256,6 +2448,7 @@ export const STATIONS: Station[] = [
       "Aubervilliers"
     ],
     "terminus": true,
+    "rer": [],
     "lat": 48.9138,
     "lon": 2.38065
   },
@@ -2270,6 +2463,7 @@ export const STATIONS: Station[] = [
       "Issy-les-Moulineaux"
     ],
     "terminus": true,
+    "rer": [],
     "lat": 48.82417,
     "lon": 2.27333
   },
@@ -2284,6 +2478,7 @@ export const STATIONS: Station[] = [
       "Ivry-sur-Seine"
     ],
     "terminus": true,
+    "rer": [],
     "lat": 48.81099,
     "lon": 2.38397
   },
@@ -2298,6 +2493,7 @@ export const STATIONS: Station[] = [
       "Clichy"
     ],
     "terminus": false,
+    "rer": [],
     "lat": 48.90389,
     "lon": 2.30528
   },
@@ -2312,6 +2508,7 @@ export const STATIONS: Station[] = [
       "Montreuil"
     ],
     "terminus": true,
+    "rer": [],
     "lat": 48.86222,
     "lon": 2.44194
   },
@@ -2326,6 +2523,7 @@ export const STATIONS: Station[] = [
       "Montrouge"
     ],
     "terminus": false,
+    "rer": [],
     "lat": 48.81806,
     "lon": 2.31954
   },
@@ -2341,6 +2539,7 @@ export const STATIONS: Station[] = [
       "Saint-Ouen-sur-Seine"
     ],
     "terminus": false,
+    "rer": [],
     "lat": 48.91167,
     "lon": 2.33361
   },
@@ -2355,6 +2554,7 @@ export const STATIONS: Station[] = [
       "Les Lilas"
     ],
     "terminus": false,
+    "rer": [],
     "lat": 48.87972,
     "lon": 2.41611
   },
@@ -2370,6 +2570,7 @@ export const STATIONS: Station[] = [
     ],
     "communes": [],
     "terminus": false,
+    "rer": [],
     "lat": 48.82222,
     "lon": 2.35861
   },
@@ -2384,6 +2585,7 @@ export const STATIONS: Station[] = [
       "Maisons-Alfort"
     ],
     "terminus": false,
+    "rer": [],
     "lat": 48.8025,
     "lon": 2.44639
   },
@@ -2398,6 +2600,7 @@ export const STATIONS: Station[] = [
       "Maisons-Alfort"
     ],
     "terminus": false,
+    "rer": [],
     "lat": 48.80861,
     "lon": 2.43583
   },
@@ -2412,6 +2615,7 @@ export const STATIONS: Station[] = [
       "Malakoff"
     ],
     "terminus": false,
+    "rer": [],
     "lat": 48.82278,
     "lon": 2.29833
   },
@@ -2426,6 +2630,7 @@ export const STATIONS: Station[] = [
       "Malakoff"
     ],
     "terminus": false,
+    "rer": [],
     "lat": 48.81472,
     "lon": 2.29722
   },
@@ -2440,6 +2645,7 @@ export const STATIONS: Station[] = [
     ],
     "communes": [],
     "terminus": false,
+    "rer": [],
     "lat": 48.88303,
     "lon": 2.3089
   },
@@ -2454,6 +2660,7 @@ export const STATIONS: Station[] = [
     ],
     "communes": [],
     "terminus": false,
+    "rer": [],
     "lat": 48.85278,
     "lon": 2.40667
   },
@@ -2469,6 +2676,7 @@ export const STATIONS: Station[] = [
     ],
     "communes": [],
     "terminus": false,
+    "rer": [],
     "lat": 48.89088,
     "lon": 2.34984
   },
@@ -2483,6 +2691,7 @@ export const STATIONS: Station[] = [
       "Boulogne-Billancourt"
     ],
     "terminus": false,
+    "rer": [],
     "lat": 48.83392,
     "lon": 2.24474
   },
@@ -2497,6 +2706,7 @@ export const STATIONS: Station[] = [
     ],
     "communes": [],
     "terminus": false,
+    "rer": [],
     "lat": 48.89056,
     "lon": 2.36
   },
@@ -2511,6 +2721,7 @@ export const STATIONS: Station[] = [
     ],
     "communes": [],
     "terminus": false,
+    "rer": [],
     "lat": 48.85019,
     "lon": 2.34811
   },
@@ -2525,6 +2736,7 @@ export const STATIONS: Station[] = [
     ],
     "communes": [],
     "terminus": false,
+    "rer": [],
     "lat": 48.83707,
     "lon": 2.40246
   },
@@ -2540,6 +2752,7 @@ export const STATIONS: Station[] = [
     ],
     "communes": [],
     "terminus": false,
+    "rer": [],
     "lat": 48.84795,
     "lon": 2.26413
   },
@@ -2555,6 +2768,7 @@ export const STATIONS: Station[] = [
     ],
     "communes": [],
     "terminus": false,
+    "rer": [],
     "lat": 48.84516,
     "lon": 2.26168
   },
@@ -2569,6 +2783,7 @@ export const STATIONS: Station[] = [
     ],
     "communes": [],
     "terminus": false,
+    "rer": [],
     "lat": 48.84674,
     "lon": 2.27171
   },
@@ -2584,6 +2799,7 @@ export const STATIONS: Station[] = [
     ],
     "communes": [],
     "terminus": false,
+    "rer": [],
     "lat": 48.8737,
     "lon": 2.31451
   },
@@ -2599,6 +2815,7 @@ export const STATIONS: Station[] = [
     ],
     "communes": [],
     "terminus": false,
+    "rer": [],
     "lat": 48.88,
     "lon": 2.30833
   },
@@ -2613,6 +2830,7 @@ export const STATIONS: Station[] = [
     ],
     "communes": [],
     "terminus": false,
+    "rer": [],
     "lat": 48.84421,
     "lon": 2.3903
   },
@@ -2632,6 +2850,7 @@ export const STATIONS: Station[] = [
     ],
     "communes": [],
     "terminus": false,
+    "rer": [],
     "lat": 48.84304,
     "lon": 2.32264
   },
@@ -2647,6 +2866,7 @@ export const STATIONS: Station[] = [
       "Noisy-le-Sec"
     ],
     "terminus": false,
+    "rer": [],
     "lat": 48.8783,
     "lon": 2.45456
   },
@@ -2661,6 +2881,7 @@ export const STATIONS: Station[] = [
     ],
     "communes": [],
     "terminus": false,
+    "rer": [],
     "lat": 48.83132,
     "lon": 2.32943
   },
@@ -2676,6 +2897,7 @@ export const STATIONS: Station[] = [
     ],
     "communes": [],
     "terminus": false,
+    "rer": [],
     "lat": 48.86621,
     "lon": 2.38363
   },
@@ -2694,6 +2916,9 @@ export const STATIONS: Station[] = [
     ],
     "communes": [],
     "terminus": true,
+    "rer": [
+      "A"
+    ],
     "lat": 48.84827,
     "lon": 2.39583
   },
@@ -2708,6 +2933,7 @@ export const STATIONS: Station[] = [
     ],
     "communes": [],
     "terminus": false,
+    "rer": [],
     "lat": 48.83306,
     "lon": 2.3625
   },
@@ -2722,6 +2948,7 @@ export const STATIONS: Station[] = [
     ],
     "communes": [],
     "terminus": false,
+    "rer": [],
     "lat": 48.87611,
     "lon": 2.33861
   },
@@ -2736,6 +2963,7 @@ export const STATIONS: Station[] = [
     ],
     "communes": [],
     "terminus": false,
+    "rer": [],
     "lat": 48.84444,
     "lon": 2.32889
   },
@@ -2751,6 +2979,7 @@ export const STATIONS: Station[] = [
     ],
     "communes": [],
     "terminus": false,
+    "rer": [],
     "lat": 48.86444,
     "lon": 2.36889
   },
@@ -2766,6 +2995,7 @@ export const STATIONS: Station[] = [
     ],
     "communes": [],
     "terminus": false,
+    "rer": [],
     "lat": 48.85225,
     "lon": 2.33856
   },
@@ -2780,6 +3010,7 @@ export const STATIONS: Station[] = [
     ],
     "communes": [],
     "terminus": false,
+    "rer": [],
     "lat": 48.8269,
     "lon": 2.36623
   },
@@ -2797,6 +3028,9 @@ export const STATIONS: Station[] = [
     ],
     "communes": [],
     "terminus": false,
+    "rer": [
+      "A"
+    ],
     "lat": 48.87083,
     "lon": 2.33222
   },
@@ -2811,6 +3045,7 @@ export const STATIONS: Station[] = [
     ],
     "communes": [],
     "terminus": false,
+    "rer": [],
     "lat": 48.88667,
     "lon": 2.38556
   },
@@ -2826,6 +3061,7 @@ export const STATIONS: Station[] = [
     ],
     "communes": [],
     "terminus": false,
+    "rer": [],
     "lat": 48.86285,
     "lon": 2.33582
   },
@@ -2840,6 +3076,7 @@ export const STATIONS: Station[] = [
     ],
     "communes": [],
     "terminus": false,
+    "rer": [],
     "lat": 48.86528,
     "lon": 2.37444
   },
@@ -2854,6 +3091,7 @@ export const STATIONS: Station[] = [
     ],
     "communes": [],
     "terminus": false,
+    "rer": [],
     "lat": 48.85744,
     "lon": 2.28578
   },
@@ -2869,6 +3107,7 @@ export const STATIONS: Station[] = [
     ],
     "communes": [],
     "terminus": false,
+    "rer": [],
     "lat": 48.84278,
     "lon": 2.31278
   },
@@ -2883,6 +3122,7 @@ export const STATIONS: Station[] = [
     ],
     "communes": [],
     "terminus": false,
+    "rer": [],
     "lat": 48.86861,
     "lon": 2.40167
   },
@@ -2897,6 +3137,9 @@ export const STATIONS: Station[] = [
     ],
     "communes": [],
     "terminus": false,
+    "rer": [
+      "C"
+    ],
     "lat": 48.88472,
     "lon": 2.29917
   },
@@ -2911,6 +3154,7 @@ export const STATIONS: Station[] = [
     ],
     "communes": [],
     "terminus": false,
+    "rer": [],
     "lat": 48.83417,
     "lon": 2.31833
   },
@@ -2926,6 +3170,7 @@ export const STATIONS: Station[] = [
     ],
     "communes": [],
     "terminus": false,
+    "rer": [],
     "lat": 48.85827,
     "lon": 2.39028
   },
@@ -2940,6 +3185,7 @@ export const STATIONS: Station[] = [
     ],
     "communes": [],
     "terminus": false,
+    "rer": [],
     "lat": 48.84508,
     "lon": 2.4011
   },
@@ -2954,6 +3200,7 @@ export const STATIONS: Station[] = [
       "Ivry-sur-Seine"
     ],
     "terminus": false,
+    "rer": [],
     "lat": 48.81528,
     "lon": 2.37778
   },
@@ -2970,6 +3217,7 @@ export const STATIONS: Station[] = [
     ],
     "communes": [],
     "terminus": false,
+    "rer": [],
     "lat": 48.88222,
     "lon": 2.3375
   },
@@ -2984,6 +3232,7 @@ export const STATIONS: Station[] = [
     ],
     "communes": [],
     "terminus": false,
+    "rer": [],
     "lat": 48.84361,
     "lon": 2.35222
   },
@@ -3000,6 +3249,7 @@ export const STATIONS: Station[] = [
     ],
     "communes": [],
     "terminus": true,
+    "rer": [],
     "lat": 48.83139,
     "lon": 2.35556
   },
@@ -3018,6 +3268,7 @@ export const STATIONS: Station[] = [
     ],
     "communes": [],
     "terminus": false,
+    "rer": [],
     "lat": 48.88389,
     "lon": 2.3275
   },
@@ -3033,6 +3284,7 @@ export const STATIONS: Station[] = [
     ],
     "communes": [],
     "terminus": false,
+    "rer": [],
     "lat": 48.87667,
     "lon": 2.39333
   },
@@ -3047,6 +3299,7 @@ export const STATIONS: Station[] = [
     ],
     "communes": [],
     "terminus": false,
+    "rer": [],
     "lat": 48.83139,
     "lon": 2.31361
   },
@@ -3061,6 +3314,7 @@ export const STATIONS: Station[] = [
       "Créteil"
     ],
     "terminus": true,
+    "rer": [],
     "lat": 48.76879,
     "lon": 2.46481
   },
@@ -3076,6 +3330,7 @@ export const STATIONS: Station[] = [
     ],
     "communes": [],
     "terminus": false,
+    "rer": [],
     "lat": 48.87694,
     "lon": 2.34833
   },
@@ -3090,6 +3345,7 @@ export const STATIONS: Station[] = [
     ],
     "communes": [],
     "terminus": false,
+    "rer": [],
     "lat": 48.88858,
     "lon": 2.31539
   },
@@ -3104,6 +3360,7 @@ export const STATIONS: Station[] = [
     ],
     "communes": [],
     "terminus": false,
+    "rer": [],
     "lat": 48.85306,
     "lon": 2.3575
   },
@@ -3118,6 +3375,7 @@ export const STATIONS: Station[] = [
       "Levallois-Perret"
     ],
     "terminus": true,
+    "rer": [],
     "lat": 48.89731,
     "lon": 2.28079
   },
@@ -3132,6 +3390,7 @@ export const STATIONS: Station[] = [
       "Neuilly-sur-Seine"
     ],
     "terminus": false,
+    "rer": [],
     "lat": 48.88451,
     "lon": 2.25989
   },
@@ -3146,6 +3405,7 @@ export const STATIONS: Station[] = [
       "Boulogne-Billancourt"
     ],
     "terminus": true,
+    "rer": [],
     "lat": 48.82944,
     "lon": 2.23083
   },
@@ -3160,6 +3420,7 @@ export const STATIONS: Station[] = [
     ],
     "communes": [],
     "terminus": false,
+    "rer": [],
     "lat": 48.85858,
     "lon": 2.34222
   },
@@ -3174,6 +3435,7 @@ export const STATIONS: Station[] = [
     ],
     "communes": [],
     "terminus": true,
+    "rer": [],
     "lat": 48.87139,
     "lon": 2.27667
   },
@@ -3188,6 +3450,7 @@ export const STATIONS: Station[] = [
     ],
     "communes": [],
     "terminus": false,
+    "rer": [],
     "lat": 48.83528,
     "lon": 2.40583
   },
@@ -3203,6 +3466,10 @@ export const STATIONS: Station[] = [
     ],
     "communes": [],
     "terminus": false,
+    "rer": [
+      "C",
+      "E"
+    ],
     "lat": 48.87796,
     "lon": 2.28184
   },
@@ -3217,6 +3484,7 @@ export const STATIONS: Station[] = [
     ],
     "communes": [],
     "terminus": false,
+    "rer": [],
     "lat": 48.84806,
     "lon": 2.25889
   },
@@ -3231,6 +3499,7 @@ export const STATIONS: Station[] = [
     ],
     "communes": [],
     "terminus": false,
+    "rer": [],
     "lat": 48.81915,
     "lon": 2.35982
   },
@@ -3245,6 +3514,7 @@ export const STATIONS: Station[] = [
     ],
     "communes": [],
     "terminus": false,
+    "rer": [],
     "lat": 48.8216,
     "lon": 2.36934
   },
@@ -3259,6 +3529,7 @@ export const STATIONS: Station[] = [
     ],
     "communes": [],
     "terminus": false,
+    "rer": [],
     "lat": 48.8226,
     "lon": 2.32481
   },
@@ -3273,6 +3544,7 @@ export const STATIONS: Station[] = [
     ],
     "communes": [],
     "terminus": false,
+    "rer": [],
     "lat": 48.86444,
     "lon": 2.40722
   },
@@ -3287,6 +3559,7 @@ export const STATIONS: Station[] = [
     ],
     "communes": [],
     "terminus": false,
+    "rer": [],
     "lat": 48.88583,
     "lon": 2.29361
   },
@@ -3301,6 +3574,7 @@ export const STATIONS: Station[] = [
     ],
     "communes": [],
     "terminus": false,
+    "rer": [],
     "lat": 48.83222,
     "lon": 2.39904
   },
@@ -3315,6 +3589,7 @@ export const STATIONS: Station[] = [
     ],
     "communes": [],
     "terminus": false,
+    "rer": [],
     "lat": 48.81994,
     "lon": 2.36442
   },
@@ -3330,6 +3605,9 @@ export const STATIONS: Station[] = [
     ],
     "communes": [],
     "terminus": false,
+    "rer": [
+      "C"
+    ],
     "lat": 48.89389,
     "lon": 2.31333
   },
@@ -3344,6 +3622,7 @@ export const STATIONS: Station[] = [
     ],
     "communes": [],
     "terminus": true,
+    "rer": [],
     "lat": 48.89729,
     "lon": 2.34478
   },
@@ -3358,6 +3637,7 @@ export const STATIONS: Station[] = [
     ],
     "communes": [],
     "terminus": false,
+    "rer": [],
     "lat": 48.85361,
     "lon": 2.41222
   },
@@ -3372,6 +3652,7 @@ export const STATIONS: Station[] = [
     ],
     "communes": [],
     "terminus": false,
+    "rer": [],
     "lat": 48.88866,
     "lon": 2.39268
   },
@@ -3386,6 +3667,7 @@ export const STATIONS: Station[] = [
     ],
     "communes": [],
     "terminus": false,
+    "rer": [],
     "lat": 48.83806,
     "lon": 2.25667
   },
@@ -3401,6 +3683,7 @@ export const STATIONS: Station[] = [
     ],
     "communes": [],
     "terminus": false,
+    "rer": [],
     "lat": 48.89667,
     "lon": 2.32861
   },
@@ -3415,6 +3698,7 @@ export const STATIONS: Station[] = [
     ],
     "communes": [],
     "terminus": false,
+    "rer": [],
     "lat": 48.82794,
     "lon": 2.30588
   },
@@ -3429,6 +3713,7 @@ export const STATIONS: Station[] = [
     ],
     "communes": [],
     "terminus": false,
+    "rer": [],
     "lat": 48.83222,
     "lon": 2.28778
   },
@@ -3444,6 +3729,7 @@ export const STATIONS: Station[] = [
     ],
     "communes": [],
     "terminus": false,
+    "rer": [],
     "lat": 48.84727,
     "lon": 2.40888
   },
@@ -3458,6 +3744,7 @@ export const STATIONS: Station[] = [
     ],
     "communes": [],
     "terminus": false,
+    "rer": [],
     "lat": 48.89722,
     "lon": 2.35917
   },
@@ -3472,6 +3759,7 @@ export const STATIONS: Station[] = [
     ],
     "communes": [],
     "terminus": false,
+    "rer": [],
     "lat": 48.8974,
     "lon": 2.38559
   },
@@ -3488,6 +3776,7 @@ export const STATIONS: Station[] = [
     ],
     "communes": [],
     "terminus": true,
+    "rer": [],
     "lat": 48.87694,
     "lon": 2.40667
   },
@@ -3502,6 +3791,7 @@ export const STATIONS: Station[] = [
     ],
     "communes": [],
     "terminus": true,
+    "rer": [],
     "lat": 48.88028,
     "lon": 2.39889
   },
@@ -3517,6 +3807,7 @@ export const STATIONS: Station[] = [
     ],
     "communes": [],
     "terminus": false,
+    "rer": [],
     "lat": 48.86583,
     "lon": 2.33472
   },
@@ -3532,6 +3823,7 @@ export const STATIONS: Station[] = [
     ],
     "communes": [],
     "terminus": false,
+    "rer": [],
     "lat": 48.87388,
     "lon": 2.38525
   },
@@ -3548,6 +3840,7 @@ export const STATIONS: Station[] = [
     ],
     "communes": [],
     "terminus": false,
+    "rer": [],
     "lat": 48.86306,
     "lon": 2.3875
   },
@@ -3562,6 +3855,7 @@ export const STATIONS: Station[] = [
     ],
     "communes": [],
     "terminus": false,
+    "rer": [],
     "lat": 48.83694,
     "lon": 2.37306
   },
@@ -3576,6 +3870,7 @@ export const STATIONS: Station[] = [
     ],
     "communes": [],
     "terminus": false,
+    "rer": [],
     "lat": 48.84639,
     "lon": 2.36556
   },
@@ -3590,6 +3885,7 @@ export const STATIONS: Station[] = [
     ],
     "communes": [],
     "terminus": false,
+    "rer": [],
     "lat": 48.86972,
     "lon": 2.33667
   },
@@ -3605,6 +3901,7 @@ export const STATIONS: Station[] = [
     ],
     "communes": [],
     "terminus": false,
+    "rer": [],
     "lat": 48.86178,
     "lon": 2.35381
   },
@@ -3619,6 +3916,7 @@ export const STATIONS: Station[] = [
     ],
     "communes": [],
     "terminus": false,
+    "rer": [],
     "lat": 48.85472,
     "lon": 2.26944
   },
@@ -3634,6 +3932,7 @@ export const STATIONS: Station[] = [
     ],
     "communes": [],
     "terminus": false,
+    "rer": [],
     "lat": 48.83896,
     "lon": 2.33058
   },
@@ -3648,6 +3947,7 @@ export const STATIONS: Station[] = [
     ],
     "communes": [],
     "terminus": false,
+    "rer": [],
     "lat": 48.84806,
     "lon": 2.32778
   },
@@ -3663,6 +3963,7 @@ export const STATIONS: Station[] = [
     ],
     "communes": [],
     "terminus": false,
+    "rer": [],
     "lat": 48.84724,
     "lon": 2.38612
   },
@@ -3677,6 +3978,7 @@ export const STATIONS: Station[] = [
     ],
     "communes": [],
     "terminus": false,
+    "rer": [],
     "lat": 48.85972,
     "lon": 2.37194
   },
@@ -3693,6 +3995,7 @@ export const STATIONS: Station[] = [
     ],
     "communes": [],
     "terminus": false,
+    "rer": [],
     "lat": 48.87194,
     "lon": 2.33861
   },
@@ -3707,6 +4010,7 @@ export const STATIONS: Station[] = [
     ],
     "communes": [],
     "terminus": false,
+    "rer": [],
     "lat": 48.88778,
     "lon": 2.37333
   },
@@ -3721,6 +4025,7 @@ export const STATIONS: Station[] = [
       "Montreuil"
     ],
     "terminus": false,
+    "rer": [],
     "lat": 48.85568,
     "lon": 2.42368
   },
@@ -3736,6 +4041,7 @@ export const STATIONS: Station[] = [
       "Romainville"
     ],
     "terminus": false,
+    "rer": [],
     "lat": 48.88317,
     "lon": 2.44052
   },
@@ -3751,6 +4057,7 @@ export const STATIONS: Station[] = [
     ],
     "communes": [],
     "terminus": false,
+    "rer": [],
     "lat": 48.8825,
     "lon": 2.32194
   },
@@ -3765,6 +4072,9 @@ export const STATIONS: Station[] = [
       "Rosny-sous-Bois"
     ],
     "terminus": true,
+    "rer": [
+      "E"
+    ],
     "lat": 48.88242,
     "lon": 2.48083
   },
@@ -3779,6 +4089,7 @@ export const STATIONS: Station[] = [
     ],
     "communes": [],
     "terminus": false,
+    "rer": [],
     "lat": 48.86433,
     "lon": 2.37948
   },
@@ -3793,6 +4104,7 @@ export const STATIONS: Station[] = [
     ],
     "communes": [],
     "terminus": false,
+    "rer": [],
     "lat": 48.86401,
     "lon": 2.27809
   },
@@ -3807,6 +4119,7 @@ export const STATIONS: Station[] = [
     ],
     "communes": [],
     "terminus": false,
+    "rer": [],
     "lat": 48.85167,
     "lon": 2.39
   },
@@ -3821,6 +4134,7 @@ export const STATIONS: Station[] = [
     ],
     "communes": [],
     "terminus": false,
+    "rer": [],
     "lat": 48.85556,
     "lon": 2.32556
   },
@@ -3837,6 +4151,7 @@ export const STATIONS: Station[] = [
     ],
     "communes": [],
     "terminus": false,
+    "rer": [],
     "lat": 48.86631,
     "lon": 2.35204
   },
@@ -3857,6 +4172,7 @@ export const STATIONS: Station[] = [
     ],
     "communes": [],
     "terminus": false,
+    "rer": [],
     "lat": 48.8675,
     "lon": 2.36333
   },
@@ -3871,6 +4187,7 @@ export const STATIONS: Station[] = [
     ],
     "communes": [],
     "terminus": false,
+    "rer": [],
     "lat": 48.86139,
     "lon": 2.37389
   },
@@ -3885,6 +4202,7 @@ export const STATIONS: Station[] = [
     ],
     "communes": [],
     "terminus": false,
+    "rer": [],
     "lat": 48.87417,
     "lon": 2.32194
   },
@@ -3899,6 +4217,7 @@ export const STATIONS: Station[] = [
       "Saint-Denis"
     ],
     "terminus": false,
+    "rer": [],
     "lat": 48.93,
     "lon": 2.3575
   },
@@ -3913,6 +4232,7 @@ export const STATIONS: Station[] = [
       "Saint-Denis"
     ],
     "terminus": true,
+    "rer": [],
     "lat": 48.94583,
     "lon": 2.36361
   },
@@ -3927,6 +4247,7 @@ export const STATIONS: Station[] = [
       "Saint-Denis"
     ],
     "terminus": true,
+    "rer": [],
     "lat": 48.9176,
     "lon": 2.34667
   },
@@ -3941,6 +4262,7 @@ export const STATIONS: Station[] = [
     ],
     "communes": [],
     "terminus": false,
+    "rer": [],
     "lat": 48.87194,
     "lon": 2.40444
   },
@@ -3955,6 +4277,7 @@ export const STATIONS: Station[] = [
     ],
     "communes": [],
     "terminus": false,
+    "rer": [],
     "lat": 48.85194,
     "lon": 2.31444
   },
@@ -3969,6 +4292,7 @@ export const STATIONS: Station[] = [
     ],
     "communes": [],
     "terminus": false,
+    "rer": [],
     "lat": 48.87833,
     "lon": 2.3375
   },
@@ -3983,6 +4307,7 @@ export const STATIONS: Station[] = [
     ],
     "communes": [],
     "terminus": false,
+    "rer": [],
     "lat": 48.85361,
     "lon": 2.33372
   },
@@ -3997,6 +4322,7 @@ export const STATIONS: Station[] = [
     ],
     "communes": [],
     "terminus": false,
+    "rer": [],
     "lat": 48.83278,
     "lon": 2.33694
   },
@@ -4015,6 +4341,9 @@ export const STATIONS: Station[] = [
     ],
     "communes": [],
     "terminus": false,
+    "rer": [
+      "E"
+    ],
     "lat": 48.87556,
     "lon": 2.32611
   },
@@ -4030,6 +4359,7 @@ export const STATIONS: Station[] = [
       "Vincennes"
     ],
     "terminus": false,
+    "rer": [],
     "lat": 48.8463,
     "lon": 2.41867
   },
@@ -4044,6 +4374,7 @@ export const STATIONS: Station[] = [
     ],
     "communes": [],
     "terminus": false,
+    "rer": [],
     "lat": 48.83778,
     "lon": 2.36028
   },
@@ -4059,6 +4390,10 @@ export const STATIONS: Station[] = [
     ],
     "communes": [],
     "terminus": false,
+    "rer": [
+      "B",
+      "C"
+    ],
     "lat": 48.85329,
     "lon": 2.34347
   },
@@ -4074,6 +4409,9 @@ export const STATIONS: Station[] = [
       "Saint-Ouen-sur-Seine"
     ],
     "terminus": false,
+    "rer": [
+      "C"
+    ],
     "lat": 48.9045,
     "lon": 2.32181
   },
@@ -4088,6 +4426,7 @@ export const STATIONS: Station[] = [
     ],
     "communes": [],
     "terminus": false,
+    "rer": [],
     "lat": 48.85514,
     "lon": 2.36065
   },
@@ -4102,6 +4441,7 @@ export const STATIONS: Station[] = [
     ],
     "communes": [],
     "terminus": false,
+    "rer": [],
     "lat": 48.87233,
     "lon": 2.31008
   },
@@ -4116,6 +4456,7 @@ export const STATIONS: Station[] = [
     ],
     "communes": [],
     "terminus": false,
+    "rer": [],
     "lat": 48.84681,
     "lon": 2.32696
   },
@@ -4130,6 +4471,7 @@ export const STATIONS: Station[] = [
     ],
     "communes": [],
     "terminus": false,
+    "rer": [],
     "lat": 48.8508,
     "lon": 2.33087
   },
@@ -4145,6 +4487,7 @@ export const STATIONS: Station[] = [
     ],
     "communes": [],
     "terminus": false,
+    "rer": [],
     "lat": 48.86028,
     "lon": 2.36722
   },
@@ -4159,6 +4502,7 @@ export const STATIONS: Station[] = [
     ],
     "communes": [],
     "terminus": false,
+    "rer": [],
     "lat": 48.86757,
     "lon": 2.34639
   },
@@ -4173,6 +4517,7 @@ export const STATIONS: Station[] = [
       "Les Lilas"
     ],
     "terminus": false,
+    "rer": [],
     "lat": 48.88136,
     "lon": 2.42743
   },
@@ -4187,6 +4532,7 @@ export const STATIONS: Station[] = [
     ],
     "communes": [],
     "terminus": false,
+    "rer": [],
     "lat": 48.89463,
     "lon": 2.34709
   },
@@ -4201,6 +4547,7 @@ export const STATIONS: Station[] = [
     ],
     "communes": [],
     "terminus": false,
+    "rer": [],
     "lat": 48.85833,
     "lon": 2.32333
   },
@@ -4218,6 +4565,7 @@ export const STATIONS: Station[] = [
     ],
     "communes": [],
     "terminus": false,
+    "rer": [],
     "lat": 48.8843,
     "lon": 2.36597
   },
@@ -4236,6 +4584,7 @@ export const STATIONS: Station[] = [
     ],
     "communes": [],
     "terminus": false,
+    "rer": [],
     "lat": 48.8692,
     "lon": 2.3541
   },
@@ -4250,6 +4599,7 @@ export const STATIONS: Station[] = [
     ],
     "communes": [],
     "terminus": false,
+    "rer": [],
     "lat": 48.85139,
     "lon": 2.36167
   },
@@ -4266,6 +4616,7 @@ export const STATIONS: Station[] = [
     ],
     "communes": [],
     "terminus": false,
+    "rer": [],
     "lat": 48.85139,
     "lon": 2.32667
   },
@@ -4280,6 +4631,7 @@ export const STATIONS: Station[] = [
     ],
     "communes": [],
     "terminus": false,
+    "rer": [],
     "lat": 48.84556,
     "lon": 2.30944
   },
@@ -4295,6 +4647,7 @@ export const STATIONS: Station[] = [
     ],
     "communes": [],
     "terminus": false,
+    "rer": [],
     "lat": 48.84701,
     "lon": 2.30749
   },
@@ -4309,6 +4662,7 @@ export const STATIONS: Station[] = [
     ],
     "communes": [],
     "terminus": false,
+    "rer": [],
     "lat": 48.86649,
     "lon": 2.36059
   },
@@ -4324,6 +4678,7 @@ export const STATIONS: Station[] = [
     ],
     "communes": [],
     "terminus": false,
+    "rer": [],
     "lat": 48.87778,
     "lon": 2.29861
   },
@@ -4338,6 +4693,7 @@ export const STATIONS: Station[] = [
       "Thiais"
     ],
     "terminus": false,
+    "rer": [],
     "lat": 48.7475,
     "lon": 2.37306
   },
@@ -4352,6 +4708,7 @@ export const STATIONS: Station[] = [
     ],
     "communes": [],
     "terminus": false,
+    "rer": [],
     "lat": 48.8264,
     "lon": 2.35722
   },
@@ -4366,6 +4723,7 @@ export const STATIONS: Station[] = [
     ],
     "communes": [],
     "terminus": false,
+    "rer": [],
     "lat": 48.87633,
     "lon": 2.33264
   },
@@ -4381,6 +4739,7 @@ export const STATIONS: Station[] = [
     ],
     "communes": [],
     "terminus": false,
+    "rer": [],
     "lat": 48.8633,
     "lon": 2.28706
   },
@@ -4395,6 +4754,7 @@ export const STATIONS: Station[] = [
     ],
     "communes": [],
     "terminus": false,
+    "rer": [],
     "lat": 48.8645,
     "lon": 2.33031
   },
@@ -4410,6 +4770,7 @@ export const STATIONS: Station[] = [
     ],
     "communes": [],
     "terminus": false,
+    "rer": [],
     "lat": 48.87528,
     "lon": 2.39833
   },
@@ -4425,6 +4786,7 @@ export const STATIONS: Station[] = [
     ],
     "communes": [],
     "terminus": false,
+    "rer": [],
     "lat": 48.84889,
     "lon": 2.32139
   },
@@ -4439,6 +4801,7 @@ export const STATIONS: Station[] = [
     ],
     "communes": [],
     "terminus": false,
+    "rer": [],
     "lat": 48.85611,
     "lon": 2.31472
   },
@@ -4453,6 +4816,7 @@ export const STATIONS: Station[] = [
     ],
     "communes": [],
     "terminus": false,
+    "rer": [],
     "lat": 48.83972,
     "lon": 2.30139
   },
@@ -4468,6 +4832,7 @@ export const STATIONS: Station[] = [
     ],
     "communes": [],
     "terminus": false,
+    "rer": [],
     "lat": 48.842,
     "lon": 2.329
   },
@@ -4482,6 +4847,7 @@ export const STATIONS: Station[] = [
     ],
     "communes": [],
     "terminus": false,
+    "rer": [],
     "lat": 48.86972,
     "lon": 2.285
   },
@@ -4496,6 +4862,7 @@ export const STATIONS: Station[] = [
       "Villejuif"
     ],
     "terminus": false,
+    "rer": [],
     "lat": 48.79306,
     "lon": 2.34937
   },
@@ -4510,6 +4877,7 @@ export const STATIONS: Station[] = [
       "Villejuif"
     ],
     "terminus": true,
+    "rer": [],
     "lat": 48.78717,
     "lon": 2.36756
   },
@@ -4524,6 +4892,7 @@ export const STATIONS: Station[] = [
       "Villejuif"
     ],
     "terminus": false,
+    "rer": [],
     "lat": 48.80361,
     "lon": 2.36389
   },
@@ -4538,6 +4907,7 @@ export const STATIONS: Station[] = [
       "Villejuif"
     ],
     "terminus": false,
+    "rer": [],
     "lat": 48.79583,
     "lon": 2.36806
   },
@@ -4554,6 +4924,7 @@ export const STATIONS: Station[] = [
     ],
     "communes": [],
     "terminus": false,
+    "rer": [],
     "lat": 48.88111,
     "lon": 2.31472
   },
@@ -4568,6 +4939,7 @@ export const STATIONS: Station[] = [
     ],
     "communes": [],
     "terminus": false,
+    "rer": [],
     "lat": 48.84139,
     "lon": 2.3075
   },
@@ -4582,6 +4954,7 @@ export const STATIONS: Station[] = [
     ],
     "communes": [],
     "terminus": false,
+    "rer": [],
     "lat": 48.85806,
     "lon": 2.38028
   },
@@ -4596,6 +4969,7 @@ export const STATIONS: Station[] = [
     ],
     "communes": [],
     "terminus": false,
+    "rer": [],
     "lat": 48.88417,
     "lon": 2.30361
   },
@@ -4610,6 +4984,7 @@ export const STATIONS: Station[] = [
     ],
     "communes": [],
     "terminus": false,
+    "rer": [],
     "lat": 48.855,
     "lon": 2.30667
   },
@@ -4624,6 +4999,7 @@ export const STATIONS: Station[] = [
       "Maisons-Alfort"
     ],
     "terminus": false,
+    "rer": [],
     "lat": 48.815,
     "lon": 2.42167
   },
@@ -4638,6 +5014,7 @@ export const STATIONS: Station[] = [
     ],
     "communes": [],
     "terminus": false,
+    "rer": [],
     "lat": 48.84717,
     "lon": 2.26902
   },
@@ -4652,6 +5029,7 @@ export const STATIONS: Station[] = [
       "Pantin"
     ],
     "terminus": false,
+    "rer": [],
     "lat": 48.89361,
     "lon": 2.41278
   },
@@ -4667,6 +5045,7 @@ export const STATIONS: Station[] = [
     ],
     "communes": [],
     "terminus": false,
+    "rer": [],
     "lat": 48.86349,
     "lon": 2.34867
   }
