@@ -6,8 +6,6 @@ export const LINES: LineId[] = [
   '1', '2', '3', '3bis', '4', '5', '6', '7', '7bis', '8', '9', '10', '11', '12', '13', '14',
 ];
 
-const LEFT_BANK = new Set([5, 6, 7, 13, 14, 15]);
-
 const lineLabel = (l: LineId) => `Ligne ${l.replace('bis', ' bis')}`;
 const ordinal = (n: number) => (n === 1 ? '1er' : `${n}e`);
 const words = (s: Station) => normalize(s.name).split(' ');
@@ -59,13 +57,6 @@ const placeCriteria: Criterion[] = [
     label: 'Hors Paris',
     description: 'La station se trouve en dehors de Paris intra-muros.',
     test: (s) => s.arr.length === 0,
-  },
-  {
-    id: 'left-bank',
-    kind: 'place',
-    label: 'Rive gauche',
-    description: 'La station est dans Paris, rive gauche (5e, 6e, 7e, 13e, 14e ou 15e).',
-    test: (s) => s.arr.length > 0 && s.arr.every((a) => LEFT_BANK.has(a)),
   },
 ];
 
