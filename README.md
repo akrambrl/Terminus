@@ -1,46 +1,53 @@
-# Bar à Parfum — site vitrine
+# Terminus Paris
 
-Site du **Bar à Parfum** par Emmanuelle Jane : bar à parfum itinérant pour
-mariages, événements d'entreprise et hôtellerie (Paris & Île-de-France).
+Jeu de grille quotidien sur les stations du métro parisien, en React Native (Expo).
 
-Site 100 % statique — HTML, CSS et JavaScript sans framework ni build.
-Il suffit d'ouvrir `index.html` ou de servir le dossier tel quel
-(GitHub Pages, Netlify, Vercel, OVH…).
+Chaque case de la grille 3×3 doit recevoir une station qui respecte à la fois le critère de sa ligne
+et celui de sa colonne (ligne de métro, arrondissement, correspondances, nom, terminus…).
+9 essais, une station ne sert qu'une fois, une nouvelle grille chaque jour, plus un mode libre.
 
-## Pages
+> Jeu non officiel, sans lien avec la RATP ni Île-de-France Mobilités. Aucun logo, pictogramme
+> ou plan officiel n'est utilisé.
 
-| Fichier | Contenu |
-|---|---|
-| `index.html` | Accueil : concept, déroulé, les trois formules |
-| `mariage.html` | Prestation mariage (cocktail, cadeau d'invité) |
-| `entreprise.html` | Séminaires, soirées, lancements, salons |
-| `hotellerie.html` | Welcome gift, amenities, réassort mensuel |
-| `collection.html` | Les huit parfums, pyramides olfactives |
-| `prestataires.html` | Grille revendeur, marque blanche, compte revendeur |
-| `devis.html` | Formulaire de demande de devis |
-| `mentions.html` | Mentions légales & CGV (champs `[…]` à compléter) |
+## Lancer le jeu
 
-## À personnaliser avant mise en ligne
+```bash
+npm install
+npx expo start        # puis scanner le QR code avec l'app Expo Go (iOS / Android)
+npx expo start --web  # version navigateur pour tester rapidement
+```
 
-- **Téléphone** : remplacer `01 00 00 00 00` / `+33100000000` (présent dans le pied de page de chaque page).
-- **Email** : `contact@baraparfum-event.fr` — dans les pages **et** dans `assets/main.js` (constante `EMAIL`).
-- **Mentions légales** : compléter les champs entre crochets dans `mentions.html`.
-- **Formulaires** : sans backend, l'envoi ouvre un email pré-rempli (`mailto:`).
-  Pour un vrai envoi serveur, brancher un service type Formspree/Basin dans
-  `assets/main.js` (handler du formulaire `#form-devis`).
+## Vérifications
 
-## Visuels
+```bash
+npm run typecheck      # TypeScript
+npm run check:puzzles  # génère les grilles des 365 prochains jours et vérifie qu'elles sont toutes jouables
+```
 
-Les photos de `assets/img/` sont des visuels libres de droit issus d'Unsplash
-(licence Unsplash : usage commercial autorisé, sans attribution obligatoire).
-Remplacez-les par vos vraies photos du bar (mêmes noms de fichiers) quand vous
-les avez sous la main — format JPEG, ~1600 px de large recommandé.
+## Données des stations
+
+- Source : [Wikidata](https://www.wikidata.org) (licence CC0), stations en service des lignes 1 à 14, 3 bis et 7 bis.
+- Export brut : `scripts/wikidata-stations.json`. Le fichier `src/data/stations.ts` est généré par
+  `npm run build:stations`, qui applique aussi les corrections manuelles (terminus, arrondissements,
+  lignes en projet retirées). Pour corriger une station, modifier `scripts/build-stations.py`, pas le fichier généré.
+- Les prolongements à venir (lignes 1, 10, 11, Grand Paris Express…) sont à ajouter à leur mise en service.
 
 ## Structure
 
 ```
-├── index.html … mentions.html   Pages du site
-└── assets/
-    ├── style.css                Design system (palette papier/encre, Gloock + Instrument Sans)
-    └── main.js                  Menu mobile, animations au scroll, formulaires
+App.tsx                    écran principal (grille, état de la partie, fenêtres)
+src/data/stations.ts       liste des stations (générée)
+src/game/criteria.ts       définition des critères
+src/game/generator.ts      génération déterministe des grilles (grille du jour = graine basée sur la date)
+src/game/lookup.ts         recherche de stations (insensible aux accents)
+src/game/storage.ts        sauvegarde de la partie du jour et des statistiques (AsyncStorage)
+src/components/            grille, recherche, pastilles de lignes, fenêtres d'info
 ```
+
+## Publier sur les stores
+
+Avec [EAS](https://docs.expo.dev/eas/) (pas besoin de Mac pour iOS) :
+
+1. Créer un compte Expo, un compte Apple Developer (99 $/an) et un compte Google Play Console (25 $ une fois).
+2. Remplacer `com.terminusparis.app` dans `app.json` par l'identifiant définitif.
+3. `npx eas-cli@latest build --platform all`, puis `npx eas-cli@latest submit`.

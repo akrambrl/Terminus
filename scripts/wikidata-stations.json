@@ -1,0 +1,4609 @@
+{
+"Q1344555": {
+"name": "Pont de Neuilly",
+"lines": [
+"1"
+],
+"admin": [
+"Neuilly-sur-Seine"
+],
+"state": [
+"en fonctionnement"
+],
+"close": []
+},
+"Q1368326": {
+"name": "Esplanade de La Défense",
+"lines": [
+"1"
+],
+"admin": [
+"Puteaux"
+],
+"state": [
+"en fonctionnement"
+],
+"close": []
+},
+"Q1392037": {
+"name": "Opéra",
+"lines": [
+"3",
+"7",
+"8"
+],
+"admin": [
+"2e arrondissement de Paris",
+"9e arrondissement de Paris"
+],
+"state": [
+"en fonctionnement"
+],
+"close": []
+},
+"Q1418711": {
+"name": "Nation",
+"lines": [
+"1",
+"2",
+"6",
+"9"
+],
+"admin": [
+"11e arrondissement de Paris",
+"12e arrondissement de Paris"
+],
+"state": [
+"en fonctionnement"
+],
+"close": []
+},
+"Q1418821": {
+"name": "Stalingrad",
+"lines": [
+"2",
+"5",
+"7"
+],
+"admin": [
+"10ᵉ arrondissement de Paris",
+"19e arrondissement de Paris"
+],
+"state": [
+"en fonctionnement"
+],
+"close": []
+},
+"Q1445234": {
+"name": "Franklin D. Roosevelt",
+"lines": [
+"1",
+"9"
+],
+"admin": [
+"8e arrondissement de Paris"
+],
+"state": [
+"en fonctionnement"
+],
+"close": []
+},
+"Q1459231": {
+"name": "Victor Hugo",
+"lines": [
+"2"
+],
+"admin": [
+"16e arrondissement de Paris"
+],
+"state": [
+"en fonctionnement"
+],
+"close": []
+},
+"Q1459245": {
+"name": "Porte Dauphine",
+"lines": [
+"2"
+],
+"admin": [
+"Porte-Dauphine"
+],
+"state": [
+"en fonctionnement"
+],
+"close": []
+},
+"Q1461794": {
+"name": "Louvre - Rivoli",
+"lines": [
+"1"
+],
+"admin": [
+"1er arrondissement de Paris"
+],
+"state": [
+"en fonctionnement"
+],
+"close": []
+},
+"Q1467113": {
+"name": "Palais Royal - Musée du Louvre",
+"lines": [
+"1",
+"7"
+],
+"admin": [
+"1er arrondissement de Paris"
+],
+"state": [
+"en fonctionnement"
+],
+"close": []
+},
+"Q1511335": {
+"name": "Villiers",
+"lines": [
+"2",
+"3"
+],
+"admin": [
+"17e arrondissement de Paris",
+"8e arrondissement de Paris"
+],
+"state": [
+"en fonctionnement"
+],
+"close": []
+},
+"Q1511406": {
+"name": "Havre - Caumartin",
+"lines": [
+"3",
+"9"
+],
+"admin": [
+"9e arrondissement de Paris"
+],
+"state": [
+"en fonctionnement"
+],
+"close": []
+},
+"Q1519529": {
+"name": "Saint-Lazare",
+"lines": [
+"12",
+"13",
+"14",
+"3"
+],
+"admin": [
+"8e arrondissement de Paris",
+"9e arrondissement de Paris"
+],
+"state": [
+"en fonctionnement"
+],
+"close": []
+},
+"Q1535005": {
+"name": "Saint-Paul",
+"lines": [
+"1"
+],
+"admin": [
+"4e arrondissement de Paris"
+],
+"state": [
+"en fonctionnement"
+],
+"close": []
+},
+"Q1576190": {
+"name": "Pelleport",
+"lines": [
+"3bis"
+],
+"admin": [
+"20e arrondissement de Paris"
+],
+"state": [
+"en fonctionnement"
+],
+"close": []
+},
+"Q1576198": {
+"name": "Saint-Fargeau",
+"lines": [
+"3bis"
+],
+"admin": [
+"20e arrondissement de Paris"
+],
+"state": [
+"en fonctionnement"
+],
+"close": []
+},
+"Q1576928": {
+"name": "Porte de Vincennes",
+"lines": [
+"1"
+],
+"admin": [
+"12e arrondissement de Paris",
+"20e arrondissement de Paris"
+],
+"state": [
+"en fonctionnement"
+],
+"close": []
+},
+"Q1577103": {
+"name": "La Chapelle",
+"lines": [
+"2"
+],
+"admin": [
+"10ᵉ arrondissement de Paris",
+"18e arrondissement de Paris"
+],
+"state": [
+"en fonctionnement"
+],
+"close": []
+},
+"Q1577219": {
+"name": "Alexandre Dumas",
+"lines": [
+"2"
+],
+"admin": [
+"11e arrondissement de Paris"
+],
+"state": [
+"en fonctionnement"
+],
+"close": []
+},
+"Q1660212": {
+"name": "Temple",
+"lines": [
+"3"
+],
+"admin": [
+"Quartier des Arts-et-Métiers"
+],
+"state": [
+"en fonctionnement"
+],
+"close": []
+},
+"Q1672055": {
+"name": "Porte de Bagnolet",
+"lines": [
+"3"
+],
+"admin": [
+"Saint-Fargeau"
+],
+"state": [
+"en fonctionnement"
+],
+"close": []
+},
+"Q1717241": {
+"name": "Monceau",
+"lines": [
+"2"
+],
+"admin": [
+"17e arrondissement de Paris",
+"8e arrondissement de Paris"
+],
+"state": [
+"en fonctionnement"
+],
+"close": []
+},
+"Q1783889": {
+"name": "Sentier",
+"lines": [
+"3"
+],
+"admin": [
+"2e arrondissement de Paris"
+],
+"state": [
+"en fonctionnement"
+],
+"close": []
+},
+"Q1784153": {
+"name": "Malesherbes",
+"lines": [
+"3"
+],
+"admin": [
+"17e arrondissement de Paris"
+],
+"state": [
+"en fonctionnement"
+],
+"close": []
+},
+"Q1784678": {
+"name": "Saint-Mandé",
+"lines": [
+"1"
+],
+"admin": [
+"Saint-Mandé",
+"Vincennes"
+],
+"state": [
+"en fonctionnement"
+],
+"close": []
+},
+"Q1785287": {
+"name": "Louise Michel",
+"lines": [
+"3"
+],
+"admin": [
+"Levallois-Perret"
+],
+"state": [
+"en fonctionnement"
+],
+"close": []
+},
+"Q1785459": {
+"name": "Philippe Auguste",
+"lines": [
+"2"
+],
+"admin": [
+"11e arrondissement de Paris",
+"20e arrondissement de Paris"
+],
+"state": [
+"en fonctionnement"
+],
+"close": []
+},
+"Q1895301": {
+"name": "Martin Nadaud",
+"lines": [
+"3"
+],
+"admin": [
+"20e arrondissement de Paris"
+],
+"state": [
+"désaffecté"
+],
+"close": [
+"1969-08-23",
+"1971-04-02"
+]
+},
+"Q1969462": {
+"name": "Pont de Levallois - Bécon",
+"lines": [
+"3"
+],
+"admin": [
+"Levallois-Perret"
+],
+"state": [
+"en fonctionnement"
+],
+"close": []
+},
+"Q1970334": {
+"name": "Parmentier",
+"lines": [
+"3"
+],
+"admin": [
+"11e arrondissement de Paris"
+],
+"state": [
+"en fonctionnement"
+],
+"close": []
+},
+"Q25396695": {
+"name": "Grand Pêchers",
+"lines": [
+"1"
+],
+"admin": [
+"Montreuil"
+],
+"state": [
+"bâtiment ou structure en projet"
+],
+"close": []
+},
+"Q28866840": {
+"name": "Suresnes",
+"lines": [
+"2"
+],
+"admin": [
+"Suresnes"
+],
+"state": [
+"bâtiment ou structure en projet"
+],
+"close": []
+},
+"Q61082770": {
+"name": "Les Rigollots",
+"lines": [
+"1"
+],
+"admin": [
+"Fontenay-sous-Bois"
+],
+"state": [
+"bâtiment ou structure en projet"
+],
+"close": []
+},
+"Q61084127": {
+"name": "Val de Fontenay",
+"lines": [
+"1"
+],
+"admin": [
+"Fontenay-sous-Bois"
+],
+"state": [
+"en construction"
+],
+"close": []
+},
+"Q61084138": {
+"name": "Nanterre La Folie",
+"lines": [
+"1"
+],
+"admin": [
+"Nanterre"
+],
+"state": [
+"en construction"
+],
+"close": []
+},
+"Q119911": {
+"name": "Ménilmontant",
+"lines": [
+"2"
+],
+"admin": [
+"11e arrondissement de Paris",
+"20e arrondissement de Paris"
+],
+"state": [
+"en fonctionnement"
+],
+"close": []
+},
+"Q119971": {
+"name": "Porte d'Orléans",
+"lines": [
+"4"
+],
+"admin": [
+"14e arrondissement de Paris"
+],
+"state": [
+"en fonctionnement"
+],
+"close": []
+},
+"Q140277": {
+"name": "La Défense",
+"lines": [
+"1"
+],
+"admin": [
+"Puteaux"
+],
+"state": [
+"en fonctionnement"
+],
+"close": []
+},
+"Q163879": {
+"name": "Simplon",
+"lines": [
+"4"
+],
+"admin": [
+"18e arrondissement de Paris"
+],
+"state": [
+"en fonctionnement"
+],
+"close": []
+},
+"Q167371": {
+"name": "Porte de Champerret",
+"lines": [
+"3"
+],
+"admin": [
+"17e arrondissement de Paris"
+],
+"state": [
+"en fonctionnement"
+],
+"close": []
+},
+"Q176582": {
+"name": "Père Lachaise",
+"lines": [
+"2",
+"3"
+],
+"admin": [
+"11e arrondissement de Paris",
+"20e arrondissement de Paris"
+],
+"state": [
+"en fonctionnement"
+],
+"close": []
+},
+"Q289916": {
+"name": "Étienne Marcel",
+"lines": [
+"4"
+],
+"admin": [
+"1er arrondissement de Paris",
+"2e arrondissement de Paris"
+],
+"state": [
+"en fonctionnement"
+],
+"close": []
+},
+"Q338898": {
+"name": "Pigalle",
+"lines": [
+"12",
+"2"
+],
+"admin": [
+"18e arrondissement de Paris",
+"9e arrondissement de Paris"
+],
+"state": [
+"en fonctionnement"
+],
+"close": []
+},
+"Q450976": {
+"name": "Alésia",
+"lines": [
+"4"
+],
+"admin": [
+"14e arrondissement de Paris"
+],
+"state": [
+"en fonctionnement"
+],
+"close": []
+},
+"Q487505": {
+"name": "Anatole France",
+"lines": [
+"3"
+],
+"admin": [
+"Levallois-Perret"
+],
+"state": [
+"en fonctionnement"
+],
+"close": []
+},
+"Q508256": {
+"name": "Bastille",
+"lines": [
+"1",
+"5",
+"8"
+],
+"admin": [
+"11e arrondissement de Paris",
+"12e arrondissement de Paris",
+"4e arrondissement de Paris"
+],
+"state": [
+"en fonctionnement"
+],
+"close": []
+},
+"Q517844": {
+"name": "Avron",
+"lines": [
+"2"
+],
+"admin": [
+"11e arrondissement de Paris",
+"20e arrondissement de Paris"
+],
+"state": [
+"en fonctionnement"
+],
+"close": []
+},
+"Q567806": {
+"name": "Rome",
+"lines": [
+"2"
+],
+"admin": [
+"17e arrondissement de Paris",
+"8e arrondissement de Paris"
+],
+"state": [
+"en fonctionnement"
+],
+"close": []
+},
+"Q568195": {
+"name": "Jaurès",
+"lines": [
+"2",
+"5",
+"7bis"
+],
+"admin": [
+"10ᵉ arrondissement de Paris",
+"19e arrondissement de Paris"
+],
+"state": [
+"en fonctionnement"
+],
+"close": []
+},
+"Q585752": {
+"name": "Château de Vincennes",
+"lines": [
+"1"
+],
+"admin": [
+"12e arrondissement de Paris",
+"Vincennes"
+],
+"state": [
+"en fonctionnement"
+],
+"close": []
+},
+"Q601484": {
+"name": "Châtelet",
+"lines": [
+"1",
+"11",
+"14",
+"4",
+"7"
+],
+"admin": [
+"1er arrondissement de Paris",
+"4e arrondissement de Paris"
+],
+"state": [
+"en fonctionnement"
+],
+"close": []
+},
+"Q606164": {
+"name": "Porte des Lilas",
+"lines": [
+"11",
+"3bis"
+],
+"admin": [
+"19e arrondissement de Paris",
+"20e arrondissement de Paris"
+],
+"state": [
+"en fonctionnement"
+],
+"close": []
+},
+"Q610012": {
+"name": "Place de Clichy",
+"lines": [
+"13",
+"2"
+],
+"admin": [
+"17e arrondissement de Paris",
+"18e arrondissement de Paris",
+"8e arrondissement de Paris",
+"9e arrondissement de Paris"
+],
+"state": [
+"en fonctionnement"
+],
+"close": []
+},
+"Q612971": {
+"name": "Anvers",
+"lines": [
+"2"
+],
+"admin": [
+"18e arrondissement de Paris",
+"9e arrondissement de Paris"
+],
+"state": [
+"en fonctionnement"
+],
+"close": []
+},
+"Q614049": {
+"name": "Gare de Lyon",
+"lines": [
+"1",
+"14"
+],
+"admin": [
+"12e arrondissement de Paris"
+],
+"state": [
+"en fonctionnement"
+],
+"close": [
+"1906-12-17"
+]
+},
+"Q635744": {
+"name": "Ternes",
+"lines": [
+"2"
+],
+"admin": [
+"17e arrondissement de Paris",
+"8e arrondissement de Paris"
+],
+"state": [
+"en fonctionnement"
+],
+"close": []
+},
+"Q645400": {
+"name": "Argentine",
+"lines": [
+"1"
+],
+"admin": [
+"16e arrondissement de Paris",
+"17e arrondissement de Paris"
+],
+"state": [
+"en fonctionnement"
+],
+"close": []
+},
+"Q646583": {
+"name": "Courcelles",
+"lines": [
+"2"
+],
+"admin": [
+"17e arrondissement de Paris",
+"8e arrondissement de Paris"
+],
+"state": [
+"en fonctionnement"
+],
+"close": []
+},
+"Q647271": {
+"name": "Reuilly - Diderot",
+"lines": [
+"1",
+"8"
+],
+"admin": [
+"12e arrondissement de Paris"
+],
+"state": [
+"en fonctionnement"
+],
+"close": []
+},
+"Q649160": {
+"name": "Les Sablons",
+"lines": [
+"1"
+],
+"admin": [
+"Neuilly-sur-Seine"
+],
+"state": [
+"en fonctionnement"
+],
+"close": []
+},
+"Q666009": {
+"name": "Tuileries",
+"lines": [
+"1"
+],
+"admin": [
+"1er arrondissement de Paris"
+],
+"state": [
+"en fonctionnement"
+],
+"close": []
+},
+"Q669850": {
+"name": "Réaumur - Sébastopol",
+"lines": [
+"3",
+"4"
+],
+"admin": [
+"2e arrondissement de Paris",
+"3e arrondissement de Paris"
+],
+"state": [
+"en fonctionnement"
+],
+"close": []
+},
+"Q670081": {
+"name": "Pereire",
+"lines": [
+"3"
+],
+"admin": [
+"17e arrondissement de Paris"
+],
+"state": [
+"en fonctionnement"
+],
+"close": []
+},
+"Q690975": {
+"name": "George V",
+"lines": [
+"1"
+],
+"admin": [
+"8e arrondissement de Paris"
+],
+"state": [
+"en fonctionnement"
+],
+"close": []
+},
+"Q713944": {
+"name": "Arts et Métiers",
+"lines": [
+"11",
+"3"
+],
+"admin": [
+"3e arrondissement de Paris"
+],
+"state": [
+"en fonctionnement"
+],
+"close": []
+},
+"Q763411": {
+"name": "Saint-Placide",
+"lines": [
+"4"
+],
+"admin": [
+"6e arrondissement de Paris"
+],
+"state": [
+"en fonctionnement"
+],
+"close": []
+},
+"Q764465": {
+"name": "Montparnasse - Bienvenüe",
+"lines": [
+"12",
+"13",
+"4",
+"6"
+],
+"admin": [
+"14e arrondissement de Paris",
+"15e arrondissement de Paris",
+"6e arrondissement de Paris"
+],
+"state": [
+"en fonctionnement"
+],
+"close": []
+},
+"Q766618": {
+"name": "Europe",
+"lines": [
+"3"
+],
+"admin": [
+"8e arrondissement de Paris"
+],
+"state": [
+"en fonctionnement"
+],
+"close": []
+},
+"Q781873": {
+"name": "Saint-Germain-des-Prés",
+"lines": [
+"4"
+],
+"admin": [
+"6e arrondissement de Paris"
+],
+"state": [
+"en fonctionnement"
+],
+"close": []
+},
+"Q800624": {
+"name": "Charles de Gaulle - Étoile",
+"lines": [
+"1",
+"2",
+"6"
+],
+"admin": [
+"16e arrondissement de Paris",
+"17e arrondissement de Paris"
+],
+"state": [
+"en fonctionnement"
+],
+"close": [
+"1907-10-15",
+"1931-05-17",
+"1931-12-06",
+"1942-10-06"
+]
+},
+"Q807893": {
+"name": "Barbès - Rochechouart",
+"lines": [
+"2",
+"4"
+],
+"admin": [
+"10ᵉ arrondissement de Paris",
+"18e arrondissement de Paris",
+"9e arrondissement de Paris"
+],
+"state": [
+"en fonctionnement"
+],
+"close": []
+},
+"Q815946": {
+"name": "Belleville",
+"lines": [
+"11",
+"2"
+],
+"admin": [
+"10ᵉ arrondissement de Paris",
+"11e arrondissement de Paris",
+"19e arrondissement de Paris",
+"20e arrondissement de Paris"
+],
+"state": [
+"en fonctionnement"
+],
+"close": []
+},
+"Q881406": {
+"name": "Blanche",
+"lines": [
+"2"
+],
+"admin": [
+"18e arrondissement de Paris",
+"9e arrondissement de Paris"
+],
+"state": [
+"en fonctionnement"
+],
+"close": []
+},
+"Q895259": {
+"name": "Bourse",
+"lines": [
+"3"
+],
+"admin": [
+"2e arrondissement de Paris"
+],
+"state": [
+"en fonctionnement"
+],
+"close": []
+},
+"Q915581": {
+"name": "Gallieni",
+"lines": [
+"3"
+],
+"admin": [
+"Bagnolet"
+],
+"state": [
+"en fonctionnement"
+],
+"close": []
+},
+"Q944564": {
+"name": "Wagram",
+"lines": [
+"3"
+],
+"admin": [
+"17e arrondissement de Paris"
+],
+"state": [
+"en fonctionnement"
+],
+"close": []
+},
+"Q945229": {
+"name": "Quatre-Septembre",
+"lines": [
+"3"
+],
+"admin": [
+"2e arrondissement de Paris"
+],
+"state": [
+"en fonctionnement"
+],
+"close": []
+},
+"Q946826": {
+"name": "Gambetta",
+"lines": [
+"3",
+"3bis"
+],
+"admin": [
+"20e arrondissement de Paris"
+],
+"state": [
+"en fonctionnement"
+],
+"close": []
+},
+"Q968939": {
+"name": "Hôtel de Ville",
+"lines": [
+"1",
+"11"
+],
+"admin": [
+"4e arrondissement de Paris"
+],
+"state": [
+"en fonctionnement"
+],
+"close": []
+},
+"Q970075": {
+"name": "Concorde",
+"lines": [
+"1",
+"12",
+"8"
+],
+"admin": [
+"1er arrondissement de Paris",
+"8e arrondissement de Paris"
+],
+"state": [
+"en fonctionnement"
+],
+"close": []
+},
+"Q1019487": {
+"name": "Bérault",
+"lines": [
+"1"
+],
+"admin": [
+"Saint-Mandé",
+"Vincennes"
+],
+"state": [
+"en fonctionnement"
+],
+"close": []
+},
+"Q571159": {
+"name": "Bibliothèque François-Mitterrand",
+"lines": [
+"10",
+"14"
+],
+"admin": [
+"13e arrondissement de Paris"
+],
+"state": [
+"en fonctionnement"
+],
+"close": []
+},
+"Q780625": {
+"name": "La Fourche",
+"lines": [
+"13"
+],
+"admin": [
+"17e arrondissement de Paris",
+"18e arrondissement de Paris"
+],
+"state": [
+"en fonctionnement"
+],
+"close": []
+},
+"Q810151": {
+"name": "Basilique de Saint-Denis",
+"lines": [
+"13"
+],
+"admin": [
+"Saint-Denis"
+],
+"state": [
+"en fonctionnement"
+],
+"close": []
+},
+"Q818853": {
+"name": "Bercy",
+"lines": [
+"14",
+"6"
+],
+"admin": [
+"12e arrondissement de Paris"
+],
+"state": [
+"en fonctionnement"
+],
+"close": []
+},
+"Q923435": {
+"name": "Brochant",
+"lines": [
+"13"
+],
+"admin": [
+"17e arrondissement de Paris"
+],
+"state": [
+"en fonctionnement"
+],
+"close": []
+},
+"Q941204": {
+"name": "Port de Gennevilliers",
+"lines": [
+"13"
+],
+"admin": [
+"Gennevilliers"
+],
+"state": [
+"annulé/abandonné"
+],
+"close": []
+},
+"Q962861": {
+"name": "Les Agnettes",
+"lines": [
+"13"
+],
+"admin": [
+"Asnières-sur-Seine",
+"Gennevilliers"
+],
+"state": [
+"en fonctionnement"
+],
+"close": []
+},
+"Q1044915": {
+"name": "Carrefour Pleyel",
+"lines": [
+"13"
+],
+"admin": [
+"Saint-Denis"
+],
+"state": [
+"en fonctionnement"
+],
+"close": []
+},
+"Q1061527": {
+"name": "Champs-Élysées - Clemenceau",
+"lines": [
+"1",
+"13"
+],
+"admin": [
+"8e arrondissement de Paris"
+],
+"state": [
+"en fonctionnement"
+],
+"close": []
+},
+"Q1090894": {
+"name": "Châtillon - Montrouge",
+"lines": [
+"13"
+],
+"admin": [
+"Châtillon",
+"Montrouge"
+],
+"state": [
+"en fonctionnement"
+],
+"close": []
+},
+"Q1137613": {
+"name": "Cour Saint-Émilion",
+"lines": [
+"14"
+],
+"admin": [
+"12e arrondissement de Paris"
+],
+"state": [
+"en fonctionnement"
+],
+"close": []
+},
+"Q1267446": {
+"name": "Duroc",
+"lines": [
+"10",
+"13"
+],
+"admin": [
+"15e arrondissement de Paris",
+"6e arrondissement de Paris",
+"7e arrondissement de Paris"
+],
+"state": [
+"en fonctionnement"
+],
+"close": []
+},
+"Q1344485": {
+"name": "Plaisance",
+"lines": [
+"13"
+],
+"admin": [
+"14e arrondissement de Paris"
+],
+"state": [
+"en fonctionnement"
+],
+"close": []
+},
+"Q1392295": {
+"name": "Saint-François-Xavier",
+"lines": [
+"13"
+],
+"admin": [
+"7e arrondissement de Paris"
+],
+"state": [
+"en fonctionnement"
+],
+"close": []
+},
+"Q1417199": {
+"name": "Madeleine",
+"lines": [
+"12",
+"14",
+"8"
+],
+"admin": [
+"8e arrondissement de Paris"
+],
+"state": [
+"en fonctionnement"
+],
+"close": []
+},
+"Q1501462": {
+"name": "Pyramides",
+"lines": [
+"14",
+"7"
+],
+"admin": [
+"1er arrondissement de Paris"
+],
+"state": [
+"en fonctionnement"
+],
+"close": []
+},
+"Q1528456": {
+"name": "Invalides",
+"lines": [
+"13",
+"8"
+],
+"admin": [
+"7e arrondissement de Paris"
+],
+"state": [
+"en fonctionnement"
+],
+"close": []
+},
+"Q1547535": {
+"name": "Porte de Vanves",
+"lines": [
+"13"
+],
+"admin": [
+"14e arrondissement de Paris"
+],
+"state": [
+"en fonctionnement"
+],
+"close": []
+},
+"Q1576642": {
+"name": "Maison Blanche",
+"lines": [
+"14",
+"7"
+],
+"admin": [
+"13e arrondissement de Paris"
+],
+"state": [
+"en fonctionnement"
+],
+"close": []
+},
+"Q1578045": {
+"name": "Miromesnil",
+"lines": [
+"13",
+"9"
+],
+"admin": [
+"8e arrondissement de Paris"
+],
+"state": [
+"en fonctionnement"
+],
+"close": []
+},
+"Q1673779": {
+"name": "Olympiades",
+"lines": [
+"14"
+],
+"admin": [
+"13e arrondissement de Paris"
+],
+"state": [
+"en fonctionnement"
+],
+"close": []
+},
+"Q1684455": {
+"name": "Pernety",
+"lines": [
+"13"
+],
+"admin": [
+"14e arrondissement de Paris"
+],
+"state": [
+"en fonctionnement"
+],
+"close": []
+},
+"Q1731762": {
+"name": "Malakoff – Rue Étienne-Dolet",
+"lines": [
+"13"
+],
+"admin": [
+"Malakoff"
+],
+"state": [
+"en fonctionnement"
+],
+"close": []
+},
+"Q1783803": {
+"name": "Saint-Denis - Université",
+"lines": [
+"13"
+],
+"admin": [
+"Saint-Denis"
+],
+"state": [
+"en fonctionnement"
+],
+"close": []
+},
+"Q1866688": {
+"name": "Liège",
+"lines": [
+"13"
+],
+"admin": [
+"8e arrondissement de Paris",
+"9e arrondissement de Paris"
+],
+"state": [
+"en fonctionnement"
+],
+"close": []
+},
+"Q1885852": {
+"name": "Mairie de Clichy",
+"lines": [
+"13"
+],
+"admin": [
+"Clichy"
+],
+"state": [
+"en fonctionnement"
+],
+"close": []
+},
+"Q1885854": {
+"name": "Mairie de Saint-Ouen",
+"lines": [
+"13",
+"14"
+],
+"admin": [
+"Saint-Ouen-sur-Seine"
+],
+"state": [
+"en fonctionnement"
+],
+"close": []
+},
+"Q1886721": {
+"name": "Malakoff - Plateau de Vanves",
+"lines": [
+"13"
+],
+"admin": [
+"Malakoff"
+],
+"state": [
+"en fonctionnement"
+],
+"close": []
+},
+"Q1969873": {
+"name": "Saint-Denis - Porte de Paris",
+"lines": [
+"13"
+],
+"admin": [
+"Saint-Denis"
+],
+"state": [
+"en fonctionnement"
+],
+"close": []
+},
+"Q1969959": {
+"name": "Porte de Clichy",
+"lines": [
+"13",
+"14"
+],
+"admin": [
+"17e arrondissement de Paris"
+],
+"state": [
+"en fonctionnement"
+],
+"close": []
+},
+"Q2979015": {
+"name": "Saint-Ouen",
+"lines": [
+"14"
+],
+"admin": [
+"Clichy",
+"Saint-Ouen-sur-Seine"
+],
+"state": [
+"en fonctionnement"
+],
+"close": []
+},
+"Q3396323": {
+"name": "Pont Cardinet",
+"lines": [
+"14"
+],
+"admin": [
+"17e arrondissement de Paris"
+],
+"state": [
+"en fonctionnement"
+],
+"close": []
+},
+"Q3462074": {
+"name": "Saint-Denis Pleyel",
+"lines": [
+"14"
+],
+"admin": [
+"Saint-Denis"
+],
+"state": [
+"en fonctionnement"
+],
+"close": []
+},
+"Q16041258": {
+"name": "Villejuif - Gustave Roussy",
+"lines": [
+"14"
+],
+"admin": [
+"Villejuif"
+],
+"state": [
+"en fonctionnement"
+],
+"close": []
+},
+"Q21294263": {
+"name": "Aéroport d'Orly",
+"lines": [
+"14"
+],
+"admin": [
+"Paray-Vieille-Poste"
+],
+"state": [
+"en fonctionnement"
+],
+"close": []
+},
+"Q25478742": {
+"name": "Hôpital Bicêtre",
+"lines": [
+"14"
+],
+"admin": [
+"Le Kremlin-Bicêtre"
+],
+"state": [
+"en fonctionnement"
+],
+"close": []
+},
+"Q25478746": {
+"name": "L'Haÿ-les-Roses",
+"lines": [
+"14"
+],
+"admin": [
+"L'Haÿ-les-Roses"
+],
+"state": [
+"en fonctionnement"
+],
+"close": []
+},
+"Q25478754": {
+"name": "Chevilly-Larue",
+"lines": [
+"14"
+],
+"admin": [
+"Chevilly-Larue"
+],
+"state": [
+"en fonctionnement"
+],
+"close": []
+},
+"Q50724143": {
+"name": "Thiais - Orly",
+"lines": [
+"14"
+],
+"admin": [
+"Thiais"
+],
+"state": [
+"en fonctionnement"
+],
+"close": []
+},
+"Q181669": {
+"name": "Porte de Saint-Ouen",
+"lines": [
+"13"
+],
+"admin": [
+"17e arrondissement de Paris",
+"18e arrondissement de Paris"
+],
+"state": [
+"en fonctionnement"
+],
+"close": []
+},
+"Q238902": {
+"name": "Volontaires",
+"lines": [
+"12"
+],
+"admin": [
+"15e arrondissement de Paris"
+],
+"state": [
+"en fonctionnement"
+],
+"close": []
+},
+"Q274534": {
+"name": "Église d'Auteuil",
+"lines": [
+"10"
+],
+"admin": [
+"16e arrondissement de Paris"
+],
+"state": [
+"en fonctionnement"
+],
+"close": []
+},
+"Q306256": {
+"name": "Abbesses",
+"lines": [
+"12"
+],
+"admin": [
+"18e arrondissement de Paris"
+],
+"state": [
+"en fonctionnement"
+],
+"close": []
+},
+"Q377782": {
+"name": "Gaîté",
+"lines": [
+"13"
+],
+"admin": [
+"14e arrondissement de Paris"
+],
+"state": [
+"en fonctionnement"
+],
+"close": []
+},
+"Q382659": {
+"name": "Porte de la Chapelle",
+"lines": [
+"12"
+],
+"admin": [
+"18e arrondissement de Paris"
+],
+"state": [
+"en fonctionnement"
+],
+"close": []
+},
+"Q426440": {
+"name": "Boulogne - Jean Jaurès",
+"lines": [
+"10"
+],
+"admin": [
+"Boulogne-Billancourt"
+],
+"state": [
+"en fonctionnement"
+],
+"close": []
+},
+"Q517739": {
+"name": "Mirabeau",
+"lines": [
+"10"
+],
+"admin": [
+"16e arrondissement de Paris"
+],
+"state": [
+"en fonctionnement"
+],
+"close": []
+},
+"Q568013": {
+"name": "Falguière",
+"lines": [
+"12"
+],
+"admin": [
+"15e arrondissement de Paris"
+],
+"state": [
+"en fonctionnement"
+],
+"close": []
+},
+"Q575604": {
+"name": "Notre-Dame-de-Lorette",
+"lines": [
+"12"
+],
+"admin": [
+"9e arrondissement de Paris"
+],
+"state": [
+"en fonctionnement"
+],
+"close": []
+},
+"Q586851": {
+"name": "Garibaldi",
+"lines": [
+"13"
+],
+"admin": [
+"Saint-Ouen-sur-Seine"
+],
+"state": [
+"en fonctionnement"
+],
+"close": []
+},
+"Q607342": {
+"name": "Cardinal Lemoine",
+"lines": [
+"10"
+],
+"admin": [
+"5e arrondissement de Paris"
+],
+"state": [
+"en fonctionnement"
+],
+"close": []
+},
+"Q614636": {
+"name": "Varenne",
+"lines": [
+"13"
+],
+"admin": [
+"7e arrondissement de Paris"
+],
+"state": [
+"en fonctionnement"
+],
+"close": []
+},
+"Q617430": {
+"name": "Jules Joffrin",
+"lines": [
+"12"
+],
+"admin": [
+"18e arrondissement de Paris"
+],
+"state": [
+"en fonctionnement"
+],
+"close": []
+},
+"Q630642": {
+"name": "Convention",
+"lines": [
+"12"
+],
+"admin": [
+"15e arrondissement de Paris"
+],
+"state": [
+"en fonctionnement"
+],
+"close": []
+},
+"Q632881": {
+"name": "Charles Michels",
+"lines": [
+"10"
+],
+"admin": [
+"15e arrondissement de Paris"
+],
+"state": [
+"en fonctionnement"
+],
+"close": []
+},
+"Q645691": {
+"name": "Gabriel Péri",
+"lines": [
+"13"
+],
+"admin": [
+"Asnières-sur-Seine",
+"Gennevilliers"
+],
+"state": [
+"en fonctionnement"
+],
+"close": []
+},
+"Q646376": {
+"name": "Rambuteau",
+"lines": [
+"11"
+],
+"admin": [
+"3e arrondissement de Paris",
+"4e arrondissement de Paris"
+],
+"state": [
+"en fonctionnement"
+],
+"close": []
+},
+"Q683544": {
+"name": "Mairie des Lilas",
+"lines": [
+"11"
+],
+"admin": [
+"Les Lilas"
+],
+"state": [
+"en fonctionnement"
+],
+"close": []
+},
+"Q733618": {
+"name": "Les Courtilles",
+"lines": [
+"13"
+],
+"admin": [
+"Asnières-sur-Seine",
+"Gennevilliers"
+],
+"state": [
+"en fonctionnement"
+],
+"close": []
+},
+"Q738879": {
+"name": "Guy Môquet",
+"lines": [
+"13"
+],
+"admin": [
+"17e arrondissement de Paris",
+"18e arrondissement de Paris"
+],
+"state": [
+"en fonctionnement"
+],
+"close": []
+},
+"Q740744": {
+"name": "Assemblée nationale",
+"lines": [
+"12"
+],
+"admin": [
+"7e arrondissement de Paris"
+],
+"state": [
+"en fonctionnement"
+],
+"close": []
+},
+"Q766186": {
+"name": "Aimé Césaire",
+"lines": [
+"12"
+],
+"admin": [
+"Aubervilliers"
+],
+"state": [
+"en fonctionnement"
+],
+"close": []
+},
+"Q769848": {
+"name": "Vaugirard",
+"lines": [
+"12"
+],
+"admin": [
+"15e arrondissement de Paris"
+],
+"state": [
+"en fonctionnement"
+],
+"close": []
+},
+"Q790593": {
+"name": "Avenue Émile Zola",
+"lines": [
+"10"
+],
+"admin": [
+"15e arrondissement de Paris"
+],
+"state": [
+"en fonctionnement"
+],
+"close": []
+},
+"Q895108": {
+"name": "Boulogne - Pont de Saint-Cloud",
+"lines": [
+"10"
+],
+"admin": [
+"Boulogne-Billancourt"
+],
+"state": [
+"en fonctionnement"
+],
+"close": []
+},
+"Q927829": {
+"name": "Chardon-Lagache",
+"lines": [
+"10"
+],
+"admin": [
+"16e arrondissement de Paris"
+],
+"state": [
+"en fonctionnement"
+],
+"close": []
+},
+"Q954566": {
+"name": "Rue du Bac",
+"lines": [
+"12"
+],
+"admin": [
+"7e arrondissement de Paris"
+],
+"state": [
+"en fonctionnement"
+],
+"close": []
+},
+"Q974510": {
+"name": "Mabillon",
+"lines": [
+"10"
+],
+"admin": [
+"6e arrondissement de Paris"
+],
+"state": [
+"en fonctionnement"
+],
+"close": []
+},
+"Q980380": {
+"name": "Lamarck - Caulaincourt",
+"lines": [
+"12"
+],
+"admin": [
+"18e arrondissement de Paris"
+],
+"state": [
+"en fonctionnement"
+],
+"close": []
+},
+"Q995228": {
+"name": "Michel-Ange - Auteuil",
+"lines": [
+"10",
+"9"
+],
+"admin": [
+"16e arrondissement de Paris"
+],
+"state": [
+"en fonctionnement"
+],
+"close": []
+},
+"Q1103432": {
+"name": "Cluny - La Sorbonne",
+"lines": [
+"10"
+],
+"admin": [
+"5e arrondissement de Paris",
+"6e arrondissement de Paris"
+],
+"state": [
+"en fonctionnement"
+],
+"close": []
+},
+"Q1132595": {
+"name": "Corentin Celton",
+"lines": [
+"12"
+],
+"admin": [
+"Issy-les-Moulineaux"
+],
+"state": [
+"en fonctionnement"
+],
+"close": []
+},
+"Q1185683": {
+"name": "Front Populaire",
+"lines": [
+"12"
+],
+"admin": [
+"Aubervilliers",
+"Saint-Denis"
+],
+"state": [
+"en fonctionnement"
+],
+"close": []
+},
+"Q1228836": {
+"name": "Michel-Ange - Molitor",
+"lines": [
+"10",
+"9"
+],
+"admin": [
+"16e arrondissement de Paris"
+],
+"state": [
+"en fonctionnement"
+],
+"close": []
+},
+"Q1263417": {
+"name": "Télégraphe",
+"lines": [
+"11"
+],
+"admin": [
+"19e arrondissement de Paris",
+"20e arrondissement de Paris"
+],
+"state": [
+"en fonctionnement"
+],
+"close": []
+},
+"Q1316395": {
+"name": "Trinité - d'Estienne d'Orves",
+"lines": [
+"12"
+],
+"admin": [
+"9e arrondissement de Paris"
+],
+"state": [
+"en fonctionnement"
+],
+"close": []
+},
+"Q1341849": {
+"name": "République",
+"lines": [
+"11",
+"3",
+"5",
+"8",
+"9"
+],
+"admin": [
+"10ᵉ arrondissement de Paris",
+"11e arrondissement de Paris",
+"3e arrondissement de Paris"
+],
+"state": [
+"en fonctionnement"
+],
+"close": []
+},
+"Q1368640": {
+"name": "Solférino",
+"lines": [
+"12"
+],
+"admin": [
+"7e arrondissement de Paris"
+],
+"state": [
+"en fonctionnement"
+],
+"close": []
+},
+"Q1415143": {
+"name": "La Motte-Picquet - Grenelle",
+"lines": [
+"10",
+"6",
+"8"
+],
+"admin": [
+"15e arrondissement de Paris"
+],
+"state": [
+"en fonctionnement"
+],
+"close": []
+},
+"Q1463644": {
+"name": "Jussieu",
+"lines": [
+"10",
+"7"
+],
+"admin": [
+"5e arrondissement de Paris"
+],
+"state": [
+"en fonctionnement"
+],
+"close": []
+},
+"Q1494179": {
+"name": "Gare d'Austerlitz",
+"lines": [
+"10",
+"5"
+],
+"admin": [
+"13e arrondissement de Paris",
+"5e arrondissement de Paris"
+],
+"state": [
+"en fonctionnement"
+],
+"close": []
+},
+"Q1511318": {
+"name": "Odéon",
+"lines": [
+"10",
+"4"
+],
+"admin": [
+"6e arrondissement de Paris"
+],
+"state": [
+"en fonctionnement"
+],
+"close": []
+},
+"Q1511378": {
+"name": "Javel - André Citroën",
+"lines": [
+"10"
+],
+"admin": [
+"15e arrondissement de Paris"
+],
+"state": [
+"en fonctionnement"
+],
+"close": []
+},
+"Q1511392": {
+"name": "Ségur",
+"lines": [
+"10"
+],
+"admin": [
+"15e arrondissement de Paris",
+"7e arrondissement de Paris"
+],
+"state": [
+"en fonctionnement"
+],
+"close": []
+},
+"Q1511414": {
+"name": "Vaneau",
+"lines": [
+"10"
+],
+"admin": [
+"6e arrondissement de Paris",
+"7e arrondissement de Paris"
+],
+"state": [
+"en fonctionnement"
+],
+"close": []
+},
+"Q1517347": {
+"name": "Jourdain",
+"lines": [
+"11"
+],
+"admin": [
+"19e arrondissement de Paris",
+"20e arrondissement de Paris"
+],
+"state": [
+"en fonctionnement"
+],
+"close": []
+},
+"Q1536969": {
+"name": "Goncourt",
+"lines": [
+"11"
+],
+"admin": [
+"10ᵉ arrondissement de Paris",
+"11e arrondissement de Paris"
+],
+"state": [
+"en fonctionnement"
+],
+"close": []
+},
+"Q1578078": {
+"name": "Porte d'Auteuil",
+"lines": [
+"10"
+],
+"admin": [
+"16e arrondissement de Paris"
+],
+"state": [
+"en fonctionnement"
+],
+"close": []
+},
+"Q1578089": {
+"name": "Sèvres - Babylone",
+"lines": [
+"10",
+"12"
+],
+"admin": [
+"6e arrondissement de Paris",
+"7e arrondissement de Paris"
+],
+"state": [
+"en fonctionnement"
+],
+"close": []
+},
+"Q168170": {
+"name": "La Muette",
+"lines": [
+"9"
+],
+"admin": [
+"16e arrondissement de Paris"
+],
+"state": [
+"en fonctionnement"
+],
+"close": []
+},
+"Q273476": {
+"name": "École Militaire",
+"lines": [
+"8"
+],
+"admin": [
+"7e arrondissement de Paris"
+],
+"state": [
+"en fonctionnement"
+],
+"close": []
+},
+"Q273645": {
+"name": "École vétérinaire de Maisons-Alfort",
+"lines": [
+"8"
+],
+"admin": [
+"Maisons-Alfort"
+],
+"state": [
+"en fonctionnement"
+],
+"close": []
+},
+"Q337855": {
+"name": "Faidherbe - Chaligny",
+"lines": [
+"8"
+],
+"admin": [
+"11e arrondissement de Paris",
+"12e arrondissement de Paris"
+],
+"state": [
+"en fonctionnement"
+],
+"close": []
+},
+"Q524191": {
+"name": "Chemin Vert",
+"lines": [
+"8"
+],
+"admin": [
+"11e arrondissement de Paris",
+"3e arrondissement de Paris"
+],
+"state": [
+"en fonctionnement"
+],
+"close": []
+},
+"Q550042": {
+"name": "Saint-Sébastien - Froissart",
+"lines": [
+"8"
+],
+"admin": [
+"11e arrondissement de Paris",
+"3e arrondissement de Paris"
+],
+"state": [
+"en fonctionnement"
+],
+"close": []
+},
+"Q592367": {
+"name": "Créteil - Université",
+"lines": [
+"8"
+],
+"admin": [
+"Créteil"
+],
+"state": [
+"en fonctionnement"
+],
+"close": []
+},
+"Q608305": {
+"name": "Commerce",
+"lines": [
+"8"
+],
+"admin": [
+"15e arrondissement de Paris"
+],
+"state": [
+"en fonctionnement"
+],
+"close": []
+},
+"Q613123": {
+"name": "Marcel Sembat",
+"lines": [
+"9"
+],
+"admin": [
+"Boulogne-Billancourt"
+],
+"state": [
+"en fonctionnement"
+],
+"close": []
+},
+"Q616619": {
+"name": "Michel Bizot",
+"lines": [
+"8"
+],
+"admin": [
+"12e arrondissement de Paris"
+],
+"state": [
+"en fonctionnement"
+],
+"close": []
+},
+"Q631846": {
+"name": "Maraîchers",
+"lines": [
+"9"
+],
+"admin": [
+"20e arrondissement de Paris"
+],
+"state": [
+"en fonctionnement"
+],
+"close": []
+},
+"Q649273": {
+"name": "Saint-Augustin",
+"lines": [
+"9"
+],
+"admin": [
+"8e arrondissement de Paris"
+],
+"state": [
+"en fonctionnement"
+],
+"close": []
+},
+"Q668351": {
+"name": "Mairie de Montreuil",
+"lines": [
+"9"
+],
+"admin": [
+"Montreuil"
+],
+"state": [
+"en fonctionnement"
+],
+"close": []
+},
+"Q680787": {
+"name": "Ledru-Rollin",
+"lines": [
+"8"
+],
+"admin": [
+"11e arrondissement de Paris",
+"12e arrondissement de Paris"
+],
+"state": [
+"en fonctionnement"
+],
+"close": []
+},
+"Q751245": {
+"name": "Pré-Saint-Gervais",
+"lines": [
+"7bis"
+],
+"admin": [
+"19e arrondissement de Paris"
+],
+"state": [
+"en fonctionnement"
+],
+"close": []
+},
+"Q761518": {
+"name": "Billancourt",
+"lines": [
+"9"
+],
+"admin": [
+"Boulogne-Billancourt"
+],
+"state": [
+"en fonctionnement"
+],
+"close": []
+},
+"Q766906": {
+"name": "Maisons-Alfort - Les Juilliottes",
+"lines": [
+"8"
+],
+"admin": [
+"Maisons-Alfort"
+],
+"state": [
+"en fonctionnement"
+],
+"close": []
+},
+"Q771548": {
+"name": "Rue de la Pompe",
+"lines": [
+"9"
+],
+"admin": [
+"16e arrondissement de Paris"
+],
+"state": [
+"en fonctionnement"
+],
+"close": []
+},
+"Q804647": {
+"name": "Balard",
+"lines": [
+"8"
+],
+"admin": [
+"15e arrondissement de Paris"
+],
+"state": [
+"en fonctionnement"
+],
+"close": []
+},
+"Q891362": {
+"name": "Bolivar",
+"lines": [
+"7bis"
+],
+"admin": [
+"19e arrondissement de Paris"
+],
+"state": [
+"en fonctionnement"
+],
+"close": []
+},
+"Q892720": {
+"name": "Bonne Nouvelle",
+"lines": [
+"8",
+"9"
+],
+"admin": [
+"10ᵉ arrondissement de Paris",
+"2e arrondissement de Paris",
+"9e arrondissement de Paris"
+],
+"state": [
+"en fonctionnement"
+],
+"close": []
+},
+"Q894930": {
+"name": "Botzaris",
+"lines": [
+"7bis"
+],
+"admin": [
+"19e arrondissement de Paris"
+],
+"state": [
+"en fonctionnement"
+],
+"close": []
+},
+"Q894984": {
+"name": "Boucicaut",
+"lines": [
+"8"
+],
+"admin": [
+"Paris"
+],
+"state": [
+"en fonctionnement"
+],
+"close": []
+},
+"Q935233": {
+"name": "Pointe du Lac",
+"lines": [
+"8"
+],
+"admin": [
+"Créteil"
+],
+"state": [
+"en fonctionnement"
+],
+"close": []
+},
+"Q946441": {
+"name": "Porte Dorée",
+"lines": [
+"8"
+],
+"admin": [
+"12e arrondissement de Paris"
+],
+"state": [
+"en fonctionnement"
+],
+"close": []
+},
+"Q948012": {
+"name": "Charonne",
+"lines": [
+"9"
+],
+"admin": [
+"11e arrondissement de Paris"
+],
+"state": [
+"en fonctionnement"
+],
+"close": []
+},
+"Q951466": {
+"name": "Chaussée d'Antin - La Fayette",
+"lines": [
+"7",
+"9"
+],
+"admin": [
+"9e arrondissement de Paris"
+],
+"state": [
+"en fonctionnement"
+],
+"close": []
+},
+"Q968336": {
+"name": "Porte de Montreuil",
+"lines": [
+"9"
+],
+"admin": [
+"20e arrondissement de Paris"
+],
+"state": [
+"en fonctionnement"
+],
+"close": []
+},
+"Q970844": {
+"name": "Exelmans",
+"lines": [
+"9"
+],
+"admin": [
+"16e arrondissement de Paris"
+],
+"state": [
+"en fonctionnement"
+],
+"close": []
+},
+"Q999159": {
+"name": "Montgallet",
+"lines": [
+"8"
+],
+"admin": [
+"12e arrondissement de Paris"
+],
+"state": [
+"en fonctionnement"
+],
+"close": []
+},
+"Q1018164": {
+"name": "Buttes Chaumont",
+"lines": [
+"7bis"
+],
+"admin": [
+"19e arrondissement de Paris"
+],
+"state": [
+"en fonctionnement"
+],
+"close": []
+},
+"Q1018331": {
+"name": "Buzenval",
+"lines": [
+"9"
+],
+"admin": [
+"20e arrondissement de Paris"
+],
+"state": [
+"en fonctionnement"
+],
+"close": []
+},
+"Q1063134": {
+"name": "Charenton - Écoles",
+"lines": [
+"8"
+],
+"admin": [
+"Charenton-le-Pont"
+],
+"state": [
+"en fonctionnement"
+],
+"close": []
+},
+"Q1091392": {
+"name": "Saint-Martin",
+"lines": [
+"8",
+"9"
+],
+"admin": [
+"3e arrondissement de Paris"
+],
+"state": [
+"désaffecté"
+],
+"close": [
+"1939-09-02"
+]
+},
+"Q1140796": {
+"name": "Croix de Chavaux",
+"lines": [
+"9"
+],
+"admin": [
+"Montreuil"
+],
+"state": [
+"en fonctionnement"
+],
+"close": []
+},
+"Q1142525": {
+"name": "Créteil - L'Échat",
+"lines": [
+"8"
+],
+"admin": [
+"Créteil"
+],
+"state": [
+"en fonctionnement"
+],
+"close": []
+},
+"Q1165108": {
+"name": "Danube",
+"lines": [
+"7bis"
+],
+"admin": [
+"19e arrondissement de Paris"
+],
+"state": [
+"en fonctionnement"
+],
+"close": []
+},
+"Q1172977": {
+"name": "Daumesnil",
+"lines": [
+"6",
+"8"
+],
+"admin": [
+"12e arrondissement de Paris"
+],
+"state": [
+"en fonctionnement"
+],
+"close": []
+},
+"Q1237945": {
+"name": "Iéna",
+"lines": [
+"9"
+],
+"admin": [
+"16e arrondissement de Paris"
+],
+"state": [
+"en fonctionnement"
+],
+"close": []
+},
+"Q1272925": {
+"name": "Trocadéro",
+"lines": [
+"6",
+"9"
+],
+"admin": [
+"16e arrondissement de Paris"
+],
+"state": [
+"en fonctionnement"
+],
+"close": []
+},
+"Q1403165": {
+"name": "Strasbourg - Saint-Denis",
+"lines": [
+"4",
+"8",
+"9"
+],
+"admin": [
+"10ᵉ arrondissement de Paris",
+"2e arrondissement de Paris",
+"3e arrondissement de Paris"
+],
+"state": [
+"en fonctionnement"
+],
+"close": []
+},
+"Q1405224": {
+"name": "Maisons-Alfort - Stade",
+"lines": [
+"8"
+],
+"admin": [
+"Maisons-Alfort"
+],
+"state": [
+"en fonctionnement"
+],
+"close": []
+},
+"Q1412692": {
+"name": "Richelieu - Drouot",
+"lines": [
+"8",
+"9"
+],
+"admin": [
+"2e arrondissement de Paris",
+"9e arrondissement de Paris"
+],
+"state": [
+"en fonctionnement"
+],
+"close": []
+},
+"Q1414178": {
+"name": "Filles du Calvaire",
+"lines": [
+"8"
+],
+"admin": [
+"11e arrondissement de Paris",
+"3e arrondissement de Paris"
+],
+"state": [
+"en fonctionnement"
+],
+"close": []
+},
+"Q1450538": {
+"name": "Saint-Ambroise",
+"lines": [
+"9"
+],
+"admin": [
+"11e arrondissement de Paris"
+],
+"state": [
+"en fonctionnement"
+],
+"close": []
+},
+"Q1451224": {
+"name": "Porte de Saint-Cloud",
+"lines": [
+"9"
+],
+"admin": [
+"16e arrondissement de Paris"
+],
+"state": [
+"en fonctionnement"
+],
+"close": []
+},
+"Q1479476": {
+"name": "Félix Faure",
+"lines": [
+"8"
+],
+"admin": [
+"15e arrondissement de Paris"
+],
+"state": [
+"en fonctionnement"
+],
+"close": []
+},
+"Q1494172": {
+"name": "Gare de l'Est",
+"lines": [
+"4",
+"5",
+"7"
+],
+"admin": [
+"10ᵉ arrondissement de Paris"
+],
+"state": [
+"en fonctionnement"
+],
+"close": []
+},
+"Q1514082": {
+"name": "La Tour-Maubourg",
+"lines": [
+"8"
+],
+"admin": [
+"7e arrondissement de Paris"
+],
+"state": [
+"en fonctionnement"
+],
+"close": []
+},
+"Q1537246": {
+"name": "Place d'Italie",
+"lines": [
+"5",
+"6",
+"7"
+],
+"admin": [
+"13e arrondissement de Paris"
+],
+"state": [
+"en fonctionnement"
+],
+"close": []
+},
+"Q1537255": {
+"name": "Louis Blanc",
+"lines": [
+"7",
+"7bis"
+],
+"admin": [
+"10ᵉ arrondissement de Paris"
+],
+"state": [
+"en fonctionnement"
+],
+"close": []
+},
+"Q1543053": {
+"name": "Grands Boulevards",
+"lines": [
+"8",
+"9"
+],
+"admin": [
+"2e arrondissement de Paris",
+"9e arrondissement de Paris"
+],
+"state": [
+"en fonctionnement"
+],
+"close": []
+},
+"Q120303": {
+"name": "Corentin Cariou",
+"lines": [
+"7"
+],
+"admin": [
+"19e arrondissement de Paris"
+],
+"state": [
+"en fonctionnement"
+],
+"close": []
+},
+"Q177476": {
+"name": "Place Monge",
+"lines": [
+"7"
+],
+"admin": [
+"5e arrondissement de Paris"
+],
+"state": [
+"en fonctionnement"
+],
+"close": []
+},
+"Q254308": {
+"name": "Kléber",
+"lines": [
+"6"
+],
+"admin": [
+"Chaillot"
+],
+"state": [
+"en fonctionnement"
+],
+"close": []
+},
+"Q257465": {
+"name": "Sully - Morland",
+"lines": [
+"7"
+],
+"admin": [
+"4e arrondissement de Paris"
+],
+"state": [
+"en fonctionnement"
+],
+"close": []
+},
+"Q274526": {
+"name": "Église de Pantin",
+"lines": [
+"5"
+],
+"admin": [
+"Pantin"
+],
+"state": [
+"en fonctionnement"
+],
+"close": []
+},
+"Q282600": {
+"name": "Pont Marie",
+"lines": [
+"7"
+],
+"admin": [
+"4e arrondissement de Paris"
+],
+"state": [
+"en fonctionnement"
+],
+"close": []
+},
+"Q476557": {
+"name": "Villejuif - Léo Lagrange",
+"lines": [
+"7"
+],
+"admin": [
+"Villejuif"
+],
+"state": [
+"en fonctionnement"
+],
+"close": []
+},
+"Q571446": {
+"name": "Porte de la Villette",
+"lines": [
+"7"
+],
+"admin": [
+"19e arrondissement de Paris"
+],
+"state": [
+"en fonctionnement"
+],
+"close": []
+},
+"Q585712": {
+"name": "Hoche",
+"lines": [
+"5"
+],
+"admin": [
+"Pantin"
+],
+"state": [
+"en fonctionnement"
+],
+"close": []
+},
+"Q587093": {
+"name": "Saint-Marcel",
+"lines": [
+"5"
+],
+"admin": [
+"13e arrondissement de Paris"
+],
+"state": [
+"en fonctionnement"
+],
+"close": []
+},
+"Q589686": {
+"name": "Picpus",
+"lines": [
+"6"
+],
+"admin": [
+"12e arrondissement de Paris"
+],
+"state": [
+"en fonctionnement"
+],
+"close": []
+},
+"Q593257": {
+"name": "Bobigny - Pablo Picasso",
+"lines": [
+"5"
+],
+"admin": [
+"Bobigny"
+],
+"state": [
+"en fonctionnement"
+],
+"close": []
+},
+"Q602615": {
+"name": "Dugommier",
+"lines": [
+"6"
+],
+"admin": [
+"12e arrondissement de Paris"
+],
+"state": [
+"en fonctionnement"
+],
+"close": []
+},
+"Q661846": {
+"name": "Nationale",
+"lines": [
+"6"
+],
+"admin": [
+"13e arrondissement de Paris"
+],
+"state": [
+"en fonctionnement"
+],
+"close": []
+},
+"Q683208": {
+"name": "Campo-Formio",
+"lines": [
+"5"
+],
+"admin": [
+"13e arrondissement de Paris"
+],
+"state": [
+"en fonctionnement"
+],
+"close": []
+},
+"Q746288": {
+"name": "Crimée",
+"lines": [
+"7"
+],
+"admin": [
+"19e arrondissement de Paris"
+],
+"state": [
+"en fonctionnement"
+],
+"close": []
+},
+"Q758464": {
+"name": "Aubervilliers - Pantin - Quatre Chemins",
+"lines": [
+"7"
+],
+"admin": [
+"Aubervilliers"
+],
+"state": [
+"en fonctionnement"
+],
+"close": []
+},
+"Q764106": {
+"name": "Poissonnière",
+"lines": [
+"7"
+],
+"admin": [
+"10ᵉ arrondissement de Paris",
+"9e arrondissement de Paris"
+],
+"state": [
+"en fonctionnement"
+],
+"close": []
+},
+"Q777553": {
+"name": "Bréguet - Sabin",
+"lines": [
+"5"
+],
+"admin": [
+"11e arrondissement de Paris"
+],
+"state": [
+"en fonctionnement"
+],
+"close": []
+},
+"Q815061": {
+"name": "Bel-Air",
+"lines": [
+"6"
+],
+"admin": [
+"12e arrondissement de Paris"
+],
+"state": [
+"en fonctionnement"
+],
+"close": []
+},
+"Q888758": {
+"name": "Bobigny - Pantin - Raymond Queneau",
+"lines": [
+"5"
+],
+"admin": [
+"Bobigny",
+"Pantin"
+],
+"state": [
+"en fonctionnement"
+],
+"close": []
+},
+"Q891105": {
+"name": "Boissière",
+"lines": [
+"6"
+],
+"admin": [
+"16e arrondissement de Paris"
+],
+"state": [
+"en fonctionnement"
+],
+"close": []
+},
+"Q930284": {
+"name": "Le Kremlin-Bicêtre",
+"lines": [
+"7"
+],
+"admin": [
+"Le Kremlin-Bicêtre"
+],
+"state": [
+"en fonctionnement"
+],
+"close": []
+},
+"Q937680": {
+"name": "Chevaleret",
+"lines": [
+"6"
+],
+"admin": [
+"13e arrondissement de Paris"
+],
+"state": [
+"en fonctionnement"
+],
+"close": []
+},
+"Q938430": {
+"name": "Censier - Daubenton",
+"lines": [
+"7"
+],
+"admin": [
+"5e arrondissement de Paris"
+],
+"state": [
+"en fonctionnement"
+],
+"close": []
+},
+"Q950314": {
+"name": "Corvisart",
+"lines": [
+"6"
+],
+"admin": [
+"13e arrondissement de Paris"
+],
+"state": [
+"en fonctionnement"
+],
+"close": []
+},
+"Q953454": {
+"name": "Porte de Choisy",
+"lines": [
+"7"
+],
+"admin": [
+"13e arrondissement de Paris"
+],
+"state": [
+"en fonctionnement"
+],
+"close": []
+},
+"Q954301": {
+"name": "Vavin",
+"lines": [
+"4"
+],
+"admin": [
+"14e arrondissement de Paris",
+"6e arrondissement de Paris"
+],
+"state": [
+"en fonctionnement"
+],
+"close": []
+},
+"Q957172": {
+"name": "Château Rouge",
+"lines": [
+"4"
+],
+"admin": [
+"18e arrondissement de Paris"
+],
+"state": [
+"en fonctionnement"
+],
+"close": []
+},
+"Q961089": {
+"name": "Villejuif - Paul Vaillant-Couturier",
+"lines": [
+"7"
+],
+"admin": [
+"Villejuif"
+],
+"state": [
+"en fonctionnement"
+],
+"close": []
+},
+"Q1025135": {
+"name": "Cadet",
+"lines": [
+"7"
+],
+"admin": [
+"9e arrondissement de Paris"
+],
+"state": [
+"en fonctionnement"
+],
+"close": []
+},
+"Q1028368": {
+"name": "Cambronne",
+"lines": [
+"6"
+],
+"admin": [
+"15e arrondissement de Paris"
+],
+"state": [
+"en fonctionnement"
+],
+"close": []
+},
+"Q1090315": {
+"name": "Château-Landon",
+"lines": [
+"7"
+],
+"admin": [
+"10ᵉ arrondissement de Paris"
+],
+"state": [
+"en fonctionnement"
+],
+"close": []
+},
+"Q1090753": {
+"name": "Château d'Eau",
+"lines": [
+"4"
+],
+"admin": [
+"10ᵉ arrondissement de Paris"
+],
+"state": [
+"en fonctionnement"
+],
+"close": []
+},
+"Q1094294": {
+"name": "Cité",
+"lines": [
+"4"
+],
+"admin": [
+"4e arrondissement de Paris"
+],
+"state": [
+"en fonctionnement"
+],
+"close": []
+},
+"Q1187054": {
+"name": "Denfert-Rochereau",
+"lines": [
+"4",
+"6"
+],
+"admin": [
+"14e arrondissement de Paris"
+],
+"state": [
+"en fonctionnement"
+],
+"close": []
+},
+"Q1266508": {
+"name": "Dupleix",
+"lines": [
+"6"
+],
+"admin": [
+"15e arrondissement de Paris"
+],
+"state": [
+"en fonctionnement"
+],
+"close": []
+},
+"Q1267664": {
+"name": "Villejuif - Louis Aragon",
+"lines": [
+"7"
+],
+"admin": [
+"Villejuif"
+],
+"state": [
+"en fonctionnement"
+],
+"close": []
+},
+"Q1284106": {
+"name": "Edgar Quinet",
+"lines": [
+"6"
+],
+"admin": [
+"14e arrondissement de Paris"
+],
+"state": [
+"en fonctionnement"
+],
+"close": []
+},
+"Q1320288": {
+"name": "La Courneuve - 8 Mai 1945",
+"lines": [
+"7"
+],
+"admin": [
+"La Courneuve"
+],
+"state": [
+"en fonctionnement"
+],
+"close": []
+},
+"Q1406323": {
+"name": "Mouton-Duvernet",
+"lines": [
+"4"
+],
+"admin": [
+"14e arrondissement de Paris"
+],
+"state": [
+"en fonctionnement"
+],
+"close": []
+},
+"Q1438901": {
+"name": "Fort d'Aubervilliers",
+"lines": [
+"7"
+],
+"admin": [
+"Aubervilliers"
+],
+"state": [
+"en fonctionnement"
+],
+"close": []
+},
+"Q1458421": {
+"name": "Pont-Neuf",
+"lines": [
+"7"
+],
+"admin": [
+"1er arrondissement de Paris"
+],
+"state": [
+"en fonctionnement"
+],
+"close": []
+},
+"Q1494174": {
+"name": "Gare du Nord",
+"lines": [
+"4",
+"5"
+],
+"admin": [
+"10ᵉ arrondissement de Paris"
+],
+"state": [
+"en fonctionnement"
+],
+"close": []
+},
+"Q1495676": {
+"name": "Ourcq",
+"lines": [
+"5"
+],
+"admin": [
+"19e arrondissement de Paris"
+],
+"state": [
+"en fonctionnement"
+],
+"close": []
+},
+"Q1529016": {
+"name": "Glacière",
+"lines": [
+"6"
+],
+"admin": [
+"13e arrondissement de Paris"
+],
+"state": [
+"en fonctionnement"
+],
+"close": []
+},
+"Q1572249": {
+"name": "Laumière",
+"lines": [
+"5"
+],
+"admin": [
+"19e arrondissement de Paris"
+],
+"state": [
+"en fonctionnement"
+],
+"close": []
+},
+"Q1576609": {
+"name": "Passy",
+"lines": [
+"6"
+],
+"admin": [
+"16e arrondissement de Paris"
+],
+"state": [
+"en fonctionnement"
+],
+"close": []
+},
+"Q1576810": {
+"name": "Les Halles",
+"lines": [
+"4"
+],
+"admin": [
+"1er arrondissement de Paris"
+],
+"state": [
+"en fonctionnement"
+],
+"close": []
+},
+"Q1110656": {
+"name": "Colonel Fabien",
+"lines": [
+"2"
+],
+"admin": [
+"10ᵉ arrondissement de Paris",
+"19e arrondissement de Paris"
+],
+"state": [
+"en fonctionnement"
+],
+"close": []
+},
+"Q1137705": {
+"name": "Couronnes",
+"lines": [
+"2"
+],
+"admin": [
+"11e arrondissement de Paris",
+"20e arrondissement de Paris"
+],
+"state": [
+"en fonctionnement"
+],
+"close": []
+},
+"Q1315757": {
+"name": "Rue Saint-Maur",
+"lines": [
+"3"
+],
+"admin": [
+"11e arrondissement de Paris"
+],
+"state": [
+"en fonctionnement"
+],
+"close": []
+},
+"Q1344536": {
+"name": "Porte Maillot",
+"lines": [
+"1"
+],
+"admin": [
+"16e arrondissement de Paris",
+"17e arrondissement de Paris"
+],
+"state": [
+"en fonctionnement"
+],
+"close": []
+},
+"Q1576648": {
+"name": "Tolbiac",
+"lines": [
+"7"
+],
+"admin": [
+"13e arrondissement de Paris"
+],
+"state": [
+"en fonctionnement"
+],
+"close": []
+},
+"Q1578030": {
+"name": "Oberkampf",
+"lines": [
+"5",
+"9"
+],
+"admin": [
+"11e arrondissement de Paris"
+],
+"state": [
+"en fonctionnement"
+],
+"close": []
+},
+"Q1651903": {
+"name": "Lourmel",
+"lines": [
+"8"
+],
+"admin": [
+"15e arrondissement de Paris"
+],
+"state": [
+"en fonctionnement"
+],
+"close": []
+},
+"Q1666283": {
+"name": "Porte de Charenton",
+"lines": [
+"8"
+],
+"admin": [
+"12e arrondissement de Paris"
+],
+"state": [
+"en fonctionnement"
+],
+"close": []
+},
+"Q1683797": {
+"name": "Jasmin",
+"lines": [
+"9"
+],
+"admin": [
+"16e arrondissement de Paris"
+],
+"state": [
+"en fonctionnement"
+],
+"close": []
+},
+"Q1725892": {
+"name": "Liberté",
+"lines": [
+"8"
+],
+"admin": [
+"Charenton-le-Pont"
+],
+"state": [
+"en fonctionnement"
+],
+"close": []
+},
+"Q1768692": {
+"name": "Alma - Marceau",
+"lines": [
+"9"
+],
+"admin": [
+"8e arrondissement de Paris"
+],
+"state": [
+"en fonctionnement"
+],
+"close": []
+},
+"Q1772478": {
+"name": "Riquet",
+"lines": [
+"7"
+],
+"admin": [
+"19e arrondissement de Paris"
+],
+"state": [
+"en fonctionnement"
+],
+"close": []
+},
+"Q1783617": {
+"name": "Les Gobelins",
+"lines": [
+"7"
+],
+"admin": [
+"13e arrondissement de Paris"
+],
+"state": [
+"en fonctionnement"
+],
+"close": []
+},
+"Q1783630": {
+"name": "Porte d'Italie",
+"lines": [
+"7"
+],
+"admin": [
+"13e arrondissement de Paris"
+],
+"state": [
+"en fonctionnement"
+],
+"close": []
+},
+"Q1783997": {
+"name": "Mairie d'Ivry",
+"lines": [
+"7"
+],
+"admin": [
+"Ivry-sur-Seine"
+],
+"state": [
+"en fonctionnement"
+],
+"close": []
+},
+"Q1784003": {
+"name": "Pierre et Marie Curie",
+"lines": [
+"7"
+],
+"admin": [
+"Ivry-sur-Seine"
+],
+"state": [
+"en fonctionnement"
+],
+"close": []
+},
+"Q1784008": {
+"name": "Le Peletier",
+"lines": [
+"7"
+],
+"admin": [
+"9e arrondissement de Paris"
+],
+"state": [
+"en fonctionnement"
+],
+"close": []
+},
+"Q1784015": {
+"name": "Porte d'Ivry",
+"lines": [
+"7"
+],
+"admin": [
+"13e arrondissement de Paris"
+],
+"state": [
+"en fonctionnement"
+],
+"close": []
+},
+"Q1784141": {
+"name": "Robespierre",
+"lines": [
+"9"
+],
+"admin": [
+"Montreuil"
+],
+"state": [
+"en fonctionnement"
+],
+"close": []
+},
+"Q1784247": {
+"name": "Saint-Philippe du Roule",
+"lines": [
+"9"
+],
+"admin": [
+"8e arrondissement de Paris"
+],
+"state": [
+"en fonctionnement"
+],
+"close": []
+},
+"Q1789126": {
+"name": "Voltaire",
+"lines": [
+"9"
+],
+"admin": [
+"11e arrondissement de Paris"
+],
+"state": [
+"en fonctionnement"
+],
+"close": []
+},
+"Q1789135": {
+"name": "Place des Fêtes",
+"lines": [
+"11",
+"7bis"
+],
+"admin": [
+"19e arrondissement de Paris"
+],
+"state": [
+"en fonctionnement"
+],
+"close": []
+},
+"Q1845408": {
+"name": "Créteil - Préfecture",
+"lines": [
+"8"
+],
+"admin": [
+"Créteil"
+],
+"state": [
+"en fonctionnement"
+],
+"close": []
+},
+"Q1969472": {
+"name": "Rue des Boulets",
+"lines": [
+"9"
+],
+"admin": [
+"11e arrondissement de Paris"
+],
+"state": [
+"en fonctionnement"
+],
+"close": []
+},
+"Q1969904": {
+"name": "Pont de Sèvres",
+"lines": [
+"9"
+],
+"admin": [
+"Boulogne-Billancourt"
+],
+"state": [
+"en fonctionnement"
+],
+"close": []
+},
+"Q1969938": {
+"name": "Ranelagh",
+"lines": [
+"9"
+],
+"admin": [
+"16e arrondissement de Paris"
+],
+"state": [
+"en fonctionnement"
+],
+"close": []
+},
+"Q2687093": {
+"name": "Champ de Mars",
+"lines": [
+"8"
+],
+"admin": [
+"7e arrondissement de Paris"
+],
+"state": [
+"abandonné"
+],
+"close": [
+"1939-09-02"
+]
+},
+"Q1578103": {
+"name": "Pasteur",
+"lines": [
+"12",
+"6"
+],
+"admin": [
+"15e arrondissement de Paris"
+],
+"state": [
+"en fonctionnement"
+],
+"close": []
+},
+"Q1612093": {
+"name": "Mairie d'Aubervilliers",
+"lines": [
+"12"
+],
+"admin": [
+"Aubervilliers"
+],
+"state": [
+"en fonctionnement"
+],
+"close": []
+},
+"Q1622759": {
+"name": "Marx Dormoy",
+"lines": [
+"12"
+],
+"admin": [
+"18e arrondissement de Paris"
+],
+"state": [
+"en fonctionnement"
+],
+"close": []
+},
+"Q1789145": {
+"name": "Maubert - Mutualité",
+"lines": [
+"10"
+],
+"admin": [
+"5e arrondissement de Paris"
+],
+"state": [
+"en fonctionnement"
+],
+"close": []
+},
+"Q1885858": {
+"name": "Mairie d'Issy",
+"lines": [
+"12"
+],
+"admin": [
+"Issy-les-Moulineaux"
+],
+"state": [
+"en fonctionnement"
+],
+"close": []
+},
+"Q1892927": {
+"name": "Marcadet - Poissonniers",
+"lines": [
+"12",
+"4"
+],
+"admin": [
+"18e arrondissement de Paris"
+],
+"state": [
+"en fonctionnement"
+],
+"close": []
+},
+"Q1937499": {
+"name": "Saint-Georges",
+"lines": [
+"12"
+],
+"admin": [
+"9e arrondissement de Paris"
+],
+"state": [
+"en fonctionnement"
+],
+"close": []
+},
+"Q1969289": {
+"name": "Porte de Versailles",
+"lines": [
+"12"
+],
+"admin": [
+"15e arrondissement de Paris"
+],
+"state": [
+"en fonctionnement"
+],
+"close": []
+},
+"Q1969303": {
+"name": "Pyrénées",
+"lines": [
+"11"
+],
+"admin": [
+"19e arrondissement de Paris",
+"20e arrondissement de Paris"
+],
+"state": [
+"en fonctionnement"
+],
+"close": []
+},
+"Q1969677": {
+"name": "Rennes",
+"lines": [
+"12"
+],
+"admin": [
+"6e arrondissement de Paris"
+],
+"state": [
+"en fonctionnement"
+],
+"close": []
+},
+"Q1970325": {
+"name": "Notre-Dame-des-Champs",
+"lines": [
+"12"
+],
+"admin": [
+"Notre-Dame-des-Champs"
+],
+"state": [
+"en fonctionnement"
+],
+"close": []
+},
+"Q16040484": {
+"name": "Montreuil - Hôpital",
+"lines": [
+"11",
+"9"
+],
+"admin": [
+"Montreuil",
+"Noisy-le-Sec"
+],
+"state": [
+"en fonctionnement"
+],
+"close": []
+},
+"Q16040556": {
+"name": "La Dhuys",
+"lines": [
+"11"
+],
+"admin": [
+"Montreuil",
+"Rosny-sous-Bois"
+],
+"state": [
+"en fonctionnement"
+],
+"close": []
+},
+"Q16040585": {
+"name": "Serge Gainsbourg",
+"lines": [
+"11"
+],
+"admin": [
+"Les Lilas"
+],
+"state": [
+"en fonctionnement"
+],
+"close": []
+},
+"Q16040626": {
+"name": "Coteaux Beauclair",
+"lines": [
+"11"
+],
+"admin": [
+"Noisy-le-Sec",
+"Rosny-sous-Bois"
+],
+"state": [
+"en fonctionnement"
+],
+"close": []
+},
+"Q16040875": {
+"name": "Romainville - Carnot",
+"lines": [
+"11"
+],
+"admin": [
+"Noisy-le-Sec",
+"Romainville"
+],
+"state": [
+"en fonctionnement"
+],
+"close": []
+},
+"Q16041052": {
+"name": "Rosny-Bois-Perrier",
+"lines": [
+"11"
+],
+"admin": [
+"Rosny-sous-Bois"
+],
+"state": [
+"en fonctionnement"
+],
+"close": []
+},
+"Q19945187": {
+"name": "Noisy - Champs",
+"lines": [
+"11"
+],
+"admin": [
+"Noisy-le-Grand"
+],
+"state": [
+"en construction"
+],
+"close": []
+},
+"Q65225500": {
+"name": "Ivry-Gambetta",
+"lines": [
+"10"
+],
+"admin": [
+"Ivry-sur-Seine"
+],
+"state": [
+"bâtiment ou structure en projet"
+],
+"close": []
+},
+"Q65225503": {
+"name": "Ivry Port - Mandela",
+"lines": [
+"10"
+],
+"admin": [
+"Ivry-sur-Seine"
+],
+"state": [
+"bâtiment ou structure en projet"
+],
+"close": []
+},
+"Q65225578": {
+"name": "Bruneseau - Masséna",
+"lines": [
+"10"
+],
+"admin": [
+"13e arrondissement de Paris"
+],
+"state": [
+"bâtiment ou structure en projet"
+],
+"close": []
+},
+"Q65225625": {
+"name": "Neuilly-Fauvettes",
+"lines": [
+"11"
+],
+"admin": [
+"Neuilly-sur-Marne"
+],
+"state": [
+"bâtiment ou structure en projet"
+],
+"close": []
+},
+"Q65225628": {
+"name": "Neuilly-Hôpitaux",
+"lines": [
+"11"
+],
+"admin": [
+"Neuilly-sur-Marne"
+],
+"state": [
+"bâtiment ou structure en projet"
+],
+"close": []
+},
+"Q65225725": {
+"name": "Villemomble",
+"lines": [
+"11"
+],
+"admin": [
+"Villemomble"
+],
+"state": [
+"bâtiment ou structure en projet"
+],
+"close": []
+},
+"Q85968663": {
+"name": "Parc de Saint-Cloud",
+"lines": [
+"10"
+],
+"admin": [],
+"state": [
+"bâtiment ou structure en projet"
+],
+"close": []
+},
+"Q108990983": {
+"name": "Aristide Briand",
+"lines": [
+"9"
+],
+"admin": [
+"Montreuil"
+],
+"state": [
+"bâtiment ou structure en projet"
+],
+"close": []
+},
+"Q1677923": {
+"name": "Jacques Bonsergent",
+"lines": [
+"5"
+],
+"admin": [
+"10ᵉ arrondissement de Paris"
+],
+"state": [
+"en fonctionnement"
+],
+"close": []
+},
+"Q1783894": {
+"name": "Saint-Sulpice",
+"lines": [
+"4"
+],
+"admin": [
+"6e arrondissement de Paris"
+],
+"state": [
+"en fonctionnement"
+],
+"close": []
+},
+"Q1783899": {
+"name": "Bir-Hakeim",
+"lines": [
+"6"
+],
+"admin": [
+"15e arrondissement de Paris"
+],
+"state": [
+"en fonctionnement"
+],
+"close": []
+},
+"Q1785048": {
+"name": "Porte de Pantin",
+"lines": [
+"5"
+],
+"admin": [
+"19e arrondissement de Paris"
+],
+"state": [
+"en fonctionnement"
+],
+"close": []
+},
+"Q1789070": {
+"name": "Richard-Lenoir",
+"lines": [
+"5"
+],
+"admin": [
+"11e arrondissement de Paris"
+],
+"state": [
+"en fonctionnement"
+],
+"close": []
+},
+"Q1969443": {
+"name": "Sèvres - Lecourbe",
+"lines": [
+"6"
+],
+"admin": [
+"15e arrondissement de Paris"
+],
+"state": [
+"en fonctionnement"
+],
+"close": []
+},
+"Q1969480": {
+"name": "Porte de Clignancourt",
+"lines": [
+"4"
+],
+"admin": [
+"18e arrondissement de Paris"
+],
+"state": [
+"en fonctionnement"
+],
+"close": []
+},
+"Q1969501": {
+"name": "Quai de la Rapée",
+"lines": [
+"5"
+],
+"admin": [
+"12e arrondissement de Paris"
+],
+"state": [
+"en fonctionnement"
+],
+"close": []
+},
+"Q1969659": {
+"name": "Quai de la Gare",
+"lines": [
+"6"
+],
+"admin": [
+"13e arrondissement de Paris"
+],
+"state": [
+"en fonctionnement"
+],
+"close": []
+},
+"Q1999538": {
+"name": "Saint-Jacques",
+"lines": [
+"6"
+],
+"admin": [
+"14e arrondissement de Paris"
+],
+"state": [
+"en fonctionnement"
+],
+"close": []
+},
+"Q2270685": {
+"name": "Mairie de Montrouge",
+"lines": [
+"4"
+],
+"admin": [
+"Montrouge"
+],
+"state": [
+"en fonctionnement"
+],
+"close": []
+},
+"Q2879106": {
+"name": "Bagneux - Lucie Aubrac",
+"lines": [
+"4"
+],
+"admin": [
+"Bagneux"
+],
+"state": [
+"en fonctionnement"
+],
+"close": []
+},
+"Q3501980": {
+"name": "Barbara",
+"lines": [
+"4"
+],
+"admin": [
+"Bagneux",
+"Montrouge"
+],
+"state": [
+"en fonctionnement"
+],
+"close": []
+},
+"Q31190681": {
+"name": "Bobigny - La Folie",
+"lines": [
+"5"
+],
+"admin": [
+"Bobigny"
+],
+"state": [
+"bâtiment ou structure en projet"
+],
+"close": []
+},
+"Q1578058": {
+"name": "Raspail",
+"lines": [
+"4",
+"6"
+],
+"admin": [
+"14e arrondissement de Paris"
+],
+"state": [
+"en fonctionnement"
+],
+"close": []
+},
+"Q1598555": {
+"name": "Saint-Michel",
+"lines": [
+"4"
+],
+"admin": [
+"5e arrondissement de Paris",
+"6e arrondissement de Paris"
+],
+"state": [
+"en fonctionnement"
+],
+"close": []
+}
+}
