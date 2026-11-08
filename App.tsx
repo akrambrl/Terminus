@@ -20,6 +20,7 @@ import {
 } from './src/game/storage';
 import type { Criterion, LineId, Station } from './src/game/types';
 import { colors, fonts, palette, WEB_TOP_GAP } from './src/theme';
+import { APP_VERSION } from './src/version';
 import { GuessTrack } from './src/components/GuessTrack';
 import { Logo } from './src/components/Logo';
 import { useFonts } from 'expo-font';
@@ -241,7 +242,7 @@ function Game() {
         </View>
 
         <Text style={styles.disclaimer}>
-          Jeu non officiel, sans lien avec la RATP ni Île-de-France Mobilités.
+          Jeu non officiel, sans lien avec la RATP ni Île-de-France Mobilités.{'\n'}Version {APP_VERSION}
         </Text>
       </ScrollView>
 

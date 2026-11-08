@@ -66,14 +66,14 @@ const transferCriteria: Criterion[] = [
   {
     id: 'transfer',
     kind: 'transfer',
-    label: 'Correspondance',
+    label: '2 lignes ou +',
     description: 'Au moins deux lignes de métro desservent la station.',
     test: (s) => s.lines.length >= 2,
   },
   {
     id: 'rer',
     kind: 'transfer',
-    label: 'Correspondance RER',
+    label: 'Avec RER',
     description: 'La station est en correspondance avec au moins une ligne de RER (A, B, C, D ou E).',
     test: (s) => s.rer.length > 0,
   },
@@ -183,7 +183,7 @@ const MONUMENTS: { id: string; place: string; of: string; lat: number; lon: numb
   { id: 'pompidou', place: 'Centre Pompidou', of: 'du Centre Pompidou', lat: 48.8607, lon: 2.3522, km: 1.5 },
   { id: 'invalides', place: 'Invalides', of: 'des Invalides', lat: 48.8556, lon: 2.3126, km: 2 },
   { id: 'pere-lachaise', place: 'Père-Lachaise', of: 'du Père-Lachaise', lat: 48.8614, lon: 2.3933, km: 2 },
-  { id: 'bnf', place: 'Bibliothèque F.-Mitterrand', of: 'de la Bibliothèque François-Mitterrand', lat: 48.8336, lon: 2.3758, km: 2 },
+  { id: 'bnf', place: 'BnF Mitterrand', of: 'de la Bibliothèque François-Mitterrand', lat: 48.8336, lon: 2.3758, km: 2 },
   { id: 'philharmonie', place: 'Philharmonie', of: 'de la Philharmonie (La Villette)', lat: 48.8913, lon: 2.3936, km: 3 },
   { id: 'parc-princes', place: 'Parc des Princes', of: 'du Parc des Princes', lat: 48.8414, lon: 2.253, km: 3 },
 ];
