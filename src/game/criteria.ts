@@ -94,8 +94,9 @@ const nameCriteria: Criterion[] = [
   {
     id: 'double',
     kind: 'name',
-    label: 'Nom double',
-    description: 'Le nom est composé de deux parties séparées par un tiret (ex. « Sèvres - Babylone »).',
+    label: 'Nom en 2 parties',
+    description:
+      'Le nom associe deux lieux ou personnes séparés par un tiret, comme « Sèvres - Babylone » ou « Barbès - Rochechouart ». Les noms simplement composés comme « Pont-Neuf » ne comptent pas.',
     test: (s) => s.name.includes(' - '),
   },
   {
