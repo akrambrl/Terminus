@@ -23,6 +23,7 @@ import { colors, fonts, palette, WEB_TOP_GAP } from './src/theme';
 import { APP_VERSION } from './src/version';
 import { GuessTrack } from './src/components/GuessTrack';
 import { Logo } from './src/components/Logo';
+import { Intro } from './src/components/Intro';
 import { useFonts } from 'expo-font';
 // Import poids par poids pour n'embarquer que les fichiers de police utilisés.
 import { BricolageGrotesque_800ExtraBold } from '@expo-google-fonts/bricolage-grotesque/800ExtraBold';
@@ -78,6 +79,7 @@ function Game() {
   const [showHelp, setShowHelp] = useState(false);
   const [showResult, setShowResult] = useState(false);
   const [copied, setCopied] = useState(false);
+  const [showIntro, setShowIntro] = useState(true);
 
   // Chargement de la grille du jour sauvegardée et des statistiques.
   useEffect(() => {
@@ -184,6 +186,7 @@ function Game() {
   if (!loaded || !(fontsLoaded || fontError)) return <View style={styles.screen} />;
 
   return (
+    <View style={styles.root}>
     <SafeAreaView style={styles.screen}>
       <StatusBar style="dark" />
       <ScrollView contentContainerStyle={[styles.content, { paddingTop: WEB_TOP_GAP }]}>
@@ -312,7 +315,7 @@ function Game() {
       </InfoModal>
 
       <InfoModal
-        visible={showHelp}
+        visible={showHelp && !showIntro}
         title="Comment jouer"
         onClose={() => {
           setShowHelp(false);
@@ -339,6 +342,8 @@ function Game() {
         </Text>
       </InfoModal>
     </SafeAreaView>
+    {showIntro && <Intro onDone={() => setShowIntro(false)} />}
+    </View>
   );
 }
 
@@ -391,6 +396,7 @@ function formatDay(day: string) {
 }
 
 const styles = StyleSheet.create({
+  root: { flex: 1, backgroundColor: colors.ink },
   screen: { flex: 1, backgroundColor: colors.background },
   content: { alignItems: 'center', paddingHorizontal: 16, paddingBottom: 32 },
   header: {
