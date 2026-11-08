@@ -3,11 +3,12 @@ import { USABLE_CRITERIA } from './criteria';
 import { createRng, pick, shuffle } from './rng';
 import type { Criterion, CriterionKind, Puzzle } from './types';
 
-const MIN_ANSWERS = 2;
+/** Nombre minimum de réponses possibles par case : au moins 3 pour rester abordable. */
+const MIN_ANSWERS = 3;
 
 /** Poids de chaque famille de critères : les lignes doivent dominer. */
 const KIND_WEIGHTS: [CriterionKind, number][] = [
-  ['line', 5],
+  ['line', 4],
   ['near', 3],
   ['place', 2],
   ['name', 2],
@@ -16,7 +17,7 @@ const KIND_WEIGHTS: [CriterionKind, number][] = [
 
 /** Nombre maximum de critères de chaque famille dans une grille. */
 const KIND_MAX: Record<CriterionKind, number> = {
-  line: 6,
+  line: 3,
   near: 2,
   place: 1,
   name: 2,
@@ -32,11 +33,12 @@ function pickKind(rng: () => number): CriterionKind {
   return 'line';
 }
 
-/** Deux critères peuvent se croiser s'ils ne sont pas de la même famille (sauf deux lignes). */
+/**
+ * Deux critères ne se croisent que s'ils sont de familles différentes.
+ * En particulier, jamais deux lignes l'une contre l'autre : trop peu de stations y répondent.
+ */
 function compatible(a: Criterion, b: Criterion): boolean {
-  if (a.id === b.id) return false;
-  if (a.kind === b.kind && a.kind !== 'line') return false;
-  return true;
+  return a.kind !== b.kind;
 }
 
 /** Vérifie qu'on peut remplir la grille avec 9 stations différentes (couplage biparti). */
@@ -58,26 +60,44 @@ function hasDistinctSolution(answers: string[][][]): boolean {
   return cells.every((_, i) => tryCell(i, new Set()));
 }
 
-function drawCriterion(rng: () => number, taken: Criterion[]): Criterion | null {
-  const kind = pickKind(rng);
+function drawCriterion(
+  rng: () => number,
+  taken: Criterion[],
+  excludedKinds: Set<CriterionKind>,
+): Criterion | null {
+  let kind = pickKind(rng);
+  for (let i = 0; i < 20 && excludedKinds.has(kind); i++) kind = pickKind(rng);
+  if (excludedKinds.has(kind)) return null;
   const options = USABLE_CRITERIA.filter(
     (c) => c.kind === kind && !taken.some((t) => t.id === c.id),
   );
   return options.length ? pick(rng, options) : null;
 }
 
+/** Tire les 3 critères d'un axe, en évitant les familles déjà présentes sur l'autre axe. */
+function drawAxis(rng: () => number, taken: Criterion[], excludedKinds: Set<CriterionKind>): Criterion[] {
+  const axis: Criterion[] = [];
+  for (let guard = 0; axis.length < 3 && guard < 50; guard++) {
+    const c = drawCriterion(rng, [...taken, ...axis], excludedKinds);
+    // Un seul critère de proximité par axe : deux monuments voisins donneraient les mêmes réponses.
+    if (c && !(c.kind === 'near' && axis.some((a) => a.kind === 'near'))) axis.push(c);
+  }
+  return axis;
+}
+
 export function generatePuzzle(seed: string): Puzzle {
   const rng = createRng(seed);
   for (let attempt = 0; attempt < 5000; attempt++) {
-    const chosen: Criterion[] = [];
-    while (chosen.length < 6) {
-      const c = drawCriterion(rng, chosen);
-      if (c) chosen.push(c);
-    }
-    const [rows, cols] = [chosen.slice(0, 3), chosen.slice(3)];
-    // Au moins deux lignes, et pas trop de critères d'une même famille.
+    const first = drawAxis(rng, [], new Set());
+    const second = drawAxis(rng, first, new Set(first.map((c) => c.kind)));
+    if (first.length < 3 || second.length < 3) continue;
+    // L'axe des lignes est tantôt en haut, tantôt à gauche.
+    const [rows, cols] = rng() < 0.5 ? [first, second] : [second, first];
+    const chosen = [...rows, ...cols];
+
+    // Au moins une ligne, et pas trop de critères d'une même famille.
     const count = (k: CriterionKind) => chosen.filter((c) => c.kind === k).length;
-    if (count('line') < 2) continue;
+    if (count('line') < 1) continue;
     if (KIND_WEIGHTS.some(([k]) => count(k) > KIND_MAX[k])) continue;
     if (chosen.filter((c) => c.id.startsWith('letter-')).length > 1) continue;
     if (chosen.filter((c) => c.id.startsWith('contains-')).length > 1) continue;

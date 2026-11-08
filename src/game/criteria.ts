@@ -19,6 +19,42 @@ const lineCriteria: Criterion[] = LINES.map((l) => ({
   test: (s) => s.lines.includes(l),
 }));
 
+const LINE_GROUPS: { id: string; label: string; description: string; lines: LineId[] }[] = [
+  {
+    id: 'auto',
+    label: 'Ligne automatique',
+    description: 'La station est desservie par une ligne sans conducteur : 1, 4 ou 14.',
+    lines: ['1', '4', '14'],
+  },
+  {
+    id: 'bis',
+    label: 'Ligne bis',
+    description: 'La station est desservie par la ligne 3 bis ou la ligne 7 bis.',
+    lines: ['3bis', '7bis'],
+  },
+  {
+    id: '3-3bis',
+    label: 'Ligne 3 ou 3 bis',
+    description: 'La station est desservie par la ligne 3 ou la ligne 3 bis.',
+    lines: ['3', '3bis'],
+  },
+  {
+    id: '7-7bis',
+    label: 'Ligne 7 ou 7 bis',
+    description: 'La station est desservie par la ligne 7 ou la ligne 7 bis.',
+    lines: ['7', '7bis'],
+  },
+];
+
+const lineGroupCriteria: Criterion[] = LINE_GROUPS.map((g) => ({
+  id: `lines-${g.id}`,
+  kind: 'line',
+  label: g.label,
+  description: g.description,
+  lines: g.lines,
+  test: (s) => s.lines.some((l) => (g.lines as string[]).includes(l)),
+}));
+
 const transferCriteria: Criterion[] = [
   {
     id: 'single',
@@ -207,6 +243,7 @@ const nearCriteria: Criterion[] = [
 
 export const ALL_CRITERIA: Criterion[] = [
   ...lineCriteria,
+  ...lineGroupCriteria,
   ...transferCriteria,
   ...placeCriteria,
   ...nearCriteria,

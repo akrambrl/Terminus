@@ -17,7 +17,11 @@ interface Props {
 
 /** Une case trouvée prend la couleur de la ligne demandée, sinon de la première ligne de la station. */
 function cellLine(station: Station, row: Criterion, col: Criterion): LineId {
-  return (row.line ?? col.line ?? station.lines[0]) as LineId;
+  const wanted = row.line ?? col.line;
+  if (wanted) return wanted;
+  const group = row.lines ?? col.lines;
+  const inGroup = group && station.lines.find((l) => (group as string[]).includes(l));
+  return (inGroup ?? station.lines[0]) as LineId;
 }
 
 export function Grid({ puzzle, cells, finished, width, onPressCell, onPressCriterion }: Props) {

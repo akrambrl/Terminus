@@ -1,4 +1,4 @@
-// Vérifie que les grilles des 365 prochains jours se génèrent correctement.
+// Vérifie que les grilles des 730 prochains jours (2 ans) se génèrent correctement.
 // Usage : npx tsx scripts/check-puzzles.ts
 import { STATIONS } from '../src/data/stations';
 import { ALL_CRITERIA, USABLE_CRITERIA } from '../src/game/criteria';
@@ -11,7 +11,7 @@ for (const c of ALL_CRITERIA) {
 }
 const usage = new Map<string, number>();
 const start = new Date(2026, 10, 8);
-for (let i = 0; i < 365; i++) {
+for (let i = 0; i < 730; i++) {
   const d = new Date(start);
   d.setDate(start.getDate() + i);
   const p = generatePuzzle(dailySeed(todayKey(d)));
@@ -23,4 +23,4 @@ for (let i = 0; i < 365; i++) {
     );
   }
 }
-console.log('\n365 grilles OK. Répartition des critères :', Object.fromEntries(usage));
+console.log('\n730 grilles OK. Répartition des critères :', Object.fromEntries(usage));

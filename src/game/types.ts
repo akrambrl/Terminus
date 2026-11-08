@@ -27,6 +27,8 @@ export interface Criterion {
   /** Explication plus complète (aide, résultats). */
   description: string;
   line?: LineId;
+  /** Groupe de lignes (« Ligne automatique » : 1, 4, 14…), affiché avec ses pastilles. */
+  lines?: LineId[];
   /** Critère de proximité : rayon et monument, pour l'affichage sur deux lignes. */
   near?: { km: number; place: string };
   test: (s: Station) => boolean;

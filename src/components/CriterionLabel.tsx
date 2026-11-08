@@ -1,6 +1,6 @@
 import { StyleSheet, Text, View } from 'react-native';
 import type { Criterion } from '../game/types';
-import { fonts, kindColors } from '../theme';
+import { colors, fonts, kindColors } from '../theme';
 import { LineBadge } from './LineBadge';
 
 export function CriterionLabel({ criterion, size }: { criterion: Criterion; size: number }) {
@@ -8,6 +8,20 @@ export function CriterionLabel({ criterion, size }: { criterion: Criterion; size
     return (
       <View style={styles.center}>
         <LineBadge line={criterion.line} size={Math.min(46, size * 0.52)} />
+      </View>
+    );
+  }
+  if (criterion.lines) {
+    return (
+      <View style={[styles.card, styles.groupCard]}>
+        <Text style={[styles.text, styles.groupText]} numberOfLines={2} adjustsFontSizeToFit>
+          {criterion.label}
+        </Text>
+        <View style={styles.groupBadges}>
+          {criterion.lines.map((l) => (
+            <LineBadge key={l} line={l} size={Math.min(20, size * 0.2)} />
+          ))}
+        </View>
       </View>
     );
   }
@@ -43,5 +57,8 @@ const styles = StyleSheet.create({
     padding: 6,
   },
   text: { fontFamily: fonts.heavy, fontSize: 13, lineHeight: 16, textAlign: 'center' },
+  groupCard: { backgroundColor: colors.surface, borderWidth: 2, borderColor: colors.ink, gap: 5 },
+  groupText: { color: colors.ink, fontSize: 12, lineHeight: 15 },
+  groupBadges: { flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'center', gap: 3 },
   nearKm: { fontFamily: fonts.bold, fontSize: 10, marginBottom: 2, opacity: 0.9, textAlign: 'center' },
 });
