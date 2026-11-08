@@ -24,6 +24,8 @@ import { APP_VERSION } from './src/version';
 import { GuessTrack } from './src/components/GuessTrack';
 import { Logo } from './src/components/Logo';
 import { Intro } from './src/components/Intro';
+import { AdBanner } from './src/ads/AdBanner';
+import { adsActive } from './src/ads/config';
 import { useFonts } from 'expo-font';
 // Import poids par poids pour n'embarquer que les fichiers de police utilisés.
 import { BricolageGrotesque_800ExtraBold } from '@expo-google-fonts/bricolage-grotesque/800ExtraBold';
@@ -187,7 +189,7 @@ function Game() {
 
   return (
     <View style={styles.root}>
-    <SafeAreaView style={styles.screen}>
+    <SafeAreaView style={styles.screen} edges={adsActive ? ['top', 'left', 'right'] : undefined}>
       <StatusBar style="dark" />
       <ScrollView contentContainerStyle={[styles.content, { paddingTop: WEB_TOP_GAP }]}>
         <View style={[styles.header, { width: gridWidth }]}>
@@ -248,6 +250,8 @@ function Game() {
           Jeu non officiel, sans lien avec la RATP ni Île-de-France Mobilités.{'\n'}Version {APP_VERSION}
         </Text>
       </ScrollView>
+      {/* Bannière publicitaire (app des stores uniquement, désactivée pour l'instant). */}
+      <AdBanner />
 
       <SearchModal
         visible={!!active}

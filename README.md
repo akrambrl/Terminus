@@ -34,6 +34,24 @@ branche `claude/wizardly-pascal-n4gfcz` (ou `main` après fusion), dossier `/ (r
 Si le dossier choisi devient `/docs`, remplacer `/Terminus/docs` par `/Terminus`
 dans le script `build:pages` de `package.json`.
 
+## Publicité (bannière AdMob)
+
+L'emplacement est prêt mais désactivé : `src/ads/config.ts` (`ADS_ENABLED = false`).
+La bannière est fixée en bas de l'écran, sous la zone qui défile, et n'apparaît jamais
+dans la version web.
+
+- Pour voir l'emplacement sans pub : `SHOW_AD_PLACEHOLDER = true` (dans un build natif / Expo Go).
+- Pour activer AdMob au moment de la sortie :
+  1. Créer l'app dans AdMob (iOS et Android) et une bannière pour chacune.
+  2. `npx expo install react-native-google-mobile-ads`, puis ajouter le plugin dans `app.json`
+     avec `androidAppId` et `iosAppId`.
+  3. Mettre les identifiants de bannière dans `BANNER_UNIT_ID` et `ADS_ENABLED = true`.
+  4. Dans `src/ads/AdBanner.tsx`, remplacer l'encart par
+     `<BannerAd unitId={BANNER_UNIT_ID} size={BannerAdSize.ANCHORED_ADAPTIVE_BANNER} />`.
+  5. Ajouter le formulaire de consentement RGPD (UMP, fourni par la même bibliothèque)
+     et, sur iOS, la demande de suivi (App Tracking Transparency).
+  6. Construire avec EAS (la bibliothèque ne marche pas dans Expo Go).
+
 ## Vérifications
 
 ```bash
