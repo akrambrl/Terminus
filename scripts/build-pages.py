@@ -11,7 +11,7 @@ import glob, os, shutil
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 DIST = os.path.join(ROOT, 'dist')
 DOCS = os.path.join(ROOT, 'docs')
-BASE = os.environ.get('PAGES_BASE_URL', '/Baraparfum').rstrip('/')
+BASE = os.environ.get('PAGES_BASE_URL', '/Terminus').rstrip('/')
 
 index = os.path.join(DIST, 'index.html')
 html = open(index, encoding='utf-8').read()

@@ -1,5 +1,5 @@
 // Complète app.json. PAGES_BASE_URL sert à publier la version web dans un sous-dossier
-// (GitHub Pages : https://akrambrl.github.io/Baraparfum/).
+// (GitHub Pages : https://akrambrl.github.io/Terminus/).
 module.exports = ({ config }) => ({
   ...config,
   experiments: {
