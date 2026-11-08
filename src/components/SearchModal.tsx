@@ -26,9 +26,45 @@ interface Props {
   onClose: () => void;
 }
 
+interface VisualViewportLike {
+  height: number;
+  offsetTop: number;
+  addEventListener: (type: string, cb: () => void) => void;
+  removeEventListener: (type: string, cb: () => void) => void;
+}
+
+/**
+ * Sur le web (Safari iPhone surtout), le clavier réduit la zone visible et fait glisser la page :
+ * on suit cette zone (visualViewport) pour y caler l'écran de recherche.
+ */
+function useVisibleArea(active: boolean): { top: number; height: number } | null {
+  const [area, setArea] = useState<{ top: number; height: number } | null>(null);
+  useEffect(() => {
+    const g = globalThis as unknown as {
+      visualViewport?: VisualViewportLike;
+      scrollTo?: (x: number, y: number) => void;
+    };
+    const vv = g.visualViewport;
+    if (Platform.OS !== 'web' || !active || !vv) return;
+    const update = () => {
+      setArea({ top: vv.offsetTop, height: vv.height });
+    };
+    update();
+    vv.addEventListener('resize', update);
+    vv.addEventListener('scroll', update);
+    return () => {
+      vv.removeEventListener('resize', update);
+      vv.removeEventListener('scroll', update);
+      g.scrollTo?.(0, 0);
+    };
+  }, [active]);
+  return area;
+}
+
 export function SearchModal({ visible, row, col, usedIds, guessesLeft, feedback, onSubmit, onClose }: Props) {
   const [query, setQuery] = useState('');
   const insets = useSafeAreaInsets();
+  const area = useVisibleArea(visible);
   useEffect(() => {
     if (visible) setQuery('');
   }, [visible, row, col]);
@@ -39,7 +75,11 @@ export function SearchModal({ visible, row, col, usedIds, guessesLeft, feedback,
     <Modal visible={visible} animationType="slide" onRequestClose={onClose}>
       {/* Panneau plein écran, champ en haut : il reste visible au-dessus du clavier (iOS Safari compris). */}
       <KeyboardAvoidingView
-        style={[styles.screen, { paddingTop: insets.top + 8 + WEB_TOP_GAP, paddingBottom: insets.bottom }]}
+        style={[
+          styles.screen,
+          { paddingTop: insets.top + 8 + WEB_TOP_GAP, paddingBottom: insets.bottom },
+          area && { position: 'absolute', left: 0, right: 0, top: area.top, height: area.height, flex: undefined },
+        ]}
         behavior={Platform.OS === 'ios' ? 'padding' : undefined}
       >
         <View style={styles.topBar}>
