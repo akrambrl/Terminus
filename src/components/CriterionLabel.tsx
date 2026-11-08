@@ -15,7 +15,7 @@ export function CriterionLabel({ criterion, size }: { criterion: Criterion; size
   if (criterion.near) {
     return (
       <View style={[styles.card, { backgroundColor: bg }]}>
-        <Text style={[styles.nearKm, { color: fg }]}>à moins de {String(criterion.near.km).replace('.', ',')} km</Text>
+        <Text style={[styles.nearKm, { color: fg }]} numberOfLines={1} adjustsFontSizeToFit>à moins de {String(criterion.near.km).replace('.', ',')} km</Text>
         <Text style={[styles.text, { color: fg }]} numberOfLines={2} adjustsFontSizeToFit>
           {criterion.near.place}
         </Text>
@@ -43,5 +43,5 @@ const styles = StyleSheet.create({
     padding: 6,
   },
   text: { fontFamily: fonts.heavy, fontSize: 13, lineHeight: 16, textAlign: 'center' },
-  nearKm: { fontFamily: fonts.bold, fontSize: 11, marginBottom: 2, opacity: 0.9 },
+  nearKm: { fontFamily: fonts.bold, fontSize: 10, marginBottom: 2, opacity: 0.9, textAlign: 'center' },
 });

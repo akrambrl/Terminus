@@ -1,8 +1,18 @@
 import { Platform } from 'react-native';
 import type { CriterionKind, LineId } from './game/types';
 
-/** Marge haute supplémentaire sur le web, pour passer sous les boutons de l'app qui affiche la page. */
-export const WEB_TOP_GAP = Platform.OS === 'web' ? 64 : 0;
+/**
+ * Marge haute supplémentaire quand la version web est affichée dans un cadre (aperçu dans l'app Claude),
+ * pour passer sous ses boutons. Rien en appli native ni en web app installée.
+ */
+const inFrame = (() => {
+  try {
+    return typeof window !== 'undefined' && window.self !== window.top;
+  } catch {
+    return true;
+  }
+})();
+export const WEB_TOP_GAP = Platform.OS === 'web' && inFrame ? 64 : 0;
 
 /*
  * Identité « Correspondances » : fond bleuté comme un carrelage de quai, encre bleu nuit,

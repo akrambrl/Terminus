@@ -17,6 +17,20 @@ npx expo start        # puis scanner le QR code avec l'app Expo Go (iOS / Androi
 npx expo start --web  # version navigateur pour tester rapidement
 ```
 
+## Web app (écran d'accueil)
+
+La version web est publiée avec GitHub Pages depuis le dossier `docs/` :
+https://akrambrl.github.io/Baraparfum/
+
+Après une modification du jeu, régénérer `docs/` puis pousser :
+
+```bash
+npm run build:pages
+```
+
+Réglage GitHub (une seule fois) : Settings → Pages → « Deploy from a branch »,
+branche `claude/wizardly-pascal-n4gfcz` (ou `main` après fusion), dossier `/docs`.
+
 ## Vérifications
 
 ```bash
