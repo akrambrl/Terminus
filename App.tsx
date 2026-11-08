@@ -62,6 +62,7 @@ function Game() {
   const [criterionInfo, setCriterionInfo] = useState<Criterion | null>(null);
   const [showHelp, setShowHelp] = useState(false);
   const [showResult, setShowResult] = useState(false);
+  const [copied, setCopied] = useState(false);
 
   // Chargement de la grille du jour sauvegardée et des statistiques.
   useEffect(() => {
@@ -142,14 +143,25 @@ function Game() {
     finish(cells, 0);
   };
 
-  const share = () => {
+  const share = async () => {
     const grid = cells.map((r) => r.map((c) => (c ? '🟩' : '⬜')).join('')).join('\n');
     const title =
       mode === 'daily' ? `Terminus Paris n°${dailyNumber(day)}` : 'Terminus Paris (partie libre)';
-    Share.share({ message: `${title} : ${found}/9\n${grid}` });
+    const message = `${title} : ${found}/9\n${grid}`;
+    try {
+      await Share.share({ message });
+    } catch {
+      // Navigateur sans fenêtre de partage : on copie le résultat.
+      const clipboard = (globalThis as { navigator?: { clipboard?: Clipboard } }).navigator?.clipboard;
+      if (clipboard) {
+        await clipboard.writeText(message);
+        setCopied(true);
+        setTimeout(() => setCopied(false), 2000);
+      }
+    }
   };
 
-  const gridWidth = Math.min(width - 24, 480);
+  const gridWidth = Math.min(width - 32, 480);
   const activeRow = active ? puzzle.rows[active.row] : undefined;
   const activeCol = active ? puzzle.cols[active.col] : undefined;
 
@@ -268,7 +280,7 @@ function Game() {
         visible={showResult}
         title={found === 9 ? 'Grille parfaite !' : found >= 6 ? 'Bien joué !' : 'Fin de partie'}
         onClose={() => setShowResult(false)}
-        footer={<Button label="Partager mon résultat" onPress={share} primary />}
+        footer={<Button label={copied ? 'Résultat copié !' : 'Partager mon résultat'} onPress={share} primary />}
       >
         <Text style={styles.bigScore}>{found}/9</Text>
         <Text style={[infoStyles.p, { textAlign: 'center' }]}>
@@ -342,7 +354,7 @@ function formatDay(day: string) {
 
 const styles = StyleSheet.create({
   screen: { flex: 1, backgroundColor: colors.background },
-  content: { alignItems: 'center', paddingHorizontal: 12, paddingBottom: 32 },
+  content: { alignItems: 'center', paddingHorizontal: 16, paddingBottom: 32 },
   header: {
     width: '100%',
     maxWidth: 480,
