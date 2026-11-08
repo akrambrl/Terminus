@@ -80,14 +80,14 @@ const nameCriteria: Criterion[] = [
   {
     id: 'porte',
     kind: 'name',
-    label: '« Porte… »',
+    label: 'Commence par Porte',
     description: 'Le nom commence par « Porte ».',
     test: (s) => words(s)[0] === 'porte',
   },
   {
     id: 'saint',
     kind: 'name',
-    label: '« Saint » ou « Sainte »',
+    label: 'Saint ou Sainte',
     description: 'Le nom contient « Saint » ou « Sainte ».',
     test: (s) => words(s).some((w) => w === 'saint' || w === 'sainte'),
   },
@@ -109,7 +109,7 @@ const nameCriteria: Criterion[] = [
   {
     id: 'mairie',
     kind: 'name',
-    label: '« Mairie » ou « Hôtel de Ville »',
+    label: 'Mairie ou Hôtel de Ville',
     description: 'Le nom contient « Mairie » ou « Hôtel de Ville ».',
     test: (s) => /mairie|hotel de ville/.test(normalize(s.name)),
   },

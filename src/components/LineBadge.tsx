@@ -1,6 +1,6 @@
 import { StyleSheet, Text, View } from 'react-native';
 import type { LineId } from '../game/types';
-import { lineColors } from '../theme';
+import { fonts, lineColors } from '../theme';
 
 interface Props {
   line: LineId;
@@ -17,7 +17,7 @@ export function LineBadge({ line, size = 28 }: Props) {
       style={[
         styles.badge,
         { backgroundColor: bg, width: size, height: size, borderRadius: size * 0.28 },
-        isBis && { borderWidth: 2, borderColor: '#16213A', borderStyle: 'dashed' },
+        isBis && { borderWidth: 2, borderColor: '#15123D', borderStyle: 'dashed' },
       ]}
     >
       <Text style={[styles.text, { color: fg, fontSize: size * (label.length > 1 ? 0.44 : 0.52) }]}>
@@ -30,6 +30,6 @@ export function LineBadge({ line, size = 28 }: Props) {
 
 const styles = StyleSheet.create({
   badge: { alignItems: 'center', justifyContent: 'center' },
-  text: { fontWeight: '800', includeFontPadding: false },
-  bis: { fontWeight: '700', marginTop: -2 },
+  text: { fontFamily: fonts.display, includeFontPadding: false },
+  bis: { fontFamily: fonts.heavy, marginTop: -2 },
 });

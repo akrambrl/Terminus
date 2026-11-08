@@ -13,7 +13,7 @@ import {
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { searchStations } from '../game/lookup';
 import type { Criterion, Station } from '../game/types';
-import { colors, WEB_TOP_GAP } from '../theme';
+import { colors, fonts, WEB_TOP_GAP } from '../theme';
 
 interface Props {
   visible: boolean;
@@ -100,11 +100,11 @@ const styles = StyleSheet.create({
   screen: { flex: 1, backgroundColor: colors.background, paddingHorizontal: 16 },
   topBar: { flexDirection: 'row', alignItems: 'center', gap: 12 },
   topText: { flex: 1, minWidth: 0 },
-  title: { fontSize: 18, fontWeight: '800', color: colors.ink },
+  title: { fontFamily: fonts.display, fontSize: 20, color: colors.ink },
   times: { color: colors.gold },
-  subtitle: { fontSize: 13, color: colors.muted, marginTop: 2 },
+  subtitle: { fontFamily: fonts.body, fontSize: 13, color: colors.muted, marginTop: 2 },
   cancel: { paddingVertical: 8, paddingLeft: 8 },
-  cancelText: { fontSize: 16, fontWeight: '600', color: colors.accent },
+  cancelText: { fontFamily: fonts.heavy, fontSize: 16, color: colors.accent },
   feedback: {
     marginTop: 10,
     backgroundColor: colors.dangerSoft,
@@ -112,17 +112,18 @@ const styles = StyleSheet.create({
     padding: 10,
     borderRadius: 10,
     textAlign: 'center',
-    fontWeight: '600',
+    fontFamily: fonts.bold,
   },
   input: {
     marginTop: 12,
     backgroundColor: colors.surface,
-    borderWidth: 1,
-    borderColor: colors.border,
-    borderRadius: 12,
+    borderWidth: 2,
+    borderColor: colors.accent,
+    borderRadius: 14,
     paddingHorizontal: 14,
     paddingVertical: 12,
     fontSize: 17,
+    fontFamily: fonts.bold,
     color: colors.ink,
   },
   list: { flex: 1, marginTop: 8 },
@@ -137,8 +138,8 @@ const styles = StyleSheet.create({
   },
   itemPressed: { backgroundColor: colors.accentSoft },
   itemUsed: { opacity: 0.5 },
-  itemText: { fontSize: 16, color: colors.ink, flexShrink: 1 },
+  itemText: { fontFamily: fonts.bold, fontSize: 16, color: colors.ink, flexShrink: 1 },
   itemTextUsed: { textDecorationLine: 'line-through' },
-  usedLabel: { fontSize: 12, color: colors.muted },
-  empty: { textAlign: 'center', color: colors.muted, marginTop: 16 },
+  usedLabel: { fontFamily: fonts.body, fontSize: 12, color: colors.muted },
+  empty: { fontFamily: fonts.body, textAlign: 'center', color: colors.muted, marginTop: 16 },
 });

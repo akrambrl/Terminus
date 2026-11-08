@@ -1,6 +1,6 @@
 import type { ReactNode } from 'react';
 import { Modal, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
-import { colors } from '../theme';
+import { colors, fonts, palette } from '../theme';
 
 interface Props {
   visible: boolean;
@@ -17,6 +17,11 @@ export function InfoModal({ visible, title, onClose, children, footer }: Props) 
       <View style={styles.backdrop}>
         <Pressable style={StyleSheet.absoluteFill} onPress={onClose} accessibilityLabel="Fermer" />
         <View style={styles.card}>
+          <View style={styles.stripe}>
+            {STRIPE.map((c) => (
+              <View key={c} style={{ flex: 1, backgroundColor: c }} />
+            ))}
+          </View>
           <Text style={styles.title}>{title}</Text>
           <ScrollView style={styles.body} contentContainerStyle={{ paddingBottom: 4 }}>
             {children}
@@ -31,16 +36,18 @@ export function InfoModal({ visible, title, onClose, children, footer }: Props) 
   );
 }
 
+const STRIPE = [palette.ultramarine, palette.tomato, palette.sun, palette.mint, palette.pink, palette.violet];
+
 export const infoStyles = StyleSheet.create({
-  p: { fontSize: 15, lineHeight: 21, color: colors.ink, marginBottom: 10 },
-  strong: { fontWeight: '700' },
-  small: { fontSize: 12, lineHeight: 17, color: colors.muted, marginTop: 6 },
+  p: { fontFamily: fonts.body, fontSize: 15, lineHeight: 22, color: colors.ink, marginBottom: 10 },
+  strong: { fontFamily: fonts.heavy },
+  small: { fontFamily: fonts.body, fontSize: 12, lineHeight: 17, color: colors.muted, marginTop: 6 },
 });
 
 const styles = StyleSheet.create({
   backdrop: {
     flex: 1,
-    backgroundColor: 'rgba(22,33,58,0.55)',
+    backgroundColor: 'rgba(21,18,61,0.6)',
     alignItems: 'center',
     justifyContent: 'center',
     padding: 20,
@@ -49,11 +56,14 @@ const styles = StyleSheet.create({
     width: '100%',
     maxWidth: 420,
     maxHeight: '85%',
-    backgroundColor: colors.background,
-    borderRadius: 18,
+    backgroundColor: colors.surface,
+    borderRadius: 22,
     padding: 20,
+    paddingTop: 28,
+    overflow: 'hidden',
   },
-  title: { fontSize: 22, fontWeight: '900', color: colors.ink, marginBottom: 12 },
+  stripe: { position: 'absolute', top: 0, left: 0, right: 0, height: 8, flexDirection: 'row' },
+  title: { fontFamily: fonts.display, fontSize: 24, color: colors.ink, marginBottom: 12 },
   body: { flexGrow: 0 },
   close: {
     marginTop: 12,
@@ -61,5 +71,5 @@ const styles = StyleSheet.create({
     paddingVertical: 8,
     paddingHorizontal: 24,
   },
-  closeText: { color: colors.muted, fontWeight: '600', fontSize: 15 },
+  closeText: { color: colors.muted, fontFamily: fonts.bold, fontSize: 15 },
 });

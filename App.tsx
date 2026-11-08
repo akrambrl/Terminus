@@ -19,7 +19,15 @@ import {
   type Stats,
 } from './src/game/storage';
 import type { Criterion, LineId, Station } from './src/game/types';
-import { colors, WEB_TOP_GAP } from './src/theme';
+import { colors, fonts, palette, WEB_TOP_GAP } from './src/theme';
+import { GuessTrack } from './src/components/GuessTrack';
+import { Logo } from './src/components/Logo';
+import { useFonts } from 'expo-font';
+// Import poids par poids pour n'embarquer que les fichiers de police utilisés.
+import { BricolageGrotesque_800ExtraBold } from '@expo-google-fonts/bricolage-grotesque/800ExtraBold';
+import { Figtree_500Medium } from '@expo-google-fonts/figtree/500Medium';
+import { Figtree_700Bold } from '@expo-google-fonts/figtree/700Bold';
+import { Figtree_800ExtraBold } from '@expo-google-fonts/figtree/800ExtraBold';
 
 const MAX_GUESSES = 9;
 type Mode = 'daily' | 'free';
@@ -42,6 +50,12 @@ export default function App() {
 
 function Game() {
   const { width } = useWindowDimensions();
+  const [fontsLoaded, fontError] = useFonts({
+    BricolageGrotesque_800ExtraBold,
+    Figtree_500Medium,
+    Figtree_700Bold,
+    Figtree_800ExtraBold,
+  });
   const [day] = useState(todayKey);
   const [mode, setMode] = useState<Mode>('daily');
   const [freeSeed, setFreeSeed] = useState(() => `libre-${Date.now()}`);
@@ -165,22 +179,23 @@ function Game() {
   const activeRow = active ? puzzle.rows[active.row] : undefined;
   const activeCol = active ? puzzle.cols[active.col] : undefined;
 
-  if (!loaded) return <View style={styles.screen} />;
+  if (!loaded || !(fontsLoaded || fontError)) return <View style={styles.screen} />;
 
   return (
     <SafeAreaView style={styles.screen}>
       <StatusBar style="dark" />
       <ScrollView contentContainerStyle={[styles.content, { paddingTop: WEB_TOP_GAP }]}>
-        <View style={styles.header}>
-          <View>
-            <Text style={styles.title}>Terminus Paris</Text>
-            <Text style={styles.subtitle}>
-              {mode === 'daily' ? `Grille n°${dailyNumber(day)} · ${formatDay(day)}` : 'Partie libre'}
-            </Text>
-          </View>
+        <View style={[styles.header, { width: gridWidth }]}>
+          <Logo tile={Math.min(36, (gridWidth - 60) / 8.6)} />
           <Pressable onPress={() => setShowHelp(true)} style={styles.helpButton} accessibilityLabel="Règles du jeu">
             <Text style={styles.helpText}>?</Text>
           </Pressable>
+        </View>
+        <View style={[styles.ticket, { width: gridWidth }]}>
+          <Text style={styles.ticketMain}>
+            {mode === 'daily' ? `Grille n°${dailyNumber(day)}` : 'Partie libre'}
+          </Text>
+          <Text style={styles.ticketSub}>{mode === 'daily' ? formatDay(day) : 'grilles illimitées'}</Text>
         </View>
 
         <Grid
@@ -200,22 +215,19 @@ function Game() {
           }
         />
 
-        <View style={styles.status}>
-          <Text style={styles.statusText}>
-            {finished ? `Terminé : ${found}/9` : `Essais restants : ${guessesLeft}`}
-          </Text>
-          <View style={styles.dots}>
-            {Array.from({ length: MAX_GUESSES }, (_, i) => (
-              <View key={i} style={[styles.dot, i < guessesLeft && styles.dotOn]} />
-            ))}
+        <View style={[styles.status, { width: gridWidth - 24 }]}>
+          <View style={styles.statusRow}>
+            <Text style={styles.statusLabel}>{finished ? 'Terminé' : 'Essais restants'}</Text>
+            <Text style={styles.statusValue}>{finished ? `${found}/9` : guessesLeft}</Text>
           </View>
+          <GuessTrack total={MAX_GUESSES} left={guessesLeft} width={gridWidth - 24} />
         </View>
 
         <View style={styles.actions}>
           {finished ? (
             <Button label="Voir le résultat" onPress={() => setShowResult(true)} primary />
           ) : (
-            <Button label="Abandonner" onPress={giveUp} />
+            <Button label="Abandonner" onPress={giveUp} tone="danger" />
           )}
           {mode === 'daily' ? (
             <Button label="Partie libre" onPress={startFree} />
@@ -327,13 +339,36 @@ function Game() {
   );
 }
 
-function Button({ label, onPress, primary }: { label: string; onPress: () => void; primary?: boolean }) {
+function Button({
+  label,
+  onPress,
+  primary,
+  tone,
+}: {
+  label: string;
+  onPress: () => void;
+  primary?: boolean;
+  tone?: 'danger';
+}) {
   return (
     <Pressable
       onPress={onPress}
-      style={({ pressed }) => [styles.button, primary && styles.buttonPrimary, pressed && { opacity: 0.8 }]}
+      style={({ pressed }) => [
+        styles.button,
+        primary && styles.buttonPrimary,
+        tone === 'danger' && styles.buttonDanger,
+        pressed && { transform: [{ translateY: 2 }], borderBottomWidth: 2 },
+      ]}
     >
-      <Text style={[styles.buttonText, primary && styles.buttonTextPrimary]}>{label}</Text>
+      <Text
+        style={[
+          styles.buttonText,
+          primary && styles.buttonTextPrimary,
+          tone === 'danger' && { color: colors.danger },
+        ]}
+      >
+        {label}
+      </Text>
     </Pressable>
   );
 }
@@ -356,47 +391,57 @@ const styles = StyleSheet.create({
   screen: { flex: 1, backgroundColor: colors.background },
   content: { alignItems: 'center', paddingHorizontal: 16, paddingBottom: 32 },
   header: {
-    width: '100%',
-    maxWidth: 480,
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    paddingVertical: 16,
+    paddingTop: 16,
+    paddingBottom: 12,
   },
-  title: { fontSize: 28, fontWeight: '900', color: colors.ink, letterSpacing: -0.5 },
-  subtitle: { fontSize: 14, color: colors.muted, marginTop: 2 },
   helpButton: {
-    width: 36,
-    height: 36,
-    borderRadius: 18,
-    borderWidth: 1.5,
-    borderColor: colors.ink,
+    width: 38,
+    height: 38,
+    borderRadius: 19,
+    backgroundColor: palette.sun,
     alignItems: 'center',
     justifyContent: 'center',
   },
-  helpText: { fontSize: 18, fontWeight: '800', color: colors.ink },
-  status: { alignItems: 'center', marginTop: 16 },
-  statusText: { fontSize: 15, fontWeight: '700', color: colors.ink },
-  dots: { flexDirection: 'row', gap: 6, marginTop: 8 },
-  dot: { width: 10, height: 10, borderRadius: 5, backgroundColor: colors.border },
-  dotOn: { backgroundColor: colors.accent },
-  actions: { flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'center', gap: 10, marginTop: 20 },
+  helpText: { fontSize: 20, fontFamily: fonts.display, color: colors.ink },
+  ticket: {
+    flexDirection: 'row',
+    alignItems: 'baseline',
+    justifyContent: 'space-between',
+    backgroundColor: colors.ink,
+    borderRadius: 12,
+    paddingHorizontal: 14,
+    paddingVertical: 8,
+    marginBottom: 14,
+  },
+  ticketMain: { fontFamily: fonts.display, fontSize: 17, color: '#FFFFFF' },
+  ticketSub: { fontFamily: fonts.bold, fontSize: 13, color: palette.sun, textTransform: 'uppercase', letterSpacing: 1 },
+  status: { marginTop: 18, gap: 10 },
+  statusRow: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'baseline' },
+  statusLabel: { fontFamily: fonts.heavy, fontSize: 13, color: colors.muted, textTransform: 'uppercase', letterSpacing: 1 },
+  statusValue: { fontFamily: fonts.display, fontSize: 22, color: colors.ink },
+  actions: { flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'center', gap: 10, marginTop: 24 },
   button: {
     paddingVertical: 12,
-    paddingHorizontal: 18,
-    borderRadius: 999,
-    borderWidth: 1.5,
+    paddingHorizontal: 20,
+    borderRadius: 14,
+    borderWidth: 2,
+    borderBottomWidth: 4,
     borderColor: colors.ink,
+    backgroundColor: colors.surface,
   },
-  buttonPrimary: { backgroundColor: colors.ink, alignSelf: 'center' },
-  buttonText: { fontSize: 15, fontWeight: '700', color: colors.ink },
+  buttonPrimary: { backgroundColor: palette.ultramarine, borderColor: colors.ink, alignSelf: 'center' },
+  buttonDanger: { borderColor: colors.danger },
+  buttonText: { fontSize: 15, fontFamily: fonts.heavy, color: colors.ink },
   buttonTextPrimary: { color: '#fff' },
-  disclaimer: { fontSize: 11, color: colors.muted, marginTop: 24, textAlign: 'center' },
-  bigScore: { fontSize: 56, fontWeight: '900', color: colors.accent, textAlign: 'center' },
+  disclaimer: { fontFamily: fonts.body, fontSize: 11, color: colors.muted, marginTop: 28, textAlign: 'center' },
+  bigScore: { fontSize: 64, fontFamily: fonts.display, color: palette.ultramarine, textAlign: 'center' },
   stats: { flexDirection: 'row', justifyContent: 'space-around', marginTop: 8 },
   stat: { alignItems: 'center' },
-  statValue: { fontSize: 24, fontWeight: '800', color: colors.ink },
-  statLabel: { fontSize: 12, color: colors.muted },
+  statValue: { fontSize: 26, fontFamily: fonts.display, color: colors.ink },
+  statLabel: { fontSize: 12, fontFamily: fonts.bold, color: colors.muted },
   answer: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -405,7 +450,7 @@ const styles = StyleSheet.create({
     borderBottomWidth: StyleSheet.hairlineWidth,
     borderBottomColor: colors.border,
   },
-  answerName: { fontSize: 15, color: colors.ink, flexShrink: 1 },
-  answerMine: { fontWeight: '800', color: colors.accent },
+  answerName: { fontSize: 15, fontFamily: fonts.bold, color: colors.ink, flexShrink: 1 },
+  answerMine: { fontFamily: fonts.heavy, color: palette.mint },
   answerLines: { flexDirection: 'row', gap: 3 },
 });
