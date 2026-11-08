@@ -28,7 +28,7 @@
     "typecheck": "tsc --noEmit",
     "check:puzzles": "npx --yes tsx scripts/check-puzzles.ts",
     "build:stations": "python3 scripts/build-stations.py",
-    "build:pages": "rm -rf dist && PAGES_BASE_URL=/Baraparfum expo export --platform web && python3 scripts/build-pages.py"
+    "build:pages": "rm -rf dist && PAGES_BASE_URL=/Baraparfum/docs expo export --platform web && PAGES_BASE_URL=/Baraparfum/docs python3 scripts/build-pages.py"
   },
   "private": true
 }

@@ -19,8 +19,9 @@ npx expo start --web  # version navigateur pour tester rapidement
 
 ## Web app (écran d'accueil)
 
-La version web est publiée avec GitHub Pages depuis le dossier `docs/` :
-https://akrambrl.github.io/Baraparfum/
+La version web est publiée avec GitHub Pages (source : racine de la branche).
+`index.html` à la racine redirige vers la web app, qui se trouve dans `docs/` :
+https://akrambrl.github.io/Baraparfum/ → https://akrambrl.github.io/Baraparfum/docs/
 
 Après une modification du jeu, régénérer `docs/` puis pousser :
 
@@ -28,8 +29,10 @@ Après une modification du jeu, régénérer `docs/` puis pousser :
 npm run build:pages
 ```
 
-Réglage GitHub (une seule fois) : Settings → Pages → « Deploy from a branch »,
-branche `claude/wizardly-pascal-n4gfcz` (ou `main` après fusion), dossier `/docs`.
+Réglage GitHub : Settings → Pages → « Deploy from a branch »,
+branche `claude/wizardly-pascal-n4gfcz` (ou `main` après fusion), dossier `/ (root)`.
+Si le dossier choisi devient `/docs`, remplacer `/Baraparfum/docs` par `/Baraparfum`
+dans le script `build:pages` de `package.json`.
 
 ## Vérifications
 
