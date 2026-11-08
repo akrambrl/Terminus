@@ -6,7 +6,7 @@ Usage : npm run build:pages
 Ajoute au index.html généré ce qu'il faut pour l'installer sur l'écran d'accueil
 (manifeste, icône Apple, couleurs), puis copie le tout dans docs/.
 """
-import os, shutil
+import glob, os, shutil
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 DIST = os.path.join(ROOT, 'dist')
@@ -37,6 +37,15 @@ open(index, 'w', encoding='utf-8').write(html)
 
 shutil.rmtree(DOCS, ignore_errors=True)
 shutil.copytree(DIST, DOCS)
+
+# Les polices sont exportées dans assets/node_modules/, un dossier ignoré par git :
+# on le renomme assets/vendor/ et on corrige les chemins dans le JavaScript.
+src_mods = os.path.join(DOCS, 'assets', 'node_modules')
+if os.path.isdir(src_mods):
+    os.rename(src_mods, os.path.join(DOCS, 'assets', 'vendor'))
+    for js in glob.glob(os.path.join(DOCS, '_expo', 'static', 'js', 'web', '*.js')):
+        code = open(js, encoding='utf-8').read()
+        open(js, 'w', encoding='utf-8').write(code.replace('/assets/node_modules/', '/assets/vendor/'))
 # Sans ce fichier, GitHub Pages ignore le dossier _expo (nom commençant par « _ »).
 open(os.path.join(DOCS, '.nojekyll'), 'w').close()
 print('docs/ prêt :', sum(len(f) for _, _, f in os.walk(DOCS)), 'fichiers')
