@@ -1,4 +1,8 @@
+import { Platform } from 'react-native';
 import type { LineId } from './game/types';
+
+/** Marge haute supplémentaire sur le web, pour passer sous les boutons de l'app qui affiche la page. */
+export const WEB_TOP_GAP = Platform.OS === 'web' ? 64 : 0;
 
 export const colors = {
   background: '#F4F1EA',

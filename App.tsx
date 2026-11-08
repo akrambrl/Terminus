@@ -19,7 +19,7 @@ import {
   type Stats,
 } from './src/game/storage';
 import type { Criterion, LineId, Station } from './src/game/types';
-import { colors } from './src/theme';
+import { colors, WEB_TOP_GAP } from './src/theme';
 
 const MAX_GUESSES = 9;
 type Mode = 'daily' | 'free';
@@ -170,7 +170,7 @@ function Game() {
   return (
     <SafeAreaView style={styles.screen}>
       <StatusBar style="dark" />
-      <ScrollView contentContainerStyle={styles.content}>
+      <ScrollView contentContainerStyle={[styles.content, { paddingTop: WEB_TOP_GAP }]}>
         <View style={styles.header}>
           <View>
             <Text style={styles.title}>Terminus Paris</Text>
