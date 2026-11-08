@@ -88,7 +88,23 @@ export function SearchModal({ visible, row, col, usedIds, guessesLeft, feedback,
               );
             }}
             ListEmptyComponent={
-              query.trim() ? <Text style={styles.empty}>Aucune station ne correspond.</Text> : undefined
+              query.trim() ? (
+                <Text style={styles.empty}>Aucune station ne correspond.</Text>
+              ) : (
+                <View style={styles.help}>
+                  <Text style={styles.helpTitle}>Touche le champ ci-dessus et tape le nom d'une station.</Text>
+                  <Text style={styles.helpIntro}>Elle doit remplir les deux critères :</Text>
+                  {[row, col].map(
+                    (c) =>
+                      c && (
+                        <View key={c.id} style={styles.helpItem}>
+                          <Text style={styles.helpLabel}>{c.label}</Text>
+                          <Text style={styles.helpText}>{c.description}</Text>
+                        </View>
+                      ),
+                  )}
+                </View>
+              )
             }
           />
       </KeyboardAvoidingView>
@@ -141,5 +157,18 @@ const styles = StyleSheet.create({
   itemText: { fontFamily: fonts.bold, fontSize: 16, color: colors.ink, flexShrink: 1 },
   itemTextUsed: { textDecorationLine: 'line-through' },
   usedLabel: { fontFamily: fonts.body, fontSize: 12, color: colors.muted },
+  help: { marginTop: 16, gap: 10 },
+  helpTitle: { fontFamily: fonts.heavy, fontSize: 16, color: colors.ink },
+  helpIntro: { fontFamily: fonts.body, fontSize: 14, color: colors.muted },
+  helpItem: {
+    backgroundColor: colors.surface,
+    borderRadius: 12,
+    padding: 12,
+    borderWidth: 1,
+    borderColor: colors.border,
+    gap: 4,
+  },
+  helpLabel: { fontFamily: fonts.heavy, fontSize: 14, color: colors.ink },
+  helpText: { fontFamily: fonts.body, fontSize: 14, lineHeight: 20, color: colors.ink },
   empty: { fontFamily: fonts.body, textAlign: 'center', color: colors.muted, marginTop: 16 },
 });
