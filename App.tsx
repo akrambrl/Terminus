@@ -21,6 +21,7 @@ import {
 import type { Criterion, LineId, Station } from './src/game/types';
 import { colors, fonts, palette, WEB_TOP_GAP } from './src/theme';
 import { APP_VERSION } from './src/version';
+import { track } from './src/analytics';
 import { GuessTrack } from './src/components/GuessTrack';
 import { Logo } from './src/components/Logo';
 import { Intro } from './src/components/Intro';
@@ -95,6 +96,7 @@ function Game() {
       setStats(s);
       setShowHelp(!seen);
       setLoaded(true);
+      track('app_opened', { daily_number: dailyNumber(day), daily_finished: !!saved?.finished, returning: s.played > 0 });
     })();
   }, [day]);
 
@@ -104,6 +106,8 @@ function Game() {
   const finish = useCallback(
     async (finalCells: (string | null)[][], left: number) => {
       setFinished(true);
+      const foundCount = finalCells.flat().filter(Boolean).length;
+      track('game_finished', { mode, found: foundCount, guesses_left: left, gave_up: left === 0 && foundCount < 9 });
       if (mode === 'daily') {
         await saveDaily(day, { puzzle: puzzleSignature(puzzle), cells: finalCells, guessesLeft: left, finished: true });
         const count = finalCells.flat().filter(Boolean).length;
@@ -123,6 +127,14 @@ function Game() {
       ? cells.map((r, i) => r.map((c, j) => (i === row && j === col ? station.id : c)))
       : cells;
     setGuessesLeft(left);
+    track('guess', {
+      mode,
+      correct,
+      row: puzzle.rows[row].id,
+      col: puzzle.cols[col].id,
+      first_guess: guessesLeft === MAX_GUESSES,
+    });
+    if (guessesLeft === MAX_GUESSES) track('game_started', { mode });
     if (correct) {
       setCells(next);
       setActive(null);
@@ -140,6 +152,7 @@ function Game() {
   };
 
   const startFree = () => {
+    track('free_game_started');
     setMode('free');
     setFreeSeed(`libre-${Date.now()}`);
     setCells(emptyCells());
@@ -168,6 +181,7 @@ function Game() {
     const title =
       mode === 'daily' ? `Terminus Paris n°${dailyNumber(day)}` : 'Terminus Paris (partie libre)';
     const message = `${title} : ${found}/9\n${grid}`;
+    track('result_shared', { mode, found });
     try {
       await Share.share({ message });
     } catch {
@@ -194,7 +208,7 @@ function Game() {
       <ScrollView contentContainerStyle={[styles.content, { paddingTop: WEB_TOP_GAP }]}>
         <View style={[styles.header, { width: gridWidth }]}>
           <Logo tile={Math.min(36, (gridWidth - 60) / 8.6)} />
-          <Pressable onPress={() => setShowHelp(true)} style={styles.helpButton} accessibilityLabel="Règles du jeu">
+          <Pressable onPress={() => { setShowHelp(true); track('help_opened'); }} style={styles.helpButton} accessibilityLabel="Règles du jeu">
             <Text style={styles.helpText}>?</Text>
           </Pressable>
         </View>

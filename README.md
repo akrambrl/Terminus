@@ -80,6 +80,27 @@ src/game/storage.ts        sauvegarde de la partie du jour et des statistiques (
 src/components/            grille, recherche, pastilles de lignes, fenêtres d'info
 ```
 
+## Statistiques d'utilisation (PostHog)
+
+`src/analytics/index.ts` : mettre la clé du projet PostHog (`phc_…`) dans `POSTHOG_KEY`.
+Tant qu'elle est vide, rien n'est envoyé. Hébergement européen (`eu.i.posthog.com`).
+
+Données automatiques : ouverture / fermeture de l'app, installation, mise à jour, pays et ville
+(déduits de l'IP), appareil, système, version. Événements du jeu :
+
+| Événement | Quand | Propriétés |
+|---|---|---|
+| `app_opened` | au lancement | n° de grille, grille du jour déjà finie, joueur déjà venu |
+| `game_started` | premier essai d'une grille | mode (daily / free) |
+| `guess` | chaque essai | mode, correct, critères de la case |
+| `game_finished` | fin de grille | mode, stations trouvées, essais restants, abandon |
+| `result_shared` | partage du résultat | mode, score |
+| `free_game_started` | nouvelle partie libre | |
+| `help_opened` | ouverture des règles | |
+
+Joueurs anonymes : aucun nom ni e-mail n'est collecté. À déclarer dans les fiches de confidentialité
+des stores (« données d'utilisation », « identifiants », « localisation approximative »).
+
 ## Construire avec EAS
 
 Projet Expo : `354166f5-aa5b-45c5-92b2-e2fd4923f909` (déclaré dans `app.json`, `extra.eas.projectId`).
