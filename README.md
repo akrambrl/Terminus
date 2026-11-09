@@ -36,21 +36,26 @@ dans le script `build:pages` de `package.json`.
 
 ## Publicité (bannière AdMob)
 
-L'emplacement est prêt mais désactivé : `src/ads/config.ts` (`ADS_ENABLED = false`).
-La bannière est fixée en bas de l'écran, sous la zone qui défile, et n'apparaît jamais
-dans la version web.
+Bannière AdMob fixée en bas de l'écran, sous la zone qui défile. Jamais affichée dans la
+version web ni dans Expo Go (le module natif n'y existe pas).
 
-- Pour voir l'emplacement sans pub : `SHOW_AD_PLACEHOLDER = true` (dans un build natif / Expo Go).
-- Pour activer AdMob au moment de la sortie :
-  1. Créer l'app dans AdMob (iOS et Android) et une bannière pour chacune.
-  2. `npx expo install react-native-google-mobile-ads`, puis ajouter le plugin dans `app.json`
-     avec `androidAppId` et `iosAppId`.
-  3. Mettre les identifiants de bannière dans `BANNER_UNIT_ID` et `ADS_ENABLED = true`.
-  4. Dans `src/ads/AdBanner.tsx`, remplacer l'encart par
-     `<BannerAd unitId={BANNER_UNIT_ID} size={BannerAdSize.ANCHORED_ADAPTIVE_BANNER} />`.
-  5. Ajouter le formulaire de consentement RGPD (UMP, fourni par la même bibliothèque)
-     et, sur iOS, la demande de suivi (App Tracking Transparency).
-  6. Construire avec EAS (la bibliothèque ne marche pas dans Expo Go).
+- Réglages : `src/ads/config.ts` (identifiants, `ADS_ENABLED`, `SHOW_AD_PLACEHOLDER`).
+- ID d'application déclarés dans `app.json` (plugin `react-native-google-mobile-ads`).
+- Au lancement (`src/ads/prepare.ts`) : formulaire de consentement RGPD de Google (UMP),
+  puis demande de suivi Apple (ATT) sur iPhone, puis initialisation d'AdMob.
+- En développement (`__DEV__`), la bannière de test de Google est utilisée.
+
+État :
+- iOS : identifiants réels en place.
+- Android : à compléter. `androidAppId` dans `app.json` utilise pour l'instant l'ID d'exemple de
+  Google (obligatoire pour que l'app démarre) et la bannière Android est désactivée tant que
+  `ADMOB.android.bannerId` est vide.
+
+À faire dans AdMob avant la sortie : créer le message RGPD (Confidentialité et messages → RGPD),
+et éventuellement le message explicatif avant la demande de suivi Apple.
+
+Tester : `npx eas-cli@latest build --profile development --platform ios` (la pub ne marche pas
+dans Expo Go).
 
 ## Vérifications
 

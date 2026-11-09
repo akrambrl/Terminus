@@ -35,7 +35,24 @@
           "backgroundColor": "#15123D"
         }
       ],
-      "expo-font"
+      "expo-font",
+      [
+        "react-native-google-mobile-ads",
+        {
+          "iosAppId": "ca-app-pub-4450845101011880~9098886467",
+          "androidAppId": "ca-app-pub-3940256099942544~3347511713",
+          "userTrackingUsageDescription": "Cela permet d'afficher des publicités plus adaptées à vos centres d'intérêt et de garder Terminus gratuit.",
+          "skAdNetworkItems": [
+            "cstr6suwn9.skadnetwork"
+          ]
+        }
+      ],
+      [
+        "expo-tracking-transparency",
+        {
+          "userTrackingPermission": "Cela permet d'afficher des publicités plus adaptées à vos centres d'intérêt et de garder Terminus gratuit."
+        }
+      ]
     ]
   }
 }
