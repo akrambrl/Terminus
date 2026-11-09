@@ -9,7 +9,7 @@ import { APP_VERSION } from '../version';
  * Tableau de bord : utilisateurs en direct, par jour / semaine / mois, pays et ville
  * (déduits de l'IP), heures de connexion, appareils, rétention, et les événements du jeu ci-dessous.
  */
-export const POSTHOG_KEY = '';
+export const POSTHOG_KEY = 'phc_oRc7aSZgvyup76g4XYY7X9wHunn34mi7kKMM9TktHowj';
 export const POSTHOG_HOST = 'https://eu.i.posthog.com';
 
 let client: PostHog | null = null;
