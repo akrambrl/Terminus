@@ -80,6 +80,15 @@ src/game/storage.ts        sauvegarde de la partie du jour et des statistiques (
 src/components/            grille, recherche, pastilles de lignes, fenêtres d'info
 ```
 
+## Construire avec EAS
+
+Projet Expo : `354166f5-aa5b-45c5-92b2-e2fd4923f909` (déclaré dans `app.json`, `extra.eas.projectId`).
+Profils dans `eas.json` :
+
+- `development` : app de développement (avec la pub de test), à installer sur son téléphone ;
+- `preview` : version de test interne ;
+- `production` : version des stores (numéro de build incrémenté automatiquement par EAS).
+
 ## Publier sur les stores
 
 Avec [EAS](https://docs.expo.dev/eas/) (pas besoin de Mac pour iOS) :
