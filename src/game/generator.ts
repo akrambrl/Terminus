@@ -3,8 +3,8 @@ import { USABLE_CRITERIA } from './criteria';
 import { createRng, pick, shuffle } from './rng';
 import type { Criterion, CriterionKind, Puzzle } from './types';
 
-/** Nombre minimum de réponses possibles par case : au moins 3 pour rester abordable. */
-const MIN_ANSWERS = 3;
+/** Nombre minimum de réponses possibles par case : au moins 4 pour rester facile. */
+const MIN_ANSWERS = 4;
 
 /** Poids de chaque famille de critères : les lignes doivent dominer. */
 const KIND_WEIGHTS: [CriterionKind, number][] = [

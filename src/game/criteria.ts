@@ -7,7 +7,6 @@ export const LINES: LineId[] = [
 ];
 
 const lineLabel = (l: LineId) => `Ligne ${l.replace('bis', ' bis')}`;
-const ordinal = (n: number) => (n === 1 ? '1er' : `${n}e`);
 const words = (s: Station) => normalize(s.name).split(' ');
 
 const lineCriteria: Criterion[] = LINES.map((l) => ({
@@ -25,12 +24,6 @@ const LINE_GROUPS: { id: string; label: string; description: string; lines: Line
     label: 'Ligne automatique',
     description: 'La station est desservie par une ligne sans conducteur : 1, 4 ou 14.',
     lines: ['1', '4', '14'],
-  },
-  {
-    id: 'bis',
-    label: 'Ligne bis',
-    description: 'La station est desservie par la ligne 3 bis ou la ligne 7 bis.',
-    lines: ['3bis', '7bis'],
   },
   {
     id: '3-3bis',
@@ -77,23 +70,30 @@ const transferCriteria: Criterion[] = [
     description: 'La station est en correspondance avec au moins une ligne de RER (A, B, C, D ou E).',
     test: (s) => s.rer.length > 0,
   },
-  {
-    id: 'transfer3',
-    kind: 'transfer',
-    label: '3 lignes ou +',
-    description: 'Au moins trois lignes de métro desservent la station.',
-    test: (s) => s.lines.length >= 3,
-  },
 ];
 
 const placeCriteria: Criterion[] = [
-  ...Array.from({ length: 20 }, (_, i) => i + 1).map<Criterion>((n) => ({
-    id: `arr-${n}`,
+  {
+    id: 'arr-even',
     kind: 'place',
-    label: `Paris ${ordinal(n)}`,
-    description: `La station se trouve (au moins en partie) dans le ${ordinal(n)} arrondissement.`,
-    test: (s) => s.arr.includes(n),
-  })),
+    label: 'Arrondissement pair',
+    description: 'La station est dans Paris, dans un arrondissement pair (2e, 4e, 6e… 20e).',
+    test: (s) => s.arr.some((a) => a % 2 === 0),
+  },
+  {
+    id: 'arr-odd',
+    kind: 'place',
+    label: 'Arrondissement impair',
+    description: 'La station est dans Paris, dans un arrondissement impair (1er, 3e, 5e… 19e).',
+    test: (s) => s.arr.some((a) => a % 2 === 1),
+  },
+  {
+    id: 'centre',
+    kind: 'place',
+    label: 'Centre de Paris',
+    description: 'La station est dans le centre de Paris : 1er, 2e, 3e ou 4e arrondissement.',
+    test: (s) => s.arr.some((a) => a <= 4),
+  },
   {
     id: 'suburb',
     kind: 'place',
@@ -134,21 +134,35 @@ const nameCriteria: Criterion[] = [
     test: (s) => /^[^\s'-]+$/.test(s.name),
   },
   {
-    id: 'mairie',
+    id: 'short',
     kind: 'name',
-    label: 'Mairie ou Hôtel de Ville',
-    description: 'Le nom contient « Mairie » ou « Hôtel de Ville ».',
-    test: (s) => /mairie|hotel de ville/.test(normalize(s.name)),
+    label: 'Nom court',
+    description: 'Le nom compte 7 lettres ou moins (espaces et tirets non comptés), comme « Opéra » ou « Bastille ».',
+    test: (s) => normalize(s.name).replace(/ /g, '').length <= 7,
   },
-  ...['B', 'C', 'G', 'L', 'M', 'P', 'R', 'S'].map<Criterion>((letter) => ({
+  {
+    id: 'long',
+    kind: 'name',
+    label: 'Nom long',
+    description: 'Le nom compte 15 lettres ou plus (espaces et tirets non comptés), comme « Porte de Clignancourt ».',
+    test: (s) => normalize(s.name).replace(/ /g, '').length >= 15,
+  },
+  {
+    id: 'de',
+    kind: 'name',
+    label: 'Avec « de », « du » ou « des »',
+    description: 'Le nom contient le mot « de », « du », « des » ou « d’ », comme « Gare de Lyon » ou « Place d’Italie ».',
+    test: (s) => words(s).some((w) => ['de', 'du', 'des', 'd'].includes(w)),
+  },
+  ...['B', 'C', 'L', 'M', 'P', 'R', 'S'].map<Criterion>((letter) => ({
     id: `letter-${letter}`,
     kind: 'name',
     label: `Commence par ${letter}`,
     description: `Le nom de la station commence par la lettre ${letter}.`,
     test: (s) => normalize(s.name).startsWith(letter.toLowerCase()),
   })),
-  // Lettres choisies pour donner entre 14 et 64 stations (ni trop rares, ni trop fréquentes).
-  ...['F', 'G', 'H', 'J', 'Q', 'V', 'Y'].map<Criterion>((letter) => ({
+  // Lettres choisies pour donner entre 35 et 64 stations (ni trop rares, ni trop fréquentes).
+  ...['F', 'G', 'H', 'V', 'Y'].map<Criterion>((letter) => ({
     id: `contains-${letter}`,
     kind: 'name',
     label: `Contient un ${letter}`,
@@ -250,7 +264,7 @@ export const ALL_CRITERIA: Criterion[] = [
   ...nameCriteria,
 ];
 
-/** Critères trop rares pour être intéressants (moins de 6 stations) sont écartés. */
+/** Critères trop rares (moins de 15 stations) écartés : le jeu doit rester facile. */
 export const USABLE_CRITERIA = ALL_CRITERIA.filter(
-  (c) => STATIONS.filter(c.test).length >= 6,
+  (c) => STATIONS.filter(c.test).length >= 15,
 );
