@@ -13,7 +13,6 @@ export const SHOW_AD_PLACEHOLDER = false;
 /**
  * Identifiants AdMob du compte de l'éditeur.
  * Les ID d'application sont aussi déclarés dans app.json (plugin react-native-google-mobile-ads).
- * Android : à compléter dès que l'app Android est créée dans AdMob (bannière désactivée d'ici là).
  */
 export const ADMOB = {
   ios: {
@@ -21,8 +20,8 @@ export const ADMOB = {
     bannerId: 'ca-app-pub-4450845101011880/3592630109',
   },
   android: {
-    appId: '',
-    bannerId: '',
+    appId: 'ca-app-pub-4450845101011880~8427309339',
+    bannerId: 'ca-app-pub-4450845101011880/4498517669',
   },
 };
 

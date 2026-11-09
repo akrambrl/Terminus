@@ -45,11 +45,7 @@ version web ni dans Expo Go (le module natif n'y existe pas).
   puis demande de suivi Apple (ATT) sur iPhone, puis initialisation d'AdMob.
 - En développement (`__DEV__`), la bannière de test de Google est utilisée.
 
-État :
-- iOS : identifiants réels en place.
-- Android : à compléter. `androidAppId` dans `app.json` utilise pour l'instant l'ID d'exemple de
-  Google (obligatoire pour que l'app démarre) et la bannière Android est désactivée tant que
-  `ADMOB.android.bannerId` est vide.
+État : identifiants réels en place pour iOS et Android.
 
 À faire dans AdMob avant la sortie : créer le message RGPD (Confidentialité et messages → RGPD),
 et éventuellement le message explicatif avant la demande de suivi Apple.
