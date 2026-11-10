@@ -12,6 +12,8 @@ import { prepareAds } from './prepare';
 export function AdBanner() {
   const insets = useSafeAreaInsets();
   const [canShow, setCanShow] = useState(false);
+  // La bande n'apparaît qu'une fois une pub réellement reçue (pas de zone blanche vide).
+  const [loaded, setLoaded] = useState(false);
 
   useEffect(() => {
     if (!adsActive || SHOW_AD_PLACEHOLDER || IN_EXPO_GO) return;
@@ -36,13 +38,16 @@ export function AdBanner() {
         // En développement, bannière de test Google : ne jamais cliquer sur ses propres pubs.
         unitId={__DEV__ ? TestIds.ADAPTIVE_BANNER : BANNER_UNIT_ID}
         size={BannerAdSize.LARGE_ANCHORED_ADAPTIVE_BANNER}
+        onAdLoaded={() => setLoaded(true)}
+        onAdFailedToLoad={() => setLoaded(false)}
       />
     );
   }
 
+  const visible = SHOW_AD_PLACEHOLDER || loaded;
   return (
-    <View style={[styles.wrap, { paddingBottom: insets.bottom }]}>
-      <View style={styles.slot}>{content}</View>
+    <View style={[visible ? styles.wrap : styles.hidden, { paddingBottom: insets.bottom }]}>
+      <View style={visible ? styles.slot : undefined}>{content}</View>
     </View>
   );
 }
@@ -54,5 +59,7 @@ const styles = StyleSheet.create({
     borderTopColor: colors.border,
   },
   slot: { minHeight: 50, alignItems: 'center', justifyContent: 'center' },
+  // Avant le chargement : aucune hauteur, aucun fond (la bannière se charge quand même).
+  hidden: { alignItems: 'center' },
   placeholder: { fontFamily: fonts.bold, fontSize: 12, color: colors.muted },
 });
