@@ -20,7 +20,7 @@ interface Props {
   row?: Criterion;
   col?: Criterion;
   usedIds: Set<string>;
-  guessesLeft: number;
+  errorsLeft: number;
   feedback: string | null;
   onSubmit: (station: Station) => void;
   onClose: () => void;
@@ -61,7 +61,7 @@ function useVisibleArea(active: boolean): { top: number; height: number } | null
   return area;
 }
 
-export function SearchModal({ visible, row, col, usedIds, guessesLeft, feedback, onSubmit, onClose }: Props) {
+export function SearchModal({ visible, row, col, usedIds, errorsLeft, feedback, onSubmit, onClose }: Props) {
   const [query, setQuery] = useState('');
   const insets = useSafeAreaInsets();
   const area = useVisibleArea(visible);
@@ -88,7 +88,7 @@ export function SearchModal({ visible, row, col, usedIds, guessesLeft, feedback,
               {row?.label} <Text style={styles.times}>×</Text> {col?.label}
             </Text>
             <Text style={styles.subtitle}>
-              {guessesLeft} essai{guessesLeft > 1 ? 's' : ''} restant{guessesLeft > 1 ? 's' : ''}
+              {errorsLeft} erreur{errorsLeft > 1 ? 's' : ''} possible{errorsLeft > 1 ? 's' : ''}
             </Text>
           </View>
           <Pressable onPress={onClose} style={styles.cancel} accessibilityLabel="Fermer la recherche">

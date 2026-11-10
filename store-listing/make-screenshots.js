@@ -65,9 +65,13 @@ async function captureGame(browser) {
   await page.waitForTimeout(2900);
   await page.screenshot({ path: path.join(RAW, 'intro.png') });
   await page.waitForTimeout(3000);
-  const close = page.getByText('Fermer');
-  if (await close.count()) await close.last().click();
-  await page.waitForTimeout(400);
+  // Ferme les fenêtres d'accueil (règles, pièces du jour).
+  for (let k = 0; k < 3; k++) {
+    const close = page.getByText('Fermer');
+    if (!(await close.count())) break;
+    await close.last().click();
+    await page.waitForTimeout(400);
+  }
 
   const fill = async (cell, query) => {
     await page.locator(`[aria-label="Case vide : ${cell.row} et ${cell.col}"]`).click();

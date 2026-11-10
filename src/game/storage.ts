@@ -5,7 +5,8 @@ export interface SavedGame {
   puzzle?: string;
   /** cells[r][c] = identifiant de la station trouvée, ou null. */
   cells: (string | null)[][];
-  guessesLeft: number;
+  /** Erreurs commises (la partie s'arrête à MAX_ERRORS). */
+  errors: number;
   finished: boolean;
 }
 
@@ -78,7 +79,7 @@ export const markHelpSeen = () => writeJson(SEEN_HELP_KEY, true);
 export interface SavedFreeGame {
   seed: string;
   cells: (string | null)[][];
-  guessesLeft: number;
+  errors: number;
   finished: boolean;
 }
 

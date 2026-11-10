@@ -40,7 +40,7 @@ import {
   type BonusResult,
 } from './src/game/coins';
 import { rewardedAdsAvailable, showRewardedAd } from './src/ads/rewarded';
-import { GuessTrack } from './src/components/GuessTrack';
+import { TicketTrack } from './src/components/TicketTrack';
 import { Logo } from './src/components/Logo';
 import { Intro } from './src/components/Intro';
 import { AdBanner } from './src/ads/AdBanner';
@@ -52,7 +52,8 @@ import { Figtree_500Medium } from '@expo-google-fonts/figtree/500Medium';
 import { Figtree_700Bold } from '@expo-google-fonts/figtree/700Bold';
 import { Figtree_800ExtraBold } from '@expo-google-fonts/figtree/800ExtraBold';
 
-const MAX_GUESSES = 9;
+/** Erreurs permises par grille : les bonnes réponses ne coûtent rien. */
+const MAX_ERRORS = 3;
 type Mode = 'daily' | 'free';
 type Cell = { row: number; col: number };
 
@@ -88,7 +89,7 @@ function Game() {
   );
 
   const [cells, setCells] = useState(emptyCells);
-  const [guessesLeft, setGuessesLeft] = useState(MAX_GUESSES);
+  const [errors, setErrors] = useState(0);
   const [finished, setFinished] = useState(false);
   const [loaded, setLoaded] = useState(false);
   const [stats, setStats] = useState<Stats>(EMPTY_STATS);
@@ -121,14 +122,15 @@ function Game() {
       ]);
       setCoins(wallet.coins);
       setAdsLeft(wallet.adsLeft);
-      setFreeSaved(free);
+      // Les sauvegardes d'avant le système d'erreurs (9 essais) sont ignorées.
+      setFreeSaved(free && typeof free.errors === 'number' ? free : null);
       if (wallet.granted > 0) {
         setBonus(wallet);
         track('coins_bonus', { granted: wallet.granted, welcome: wallet.welcome, coins: wallet.coins });
       }
-      if (saved && saved.puzzle === puzzleSignature(generatePuzzle(dailySeed(day)))) {
+      if (saved && typeof saved.errors === 'number' && saved.puzzle === puzzleSignature(generatePuzzle(dailySeed(day)))) {
         setCells(saved.cells);
-        setGuessesLeft(saved.guessesLeft);
+        setErrors(saved.errors);
         setFinished(saved.finished);
       }
       setStats(s);
@@ -142,18 +144,18 @@ function Game() {
   const found = usedIds.size;
 
   const finish = useCallback(
-    async (finalCells: (string | null)[][], left: number) => {
+    async (finalCells: (string | null)[][], errorCount: number, gaveUp = false) => {
       setFinished(true);
       const foundCount = finalCells.flat().filter(Boolean).length;
-      track('game_finished', { mode, found: foundCount, guesses_left: left, gave_up: left === 0 && foundCount < 9 });
+      track('game_finished', { mode, found: foundCount, errors: errorCount, gave_up: gaveUp });
       onGameFinished(foundCount);
       if (mode === 'free') {
-        const game = { seed: freeSeed, cells: finalCells, guessesLeft: left, finished: true };
+        const game = { seed: freeSeed, cells: finalCells, errors: errorCount, finished: true };
         setFreeSaved(game);
         saveFreeGame(game);
       }
       if (mode === 'daily') {
-        await saveDaily(day, { puzzle: puzzleSignature(puzzle), cells: finalCells, guessesLeft: left, finished: true });
+        await saveDaily(day, { puzzle: puzzleSignature(puzzle), cells: finalCells, errors: errorCount, finished: true });
         const count = finalCells.flat().filter(Boolean).length;
         setStats(await recordDaily(day, count, yesterdayKey(day)));
       }
@@ -165,35 +167,41 @@ function Game() {
   const submit = (station: Station) => {
     if (!active || finished || usedIds.has(station.id)) return;
     const { row, col } = active;
-    const left = guessesLeft - 1;
     const correct = puzzle.answers[row][col].includes(station.id);
+    const nextErrors = correct ? errors : errors + 1;
+    const firstGuess = errors === 0 && usedIds.size === 0;
     const next = correct
       ? cells.map((r, i) => r.map((c, j) => (i === row && j === col ? station.id : c)))
       : cells;
-    setGuessesLeft(left);
+    setErrors(nextErrors);
     track('guess', {
       mode,
       correct,
       row: puzzle.rows[row].id,
       col: puzzle.cols[col].id,
-      first_guess: guessesLeft === MAX_GUESSES,
+      first_guess: firstGuess,
     });
-    if (guessesLeft === MAX_GUESSES) track('game_started', { mode });
+    if (firstGuess) track('game_started', { mode });
     if (correct) {
       setCells(next);
       setActive(null);
       setFeedback(null);
     } else {
-      setFeedback(`« ${station.name} » ne remplit pas les deux critères.`);
+      const left = MAX_ERRORS - nextErrors;
+      setFeedback(
+        left > 0
+          ? `« ${station.name} » ne remplit pas les deux critères. Encore ${left} erreur${left > 1 ? 's' : ''} possible${left > 1 ? 's' : ''}.`
+          : `« ${station.name} » ne remplit pas les deux critères.`,
+      );
     }
     const complete = next.flat().every(Boolean);
-    if (complete || left === 0) {
+    if (complete || nextErrors >= MAX_ERRORS) {
       setActive(null);
-      finish(next, left);
+      finish(next, nextErrors);
     } else if (mode === 'daily') {
-      saveDaily(day, { puzzle: puzzleSignature(puzzle), cells: next, guessesLeft: left, finished: false });
+      saveDaily(day, { puzzle: puzzleSignature(puzzle), cells: next, errors: nextErrors, finished: false });
     } else {
-      const game = { seed: freeSeed, cells: next, guessesLeft: left, finished: false };
+      const game = { seed: freeSeed, cells: next, errors: nextErrors, finished: false };
       setFreeSaved(game);
       saveFreeGame(game);
     }
@@ -203,7 +211,7 @@ function Game() {
     setMode('free');
     setFreeSeed(game.seed);
     setCells(game.cells);
-    setGuessesLeft(game.guessesLeft);
+    setErrors(game.errors);
     setFinished(game.finished);
     setShowResult(false);
   };
@@ -229,7 +237,7 @@ function Game() {
       return;
     }
     track('free_game_started', { cost: GRID_COST, coins_left: paid.coins });
-    const game = { seed: `libre-${Date.now()}`, cells: emptyCells(), guessesLeft: MAX_GUESSES, finished: false };
+    const game = { seed: `libre-${Date.now()}`, cells: emptyCells(), errors: 0, finished: false };
     setFreeSaved(game);
     saveFreeGame(game);
     showFreeGame(game);
@@ -257,25 +265,28 @@ function Game() {
 
   const backToDaily = async () => {
     const loadedGame = await loadDaily(day);
-    const saved = loadedGame?.puzzle === puzzleSignature(generatePuzzle(dailySeed(day))) ? loadedGame : null;
+    const saved =
+      loadedGame && typeof loadedGame.errors === 'number' && loadedGame.puzzle === puzzleSignature(generatePuzzle(dailySeed(day)))
+        ? loadedGame
+        : null;
     setMode('daily');
     setCells(saved?.cells ?? emptyCells());
-    setGuessesLeft(saved?.guessesLeft ?? MAX_GUESSES);
+    setErrors(saved?.errors ?? 0);
     setFinished(saved?.finished ?? false);
     setShowResult(false);
   };
 
   const giveUp = () => {
-    setGuessesLeft(0);
-    finish(cells, 0);
+    finish(cells, errors, true);
   };
 
   const share = async () => {
     const grid = cells.map((r) => r.map((c) => (c ? '🟩' : '⬜')).join('')).join('\n');
     const title =
       mode === 'daily' ? `Terminus Paris n°${dailyNumber(day)}` : 'Terminus Paris (partie libre)';
-    const message = `${title} : ${found}/9\n${grid}\n\nÀ toi de jouer : ${WEB_URL}`;
-    track('result_shared', { mode, found });
+    const errorText = errors === 0 ? 'sans erreur' : `${errors} erreur${errors > 1 ? 's' : ''}`;
+    const message = `${title} : ${found}/9 · ${errorText}\n${grid}\n\nÀ toi de jouer : ${WEB_URL}`;
+    track('result_shared', { mode, found, errors });
     try {
       await Share.share({ message });
     } catch {
@@ -335,10 +346,10 @@ function Game() {
 
         <View style={[styles.status, { width: gridWidth - 24 }]}>
           <View style={styles.statusRow}>
-            <Text style={styles.statusLabel}>{finished ? 'Terminé' : 'Essais restants'}</Text>
-            <Text style={styles.statusValue}>{finished ? `${found}/9` : guessesLeft}</Text>
+            <Text style={styles.statusLabel}>{finished ? 'Terminé' : 'Erreurs possibles'}</Text>
+            <Text style={styles.statusValue}>{finished ? `${found}/9` : MAX_ERRORS - errors}</Text>
           </View>
-          <GuessTrack total={MAX_GUESSES} left={guessesLeft} width={gridWidth - 24} />
+          <TicketTrack total={MAX_ERRORS} used={errors} />
         </View>
 
         <View style={styles.actions}>
@@ -375,7 +386,7 @@ function Game() {
         row={activeRow}
         col={activeCol}
         usedIds={usedIds}
-        guessesLeft={guessesLeft}
+        errorsLeft={MAX_ERRORS - errors}
         feedback={feedback}
         onSubmit={submit}
         onClose={() => setActive(null)}
@@ -500,7 +511,8 @@ function Game() {
           Par exemple : une station de la ligne 6 à moins de 2 km de la tour Eiffel.
         </Text>
         <Text style={infoStyles.p}>
-          Tu as <Text style={infoStyles.strong}>9 essais</Text> et chaque station ne peut servir qu'une fois.
+          Tu as droit à <Text style={infoStyles.strong}>{MAX_ERRORS} erreurs</Text> : les bonnes réponses ne comptent pas.
+          Chaque station ne peut servir qu'une fois.
           Touche un critère pour lire sa définition exacte.
         </Text>
         <Text style={infoStyles.p}>

@@ -42,7 +42,7 @@ EXEMPLES DE CRITÈRES
 • Les correspondances : une seule ligne, 2 lignes ou plus, avec le RER
 
 COMMENT JOUER
-• 9 cases, 9 essais
+• 9 cases à remplir, 3 erreurs permises
 • Chaque station ne sert qu'une fois
 • Tape le nom d'une station : la recherche comprend même sans les accents
 • Touche un critère pour lire sa définition exacte
@@ -50,8 +50,8 @@ COMMENT JOUER
 CHAQUE JOUR UNE NOUVELLE GRILLE
 La même grille pour tout le monde : compare ton score avec tes amis et partage ton résultat en un geste. Garde ta série de jours d'affilée et vise la grille parfaite.
 
-EN PARTIE LIBRE
-Envie de continuer ? Enchaîne autant de grilles que tu veux.
+DES GRILLES EN PLUS
+Envie de continuer ? Débloque des grilles en plus avec tes pièces : tu en gagnes 3 chaque jour, sans aucun achat.
 
 Plus de 300 stations des lignes 1 à 14, de La Défense à l'aéroport d'Orly. Que tu sois Parisien, banlieusard ou amoureux de Paris, Terminus va tester ta mémoire du réseau… et t'apprendre plein de choses.
 
@@ -110,13 +110,13 @@ Chaque jour, une nouvelle grille de 9 cases. La même pour tout le monde : compa
 • Correspondances : une seule ligne, 2 lignes ou plus, correspondance avec le RER
 
 🎯 COMMENT JOUER
-• 9 cases, 9 essais, chaque station ne sert qu'une fois
+• 9 cases à remplir, 3 erreurs permises, chaque station ne sert qu'une fois
 • Tape le nom d'une station : la recherche fonctionne même sans accents
 • Touche un critère pour voir sa définition
 • En fin de partie, découvre toutes les réponses possibles
 
-♾️ PARTIE LIBRE
-Tu as fini la grille du jour ? Enchaîne autant de grilles que tu veux.
+🪙 DES GRILLES EN PLUS
+Tu as fini la grille du jour ? Débloque des grilles en plus avec les pièces gagnées chaque jour. Aucun achat : tout se gagne en jouant.
 
 Plus de 300 stations du métro de Paris, des lignes 1 à 14, de La Défense à Orly. Parisien, banlieusard, touriste ou passionné de transports : teste ta connaissance du plan du métro et apprends en jouant.
 
