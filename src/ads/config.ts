@@ -18,10 +18,13 @@ export const ADMOB = {
   ios: {
     appId: 'ca-app-pub-4450845101011880~9098886467',
     bannerId: 'ca-app-pub-4450845101011880/3592630109',
+    /** Bloc « Avec récompense » (pub vidéo contre des pièces), à créer dans AdMob. */
+    rewardedId: '',
   },
   android: {
     appId: 'ca-app-pub-4450845101011880~8427309339',
     bannerId: 'ca-app-pub-4450845101011880/4498517669',
+    rewardedId: '',
   },
 };
 
@@ -35,3 +38,6 @@ export const IN_EXPO_GO = Constants.executionEnvironment === ExecutionEnvironmen
 export const adsActive =
   Platform.OS !== 'web' &&
   ((ADS_ENABLED && !IN_EXPO_GO && BANNER_UNIT_ID !== '') || SHOW_AD_PLACEHOLDER);
+
+export const REWARDED_UNIT_ID =
+  Platform.OS === 'ios' ? ADMOB.ios.rewardedId : Platform.OS === 'android' ? ADMOB.android.rewardedId : '';

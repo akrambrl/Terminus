@@ -39,7 +39,10 @@ export type GameEvent =
   | 'store_link_clicked'
   | 'coins_bonus'
   | 'not_enough_coins'
-  | 'free_game_resumed';
+  | 'free_game_resumed'
+  | 'ad_reward_started'
+  | 'ad_reward_earned'
+  | 'ad_reward_failed';
 
 /** Envoie un événement ; ne fait jamais planter le jeu. */
 export function track(event: GameEvent, properties?: Record<string, string | number | boolean>) {

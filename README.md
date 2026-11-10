@@ -20,8 +20,11 @@ npx expo start --web  # version navigateur pour tester rapidement
 ## Pièces (grilles en plus)
 
 Monnaie virtuelle, jamais achetée avec de l'argent réel (`src/game/coins.ts`) :
-- `DAILY_BONUS` (5) pièces à la première ouverture de chaque jour, `WELCOME_BONUS` (10) en plus la toute première fois ;
-- une grille en plus de la grille du jour coûte `GRID_COST` (5) pièces ;
+- `DAILY_BONUS` (3) pièces à la première ouverture de chaque jour, `WELCOME_BONUS` (3) en plus la 1re fois ;
+- une grille en plus de la grille du jour coûte `GRID_COST` (1) pièce ;
+- pub vidéo facultative (« avec récompense ») : `AD_REWARD` (2) pièces, `MAX_ADS_PER_DAY` (3) fois par jour,
+  app native uniquement ; identifiants AdMob dans `src/ads/config.ts` (`rewardedId`) ;
+- stock plafonné à `MAX_COINS` (10) ;
 - une grille payée et pas finie se reprend gratuitement (`terminus:free-game`).
 
 Le solde est stocké sur l'appareil (AsyncStorage / localStorage sur le web).

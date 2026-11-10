@@ -29,7 +29,17 @@ import { StoreBanner } from './src/store/StoreBanner';
 import { WEB_URL } from './src/store/links';
 import { onGameFinished } from './src/store/review';
 import { Coin, CoinPill } from './src/components/CoinPill';
-import { claimDailyBonus, DAILY_BONUS, GRID_COST, spendCoins, type BonusResult } from './src/game/coins';
+import {
+  AD_REWARD,
+  claimDailyBonus,
+  DAILY_BONUS,
+  grantAdReward,
+  GRID_COST,
+  MAX_COINS,
+  spendCoins,
+  type BonusResult,
+} from './src/game/coins';
+import { rewardedAdsAvailable, showRewardedAd } from './src/ads/rewarded';
 import { GuessTrack } from './src/components/GuessTrack';
 import { Logo } from './src/components/Logo';
 import { Intro } from './src/components/Intro';
@@ -92,6 +102,9 @@ function Game() {
   const [copied, setCopied] = useState(false);
   const [showIntro, setShowIntro] = useState(true);
   const [coins, setCoins] = useState(0);
+  const [adsLeft, setAdsLeft] = useState(0);
+  const [watchingAd, setWatchingAd] = useState(false);
+  const [adMessage, setAdMessage] = useState<string | null>(null);
   const [bonus, setBonus] = useState<BonusResult | null>(null);
   const [showNoCoins, setShowNoCoins] = useState(false);
   const [freeSaved, setFreeSaved] = useState<SavedFreeGame | null>(null);
@@ -107,6 +120,7 @@ function Game() {
         loadFreeGame(),
       ]);
       setCoins(wallet.coins);
+      setAdsLeft(wallet.adsLeft);
       setFreeSaved(free);
       if (wallet.granted > 0) {
         setBonus(wallet);
@@ -206,8 +220,9 @@ function Game() {
 
   /** Achète une nouvelle grille avec des pièces (jamais avec de l'argent réel). */
   const buyFree = async () => {
-    const paid = await spendCoins(GRID_COST);
+    const paid = await spendCoins(GRID_COST, day);
     setCoins(paid.coins);
+    setAdsLeft(paid.adsLeft);
     if (!paid.ok) {
       track('not_enough_coins', { coins: paid.coins });
       setShowNoCoins(true);
@@ -219,6 +234,26 @@ function Game() {
     saveFreeGame(game);
     showFreeGame(game);
   };
+
+  /** Pub vidéo facultative : des pièces en échange d'une pub regardée jusqu'au bout. */
+  const watchAd = async () => {
+    setWatchingAd(true);
+    setAdMessage(null);
+    track('ad_reward_started', { coins });
+    const earned = await showRewardedAd();
+    setWatchingAd(false);
+    if (!earned) {
+      setAdMessage("Aucune pub n'est disponible pour l'instant. Réessaie un peu plus tard.");
+      track('ad_reward_failed');
+      return;
+    }
+    const w = await grantAdReward(day);
+    setCoins(w.coins);
+    setAdsLeft(w.adsLeft);
+    track('ad_reward_earned', { granted: w.granted, coins: w.coins });
+    setShowNoCoins(false);
+  };
+  const canWatchAd = rewardedAdsAvailable() && adsLeft > 0 && coins < MAX_COINS;
 
   const backToDaily = async () => {
     const loadedGame = await loadDaily(day);
@@ -276,7 +311,7 @@ function Game() {
             <Text style={styles.ticketMain}>
               {mode === 'daily' ? `Grille n°${dailyNumber(day)}` : 'Grille en plus'}
             </Text>
-            <Text style={styles.ticketSub}>{mode === 'daily' ? formatDay(day) : `${GRID_COST} pièces la grille`}</Text>
+            <Text style={styles.ticketSub}>{mode === 'daily' ? formatDay(day) : `${GRID_COST} pièce la grille`}</Text>
           </View>
           <CoinPill coins={coins} />
         </View>
@@ -415,19 +450,37 @@ function Game() {
             : `Tu gagnes ${bonus?.granted} pièces pour ta visite du jour. Reviens demain pour en gagner ${DAILY_BONUS} de plus !`}
         </Text>
         <Text style={[infoStyles.small, { textAlign: 'center' }]}>
-          Une grille en plus coûte {GRID_COST} pièces. Ton solde : {bonus?.coins} pièces.
+          Une grille en plus coûte {GRID_COST} pièce. Ton solde : {bonus?.coins} pièces (maximum {MAX_COINS}).
         </Text>
       </InfoModal>
 
-      <InfoModal visible={showNoCoins} title="Pas assez de pièces" onClose={() => setShowNoCoins(false)}>
+      <InfoModal
+        visible={showNoCoins}
+        title="Plus de pièces"
+        onClose={() => {
+          setShowNoCoins(false);
+          setAdMessage(null);
+        }}
+        footer={
+          canWatchAd ? (
+            <Button
+              label={watchingAd ? 'Chargement de la pub…' : `Regarder une pub · +${AD_REWARD}`}
+              coin
+              primary
+              onPress={() => !watchingAd && watchAd()}
+            />
+          ) : undefined
+        }
+      >
         <View style={styles.bonusRow}>
           <Coin size={40} />
           <Text style={styles.bonusAmount}>{coins}</Text>
         </View>
         <Text style={[infoStyles.p, { textAlign: 'center' }]}>
-          Une grille en plus coûte {GRID_COST} pièces. Tu gagnes {DAILY_BONUS} pièces chaque jour en ouvrant
-          l'app : reviens demain !
+          Une grille en plus coûte {GRID_COST} pièce. Tu gagnes {DAILY_BONUS} pièces chaque jour en ouvrant l'app
+          {canWatchAd ? `, ou ${AD_REWARD} pièces en regardant une courte pub.` : ' : reviens demain !'}
         </Text>
+        {adMessage && <Text style={[infoStyles.small, { textAlign: 'center', color: colors.danger }]}>{adMessage}</Text>}
         <Text style={[infoStyles.small, { textAlign: 'center' }]}>La grille du jour, elle, est toujours gratuite.</Text>
       </InfoModal>
 
@@ -452,8 +505,8 @@ function Game() {
         </Text>
         <Text style={infoStyles.p}>
           Une nouvelle grille gratuite t'attend chaque jour. Pour jouer d'autres grilles, utilise tes pièces : chaque
-          grille en plus coûte {GRID_COST} pièces, et tu gagnes {DAILY_BONUS} pièces chaque jour en ouvrant l'app. Les
-          pièces ne s'achètent pas : elles se gagnent seulement en jouant.
+          grille en plus coûte {GRID_COST} pièce, et tu gagnes {DAILY_BONUS} pièces chaque jour en ouvrant l'app (jusqu'à{' '}
+          {MAX_COINS} en réserve). Les pièces ne s'achètent pas : elles se gagnent seulement en jouant.
         </Text>
         <Text style={infoStyles.small}>
           Jeu non officiel, sans lien avec la RATP ni Île-de-France Mobilités. Données des stations : Wikidata
