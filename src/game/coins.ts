@@ -2,13 +2,12 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 /**
  * Pièces du jeu : monnaie virtuelle, jamais achetée avec de l'argent réel.
- * - DAILY_BONUS pièces à la première ouverture de chaque jour (WELCOME_BONUS en plus la 1re fois).
+ * - DAILY_BONUS pièces à la première ouverture de chaque jour (pas de bonus de bienvenue en plus).
  * - Une grille en plus de la grille du jour coûte GRID_COST pièce.
  * - Une pub vidéo facultative rapporte AD_REWARD pièces, au plus MAX_ADS_PER_DAY fois par jour.
  * - Le stock est plafonné à MAX_COINS pour garder l'envie de revenir chaque jour.
  */
 export const DAILY_BONUS = 3;
-export const WELCOME_BONUS = 3;
 export const GRID_COST = 1;
 export const AD_REWARD = 2;
 export const MAX_ADS_PER_DAY = 3;
@@ -62,7 +61,7 @@ export interface BonusResult extends WalletState {
 export async function claimDailyBonus(day: string): Promise<BonusResult> {
   const wallet = await load();
   if (!wallet) {
-    const w = { coins: Math.min(WELCOME_BONUS + DAILY_BONUS, MAX_COINS), lastBonusDay: day };
+    const w = { coins: DAILY_BONUS, lastBonusDay: day };
     await save(w);
     return { ...state(w, day), granted: w.coins, welcome: true };
   }

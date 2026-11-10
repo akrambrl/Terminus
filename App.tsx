@@ -446,7 +446,7 @@ function Game() {
         </View>
         <Text style={[infoStyles.p, { textAlign: 'center' }]}>
           {bonus?.welcome
-            ? `Voici ${bonus?.granted} pièces pour commencer. Tu en gagnes ${DAILY_BONUS} de plus chaque jour en ouvrant l'app.`
+            ? `Voici tes ${bonus?.granted} pièces du jour. Tu en gagnes ${DAILY_BONUS} chaque jour en ouvrant l'app.`
             : `Tu gagnes ${bonus?.granted} pièces pour ta visite du jour. Reviens demain pour en gagner ${DAILY_BONUS} de plus !`}
         </Text>
         <Text style={[infoStyles.small, { textAlign: 'center' }]}>
