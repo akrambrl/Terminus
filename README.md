@@ -17,6 +17,15 @@ npx expo start        # puis scanner le QR code avec l'app Expo Go (iOS / Androi
 npx expo start --web  # version navigateur pour tester rapidement
 ```
 
+## Pièces (grilles en plus)
+
+Monnaie virtuelle, jamais achetée avec de l'argent réel (`src/game/coins.ts`) :
+- `DAILY_BONUS` (5) pièces à la première ouverture de chaque jour, `WELCOME_BONUS` (10) en plus la toute première fois ;
+- une grille en plus de la grille du jour coûte `GRID_COST` (5) pièces ;
+- une grille payée et pas finie se reprend gratuitement (`terminus:free-game`).
+
+Le solde est stocké sur l'appareil (AsyncStorage / localStorage sur le web).
+
 ## Web app (écran d'accueil)
 
 La version web est publiée avec GitHub Pages (source : racine de la branche).

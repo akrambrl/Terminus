@@ -16,6 +16,9 @@ import {
   markHelpSeen,
   recordDaily,
   saveDaily,
+  loadFreeGame,
+  saveFreeGame,
+  type SavedFreeGame,
   type Stats,
 } from './src/game/storage';
 import type { Criterion, LineId, Station } from './src/game/types';
@@ -25,6 +28,8 @@ import { track } from './src/analytics';
 import { StoreBanner } from './src/store/StoreBanner';
 import { WEB_URL } from './src/store/links';
 import { onGameFinished } from './src/store/review';
+import { Coin, CoinPill } from './src/components/CoinPill';
+import { claimDailyBonus, DAILY_BONUS, GRID_COST, spendCoins, type BonusResult } from './src/game/coins';
 import { GuessTrack } from './src/components/GuessTrack';
 import { Logo } from './src/components/Logo';
 import { Intro } from './src/components/Intro';
@@ -86,11 +91,27 @@ function Game() {
   const [showResult, setShowResult] = useState(false);
   const [copied, setCopied] = useState(false);
   const [showIntro, setShowIntro] = useState(true);
+  const [coins, setCoins] = useState(0);
+  const [bonus, setBonus] = useState<BonusResult | null>(null);
+  const [showNoCoins, setShowNoCoins] = useState(false);
+  const [freeSaved, setFreeSaved] = useState<SavedFreeGame | null>(null);
 
   // Chargement de la grille du jour sauvegardée et des statistiques.
   useEffect(() => {
     (async () => {
-      const [saved, s, seen] = await Promise.all([loadDaily(day), loadStats(), hasSeenHelp()]);
+      const [saved, s, seen, wallet, free] = await Promise.all([
+        loadDaily(day),
+        loadStats(),
+        hasSeenHelp(),
+        claimDailyBonus(day),
+        loadFreeGame(),
+      ]);
+      setCoins(wallet.coins);
+      setFreeSaved(free);
+      if (wallet.granted > 0) {
+        setBonus(wallet);
+        track('coins_bonus', { granted: wallet.granted, welcome: wallet.welcome, coins: wallet.coins });
+      }
       if (saved && saved.puzzle === puzzleSignature(generatePuzzle(dailySeed(day)))) {
         setCells(saved.cells);
         setGuessesLeft(saved.guessesLeft);
@@ -112,6 +133,11 @@ function Game() {
       const foundCount = finalCells.flat().filter(Boolean).length;
       track('game_finished', { mode, found: foundCount, guesses_left: left, gave_up: left === 0 && foundCount < 9 });
       onGameFinished(foundCount);
+      if (mode === 'free') {
+        const game = { seed: freeSeed, cells: finalCells, guessesLeft: left, finished: true };
+        setFreeSaved(game);
+        saveFreeGame(game);
+      }
       if (mode === 'daily') {
         await saveDaily(day, { puzzle: puzzleSignature(puzzle), cells: finalCells, guessesLeft: left, finished: true });
         const count = finalCells.flat().filter(Boolean).length;
@@ -119,7 +145,7 @@ function Game() {
       }
       setTimeout(() => setShowResult(true), 400);
     },
-    [mode, day, puzzle],
+    [mode, day, puzzle, freeSeed],
   );
 
   const submit = (station: Station) => {
@@ -152,17 +178,46 @@ function Game() {
       finish(next, left);
     } else if (mode === 'daily') {
       saveDaily(day, { puzzle: puzzleSignature(puzzle), cells: next, guessesLeft: left, finished: false });
+    } else {
+      const game = { seed: freeSeed, cells: next, guessesLeft: left, finished: false };
+      setFreeSaved(game);
+      saveFreeGame(game);
     }
   };
 
-  const startFree = () => {
-    track('free_game_started');
+  const showFreeGame = (game: SavedFreeGame) => {
     setMode('free');
-    setFreeSeed(`libre-${Date.now()}`);
-    setCells(emptyCells());
-    setGuessesLeft(MAX_GUESSES);
-    setFinished(false);
+    setFreeSeed(game.seed);
+    setCells(game.cells);
+    setGuessesLeft(game.guessesLeft);
+    setFinished(game.finished);
     setShowResult(false);
+  };
+
+  /** Une grille payée et pas finie se reprend gratuitement. */
+  const resumeOrBuyFree = () => {
+    if (freeSaved && !freeSaved.finished) {
+      track('free_game_resumed');
+      showFreeGame(freeSaved);
+    } else {
+      buyFree();
+    }
+  };
+
+  /** Achète une nouvelle grille avec des pièces (jamais avec de l'argent réel). */
+  const buyFree = async () => {
+    const paid = await spendCoins(GRID_COST);
+    setCoins(paid.coins);
+    if (!paid.ok) {
+      track('not_enough_coins', { coins: paid.coins });
+      setShowNoCoins(true);
+      return;
+    }
+    track('free_game_started', { cost: GRID_COST, coins_left: paid.coins });
+    const game = { seed: `libre-${Date.now()}`, cells: emptyCells(), guessesLeft: MAX_GUESSES, finished: false };
+    setFreeSaved(game);
+    saveFreeGame(game);
+    showFreeGame(game);
   };
 
   const backToDaily = async () => {
@@ -217,10 +272,13 @@ function Game() {
           </Pressable>
         </View>
         <View style={[styles.ticket, { width: gridWidth }]}>
-          <Text style={styles.ticketMain}>
-            {mode === 'daily' ? `Grille n°${dailyNumber(day)}` : 'Partie libre'}
-          </Text>
-          <Text style={styles.ticketSub}>{mode === 'daily' ? formatDay(day) : 'grilles illimitées'}</Text>
+          <View>
+            <Text style={styles.ticketMain}>
+              {mode === 'daily' ? `Grille n°${dailyNumber(day)}` : 'Grille en plus'}
+            </Text>
+            <Text style={styles.ticketSub}>{mode === 'daily' ? formatDay(day) : `${GRID_COST} pièces la grille`}</Text>
+          </View>
+          <CoinPill coins={coins} />
         </View>
 
         <Grid
@@ -255,10 +313,14 @@ function Game() {
             <Button label="Abandonner" onPress={giveUp} tone="danger" />
           )}
           {mode === 'daily' ? (
-            <Button label="Partie libre" onPress={startFree} />
+            freeSaved && !freeSaved.finished ? (
+              <Button label="Reprendre la grille en plus" onPress={resumeOrBuyFree} />
+            ) : (
+              <Button label={`Grille en plus · ${GRID_COST}`} coin onPress={buyFree} />
+            )
           ) : (
             <>
-              <Button label="Nouvelle grille" onPress={startFree} />
+              {finished && <Button label={`Nouvelle grille · ${GRID_COST}`} coin onPress={buyFree} />}
               <Button label="Grille du jour" onPress={backToDaily} />
             </>
           )}
@@ -339,6 +401,37 @@ function Game() {
       </InfoModal>
 
       <InfoModal
+        visible={!!bonus && !showIntro && !(showHelp && !showIntro)}
+        title={bonus?.welcome ? 'Bienvenue !' : 'Bonus du jour'}
+        onClose={() => setBonus(null)}
+      >
+        <View style={styles.bonusRow}>
+          <Coin size={40} />
+          <Text style={styles.bonusAmount}>+{bonus?.granted}</Text>
+        </View>
+        <Text style={[infoStyles.p, { textAlign: 'center' }]}>
+          {bonus?.welcome
+            ? `Voici ${bonus?.granted} pièces pour commencer. Tu en gagnes ${DAILY_BONUS} de plus chaque jour en ouvrant l'app.`
+            : `Tu gagnes ${bonus?.granted} pièces pour ta visite du jour. Reviens demain pour en gagner ${DAILY_BONUS} de plus !`}
+        </Text>
+        <Text style={[infoStyles.small, { textAlign: 'center' }]}>
+          Une grille en plus coûte {GRID_COST} pièces. Ton solde : {bonus?.coins} pièces.
+        </Text>
+      </InfoModal>
+
+      <InfoModal visible={showNoCoins} title="Pas assez de pièces" onClose={() => setShowNoCoins(false)}>
+        <View style={styles.bonusRow}>
+          <Coin size={40} />
+          <Text style={styles.bonusAmount}>{coins}</Text>
+        </View>
+        <Text style={[infoStyles.p, { textAlign: 'center' }]}>
+          Une grille en plus coûte {GRID_COST} pièces. Tu gagnes {DAILY_BONUS} pièces chaque jour en ouvrant
+          l'app : reviens demain !
+        </Text>
+        <Text style={[infoStyles.small, { textAlign: 'center' }]}>La grille du jour, elle, est toujours gratuite.</Text>
+      </InfoModal>
+
+      <InfoModal
         visible={showHelp && !showIntro}
         title="Comment jouer"
         onClose={() => {
@@ -358,7 +451,9 @@ function Game() {
           Touche un critère pour lire sa définition exacte.
         </Text>
         <Text style={infoStyles.p}>
-          Une nouvelle grille t'attend chaque jour. En partie libre, tu peux enchaîner autant de grilles que tu veux.
+          Une nouvelle grille gratuite t'attend chaque jour. Pour jouer d'autres grilles, utilise tes pièces : chaque
+          grille en plus coûte {GRID_COST} pièces, et tu gagnes {DAILY_BONUS} pièces chaque jour en ouvrant l'app. Les
+          pièces ne s'achètent pas : elles se gagnent seulement en jouant.
         </Text>
         <Text style={infoStyles.small}>
           Jeu non officiel, sans lien avec la RATP ni Île-de-France Mobilités. Données des stations : Wikidata
@@ -376,11 +471,14 @@ function Button({
   onPress,
   primary,
   tone,
+  coin,
 }: {
   label: string;
   onPress: () => void;
   primary?: boolean;
   tone?: 'danger';
+  /** Affiche une pièce après le libellé (action payante en pièces). */
+  coin?: boolean;
 }) {
   return (
     <Pressable
@@ -401,6 +499,7 @@ function Button({
       >
         {label}
       </Text>
+      {coin && <Coin size={16} />}
     </Pressable>
   );
 }
@@ -441,7 +540,7 @@ const styles = StyleSheet.create({
   helpText: { fontSize: 20, fontFamily: fonts.display, color: colors.ink },
   ticket: {
     flexDirection: 'row',
-    alignItems: 'baseline',
+    alignItems: 'center',
     justifyContent: 'space-between',
     backgroundColor: colors.ink,
     borderRadius: 12,
@@ -450,13 +549,16 @@ const styles = StyleSheet.create({
     marginBottom: 14,
   },
   ticketMain: { fontFamily: fonts.display, fontSize: 17, color: '#FFFFFF' },
-  ticketSub: { fontFamily: fonts.bold, fontSize: 13, color: palette.sun, textTransform: 'uppercase', letterSpacing: 1 },
+  ticketSub: { fontFamily: fonts.bold, fontSize: 12, color: palette.sun, textTransform: 'uppercase', letterSpacing: 1, marginTop: 2 },
   status: { marginTop: 18, gap: 10 },
   statusRow: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'baseline' },
   statusLabel: { fontFamily: fonts.heavy, fontSize: 13, color: colors.muted, textTransform: 'uppercase', letterSpacing: 1 },
   statusValue: { fontFamily: fonts.display, fontSize: 22, color: colors.ink },
   actions: { flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'center', gap: 10, marginTop: 24 },
   button: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 6,
     paddingVertical: 12,
     paddingHorizontal: 20,
     borderRadius: 14,
@@ -486,6 +588,8 @@ const styles = StyleSheet.create({
   answerName: { fontSize: 15, fontFamily: fonts.bold, color: colors.ink, flexShrink: 1 },
   answerMine: { fontFamily: fonts.heavy, color: palette.mint },
   answerLines: { flexDirection: 'row', alignItems: 'center', gap: 3 },
+  bonusRow: { flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 12, marginVertical: 8 },
+  bonusAmount: { fontFamily: fonts.display, fontSize: 48, color: colors.ink },
   rer: {
     fontFamily: fonts.heavy,
     fontSize: 10,

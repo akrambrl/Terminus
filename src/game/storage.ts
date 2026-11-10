@@ -73,3 +73,15 @@ export async function hasSeenHelp(): Promise<boolean> {
   return (await readJson<boolean>(SEEN_HELP_KEY)) === true;
 }
 export const markHelpSeen = () => writeJson(SEEN_HELP_KEY, true);
+
+/** Grille en plus (payée en pièces), gardée pour pouvoir la reprendre sans repayer. */
+export interface SavedFreeGame {
+  seed: string;
+  cells: (string | null)[][];
+  guessesLeft: number;
+  finished: boolean;
+}
+
+const FREE_KEY = 'terminus:free-game';
+export const loadFreeGame = () => readJson<SavedFreeGame>(FREE_KEY);
+export const saveFreeGame = (game: SavedFreeGame) => writeJson(FREE_KEY, game);

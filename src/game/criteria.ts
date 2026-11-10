@@ -76,14 +76,14 @@ const placeCriteria: Criterion[] = [
   {
     id: 'arr-even',
     kind: 'place',
-    label: 'Arrondissement pair',
+    label: 'Paris, arr. pair',
     description: 'La station est dans Paris, dans un arrondissement pair (2e, 4e, 6e… 20e).',
     test: (s) => s.arr.some((a) => a % 2 === 0),
   },
   {
     id: 'arr-odd',
     kind: 'place',
-    label: 'Arrondissement impair',
+    label: 'Paris, arr. impair',
     description: 'La station est dans Paris, dans un arrondissement impair (1er, 3e, 5e… 19e).',
     test: (s) => s.arr.some((a) => a % 2 === 1),
   },
