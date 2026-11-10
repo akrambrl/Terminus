@@ -4,17 +4,21 @@ import { APP_VERSION } from '../version';
 
 /**
  * Statistiques d'utilisation (PostHog, hébergement européen).
- * Tant que POSTHOG_KEY est vide, rien n'est envoyé.
- *
- * Tableau de bord : utilisateurs en direct, par jour / semaine / mois, pays et ville
- * (déduits de l'IP), heures de connexion, appareils, rétention, et les événements du jeu ci-dessous.
+ * Rien n'est envoyé avant l'accord du joueur (consentement RGPD / CNIL) :
+ * les événements attendent en mémoire, puis partent s'il accepte ou sont effacés s'il refuse.
  */
 export const POSTHOG_KEY = 'phc_oRc7aSZgvyup76g4XYY7X9wHunn34mi7kKMM9TktHowj';
 export const POSTHOG_HOST = 'https://eu.i.posthog.com';
 
+type Props = Record<string, string | number | boolean>;
+
 let client: PostHog | null = null;
-try {
-  if (POSTHOG_KEY) {
+let consent: 'unknown' | 'granted' | 'denied' = 'unknown';
+const pending: { event: GameEvent; properties?: Props }[] = [];
+
+function startClient() {
+  if (client || !POSTHOG_KEY) return;
+  try {
     client = new PostHog(POSTHOG_KEY, {
       host: POSTHOG_HOST,
       // Ouverture de l'app, mise en arrière-plan, installation, mise à jour.
@@ -23,9 +27,26 @@ try {
       personProfiles: 'identified_only',
     });
     client.register({ app_version: APP_VERSION, platform: Platform.OS });
+  } catch {
+    client = null;
   }
-} catch {
-  client = null;
+}
+
+/** Applique le choix du joueur (appelé après le formulaire de consentement ou le bandeau web). */
+export function setAnalyticsConsent(granted: boolean) {
+  consent = granted ? 'granted' : 'denied';
+  if (granted) {
+    startClient();
+    client?.optIn().catch(() => {});
+    for (const e of pending.splice(0)) client?.capture(e.event, e.properties);
+  } else {
+    pending.length = 0;
+    try {
+      Promise.resolve(client?.optOut()).catch(() => {});
+    } catch {
+      // ignoré
+    }
+  }
 }
 
 export type GameEvent =
@@ -44,10 +65,11 @@ export type GameEvent =
   | 'ad_reward_earned'
   | 'ad_reward_failed';
 
-/** Envoie un événement ; ne fait jamais planter le jeu. */
-export function track(event: GameEvent, properties?: Record<string, string | number | boolean>) {
+/** Envoie un événement si le joueur a accepté les statistiques ; ne fait jamais planter le jeu. */
+export function track(event: GameEvent, properties?: Props) {
   try {
-    client?.capture(event, properties);
+    if (consent === 'granted') client?.capture(event, properties);
+    else if (consent === 'unknown' && pending.length < 50) pending.push({ event, properties });
   } catch {
     // Les statistiques ne doivent jamais bloquer le jeu.
   }

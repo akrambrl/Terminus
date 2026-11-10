@@ -92,6 +92,15 @@ src/game/storage.ts        sauvegarde de la partie du jour et des statistiques (
 src/components/            grille, recherche, pastilles de lignes, fenêtres d'info
 ```
 
+## Confidentialité et consentement
+
+- Politique de confidentialité : `public/confidentialite.html`, publiée sur
+  https://akrambrl.github.io/Terminus/docs/confidentialite.html (éditeur : Akram BOURHILA, terminusparis@gmail.com).
+- App native : le formulaire de consentement Google (UMP) décide aussi des statistiques PostHog
+  (`src/ads/prepare.ts`) ; « Gérer mes choix » rouvre le formulaire.
+- Web : bandeau Accepter / Refuser (`src/privacy/StatsBanner.tsx`).
+- Aucun événement n'est envoyé avant le choix (file d'attente en mémoire, effacée en cas de refus).
+
 ## Statistiques d'utilisation (PostHog)
 
 `src/analytics/index.ts` : mettre la clé du projet PostHog (`phc_…`) dans `POSTHOG_KEY`.

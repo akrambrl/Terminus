@@ -1,6 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
 import { useCallback, useEffect, useMemo, useState } from 'react';
-import { Pressable, ScrollView, Share, StyleSheet, Text, useWindowDimensions, View } from 'react-native';
+import { Linking, Pressable, ScrollView, Share, StyleSheet, Text, useWindowDimensions, View } from 'react-native';
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 import { Grid } from './src/components/Grid';
 import { InfoModal, infoStyles } from './src/components/InfoModal';
@@ -25,6 +25,9 @@ import type { Criterion, LineId, Station } from './src/game/types';
 import { colors, fonts, palette, WEB_TOP_GAP } from './src/theme';
 import { APP_VERSION } from './src/version';
 import { track } from './src/analytics';
+import { openPrivacyChoices, startConsent } from './src/privacy/consent';
+import { StatsBanner } from './src/privacy/StatsBanner';
+import { CONTACT_EMAIL, PRIVACY_URL } from './src/privacy/links';
 import { StoreBanner } from './src/store/StoreBanner';
 import { WEB_URL } from './src/store/links';
 import { onGameFinished } from './src/store/review';
@@ -102,6 +105,12 @@ function Game() {
   const [showResult, setShowResult] = useState(false);
   const [copied, setCopied] = useState(false);
   const [showIntro, setShowIntro] = useState(true);
+  const [consentKey, setConsentKey] = useState(0);
+
+  // Consentement (pub et statistiques) dès le lancement.
+  useEffect(() => {
+    startConsent();
+  }, []);
   const [coins, setCoins] = useState(0);
   const [adsLeft, setAdsLeft] = useState(0);
   const [watchingAd, setWatchingAd] = useState(false);
@@ -378,7 +387,9 @@ function Game() {
           Jeu non officiel, sans lien avec la RATP ni Île-de-France Mobilités.{'\n'}Version {APP_VERSION}
         </Text>
       </ScrollView>
-      {/* Bannière publicitaire (app des stores uniquement, désactivée pour l'instant). */}
+      {/* Bandeau de choix des statistiques (version web uniquement). */}
+      <StatsBanner refreshKey={consentKey} />
+      {/* Bannière publicitaire (app des stores uniquement). */}
       <AdBanner />
 
       <SearchModal
@@ -524,6 +535,23 @@ function Game() {
           Jeu non officiel, sans lien avec la RATP ni Île-de-France Mobilités. Données des stations : Wikidata
           (licence CC0). Les lignes en projet ne sont pas incluses.
         </Text>
+        <View style={styles.privacyLinks}>
+          <Text style={styles.privacyLink} onPress={() => Linking.openURL(PRIVACY_URL)}>
+            Politique de confidentialité
+          </Text>
+          <Text
+            style={styles.privacyLink}
+            onPress={async () => {
+              setShowHelp(false);
+              markHelpSeen();
+              await openPrivacyChoices();
+              setConsentKey((k) => k + 1);
+            }}
+          >
+            Gérer mes choix (pub et statistiques)
+          </Text>
+          <Text style={infoStyles.small}>Contact : {CONTACT_EMAIL}</Text>
+        </View>
       </InfoModal>
     </SafeAreaView>
     {showIntro && <Intro onDone={() => setShowIntro(false)} />}
@@ -653,6 +681,8 @@ const styles = StyleSheet.create({
   answerName: { fontSize: 15, fontFamily: fonts.bold, color: colors.ink, flexShrink: 1 },
   answerMine: { fontFamily: fonts.heavy, color: palette.mint },
   answerLines: { flexDirection: 'row', alignItems: 'center', gap: 3 },
+  privacyLinks: { marginTop: 12, gap: 8 },
+  privacyLink: { fontFamily: fonts.bold, fontSize: 14, color: palette.ultramarine, textDecorationLine: 'underline' },
   bonusRow: { flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 12, marginVertical: 8 },
   bonusAmount: { fontFamily: fonts.display, fontSize: 48, color: colors.ink },
   rer: {
