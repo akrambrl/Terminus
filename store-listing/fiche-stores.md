@@ -148,7 +148,8 @@ Dossier `store-listing/captures/` :
 
 | Fichier | Store | Taille |
 |---|---|---|
-| `ios-6.9-*.png` | App Store, iPhone 6,9" (obligatoire) | 1320 × 2868 |
+| `ios-6.3-*.png` | App Store, « iPhone avec Dynamic Island (écran moyen) » | 1206 × 2622 |
+| `ios-6.9-*.png` | App Store, iPhone 6,9" | 1320 × 2868 |
 | `ios-6.5-*.png` | App Store, iPhone 6,5" | 1242 × 2688 |
 | `android-*.png` | Google Play, téléphone | 1080 × 1920 |
 | `google-feature-graphic.png` | Google Play, image de présentation | 1024 × 500 |

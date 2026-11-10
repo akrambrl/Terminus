@@ -33,6 +33,8 @@ const SHOTS = [
   { raw: 'intro', title: 'Plonge dans\nle métro parisien', bg: '#15123D', fg: '#FFC229' },
 ];
 const SIZES = [
+  // iPhone avec Dynamic Island, écran moyen (6,1" / 6,3") : taille demandée par App Store Connect.
+  { prefix: 'ios-6.3', w: 1206, h: 2622 },
   { prefix: 'ios-6.9', w: 1320, h: 2868 },
   { prefix: 'ios-6.5', w: 1242, h: 2688 },
   { prefix: 'android', w: 1080, h: 1920 },
