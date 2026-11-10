@@ -22,6 +22,9 @@ import type { Criterion, LineId, Station } from './src/game/types';
 import { colors, fonts, palette, WEB_TOP_GAP } from './src/theme';
 import { APP_VERSION } from './src/version';
 import { track } from './src/analytics';
+import { StoreBanner } from './src/store/StoreBanner';
+import { WEB_URL } from './src/store/links';
+import { onGameFinished } from './src/store/review';
 import { GuessTrack } from './src/components/GuessTrack';
 import { Logo } from './src/components/Logo';
 import { Intro } from './src/components/Intro';
@@ -108,6 +111,7 @@ function Game() {
       setFinished(true);
       const foundCount = finalCells.flat().filter(Boolean).length;
       track('game_finished', { mode, found: foundCount, guesses_left: left, gave_up: left === 0 && foundCount < 9 });
+      onGameFinished(foundCount);
       if (mode === 'daily') {
         await saveDaily(day, { puzzle: puzzleSignature(puzzle), cells: finalCells, guessesLeft: left, finished: true });
         const count = finalCells.flat().filter(Boolean).length;
@@ -180,7 +184,7 @@ function Game() {
     const grid = cells.map((r) => r.map((c) => (c ? '🟩' : '⬜')).join('')).join('\n');
     const title =
       mode === 'daily' ? `Terminus Paris n°${dailyNumber(day)}` : 'Terminus Paris (partie libre)';
-    const message = `${title} : ${found}/9\n${grid}`;
+    const message = `${title} : ${found}/9\n${grid}\n\nÀ toi de jouer : ${WEB_URL}`;
     track('result_shared', { mode, found });
     try {
       await Share.share({ message });
@@ -259,6 +263,8 @@ function Game() {
             </>
           )}
         </View>
+
+        <StoreBanner />
 
         <Text style={styles.disclaimer}>
           Jeu non officiel, sans lien avec la RATP ni Île-de-France Mobilités.{'\n'}Version {APP_VERSION}

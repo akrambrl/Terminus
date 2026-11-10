@@ -16,6 +16,7 @@
     "expo-localization": "~58.0.5",
     "expo-splash-screen": "~58.0.13",
     "expo-status-bar": "~58.0.4",
+    "expo-store-review": "~58.0.2",
     "expo-tracking-transparency": "~58.0.2",
     "posthog-react-native": "^4.85.4",
     "react": "19.3.0",

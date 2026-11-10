@@ -35,7 +35,8 @@ export type GameEvent =
   | 'game_finished'
   | 'result_shared'
   | 'free_game_started'
-  | 'help_opened';
+  | 'help_opened'
+  | 'store_link_clicked';
 
 /** Envoie un événement ; ne fait jamais planter le jeu. */
 export function track(event: GameEvent, properties?: Record<string, string | number | boolean>) {
