@@ -31,9 +31,9 @@ Le solde est stocké sur l'appareil (AsyncStorage / localStorage sur le web).
 
 ## Web app (écran d'accueil)
 
-La version web est publiée avec GitHub Pages (source : racine de la branche).
-`index.html` à la racine redirige vers la web app, qui se trouve dans `docs/` :
-https://akrambrl.github.io/Terminus/ → https://akrambrl.github.io/Terminus/docs/
+La version web est publiée avec GitHub Pages sur le domaine **https://terminusparis.fr**
+(acheté chez GoDaddy ; DNS : 4 enregistrements A vers 185.199.108-111.153 et CNAME `www` → `akrambrl.github.io`).
+Le site est le contenu du dossier `docs/`, servi à la racine du domaine.
 
 Après une modification du jeu, régénérer `docs/` puis pousser :
 
@@ -42,9 +42,13 @@ npm run build:pages
 ```
 
 Réglage GitHub : Settings → Pages → « Deploy from a branch »,
-branche `claude/wizardly-pascal-n4gfcz` (ou `main` après fusion), dossier `/ (root)`.
-Si le dossier choisi devient `/docs`, remplacer `/Terminus/docs` par `/Terminus`
-dans le script `build:pages` de `package.json`.
+branche `claude/wizardly-pascal-n4gfcz` (ou `main` après fusion), dossier **`/docs`**,
+domaine personnalisé `terminusparis.fr`, « Enforce HTTPS ».
+
+Fichiers servis à la racine du domaine (copiés depuis `public/`) : `CNAME`, `app-ads.txt` (AdMob),
+`confidentialite.html`. Les anciennes adresses `akrambrl.github.io/Terminus/…` sont redirigées
+par GitHub vers le domaine ; `public/docs/` redirige l'ancien chemin `/docs/` (jeu et politique
+de confidentialité déclarée dans les stores) vers les nouvelles pages.
 
 ## Publicité (bannière AdMob)
 
@@ -95,7 +99,7 @@ src/components/            grille, recherche, pastilles de lignes, fenêtres d'i
 ## Confidentialité et consentement
 
 - Politique de confidentialité : `public/confidentialite.html`, publiée sur
-  https://akrambrl.github.io/Terminus/docs/confidentialite.html (éditeur : Akram BOURHILA, terminusparis@gmail.com).
+  https://terminusparis.fr/confidentialite.html (éditeur : Akram BOURHILA, terminusparis@gmail.com).
 - App native : le formulaire de consentement Google (UMP) décide aussi des statistiques PostHog
   (`src/ads/prepare.ts`) ; « Gérer mes choix » rouvre le formulaire.
 - Web : bandeau Accepter / Refuser (`src/privacy/StatsBanner.tsx`).

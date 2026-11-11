@@ -68,8 +68,8 @@ Première version de Terminus Paris ! Une grille par jour, 9 stations à trouver
 **Classification par âge** : répondre « Aucun » à tout le questionnaire de contenu (résultat 4+).
 L'app contient des publicités : à indiquer quand la question est posée.
 
-**URL d'assistance / marketing** : https://akrambrl.github.io/Terminus/
-**URL de politique de confidentialité** : https://akrambrl.github.io/Terminus/docs/confidentialite.html
+**URL d'assistance / marketing** : https://terminusparis.fr/
+**URL de politique de confidentialité** : https://terminusparis.fr/confidentialite.html
 
 **Confidentialité de l'app** (App Store Connect → Confidentialité de l'app)
 
@@ -124,8 +124,8 @@ Jeu non officiel, sans lien avec la RATP ni Île-de-France Mobilités.
 ```
 
 **Catégorie** : Jeux → **Réflexion** (ou **Quiz**). Tags : Quiz, Réflexion, Puzzle, Culture générale.
-**Coordonnées** : terminusparis@gmail.com, site https://akrambrl.github.io/Terminus/
-**Règles de confidentialité** : https://akrambrl.github.io/Terminus/docs/confidentialite.html
+**Coordonnées** : terminusparis@gmail.com, site https://terminusparis.fr/
+**Règles de confidentialité** : https://terminusparis.fr/confidentialite.html
 **Contient des annonces** : Oui.
 **Public cible** : 13 ans et plus (évite les règles « Familles » sur la publicité).
 **Questionnaire de classification** : aucun contenu sensible.

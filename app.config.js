@@ -1,5 +1,5 @@
 // Complète app.json. PAGES_BASE_URL sert à publier la version web dans un sous-dossier
-// (GitHub Pages : https://akrambrl.github.io/Terminus/).
+// (par défaut, le site est servi à la racine de https://terminusparis.fr).
 module.exports = ({ config }) => ({
   ...config,
   experiments: {

@@ -44,7 +44,8 @@ function serve() {
   const types = { '.html': 'text/html', '.js': 'text/javascript', '.ttf': 'font/ttf', '.png': 'image/png', '.json': 'application/json', '.webmanifest': 'application/manifest+json', '.ico': 'image/x-icon' };
   return http
     .createServer((req, res) => {
-      let p = decodeURIComponent(req.url.split('?')[0]).replace(/^\/Terminus/, '');
+      let p = decodeURIComponent(req.url.split('?')[0]);
+      p = '/docs' + p;
       if (p.endsWith('/')) p += 'index.html';
       const file = path.join(ROOT, p);
       if (!file.startsWith(ROOT) || !fs.existsSync(file)) return res.writeHead(404).end();
@@ -61,7 +62,7 @@ async function captureGame(browser) {
   );
   const page = await browser.newPage({ viewport: { width: 430, height: 932 }, deviceScaleFactor: 3 });
   await page.route(/posthog/, (r) => r.abort());
-  await page.goto(`http://localhost:${PORT}/Terminus/docs/`);
+  await page.goto(`http://localhost:${PORT}/`);
 
   // Intro : la rame à quai.
   await page.waitForTimeout(2900);

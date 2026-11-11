@@ -3,7 +3,7 @@
  * Passer IOS_PUBLISHED / ANDROID_PUBLISHED à true le jour où l'app est en ligne :
  * le bandeau « Télécharger l'app » apparaît alors sur la version web.
  */
-export const WEB_URL = 'https://akrambrl.github.io/Terminus/';
+export const WEB_URL = 'https://terminusparis.fr/';
 
 export const IOS_PUBLISHED = false;
 export const ANDROID_PUBLISHED = false;
