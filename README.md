@@ -44,6 +44,8 @@ npm run build:pages
 Réglage GitHub : Settings → Pages → « Deploy from a branch »,
 branche `claude/wizardly-pascal-n4gfcz` (ou `main` après fusion), dossier **`/docs`**,
 domaine personnalisé `terminusparis.fr`, « Enforce HTTPS ».
+Si une publication reste bloquée (« Queued » ou « Startup failure »), vérifier https://www.githubstatus.com
+puis relancer depuis l'onglet Actions (« Re-run all jobs ») ou pousser un nouveau commit.
 
 Fichiers servis à la racine du domaine (copiés depuis `public/`) : `CNAME`, `app-ads.txt` (AdMob),
 `confidentialite.html`. Les anciennes adresses `akrambrl.github.io/Terminus/…` sont redirigées
