@@ -24,7 +24,7 @@ export const ADMOB = {
   android: {
     appId: 'ca-app-pub-4450845101011880~8427309339',
     bannerId: 'ca-app-pub-4450845101011880/4498517669',
-    rewardedId: '',
+    rewardedId: 'ca-app-pub-4450845101011880/1151825671',
   },
 };
 
