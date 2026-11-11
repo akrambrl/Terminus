@@ -18,8 +18,8 @@ export const ADMOB = {
   ios: {
     appId: 'ca-app-pub-4450845101011880~9098886467',
     bannerId: 'ca-app-pub-4450845101011880/3592630109',
-    /** Bloc « Avec récompense » (pub vidéo contre des pièces), à créer dans AdMob. */
-    rewardedId: '',
+    /** Bloc « Avec récompense » (pub vidéo contre des pièces). */
+    rewardedId: 'ca-app-pub-4450845101011880/3294452484',
   },
   android: {
     appId: 'ca-app-pub-4450845101011880~8427309339',
