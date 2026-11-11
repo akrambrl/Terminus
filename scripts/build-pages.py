@@ -36,8 +36,8 @@ head = f'''
     <meta property="og:locale" content="fr_FR" />
     <meta name="twitter:card" content="summary_large_image" />
     <link rel="canonical" href="{SITE}{BASE}/" />
-    <!-- Validation du site pour Google AdSense (compte AdSense du site, distinct du compte AdMob des apps). -->
-    <meta name="google-adsense-account" content="ca-pub-2474411159236984" />
+    <!-- Validation du site pour Google AdSense (même compte éditeur que AdMob). -->
+    <meta name="google-adsense-account" content="ca-pub-4450845101011880" />
     <meta name="theme-color" content="#EEF1FF" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="mobile-web-app-capable" content="yes" />
