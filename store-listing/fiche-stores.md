@@ -75,10 +75,12 @@ L'app contient des publicités : à indiquer quand la question est posée.
 
 | Type de données | Utilisation | Lié à l'utilisateur | Suivi |
 |---|---|---|---|
-| Identifiants → ID d'appareil (identifiant publicitaire) | Publicité tierce | Non | Oui |
-| Données d'utilisation → Interactions avec le produit | Analyse | Non | Non |
-| Données d'utilisation → Données publicitaires | Publicité tierce | Non | Oui |
+| Identifiants → ID d'appareil (identifiant publicitaire) | Publicité tierce, analyse | Non | Oui |
+| Données d'utilisation → Interactions avec le produit | Analyse, publicité tierce | Non | Non |
+| Données d'utilisation → Données publicitaires | Publicité tierce, analyse | Non | Oui |
 | Localisation → Localisation approximative (déduite de l'IP) | Analyse, publicité tierce | Non | Non |
+| Diagnostic → Données de performance (SDK AdMob) | Analyse | Non | Non |
+| Diagnostic → Autres données de diagnostic (SDK AdMob) | Analyse | Non | Non |
 
 ---
 
