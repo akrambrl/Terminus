@@ -8,6 +8,7 @@ import {
   StyleSheet,
   Text,
   TextInput,
+  useWindowDimensions,
   View,
 } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
@@ -70,6 +71,9 @@ export function SearchModal({ visible, row, col, usedIds, errorsLeft, feedback, 
   }, [visible, row, col]);
 
   const results = searchStations(query, 12);
+  // Sur grand écran (ordinateur), la recherche reste centrée sur une colonne de 640 px.
+  const { width } = useWindowDimensions();
+  const side = Math.max(16, (width - 640) / 2);
 
   return (
     <Modal visible={visible} animationType="slide" onRequestClose={onClose}>
@@ -77,6 +81,7 @@ export function SearchModal({ visible, row, col, usedIds, errorsLeft, feedback, 
       <KeyboardAvoidingView
         style={[
           styles.screen,
+          { paddingHorizontal: side },
           { paddingTop: insets.top + 8 + WEB_TOP_GAP, paddingBottom: insets.bottom },
           area && { position: 'absolute', left: 0, right: 0, top: area.top, height: area.height, flex: undefined },
         ]}
@@ -106,6 +111,14 @@ export function SearchModal({ visible, row, col, usedIds, errorsLeft, feedback, 
             autoCapitalize="none"
             style={styles.input}
             returnKeyType="done"
+            // Entrée : valide la première station proposée (pratique au clavier sur ordinateur).
+            onSubmitEditing={() => {
+              // Seulement sur ordinateur : sur téléphone, « OK » ne doit pas valider par erreur.
+              if (Platform.OS !== 'web' || width < 700) return;
+              const first = results.find((s) => !usedIds.has(s.id));
+              if (first) onSubmit(first);
+            }}
+            blurOnSubmit={false}
           />
           <FlatList
             data={results}

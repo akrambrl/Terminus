@@ -16,6 +16,7 @@ BASE = os.environ.get('PAGES_BASE_URL', '/Terminus').rstrip('/')
 index = os.path.join(DIST, 'index.html')
 html = open(index, encoding='utf-8').read()
 html = html.replace('<html lang="en">', '<html lang="fr">')
+html = html.replace('<title>Terminus Paris</title>', '<title>Terminus Paris – le jeu des stations du métro parisien</title>')
 html = html.replace(
     '<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />',
     # Pas de viewport-fit=cover : la page commence sous la barre d'état d'iOS, sans le voile
@@ -23,7 +24,17 @@ html = html.replace(
     '<meta name="viewport" content="width=device-width, initial-scale=1" />',
 )
 head = f'''
-    <meta name="description" content="Le jeu de grille quotidien sur les stations du métro parisien." />
+    <meta name="description" content="Terminus Paris : le jeu de grille quotidien sur les stations du métro parisien. 9 stations à trouver chaque jour, gratuit, sur mobile et ordinateur." />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Terminus Paris" />
+    <meta property="og:title" content="Terminus Paris – le jeu des stations du métro" />
+    <meta property="og:description" content="Une grille par jour, 9 stations du métro parisien à trouver. Tu connais vraiment le métro ?" />
+    <meta property="og:image" content="https://akrambrl.github.io{BASE}/og-image.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:locale" content="fr_FR" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <link rel="canonical" href="https://akrambrl.github.io{BASE}/" />
     <meta name="theme-color" content="#EEF1FF" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="mobile-web-app-capable" content="yes" />
