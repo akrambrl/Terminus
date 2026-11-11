@@ -1,6 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
 import { useCallback, useEffect, useMemo, useState } from 'react';
-import { Linking, Pressable, ScrollView, Share, StyleSheet, Text, useWindowDimensions, View } from 'react-native';
+import { Linking, Pressable, Share, StyleSheet, Text, useWindowDimensions, View } from 'react-native';
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 import { Grid } from './src/components/Grid';
 import { InfoModal, infoStyles } from './src/components/InfoModal';
@@ -106,6 +106,7 @@ function Game() {
   const [copied, setCopied] = useState(false);
   const [showIntro, setShowIntro] = useState(true);
   const [consentKey, setConsentKey] = useState(0);
+  const [gridBox, setGridBox] = useState<{ h: number } | null>(null);
 
   // Consentement (pub et statistiques) dès le lancement.
   useEffect(() => {
@@ -309,7 +310,10 @@ function Game() {
     }
   };
 
-  const gridWidth = Math.min(width - 32, 480);
+  // Écran fixe (pas de défilement) : la grille prend la place laissée par le reste,
+  // et rétrécit d'elle-même quand la bannière publicitaire apparaît.
+  const contentWidth = Math.min(width - 32, 480);
+  const gridWidth = gridBox ? Math.max(200, Math.min(contentWidth, gridBox.h - 8)) : 0;
   const activeRow = active ? puzzle.rows[active.row] : undefined;
   const activeCol = active ? puzzle.cols[active.col] : undefined;
 
@@ -319,14 +323,14 @@ function Game() {
     <View style={styles.root}>
     <SafeAreaView style={styles.screen} edges={adsActive ? ['top', 'left', 'right'] : undefined}>
       <StatusBar style="dark" />
-      <ScrollView contentContainerStyle={[styles.content, { paddingTop: WEB_TOP_GAP }]}>
-        <View style={[styles.header, { width: gridWidth }]}>
-          <Logo tile={Math.min(36, (gridWidth - 60) / 8.6)} />
+      <View style={[styles.content, { paddingTop: WEB_TOP_GAP }]}>
+        <View style={[styles.header, { width: contentWidth }]}>
+          <Logo tile={Math.min(36, (contentWidth - 60) / 8.6)} />
           <Pressable onPress={() => { setShowHelp(true); track('help_opened'); }} style={styles.helpButton} accessibilityLabel="Règles du jeu">
             <Text style={styles.helpText}>?</Text>
           </Pressable>
         </View>
-        <View style={[styles.ticket, { width: gridWidth }]}>
+        <View style={[styles.ticket, { width: contentWidth }]}>
           <View>
             <Text style={styles.ticketMain}>
               {mode === 'daily' ? `Grille n°${dailyNumber(day)}` : 'Grille en plus'}
@@ -336,24 +340,31 @@ function Game() {
           <CoinPill coins={coins} />
         </View>
 
-        <Grid
-          puzzle={puzzle}
-          cells={cells}
-          finished={finished}
-          width={gridWidth}
-          onPressCell={(row, col) => {
-            if (finished) setAnswersFor({ row, col });
-            else {
-              setFeedback(null);
-              setActive({ row, col });
-            }
-          }}
-          onPressCriterion={(row, col) =>
-            setCriterionInfo(row !== null ? puzzle.rows[row] : puzzle.cols[col as number])
-          }
-        />
+        <View
+          style={styles.gridArea}
+          onLayout={(e) => setGridBox({ h: e.nativeEvent.layout.height })}
+        >
+          {gridWidth > 0 && (
+            <Grid
+              puzzle={puzzle}
+              cells={cells}
+              finished={finished}
+              width={gridWidth}
+              onPressCell={(row, col) => {
+                if (finished) setAnswersFor({ row, col });
+                else {
+                  setFeedback(null);
+                  setActive({ row, col });
+                }
+              }}
+              onPressCriterion={(row, col) =>
+                setCriterionInfo(row !== null ? puzzle.rows[row] : puzzle.cols[col as number])
+              }
+            />
+          )}
+        </View>
 
-        <View style={[styles.status, { width: gridWidth - 24 }]}>
+        <View style={[styles.status, { width: contentWidth - 24 }]}>
           <View style={styles.statusRow}>
             <Text style={styles.statusLabel}>{finished ? 'Terminé' : 'Erreurs possibles'}</Text>
             <Text style={styles.statusValue}>{finished ? `${found}/9` : MAX_ERRORS - errors}</Text>
@@ -382,11 +393,7 @@ function Game() {
         </View>
 
         <StoreBanner />
-
-        <Text style={styles.disclaimer}>
-          Jeu non officiel, sans lien avec la RATP ni Île-de-France Mobilités.{'\n'}Version {APP_VERSION}
-        </Text>
-      </ScrollView>
+      </View>
       {/* Bandeau de choix des statistiques (version web uniquement). */}
       <StatsBanner refreshKey={consentKey} />
       {/* Bannière publicitaire (app des stores uniquement). */}
@@ -550,7 +557,7 @@ function Game() {
           >
             Gérer mes choix (pub et statistiques)
           </Text>
-          <Text style={infoStyles.small}>Contact : {CONTACT_EMAIL}</Text>
+          <Text style={infoStyles.small}>Contact : {CONTACT_EMAIL} · Version {APP_VERSION}</Text>
         </View>
       </InfoModal>
     </SafeAreaView>
@@ -614,13 +621,14 @@ function formatDay(day: string) {
 const styles = StyleSheet.create({
   root: { flex: 1, backgroundColor: colors.ink },
   screen: { flex: 1, backgroundColor: colors.background },
-  content: { alignItems: 'center', paddingHorizontal: 16, paddingBottom: 32 },
+  content: { flex: 1, alignItems: 'center', paddingHorizontal: 16, paddingBottom: 12 },
+  gridArea: { flex: 1, alignSelf: 'stretch', alignItems: 'center', justifyContent: 'center', minHeight: 0 },
   header: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    paddingTop: 16,
-    paddingBottom: 12,
+    paddingTop: 8,
+    paddingBottom: 10,
   },
   helpButton: {
     width: 38,
@@ -639,15 +647,15 @@ const styles = StyleSheet.create({
     borderRadius: 12,
     paddingHorizontal: 14,
     paddingVertical: 8,
-    marginBottom: 14,
+    marginBottom: 8,
   },
   ticketMain: { fontFamily: fonts.display, fontSize: 17, color: '#FFFFFF' },
   ticketSub: { fontFamily: fonts.bold, fontSize: 12, color: palette.sun, textTransform: 'uppercase', letterSpacing: 1, marginTop: 2 },
-  status: { marginTop: 18, gap: 10 },
+  status: { marginTop: 8, gap: 8 },
   statusRow: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'baseline' },
   statusLabel: { fontFamily: fonts.heavy, fontSize: 13, color: colors.muted, textTransform: 'uppercase', letterSpacing: 1 },
   statusValue: { fontFamily: fonts.display, fontSize: 22, color: colors.ink },
-  actions: { flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'center', gap: 10, marginTop: 24 },
+  actions: { flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'center', gap: 10, marginTop: 14 },
   button: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -664,7 +672,6 @@ const styles = StyleSheet.create({
   buttonDanger: { borderColor: colors.danger },
   buttonText: { fontSize: 15, fontFamily: fonts.heavy, color: colors.ink },
   buttonTextPrimary: { color: '#fff' },
-  disclaimer: { fontFamily: fonts.body, fontSize: 11, color: colors.muted, marginTop: 28, textAlign: 'center' },
   bigScore: { fontSize: 64, fontFamily: fonts.display, color: palette.ultramarine, textAlign: 'center' },
   stats: { flexDirection: 'row', justifyContent: 'space-around', marginTop: 8 },
   stat: { alignItems: 'center' },
