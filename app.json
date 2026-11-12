@@ -2,7 +2,7 @@
   "expo": {
     "name": "Terminus Paris",
     "slug": "terminus-paris",
-    "version": "1.28.0",
+    "version": "1.29.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
@@ -59,6 +59,14 @@
         "expo-tracking-transparency",
         {
           "userTrackingPermission": "Cela permet d'afficher des publicités plus adaptées à vos centres d'intérêt et de garder Terminus gratuit."
+        }
+      ],
+      [
+        "expo-notifications",
+        {
+          "icon": "./assets/notification-icon.png",
+          "color": "#2B3FD6",
+          "enableRemoteNotifications": false
         }
       ]
     ],

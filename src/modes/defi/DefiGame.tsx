@@ -23,6 +23,7 @@ import { onGameFinished } from '../../store/review';
 import { DayHeader } from '../../components/DayHeader';
 import { submitScore } from '../../analytics/supabase';
 import { NextGame } from '../../components/NextGame';
+import { NotifPrompt } from '../../notifications/NotifPrompt';
 import { MetroTrain } from '../../design/MetroTrain';
 import { usePop } from '../../design/motion';
 import { Card, Plaque } from '../../design/ui';
@@ -350,6 +351,7 @@ export function DefiGame({
           <Stat value={stats.streak} label="Série" />
           <Stat value={stats.bestStreak} label="Record" />
         </View>
+        <NotifPrompt />
         <Text style={sharedStyles.unofficial}>Jeu non officiel, sans lien avec la RATP ni Île-de-France Mobilités.</Text>
       </InfoModal>
     </>

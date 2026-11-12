@@ -69,6 +69,19 @@ La charte est dans `terminus-kit/` (`DIRECTION-ARTISTIQUE.md`, `tokens.css`, pol
 - Contraste : `textOn(fond, taille)` applique la règle de la charte (blanc sur tomate, menthe ou rose
   seulement à 24 px et plus). Zones tactiles de 44 px minimum.
 
+## Rappel du matin (apps iPhone et Android)
+
+Notifications **locales** (`expo-notifications`, sans serveur ni compte) : chaque jour à 8 h (heure du
+téléphone), « Grille n°…, Défi : …, Pendu : … lettres ». Les 14 prochains matins sont programmés à
+chaque ouverture de l'app, avec le vrai contenu de chaque jour (`src/notifications/content.ts`).
+
+- Proposé dans l'écran de résultat après une partie (jamais au lancement), une seule fois ;
+  activable / désactivable dans l'aide (bouton ?). Pas de rappel si les 3 jeux du jour sont déjà faits.
+- Pas de notifications sur le site (`src/notifications/index.ts` : sans effet sur le web).
+- Icône Android : `assets/notification-icon.png` (blanc sur transparent). Plugin `expo-notifications`
+  dans `app.json` (`enableRemoteNotifications: false` : pas de notifications distantes).
+- Nécessite un nouveau build des apps (module natif).
+
 ## Classement du jour
 
 Bouton 🏆 (en-tête) et « Voir le classement » après chaque partie : Grille (points), Défi (stations

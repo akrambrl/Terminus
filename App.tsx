@@ -13,6 +13,16 @@ import { ModeTabs, type GameTab } from './src/components/ModeTabs';
 import { DayHeader } from './src/components/DayHeader';
 import { bestGridPoints, gridPoints, stationPoints } from './src/game/points';
 import { NextGame } from './src/components/NextGame';
+import { NotifPrompt } from './src/notifications/NotifPrompt';
+import {
+  disableMorningNotifications,
+  enableMorningNotifications,
+  getNotifPref,
+  notificationsSupported,
+  refreshMorningNotifications,
+  skipTodayNotification,
+} from './src/notifications';
+import { MORNING_HOUR } from './src/notifications/content';
 import { BrickWall } from './src/design/ui';
 import { screens, ui, type ScreenId } from './src/theme';
 import { shareMessage } from './src/components/share';
@@ -118,6 +128,7 @@ function Game() {
   const [fontsLoaded, fontError] = useGameFonts();
   const [day, setDay] = useState(currentDayKey);
   const [noStats, setNoStats] = useState(false);
+  const [notifOn, setNotifOn] = useState(false);
   const [showRanking, setShowRanking] = useState(false);
   const openRanking = useCallback(() => setShowRanking(true), []);
   /** Minuit à Paris : on passe aux jeux du nouveau jour sans relancer l'app. */
@@ -125,6 +136,10 @@ function Game() {
   const [tab, setTab] = useState<GameTab>('grille');
   const [done, setDone] = useState<Record<GameTab, boolean>>({ grille: false, defi: false, pendu: false });
   const [defiScreen, setDefiScreen] = useState<ScreenId>('defi');
+  // Les trois jeux du jour sont faits : pas de rappel ce matin-là (parties jouées avant 8 h).
+  useEffect(() => {
+    if (done.grille && done.defi && done.pendu) skipTodayNotification(day);
+  }, [done, day]);
   const markDone = useCallback((t: GameTab) => setDone((d) => (d[t] ? d : { ...d, [t]: true })), []);
   const [mode, setMode] = useState<Mode>('daily');
   const [freeSeed, setFreeSeed] = useState(() => `libre-${Date.now()}`);
@@ -153,6 +168,9 @@ function Game() {
   useEffect(() => {
     startConsent();
     getStatsOptOut().then(setNoStats);
+    // Rappel du matin : reprogramme les 14 prochains matins (si le joueur l'a activé).
+    refreshMorningNotifications();
+    getNotifPref().then((p) => setNotifOn(p === 'on'));
     // « Je suis en ligne » pour le tableau de bord (toutes les minutes tant que le jeu est affiché).
     return startPresence();
   }, []);
@@ -579,6 +597,7 @@ function Game() {
             <Stat value={stats.bestStreak} label="Record" />
           </View>
         )}
+        <NotifPrompt />
       </InfoModal>
 
       <InfoModal
@@ -712,6 +731,21 @@ function Game() {
           >
             {noStats ? 'Compter de nouveau mes visites (statistiques anonymes)' : 'Ne pas compter mes visites (statistiques anonymes)'}
           </Text>
+          {notificationsSupported && (
+            <Text
+              style={styles.privacyLink}
+              onPress={async () => {
+                if (notifOn) {
+                  await disableMorningNotifications();
+                  setNotifOn(false);
+                } else setNotifOn(await enableMorningNotifications());
+              }}
+            >
+              {notifOn
+                ? `Désactiver le rappel du matin (${MORNING_HOUR} h)`
+                : `Activer le rappel du matin (${MORNING_HOUR} h)`}
+            </Text>
+          )}
           {hasPrivacyChoices && (
             <Text
               style={styles.privacyLink}

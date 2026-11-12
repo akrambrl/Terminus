@@ -76,3 +76,12 @@ test('points de rareté de la grille', async () => {
   const best = bestGridPoints(p.answers);
   assert.ok(best >= 90 && best <= 900, String(best));
 });
+
+test('texte de la notification du matin', async () => {
+  const { morningMessage } = await import('../src/notifications/content');
+  const m = morningMessage('2026-11-13');
+  assert.ok(m.title.length > 5);
+  assert.match(m.body, /Grille n°6/);
+  assert.match(m.body, /Défi : Ligne 13 × Contient un V/);
+  assert.match(m.body, /Pendu : 13 lettres \(ligne 13\)/);
+});
