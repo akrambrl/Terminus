@@ -1,0 +1,36 @@
+# Chaque nuit après minuit (heure de Paris) : ajoute l'archive de la veille (réponses de la Grille,
+# du Défi et du Pendu) et met à jour le plan du site. Le site (GitHub Pages, dossier docs/) se
+# republie tout seul. Ne fonctionne que si cette branche est la branche par défaut du dépôt
+# (les tâches programmées de GitHub ne tournent que sur la branche par défaut).
+name: Archives du jour
+
+on:
+  schedule:
+    - cron: '20 23 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: archives
+  cancel-in-progress: false
+
+jobs:
+  archives:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Pages de contenu et archives
+        run: npx --yes tsx scripts/build-content.ts
+      - name: Publier
+        run: |
+          if git diff --quiet -- docs; then echo "Rien de nouveau"; exit 0; fi
+          git config user.name "terminus-archives"
+          git config user.email "terminus-archives@users.noreply.github.com"
+          git add docs
+          git commit -m "Archives du $(TZ=Europe/Paris date -d yesterday +%Y-%m-%d)"
+          git push

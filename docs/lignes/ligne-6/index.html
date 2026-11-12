@@ -1,0 +1,188 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Ligne 6 du métro de Paris : les 28 stations, correspondances et fréquentation</title>
+<meta name="description" content="Toutes les stations de la ligne 6 du métro parisien : 28 stations, correspondances avec 11 lignes et le RER A, B, C, arrondissements desservis et fréquentation." />
+<link rel="canonical" href="https://terminusparis.fr/lignes/ligne-6/" />
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content="Terminus Paris" />
+<meta property="og:title" content="Ligne 6 du métro de Paris : les 28 stations, correspondances et fréquentation" />
+<meta property="og:description" content="Toutes les stations de la ligne 6 du métro parisien : 28 stations, correspondances avec 11 lignes et le RER A, B, C, arrondissements desservis et fréquentation." />
+<meta property="og:image" content="https://terminusparis.fr/og-image.png" />
+<meta property="og:url" content="https://terminusparis.fr/lignes/ligne-6/" />
+<meta name="google-adsense-account" content="ca-pub-4450845101011880" />
+<meta name="theme-color" content="#EEF1FF" />
+<link rel="icon" href="/favicon.ico" />
+<link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+<style>
+:root {
+  /* Couleurs de marque */
+  --tp-blue: #2B3FD6;      /* couleur principale */
+  --tp-tomato: #FF5A36;
+  --tp-sun: #FFC229;
+  --tp-mint: #14B88A;
+  --tp-pink: #F2458C;
+  --tp-violet: #7B4AE2;
+  --tp-surface: #EEF1FF;   /* fond clair bleuté */
+  --tp-ink: #15123D;       /* texte, plaques, fonds sombres */
+  --tp-ink-muted: #5A5E8C;
+  --tp-white: #FFFFFF;
+  --tp-line-empty: #D5DBF6; /* cases vides, joints du carrelage */
+  --tp-cream: #FFF6DC;     /* tickets */
+  --tp-plus: #A9B3EC;      /* « + » des cases vides */
+
+  /* Briques des murs (même teinte que le fond, un cran plus clair) */
+  --tp-brick-on-ink: #1E1A50;
+  --tp-brick-on-blue: #3146DB;
+  --tp-brick-on-violet: #7446DA;
+  --tp-brick-on-mint: #1BC093;
+  --tp-brick-on-surface: #E2E6FB;
+
+  /* Pastilles de ligne (style propre au jeu) : fond / texte */
+  --tp-l1: #FFCD00;   --tp-l1-fg: #15123D;
+  --tp-l2: #2D3E9E;   --tp-l2-fg: #FFFFFF;
+  --tp-l3: #A3A03F;   --tp-l3-fg: #15123D;
+  --tp-l3bis: #89C7D6; --tp-l3bis-fg: #15123D;
+  --tp-l4: #B4479B;   --tp-l4-fg: #FFFFFF;
+  --tp-l5: #F28E42;   --tp-l5-fg: #15123D;
+  --tp-l6: #79BB92;   --tp-l6-fg: #15123D;
+  --tp-l7: #F29DB5;   --tp-l7-fg: #15123D;
+  --tp-l7bis: #6ECA97; --tp-l7bis-fg: #15123D;
+  --tp-l8: #D3A2D6;   --tp-l8-fg: #15123D;
+  --tp-l9: #CEC92B;   --tp-l9-fg: #15123D;
+  --tp-l10: #DFB039;  --tp-l10-fg: #15123D;
+  --tp-l11: #8A5A2B;  --tp-l11-fg: #FFFFFF;
+  --tp-l12: #1F7A4D;  --tp-l12-fg: #FFFFFF;
+  --tp-l13: #8FCBDB;  --tp-l13-fg: #15123D;
+  --tp-l14: #5E2D86;  --tp-l14-fg: #FFFFFF;
+
+  /* Typo */
+  --tp-font-display: "Bricolage Grotesque", system-ui, sans-serif; /* 800, interlettrage -0.02em */
+  --tp-font-text: "Figtree", system-ui, sans-serif;               /* 700 et 800 */
+
+  /* Formes */
+  --tp-radius-badge: 28%;   /* pastilles de ligne */
+  --tp-radius-cell: 22px;   /* cases, tuiles (≈ 15 à 24 % du côté) */
+  --tp-radius-card: 40px;   /* cartes, panneaux */
+  --tp-radius-pill: 999px;  /* boutons, pastilles de texte */
+  --tp-border: 4px solid var(--tp-ink);       /* bordure des cartes et cases-critères */
+  --tp-shadow: 0 10px 0 var(--tp-ink);        /* ombre pleine décalée, jamais floue */
+  --tp-shadow-soft: 0 10px 0 rgba(21,18,61,.45);
+
+  /* Espacements */
+  --tp-space-1: 8px;   /* entre pastilles */
+  --tp-space-2: 14px;  /* entre cases */
+  --tp-space-3: 26px;  /* marge intérieure des cartes */
+  --tp-space-4: 64px;  /* marge extérieure des visuels */
+}
+
+@font-face { font-family: "Bricolage Grotesque"; font-weight: 800; font-display: swap; src: url("/polices/BricolageGrotesque-ExtraBold.woff2") format("woff2"); }
+@font-face { font-family: "Figtree"; font-weight: 700; font-display: swap; src: url("/polices/Figtree-Bold.woff2") format("woff2"); }
+@font-face { font-family: "Figtree"; font-weight: 800; font-display: swap; src: url("/polices/Figtree-ExtraBold.woff2") format("woff2"); }
+* { box-sizing: border-box; }
+html, body { margin: 0; }
+body { font-family: var(--tp-font-text); font-weight: 700; color: var(--tp-ink); background: var(--tp-surface); line-height: 1.55;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='66' height='36'%3E%3Crect x='0' y='3' width='62' height='12' rx='6' fill='%23E2E6FB'/%3E%3Crect x='-33' y='21' width='62' height='12' rx='6' fill='%23E2E6FB'/%3E%3Crect x='33' y='21' width='62' height='12' rx='6' fill='%23E2E6FB'/%3E%3C/svg%3E"); }
+a { color: var(--tp-blue); }
+header { background: var(--tp-ink); color: #fff; }
+.barre { max-width: 960px; margin: 0 auto; padding: 12px 16px; display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+.logo { display: flex; gap: 3px; text-decoration: none; }
+.logo span { width: 24px; height: 27px; border-radius: 6px; display: inline-flex; align-items: center; justify-content: center; font-weight: 800; font-size: 15px; color: #fff; }
+.logo span:nth-child(odd) { transform: rotate(-4deg); } .logo span:nth-child(even) { transform: rotate(3deg); }
+nav { display: flex; gap: 6px 16px; flex-wrap: wrap; }
+nav a { color: #fff; text-decoration: none; font-weight: 800; font-size: 15px; padding: 10px 2px; }
+nav a.jouer { background: var(--tp-sun); color: var(--tp-ink); border-radius: 999px; padding: 10px 16px; }
+main { max-width: 960px; margin: 0 auto; padding: 24px 16px 48px; }
+h1 { font-family: var(--tp-font-display); font-weight: 800; letter-spacing: -.02em; line-height: 1.05; font-size: clamp(30px, 6vw, 46px); margin: 8px 0 12px; }
+h2 { font-family: var(--tp-font-display); font-weight: 800; letter-spacing: -.01em; font-size: 24px; margin: 28px 0 10px; }
+h3 { font-size: 18px; margin: 18px 0 6px; font-weight: 800; }
+p, li { font-size: 16px; }
+.chapo { font-size: 18px; }
+.carte { background: #fff; border: 3px solid var(--tp-ink); border-radius: 22px; box-shadow: 0 5px 0 var(--tp-ink); padding: 18px 20px; margin: 18px 0; }
+.plaque { display: inline-block; background: var(--tp-ink); color: #fff; border: 3px solid #fff; border-radius: 10px; padding: 4px 12px; font-weight: 800; letter-spacing: .14em; text-transform: uppercase; font-size: 13px; }
+.pastille { display: inline-flex; align-items: center; justify-content: center; border-radius: 28%; font-weight: 800; text-decoration: none; margin: 1px 2px 1px 0; vertical-align: middle; }
+.rer { display: inline-block; background: var(--tp-ink); color: #fff; border-radius: 5px; padding: 1px 5px; font-size: 11px; font-weight: 800; margin-left: 2px; vertical-align: middle; }
+table { width: 100%; border-collapse: collapse; font-size: 15px; }
+th, td { text-align: left; padding: 8px 6px; border-bottom: 1px solid var(--tp-line-empty); vertical-align: middle; }
+th { font-size: 12px; text-transform: uppercase; letter-spacing: .08em; color: var(--tp-ink-muted); }
+td.num, th.num { text-align: right; white-space: nowrap; }
+.defile { overflow-x: auto; }
+.grille { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 6px; }
+.grille div { background: #fff; border: 2px solid var(--tp-line-empty); border-radius: 12px; padding: 8px; font-size: 13px; min-height: 64px; }
+.grille .crit { background: var(--tp-ink); color: #fff; border-color: var(--tp-ink); display: flex; align-items: center; justify-content: center; text-align: center; font-weight: 800; }
+.grille .coin { background: transparent; border: 0; }
+.cases { display: none; }
+.cases h3 { font-size: 16px; margin: 14px 0 2px; }
+.cases p { margin: 0; font-size: 14px; }
+@media (max-width: 700px) { .grille { display: none; } .cases { display: block; } }
+.liste-jours { columns: 2 220px; padding-left: 18px; }
+.pub { margin: 24px 0; min-height: 0; }
+.cta { display: inline-block; background: var(--tp-blue); color: #fff; text-decoration: none; font-weight: 800; border: 3px solid var(--tp-ink); border-radius: 999px; box-shadow: 0 5px 0 var(--tp-ink); padding: 12px 22px; margin: 6px 0; }
+footer { background: var(--tp-ink); color: #fff; font-size: 13px; }
+footer .barre { padding: 20px 16px; }
+footer a { color: var(--tp-sun); }
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+</style>
+</head>
+<body>
+<header><div class="barre">
+  <a class="logo" href="/" aria-label="Terminus Paris : jouer"><span style="background:var(--tp-blue)">T</span><span style="background:var(--tp-tomato)">E</span><span style="background:var(--tp-sun);color:var(--tp-ink)">R</span><span style="background:var(--tp-mint)">M</span><span style="background:var(--tp-pink)">I</span><span style="background:var(--tp-violet)">N</span><span style="background:var(--tp-tomato)">U</span><span style="background:var(--tp-blue)">S</span></a>
+  <nav aria-label="Menu">
+    <a href="/regles/">Règles</a><a href="/lignes/">Lignes</a><a href="/stations/">Stations</a><a href="/archives/">Archives</a><a href="/faq/">FAQ</a><a href="/a-propos/">À propos</a><a class="jouer" href="/">Jouer</a>
+  </nav>
+</div></header>
+<main>
+<span class="plaque">Ligne 6</span>
+<h1><a class="pastille" href="/lignes/ligne-6/" style="background:#79BB92;color:#15123D;width:40px;height:40px;font-size:20px" title="ligne 6">6</a> Ligne 6 du métro de Paris</h1>
+<p class="chapo">La ligne 6 compte <strong>28 stations</strong> dans Terminus Paris. Elle traverse 8 arrondissements de Paris (6e, 11e, 12e, 13e, 14e, 15e, 16e, 17e), sans sortir de Paris.</p>
+<div class="carte">
+<h2 style="margin-top:0">Correspondances</h2>
+<p>La ligne 6 offre des correspondances avec 11 autre lignes de métro : <a class="pastille" href="/lignes/ligne-1/" style="background:#FFCD00;color:#15123D;width:22px;height:22px;font-size:11px" title="ligne 1">1</a> <a class="pastille" href="/lignes/ligne-2/" style="background:#2D3E9E;color:#FFFFFF;width:22px;height:22px;font-size:11px" title="ligne 2">2</a> <a class="pastille" href="/lignes/ligne-4/" style="background:#B4479B;color:#FFFFFF;width:22px;height:22px;font-size:11px" title="ligne 4">4</a> <a class="pastille" href="/lignes/ligne-5/" style="background:#F28E42;color:#15123D;width:22px;height:22px;font-size:11px" title="ligne 5">5</a> <a class="pastille" href="/lignes/ligne-7/" style="background:#F29DB5;color:#15123D;width:22px;height:22px;font-size:11px" title="ligne 7">7</a> <a class="pastille" href="/lignes/ligne-8/" style="background:#D3A2D6;color:#15123D;width:22px;height:22px;font-size:11px" title="ligne 8">8</a> <a class="pastille" href="/lignes/ligne-9/" style="background:#CEC92B;color:#15123D;width:22px;height:22px;font-size:11px" title="ligne 9">9</a> <a class="pastille" href="/lignes/ligne-10/" style="background:#DFB039;color:#15123D;width:22px;height:22px;font-size:11px" title="ligne 10">10</a> <a class="pastille" href="/lignes/ligne-12/" style="background:#1F7A4D;color:#FFFFFF;width:22px;height:22px;font-size:11px" title="ligne 12">12</a> <a class="pastille" href="/lignes/ligne-13/" style="background:#8FCBDB;color:#15123D;width:22px;height:22px;font-size:11px" title="ligne 13">13</a> <a class="pastille" href="/lignes/ligne-14/" style="background:#5E2D86;color:#FFFFFF;width:22px;height:22px;font-size:11px" title="ligne 14">14</a>, ainsi qu'avec le RER A, B, C. 5 stations de la ligne sont desservies par au moins trois lignes de métro.</p>
+<h2>Fréquentation</h2>
+<p>Les stations les plus fréquentées de la ligne sont <strong>Montparnasse - Bienvenüe</strong> (8 012 827 validations au 1er trimestre 2026), <strong>Place d'Italie</strong> (2 724 495 validations au 1er trimestre 2026), <strong>Nation</strong> (2 447 427 validations au 1er trimestre 2026). Les plus calmes sont <strong>Kléber</strong>, <strong>Picpus</strong>, <strong>Saint-Jacques</strong> : dans la Grille, elles rapportent jusqu'à 95 points.</p>
+<p style="font-size:13px;color:var(--tp-ink-muted)">Les validations sont comptées par pôle : les stations en correspondance partagent le même chiffre.</p>
+</div>
+<div class="pub"></div>
+<h2>Les 28 stations de la ligne 6</h2>
+<div class="carte defile"><table>
+<tr><th>Station</th><th>Lignes et RER</th><th>Situation</th><th class="num">Points</th></tr>
+<tr><td>Bel-Air</td><td><a class="pastille" href="/lignes/ligne-6/" style="background:#79BB92;color:#15123D;width:22px;height:22px;font-size:11px" title="ligne 6">6</a></td><td>12e arr.</td><td class="num">75</td></tr>
+<tr><td>Bercy</td><td><a class="pastille" href="/lignes/ligne-6/" style="background:#79BB92;color:#15123D;width:22px;height:22px;font-size:11px" title="ligne 6">6</a><a class="pastille" href="/lignes/ligne-14/" style="background:#5E2D86;color:#FFFFFF;width:22px;height:22px;font-size:11px" title="ligne 14">14</a></td><td>12e arr.</td><td class="num">20</td></tr>
+<tr><td>Bir-Hakeim</td><td><a class="pastille" href="/lignes/ligne-6/" style="background:#79BB92;color:#15123D;width:22px;height:22px;font-size:11px" title="ligne 6">6</a><span class="rer">RER C</span></td><td>15e arr.</td><td class="num">30</td></tr>
+<tr><td>Boissière</td><td><a class="pastille" href="/lignes/ligne-6/" style="background:#79BB92;color:#15123D;width:22px;height:22px;font-size:11px" title="ligne 6">6</a></td><td>16e arr.</td><td class="num">80</td></tr>
+<tr><td>Cambronne</td><td><a class="pastille" href="/lignes/ligne-6/" style="background:#79BB92;color:#15123D;width:22px;height:22px;font-size:11px" title="ligne 6">6</a></td><td>15e arr.</td><td class="num">65</td></tr>
+<tr><td>Charles de Gaulle - Étoile</td><td><a class="pastille" href="/lignes/ligne-1/" style="background:#FFCD00;color:#15123D;width:22px;height:22px;font-size:11px" title="ligne 1">1</a><a class="pastille" href="/lignes/ligne-2/" style="background:#2D3E9E;color:#FFFFFF;width:22px;height:22px;font-size:11px" title="ligne 2">2</a><a class="pastille" href="/lignes/ligne-6/" style="background:#79BB92;color:#15123D;width:22px;height:22px;font-size:11px" title="ligne 6">6</a><span class="rer">RER A</span></td><td>16e, 17e arr.</td><td class="num">15</td></tr>
+<tr><td>Chevaleret</td><td><a class="pastille" href="/lignes/ligne-6/" style="background:#79BB92;color:#15123D;width:22px;height:22px;font-size:11px" title="ligne 6">6</a></td><td>13e arr.</td><td class="num">50</td></tr>
+<tr><td>Corvisart</td><td><a class="pastille" href="/lignes/ligne-6/" style="background:#79BB92;color:#15123D;width:22px;height:22px;font-size:11px" title="ligne 6">6</a></td><td>13e arr.</td><td class="num">75</td></tr>
+<tr><td>Daumesnil</td><td><a class="pastille" href="/lignes/ligne-6/" style="background:#79BB92;color:#15123D;width:22px;height:22px;font-size:11px" title="ligne 6">6</a><a class="pastille" href="/lignes/ligne-8/" style="background:#D3A2D6;color:#15123D;width:22px;height:22px;font-size:11px" title="ligne 8">8</a></td><td>12e arr.</td><td class="num">35</td></tr>
+<tr><td>Denfert-Rochereau</td><td><a class="pastille" href="/lignes/ligne-4/" style="background:#B4479B;color:#FFFFFF;width:22px;height:22px;font-size:11px" title="ligne 4">4</a><a class="pastille" href="/lignes/ligne-6/" style="background:#79BB92;color:#15123D;width:22px;height:22px;font-size:11px" title="ligne 6">6</a><span class="rer">RER B</span></td><td>14e arr.</td><td class="num">45</td></tr>
+<tr><td>Dugommier</td><td><a class="pastille" href="/lignes/ligne-6/" style="background:#79BB92;color:#15123D;width:22px;height:22px;font-size:11px" title="ligne 6">6</a></td><td>12e arr.</td><td class="num">75</td></tr>
+<tr><td>Dupleix</td><td><a class="pastille" href="/lignes/ligne-6/" style="background:#79BB92;color:#15123D;width:22px;height:22px;font-size:11px" title="ligne 6">6</a></td><td>15e arr.</td><td class="num">50</td></tr>
+<tr><td>Edgar Quinet</td><td><a class="pastille" href="/lignes/ligne-6/" style="background:#79BB92;color:#15123D;width:22px;height:22px;font-size:11px" title="ligne 6">6</a></td><td>14e arr.</td><td class="num">80</td></tr>
+<tr><td>Glacière</td><td><a class="pastille" href="/lignes/ligne-6/" style="background:#79BB92;color:#15123D;width:22px;height:22px;font-size:11px" title="ligne 6">6</a></td><td>13e arr.</td><td class="num">35</td></tr>
+<tr><td>Kléber</td><td><a class="pastille" href="/lignes/ligne-6/" style="background:#79BB92;color:#15123D;width:22px;height:22px;font-size:11px" title="ligne 6">6</a></td><td>16e arr.</td><td class="num">95</td></tr>
+<tr><td>La Motte-Picquet - Grenelle</td><td><a class="pastille" href="/lignes/ligne-6/" style="background:#79BB92;color:#15123D;width:22px;height:22px;font-size:11px" title="ligne 6">6</a><a class="pastille" href="/lignes/ligne-8/" style="background:#D3A2D6;color:#15123D;width:22px;height:22px;font-size:11px" title="ligne 8">8</a><a class="pastille" href="/lignes/ligne-10/" style="background:#DFB039;color:#15123D;width:22px;height:22px;font-size:11px" title="ligne 10">10</a></td><td>15e arr.</td><td class="num">15</td></tr>
+<tr><td>Montparnasse - Bienvenüe</td><td><a class="pastille" href="/lignes/ligne-4/" style="background:#B4479B;color:#FFFFFF;width:22px;height:22px;font-size:11px" title="ligne 4">4</a><a class="pastille" href="/lignes/ligne-6/" style="background:#79BB92;color:#15123D;width:22px;height:22px;font-size:11px" title="ligne 6">6</a><a class="pastille" href="/lignes/ligne-12/" style="background:#1F7A4D;color:#FFFFFF;width:22px;height:22px;font-size:11px" title="ligne 12">12</a><a class="pastille" href="/lignes/ligne-13/" style="background:#8FCBDB;color:#15123D;width:22px;height:22px;font-size:11px" title="ligne 13">13</a></td><td>6e, 14e, 15e arr.</td><td class="num">10</td></tr>
+<tr><td>Nation</td><td><a class="pastille" href="/lignes/ligne-1/" style="background:#FFCD00;color:#15123D;width:22px;height:22px;font-size:11px" title="ligne 1">1</a><a class="pastille" href="/lignes/ligne-2/" style="background:#2D3E9E;color:#FFFFFF;width:22px;height:22px;font-size:11px" title="ligne 2">2</a><a class="pastille" href="/lignes/ligne-6/" style="background:#79BB92;color:#15123D;width:22px;height:22px;font-size:11px" title="ligne 6">6</a><a class="pastille" href="/lignes/ligne-9/" style="background:#CEC92B;color:#15123D;width:22px;height:22px;font-size:11px" title="ligne 9">9</a><span class="rer">RER A</span></td><td>11e, 12e arr.</td><td class="num">15</td></tr>
+<tr><td>Nationale</td><td><a class="pastille" href="/lignes/ligne-6/" style="background:#79BB92;color:#15123D;width:22px;height:22px;font-size:11px" title="ligne 6">6</a></td><td>13e arr.</td><td class="num">70</td></tr>
+<tr><td>Passy</td><td><a class="pastille" href="/lignes/ligne-6/" style="background:#79BB92;color:#15123D;width:22px;height:22px;font-size:11px" title="ligne 6">6</a></td><td>16e arr.</td><td class="num">45</td></tr>
+<tr><td>Pasteur</td><td><a class="pastille" href="/lignes/ligne-6/" style="background:#79BB92;color:#15123D;width:22px;height:22px;font-size:11px" title="ligne 6">6</a><a class="pastille" href="/lignes/ligne-12/" style="background:#1F7A4D;color:#FFFFFF;width:22px;height:22px;font-size:11px" title="ligne 12">12</a></td><td>15e arr.</td><td class="num">35</td></tr>
+<tr><td>Picpus</td><td><a class="pastille" href="/lignes/ligne-6/" style="background:#79BB92;color:#15123D;width:22px;height:22px;font-size:11px" title="ligne 6">6</a></td><td>12e arr.</td><td class="num">90</td></tr>
+<tr><td>Place d'Italie</td><td><a class="pastille" href="/lignes/ligne-5/" style="background:#F28E42;color:#15123D;width:22px;height:22px;font-size:11px" title="ligne 5">5</a><a class="pastille" href="/lignes/ligne-6/" style="background:#79BB92;color:#15123D;width:22px;height:22px;font-size:11px" title="ligne 6">6</a><a class="pastille" href="/lignes/ligne-7/" style="background:#F29DB5;color:#15123D;width:22px;height:22px;font-size:11px" title="ligne 7">7</a></td><td>13e arr.</td><td class="num">10</td></tr>
+<tr><td>Quai de la Gare</td><td><a class="pastille" href="/lignes/ligne-6/" style="background:#79BB92;color:#15123D;width:22px;height:22px;font-size:11px" title="ligne 6">6</a></td><td>13e arr.</td><td class="num">75</td></tr>
+<tr><td>Raspail</td><td><a class="pastille" href="/lignes/ligne-4/" style="background:#B4479B;color:#FFFFFF;width:22px;height:22px;font-size:11px" title="ligne 4">4</a><a class="pastille" href="/lignes/ligne-6/" style="background:#79BB92;color:#15123D;width:22px;height:22px;font-size:11px" title="ligne 6">6</a></td><td>14e arr.</td><td class="num">85</td></tr>
+<tr><td>Saint-Jacques</td><td><a class="pastille" href="/lignes/ligne-6/" style="background:#79BB92;color:#15123D;width:22px;height:22px;font-size:11px" title="ligne 6">6</a></td><td>14e arr.</td><td class="num">85</td></tr>
+<tr><td>Sèvres - Lecourbe</td><td><a class="pastille" href="/lignes/ligne-6/" style="background:#79BB92;color:#15123D;width:22px;height:22px;font-size:11px" title="ligne 6">6</a></td><td>15e arr.</td><td class="num">75</td></tr>
+<tr><td>Trocadéro</td><td><a class="pastille" href="/lignes/ligne-6/" style="background:#79BB92;color:#15123D;width:22px;height:22px;font-size:11px" title="ligne 6">6</a><a class="pastille" href="/lignes/ligne-9/" style="background:#CEC92B;color:#15123D;width:22px;height:22px;font-size:11px" title="ligne 9">9</a></td><td>16e arr.</td><td class="num">15</td></tr>
+</table></div>
+<p>Les points indiqués sont ceux que rapporte la station dans la Grille de Terminus Paris : de 10 pour les stations les plus fréquentées à 100 pour les plus tranquilles.</p>
+<p><a class="cta" href="/">Jouer aux jeux du jour</a> <a href="/lignes/">← Toutes les lignes</a></p>
+</main>
+<footer><div class="barre">
+  <span>Terminus Paris, le jeu quotidien du métro parisien. Jeu non officiel, sans lien avec la RATP ni Île-de-France Mobilités.</span>
+  <span><a href="/a-propos/">À propos</a> · <a href="/confidentialite.html">Confidentialité</a> · <a href="mailto:terminusparis@gmail.com">Contact</a></span>
+</div></footer>
+</body>
+</html>

@@ -69,6 +69,17 @@ La charte est dans `terminus-kit/` (`DIRECTION-ARTISTIQUE.md`, `tokens.css`, pol
 - Contraste : `textOn(fond, taille)` applique la règle de la charte (blanc sur tomate, menthe ou rose
   seulement à 24 px et plus). Zones tactiles de 44 px minimum.
 
+## Pages de contenu (SEO et AdSense)
+
+`scripts/build-content.ts` (lancé par `npm run build:pages`, ou seul : `npm run build:content`) génère
+dans `docs/` des pages lisibles sans JavaScript, aux couleurs de la charte : `/regles/`, `/faq/`,
+`/a-propos/`, `/lignes/` et une page par ligne, `/stations/` (A à Z), `/archives/` et une page par jour
+passé (réponses de la Grille, du Défi et du Pendu ; jamais le jour en cours), `sitemap.xml`, `robots.txt`.
+L'accueil contient aussi un texte de présentation, remplacé par le jeu au démarrage.
+
+Le workflow `.github/workflows/archives.yml` ajoute chaque nuit l'archive de la veille. Il ne tourne que si
+cette branche est la **branche par défaut** du dépôt (Settings → General → Default branch).
+
 ## Rappel du matin (apps iPhone et Android)
 
 Notifications **locales** (`expo-notifications`, sans serveur ni compte) : chaque jour à 8 h (heure du

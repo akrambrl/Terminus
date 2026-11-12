@@ -719,6 +719,12 @@ function Game() {
           ne sont pas incluses.
         </Text>
         <View style={styles.privacyLinks}>
+          <Text style={styles.privacyLink} onPress={() => Linking.openURL(`${WEB_URL}archives/`)}>
+            Les réponses des jours passés
+          </Text>
+          <Text style={styles.privacyLink} onPress={() => Linking.openURL(`${WEB_URL}lignes/`)}>
+            Les lignes et les stations du métro
+          </Text>
           <Text style={styles.privacyLink} onPress={() => Linking.openURL(PRIVACY_URL)}>
             Politique de confidentialité
           </Text>

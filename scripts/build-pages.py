@@ -49,6 +49,15 @@ head = f'''
   </head>'''
 assert '</head>' in html
 html = html.replace('</head>', head, 1)
+# Contenu lisible sans JavaScript (moteurs de recherche, AdSense) : remplacé par le jeu dès qu'il démarre.
+STATIC = """<div id="root"><main style="max-width:720px;margin:0 auto;padding:24px 16px;font-family:system-ui,sans-serif;color:#15123D">
+<h1>Terminus Paris, le jeu quotidien du métro parisien</h1>
+<p>Chaque jour à minuit, trois nouveaux jeux sur les 321 stations du métro de Paris : <strong>la Grille</strong> (9 stations à trouver, chaque case croise deux critères), <strong>le Défi</strong> (toutes les stations qui cochent deux critères) et <strong>le Pendu du métro</strong> (une station à deviner lettre par lettre). Gratuit, sans inscription, avec un classement du jour.</p>
+<p><a href="/regles/">Les règles</a> · <a href="/lignes/">Les 16 lignes du métro</a> · <a href="/stations/">Les stations de A à Z</a> · <a href="/archives/">Les réponses des jours passés</a> · <a href="/faq/">Questions fréquentes</a> · <a href="/a-propos/">À propos</a></p>
+</main></div>"""
+assert '<div id="root"></div>' in html
+html = html.replace('<div id="root"></div>', STATIC, 1)
+html = html.replace('You need to enable JavaScript to run this app.', 'Active JavaScript pour jouer à Terminus Paris.')
 open(index, 'w', encoding='utf-8').write(html)
 
 shutil.rmtree(DOCS, ignore_errors=True)
