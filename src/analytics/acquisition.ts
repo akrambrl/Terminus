@@ -3,7 +3,7 @@ import { Platform } from 'react-native';
 /**
  * Provenance des joueurs du site (liens suivis /tiktok, /insta, /liens… : voir public/liens/).
  * Les paramètres utm_* de l'adresse sont gardés au premier passage (« premier contact ») dans le
- * navigateur, puis joints aux statistiques PostHog, seulement si le joueur les a acceptées.
+ * navigateur, puis joints aux statistiques du jeu (tableau de bord privé).
  * Dans les apps, la provenance est mesurée par l'App Store (ct=) et Google Play (referrer=).
  */
 export interface Acquisition {

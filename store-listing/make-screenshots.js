@@ -6,7 +6,6 @@
  *
  * 1. Sert le dossier docs/ en local et y joue une vraie partie (grille du jour) avec Playwright.
  * 2. Met chaque capture en scène (slogan + écran) aux tailles exigées par les stores.
- * Les statistiques PostHog sont bloquées pendant les captures.
  */
 const { chromium } = require('playwright');
 const { execSync } = require('child_process');
@@ -61,7 +60,6 @@ async function captureGame(browser) {
     execSync(`npx tsx store-listing/puzzle-answers.ts ${day}`, { cwd: ROOT }).toString(),
   );
   const page = await browser.newPage({ viewport: { width: 430, height: 932 }, deviceScaleFactor: 3 });
-  await page.route(/posthog/, (r) => r.abort());
   await page.goto(`http://localhost:${PORT}/`);
 
   // Intro : la rame à quai.

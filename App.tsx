@@ -40,8 +40,7 @@ import { colors, fonts, palette, WEB_TOP_GAP } from './src/theme';
 import { APP_VERSION } from './src/version';
 import { track } from './src/analytics';
 import { readAcquisition } from './src/analytics/acquisition';
-import { openPrivacyChoices, startConsent } from './src/privacy/consent';
-import { StatsBanner } from './src/privacy/StatsBanner';
+import { hasPrivacyChoices, openPrivacyChoices, startConsent } from './src/privacy/consent';
 import { CONTACT_EMAIL, PRIVACY_URL } from './src/privacy/links';
 import { StoreBanner } from './src/store/StoreBanner';
 import { WEB_URL } from './src/store/links';
@@ -119,7 +118,6 @@ function Game() {
   const [showResult, setShowResult] = useState(false);
   const [copied, setCopied] = useState(false);
   const [showIntro, setShowIntro] = useState(true);
-  const [consentKey, setConsentKey] = useState(0);
   const [gridBox, setGridBox] = useState<{ h: number } | null>(null);
 
   // Consentement (pub et statistiques) dès le lancement.
@@ -449,8 +447,6 @@ function Game() {
 
         <StoreBanner />
       </View>
-      {/* Bandeau de choix des statistiques (version web uniquement). */}
-      <StatsBanner refreshKey={consentKey} />
       {/* Bannière publicitaire (app des stores uniquement). */}
       <AdBanner />
 
@@ -635,17 +631,18 @@ function Game() {
           <Text style={styles.privacyLink} onPress={() => Linking.openURL(PRIVACY_URL)}>
             Politique de confidentialité
           </Text>
-          <Text
-            style={styles.privacyLink}
-            onPress={async () => {
-              setShowHelp(false);
-              markHelpSeen();
-              await openPrivacyChoices();
-              setConsentKey((k) => k + 1);
-            }}
-          >
-            Gérer mes choix (pub et statistiques)
-          </Text>
+          {hasPrivacyChoices && (
+            <Text
+              style={styles.privacyLink}
+              onPress={async () => {
+                setShowHelp(false);
+                markHelpSeen();
+                await openPrivacyChoices();
+              }}
+            >
+              Gérer mes choix publicitaires
+            </Text>
+          )}
           <Text style={infoStyles.small}>Contact : {CONTACT_EMAIL} · Version {APP_VERSION}</Text>
         </View>
       </InfoModal>

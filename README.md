@@ -45,8 +45,7 @@ Même principe que goatfc.fr/liens/ : une page par réseau, générée par `scri
 Ajouter `?c=nom` pour suivre une vidéo précise : `terminusparis.fr/tiktok?c=defi-13nov`.
 
 - Site : `utm_source`, `utm_medium`, `utm_campaign` mémorisés au premier passage
-  (`src/analytics/acquisition.ts`) et joints à tous les événements PostHog (`acq_source`…),
-  seulement si le joueur accepte les statistiques.
+  (`src/analytics/acquisition.ts`) et joints aux statistiques du jeu (tableau de bord privé).
 - App Store : jeton `ct=source_campagne` (App Store Connect → Analytics → Acquisition).
   Renseigner `APPLE_PT` dans `scripts/build-pages.py` (identifiant fournisseur) pour les liens de campagne complets.
 - Google Play : `referrer=utm_source…` (Play Console → Statistiques → Acquisition).
@@ -166,31 +165,13 @@ src/components/            grille, recherche, pastilles de lignes, fenêtres d'i
 
 - Politique de confidentialité : `public/confidentialite.html`, publiée sur
   https://terminusparis.fr/confidentialite.html (éditeur : Akram BOURHILA, terminusparis@gmail.com).
-- App native : le formulaire de consentement Google (UMP) décide aussi des statistiques PostHog
-  (`src/ads/prepare.ts`) ; « Gérer mes choix » rouvre le formulaire.
-- Web : bandeau Accepter / Refuser (`src/privacy/StatsBanner.tsx`).
-- Aucun événement n'est envoyé avant le choix (file d'attente en mémoire, effacée en cas de refus).
+- App native : formulaire de consentement Google (UMP) pour la publicité.
+- Web : pas de publicité pour l'instant, donc aucun bandeau.
 
-## Statistiques d'utilisation (PostHog)
+## Statistiques d'utilisation
 
-`src/analytics/index.ts` : mettre la clé du projet PostHog (`phc_…`) dans `POSTHOG_KEY`.
-Tant qu'elle est vide, rien n'est envoyé. Hébergement européen (`eu.i.posthog.com`).
-
-Données automatiques : ouverture / fermeture de l'app, installation, mise à jour, pays et ville
-(déduits de l'IP), appareil, système, version. Événements du jeu :
-
-| Événement | Quand | Propriétés |
-|---|---|---|
-| `app_opened` | au lancement | n° de grille, grille du jour déjà finie, joueur déjà venu |
-| `game_started` | premier essai d'une grille | mode (daily / free) |
-| `guess` | chaque essai | mode, correct, critères de la case |
-| `game_finished` | fin de grille | mode, stations trouvées, essais restants, abandon |
-| `result_shared` | partage du résultat | mode, score |
-| `free_game_started` | nouvelle partie libre | |
-| `help_opened` | ouverture des règles | |
-
-Joueurs anonymes : aucun nom ni e-mail n'est collecté. À déclarer dans les fiches de confidentialité
-des stores (« données d'utilisation », « identifiants », « localisation approximative »).
+PostHog a été retiré. `track()` (`src/analytics/index.ts`) transmet les événements à l'envoi branché
+par `setAnalyticsSink` : base Supabase de Terminus et tableau de bord privé `?stats=` (à venir).
 
 ## Construire avec EAS
 

@@ -101,7 +101,7 @@ a.jouer:focus-visible, a.badge:focus-visible { outline: 3px solid var(--tp-white
     var campaign = clean(params.get("c") || params.get("utm_campaign"));
     var source = clean(params.get("s")) || SOURCE;
     var medium = source === "qr" ? "qr" : "bio";
-    // Site : utm_* lus par le jeu et joints aux statistiques PostHog.
+    // Site : utm_* lus par le jeu et joints à ses statistiques.
     var q = "utm_source=" + source + "&utm_medium=" + medium + (campaign ? "&utm_campaign=" + campaign : "");
     document.getElementById("web").href = "/?" + q;
     // App Store : jeton de campagne (ct, 40 caractères max) ; pt = identifiant fournisseur Apple.
