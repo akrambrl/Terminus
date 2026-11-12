@@ -1,0 +1,1610 @@
+{
+ "source": "Île-de-France Mobilités, validations sur le réseau ferré, 1er trimestre 2026 (métro) ; Aéroport d’Orly : médiane (pas de données)",
+ "validations": {
+  "Q1018164": {
+   "name": "Buttes Chaumont",
+   "validations": 87155,
+   "points": 100
+  },
+  "Q1018331": {
+   "name": "Buzenval",
+   "validations": 490567,
+   "points": 85
+  },
+  "Q1019487": {
+   "name": "Bérault",
+   "validations": 723922,
+   "points": 65
+  },
+  "Q1025135": {
+   "name": "Cadet",
+   "validations": 732446,
+   "points": 60
+  },
+  "Q1028368": {
+   "name": "Cambronne",
+   "validations": 690902,
+   "points": 65
+  },
+  "Q1044915": {
+   "name": "Carrefour Pleyel",
+   "validations": 454996,
+   "points": 90
+  },
+  "Q1061527": {
+   "name": "Champs-Élysées - Clemenceau",
+   "validations": 1178516,
+   "points": 35
+  },
+  "Q1063134": {
+   "name": "Charenton - Écoles",
+   "validations": 756023,
+   "points": 60
+  },
+  "Q1090315": {
+   "name": "Château-Landon",
+   "validations": 358508,
+   "points": 95
+  },
+  "Q1090753": {
+   "name": "Château d'Eau",
+   "validations": 1025315,
+   "points": 40
+  },
+  "Q1090894": {
+   "name": "Châtillon - Montrouge",
+   "validations": 1698476,
+   "points": 20
+  },
+  "Q1094294": {
+   "name": "Cité",
+   "validations": 509051,
+   "points": 85
+  },
+  "Q1103432": {
+   "name": "Cluny - La Sorbonne",
+   "validations": 1637617,
+   "points": 25
+  },
+  "Q1110656": {
+   "name": "Colonel Fabien",
+   "validations": 1023964,
+   "points": 45
+  },
+  "Q1132595": {
+   "name": "Corentin Celton",
+   "validations": 836366,
+   "points": 50
+  },
+  "Q1137613": {
+   "name": "Cour Saint-Émilion",
+   "validations": 1463484,
+   "points": 25
+  },
+  "Q1137705": {
+   "name": "Couronnes",
+   "validations": 719003,
+   "points": 65
+  },
+  "Q1140796": {
+   "name": "Croix de Chavaux",
+   "validations": 1121045,
+   "points": 40
+  },
+  "Q1142525": {
+   "name": "Créteil - L'Échat",
+   "validations": 563538,
+   "points": 80
+  },
+  "Q1165108": {
+   "name": "Danube",
+   "validations": 118982,
+   "points": 100
+  },
+  "Q1172977": {
+   "name": "Daumesnil",
+   "validations": 1261316,
+   "points": 35
+  },
+  "Q1185683": {
+   "name": "Front Populaire",
+   "validations": 659117,
+   "points": 70
+  },
+  "Q1187054": {
+   "name": "Denfert-Rochereau",
+   "validations": 936025,
+   "points": 45
+  },
+  "Q119911": {
+   "name": "Ménilmontant",
+   "validations": 993240,
+   "points": 45
+  },
+  "Q119971": {
+   "name": "Porte d'Orléans",
+   "validations": 1616255,
+   "points": 25
+  },
+  "Q120303": {
+   "name": "Corentin Cariou",
+   "validations": 537233,
+   "points": 80
+  },
+  "Q1228836": {
+   "name": "Michel-Ange - Molitor",
+   "validations": 638802,
+   "points": 70
+  },
+  "Q1237945": {
+   "name": "Iéna",
+   "validations": 709504,
+   "points": 65
+  },
+  "Q1263417": {
+   "name": "Télégraphe",
+   "validations": 618355,
+   "points": 75
+  },
+  "Q1266508": {
+   "name": "Dupleix",
+   "validations": 917471,
+   "points": 50
+  },
+  "Q1267446": {
+   "name": "Duroc",
+   "validations": 916331,
+   "points": 50
+  },
+  "Q1267664": {
+   "name": "Villejuif - Louis Aragon",
+   "validations": 1170166,
+   "points": 35
+  },
+  "Q1272925": {
+   "name": "Trocadéro",
+   "validations": 2245243,
+   "points": 15
+  },
+  "Q1284106": {
+   "name": "Edgar Quinet",
+   "validations": 559825,
+   "points": 80
+  },
+  "Q1315757": {
+   "name": "Rue Saint-Maur",
+   "validations": 687840,
+   "points": 65
+  },
+  "Q1316395": {
+   "name": "Trinité - d'Estienne d'Orves",
+   "validations": 486754,
+   "points": 85
+  },
+  "Q1320288": {
+   "name": "La Courneuve - 8 Mai 1945",
+   "validations": 1550997,
+   "points": 25
+  },
+  "Q1341849": {
+   "name": "République",
+   "validations": 4369655,
+   "points": 10
+  },
+  "Q1344485": {
+   "name": "Plaisance",
+   "validations": 1174071,
+   "points": 35
+  },
+  "Q1344536": {
+   "name": "Porte Maillot",
+   "validations": 1033232,
+   "points": 40
+  },
+  "Q1344555": {
+   "name": "Pont de Neuilly",
+   "validations": 1714261,
+   "points": 20
+  },
+  "Q1368326": {
+   "name": "Esplanade de La Défense",
+   "validations": 2321562,
+   "points": 15
+  },
+  "Q1368640": {
+   "name": "Solférino",
+   "validations": 497089,
+   "points": 85
+  },
+  "Q1392037": {
+   "name": "Opéra",
+   "validations": 2468292,
+   "points": 15
+  },
+  "Q1392295": {
+   "name": "Saint-François-Xavier",
+   "validations": 524502,
+   "points": 85
+  },
+  "Q140277": {
+   "name": "La Défense",
+   "validations": 1158390,
+   "points": 35
+  },
+  "Q1403165": {
+   "name": "Strasbourg - Saint-Denis",
+   "validations": 2455491,
+   "points": 15
+  },
+  "Q1405224": {
+   "name": "Maisons-Alfort - Stade",
+   "validations": 432572,
+   "points": 90
+  },
+  "Q1406323": {
+   "name": "Mouton-Duvernet",
+   "validations": 366350,
+   "points": 95
+  },
+  "Q1412692": {
+   "name": "Richelieu - Drouot",
+   "validations": 1345076,
+   "points": 30
+  },
+  "Q1414178": {
+   "name": "Filles du Calvaire",
+   "validations": 445165,
+   "points": 90
+  },
+  "Q1415143": {
+   "name": "La Motte-Picquet - Grenelle",
+   "validations": 2098505,
+   "points": 15
+  },
+  "Q1417199": {
+   "name": "Madeleine",
+   "validations": 2041027,
+   "points": 15
+  },
+  "Q1418711": {
+   "name": "Nation",
+   "validations": 2447427,
+   "points": 15
+  },
+  "Q1418821": {
+   "name": "Stalingrad",
+   "validations": 1293779,
+   "points": 30
+  },
+  "Q1438901": {
+   "name": "Fort d'Aubervilliers",
+   "validations": 936379,
+   "points": 45
+  },
+  "Q1445234": {
+   "name": "Franklin D. Roosevelt",
+   "validations": 2385568,
+   "points": 15
+  },
+  "Q1450538": {
+   "name": "Saint-Ambroise",
+   "validations": 792103,
+   "points": 55
+  },
+  "Q1451224": {
+   "name": "Porte de Saint-Cloud",
+   "validations": 1290617,
+   "points": 30
+  },
+  "Q1458421": {
+   "name": "Pont-Neuf",
+   "validations": 466259,
+   "points": 85
+  },
+  "Q1459231": {
+   "name": "Victor Hugo",
+   "validations": 971596,
+   "points": 45
+  },
+  "Q1459245": {
+   "name": "Porte Dauphine",
+   "validations": 646388,
+   "points": 70
+  },
+  "Q1461794": {
+   "name": "Louvre - Rivoli",
+   "validations": 768539,
+   "points": 60
+  },
+  "Q1463644": {
+   "name": "Jussieu",
+   "validations": 1333696,
+   "points": 30
+  },
+  "Q1467113": {
+   "name": "Palais Royal - Musée du Louvre",
+   "validations": 2258564,
+   "points": 15
+  },
+  "Q1479476": {
+   "name": "Félix Faure",
+   "validations": 465878,
+   "points": 85
+  },
+  "Q1494172": {
+   "name": "Gare de l'Est",
+   "validations": 5192869,
+   "points": 10
+  },
+  "Q1494174": {
+   "name": "Gare du Nord",
+   "validations": 2925817,
+   "points": 10
+  },
+  "Q1494179": {
+   "name": "Gare d'Austerlitz",
+   "validations": 2126457,
+   "points": 15
+  },
+  "Q1495676": {
+   "name": "Ourcq",
+   "validations": 955158,
+   "points": 45
+  },
+  "Q1501462": {
+   "name": "Pyramides",
+   "validations": 1604216,
+   "points": 25
+  },
+  "Q1511318": {
+   "name": "Odéon",
+   "validations": 1780803,
+   "points": 20
+  },
+  "Q1511335": {
+   "name": "Villiers",
+   "validations": 1308113,
+   "points": 30
+  },
+  "Q1511378": {
+   "name": "Javel - André Citroën",
+   "validations": 596597,
+   "points": 75
+  },
+  "Q1511392": {
+   "name": "Ségur",
+   "validations": 429894,
+   "points": 90
+  },
+  "Q1511406": {
+   "name": "Havre - Caumartin",
+   "validations": 1267701,
+   "points": 30
+  },
+  "Q1511414": {
+   "name": "Vaneau",
+   "validations": 277874,
+   "points": 95
+  },
+  "Q1514082": {
+   "name": "La Tour-Maubourg",
+   "validations": 534910,
+   "points": 80
+  },
+  "Q1517347": {
+   "name": "Jourdain",
+   "validations": 790205,
+   "points": 55
+  },
+  "Q1519529": {
+   "name": "Saint-Lazare",
+   "validations": 10771151,
+   "points": 10
+  },
+  "Q1528456": {
+   "name": "Invalides",
+   "validations": 773175,
+   "points": 60
+  },
+  "Q1529016": {
+   "name": "Glacière",
+   "validations": 1151433,
+   "points": 35
+  },
+  "Q1535005": {
+   "name": "Saint-Paul",
+   "validations": 1632950,
+   "points": 25
+  },
+  "Q1536969": {
+   "name": "Goncourt",
+   "validations": 772954,
+   "points": 60
+  },
+  "Q1537246": {
+   "name": "Place d'Italie",
+   "validations": 2724495,
+   "points": 10
+  },
+  "Q1537255": {
+   "name": "Louis Blanc",
+   "validations": 546108,
+   "points": 80
+  },
+  "Q1543053": {
+   "name": "Grands Boulevards",
+   "validations": 1674675,
+   "points": 20
+  },
+  "Q1547535": {
+   "name": "Porte de Vanves",
+   "validations": 1195715,
+   "points": 35
+  },
+  "Q1572249": {
+   "name": "Laumière",
+   "validations": 994285,
+   "points": 45
+  },
+  "Q1576190": {
+   "name": "Pelleport",
+   "validations": 83689,
+   "points": 100
+  },
+  "Q1576198": {
+   "name": "Saint-Fargeau",
+   "validations": 83689,
+   "points": 100
+  },
+  "Q1576609": {
+   "name": "Passy",
+   "validations": 1004532,
+   "points": 45
+  },
+  "Q1576642": {
+   "name": "Maison Blanche",
+   "validations": 1559256,
+   "points": 25
+  },
+  "Q1576648": {
+   "name": "Tolbiac",
+   "validations": 708795,
+   "points": 65
+  },
+  "Q1576810": {
+   "name": "Les Halles",
+   "validations": 4593698,
+   "points": 10
+  },
+  "Q1576928": {
+   "name": "Porte de Vincennes",
+   "validations": 1748461,
+   "points": 20
+  },
+  "Q1577103": {
+   "name": "La Chapelle",
+   "validations": 1412667,
+   "points": 30
+  },
+  "Q1577219": {
+   "name": "Alexandre Dumas",
+   "validations": 857685,
+   "points": 50
+  },
+  "Q1578030": {
+   "name": "Oberkampf",
+   "validations": 1271052,
+   "points": 30
+  },
+  "Q1578045": {
+   "name": "Miromesnil",
+   "validations": 1483542,
+   "points": 25
+  },
+  "Q1578058": {
+   "name": "Raspail",
+   "validations": 527674,
+   "points": 85
+  },
+  "Q1578078": {
+   "name": "Porte d'Auteuil",
+   "validations": 117061,
+   "points": 100
+  },
+  "Q1578089": {
+   "name": "Sèvres - Babylone",
+   "validations": 1420130,
+   "points": 30
+  },
+  "Q1578103": {
+   "name": "Pasteur",
+   "validations": 1240659,
+   "points": 35
+  },
+  "Q1598555": {
+   "name": "Saint-Michel",
+   "validations": 1637617,
+   "points": 25
+  },
+  "Q16040484": {
+   "name": "Montreuil - Hôpital",
+   "validations": 547786,
+   "points": 80
+  },
+  "Q16040556": {
+   "name": "La Dhuys",
+   "validations": 491659,
+   "points": 85
+  },
+  "Q16040585": {
+   "name": "Serge Gainsbourg",
+   "validations": 496082,
+   "points": 85
+  },
+  "Q16040626": {
+   "name": "Coteaux Beauclair",
+   "validations": 259910,
+   "points": 95
+  },
+  "Q16040875": {
+   "name": "Romainville - Carnot",
+   "validations": 623152,
+   "points": 75
+  },
+  "Q16041052": {
+   "name": "Rosny-Bois-Perrier",
+   "validations": 797684,
+   "points": 55
+  },
+  "Q16041258": {
+   "name": "Villejuif - Gustave Roussy",
+   "validations": 568551,
+   "points": 75
+  },
+  "Q1612093": {
+   "name": "Mairie d'Aubervilliers",
+   "validations": 731313,
+   "points": 65
+  },
+  "Q1622759": {
+   "name": "Marx Dormoy",
+   "validations": 732280,
+   "points": 60
+  },
+  "Q163879": {
+   "name": "Simplon",
+   "validations": 764887,
+   "points": 60
+  },
+  "Q1651903": {
+   "name": "Lourmel",
+   "validations": 650702,
+   "points": 70
+  },
+  "Q1660212": {
+   "name": "Temple",
+   "validations": 308477,
+   "points": 95
+  },
+  "Q1666283": {
+   "name": "Porte de Charenton",
+   "validations": 556544,
+   "points": 80
+  },
+  "Q1672055": {
+   "name": "Porte de Bagnolet",
+   "validations": 949930,
+   "points": 45
+  },
+  "Q167371": {
+   "name": "Porte de Champerret",
+   "validations": 732987,
+   "points": 60
+  },
+  "Q1673779": {
+   "name": "Olympiades",
+   "validations": 1792101,
+   "points": 20
+  },
+  "Q1677923": {
+   "name": "Jacques Bonsergent",
+   "validations": 642668,
+   "points": 70
+  },
+  "Q168170": {
+   "name": "La Muette",
+   "validations": 919194,
+   "points": 50
+  },
+  "Q1683797": {
+   "name": "Jasmin",
+   "validations": 572918,
+   "points": 75
+  },
+  "Q1684455": {
+   "name": "Pernety",
+   "validations": 740121,
+   "points": 60
+  },
+  "Q1717241": {
+   "name": "Monceau",
+   "validations": 378310,
+   "points": 95
+  },
+  "Q1725892": {
+   "name": "Liberté",
+   "validations": 615998,
+   "points": 75
+  },
+  "Q1731762": {
+   "name": "Malakoff - Rue Étienne-Dolet",
+   "validations": 519432,
+   "points": 85
+  },
+  "Q176582": {
+   "name": "Père Lachaise",
+   "validations": 1135804,
+   "points": 40
+  },
+  "Q1768692": {
+   "name": "Alma - Marceau",
+   "validations": 1112322,
+   "points": 40
+  },
+  "Q1772478": {
+   "name": "Riquet",
+   "validations": 498024,
+   "points": 85
+  },
+  "Q177476": {
+   "name": "Place Monge",
+   "validations": 806403,
+   "points": 55
+  },
+  "Q1783617": {
+   "name": "Les Gobelins",
+   "validations": 909648,
+   "points": 50
+  },
+  "Q1783630": {
+   "name": "Porte d'Italie",
+   "validations": 428200,
+   "points": 90
+  },
+  "Q1783803": {
+   "name": "Saint-Denis - Université",
+   "validations": 1367157,
+   "points": 30
+  },
+  "Q1783889": {
+   "name": "Sentier",
+   "validations": 808398,
+   "points": 55
+  },
+  "Q1783894": {
+   "name": "Saint-Sulpice",
+   "validations": 738362,
+   "points": 60
+  },
+  "Q1783899": {
+   "name": "Bir-Hakeim",
+   "validations": 1424115,
+   "points": 30
+  },
+  "Q1783997": {
+   "name": "Mairie d'Ivry",
+   "validations": 752625,
+   "points": 60
+  },
+  "Q1784003": {
+   "name": "Pierre et Marie Curie",
+   "validations": 381741,
+   "points": 95
+  },
+  "Q1784008": {
+   "name": "Le Peletier",
+   "validations": 670943,
+   "points": 70
+  },
+  "Q1784015": {
+   "name": "Porte d'Ivry",
+   "validations": 449274,
+   "points": 90
+  },
+  "Q1784141": {
+   "name": "Robespierre",
+   "validations": 1044061,
+   "points": 40
+  },
+  "Q1784153": {
+   "name": "Malesherbes",
+   "validations": 551983,
+   "points": 80
+  },
+  "Q1784247": {
+   "name": "Saint-Philippe du Roule",
+   "validations": 762584,
+   "points": 60
+  },
+  "Q1784678": {
+   "name": "Saint-Mandé",
+   "validations": 1501571,
+   "points": 25
+  },
+  "Q1785048": {
+   "name": "Porte de Pantin",
+   "validations": 1275912,
+   "points": 30
+  },
+  "Q1785287": {
+   "name": "Louise Michel",
+   "validations": 789602,
+   "points": 55
+  },
+  "Q1785459": {
+   "name": "Philippe Auguste",
+   "validations": 432445,
+   "points": 90
+  },
+  "Q1789070": {
+   "name": "Richard-Lenoir",
+   "validations": 563027,
+   "points": 80
+  },
+  "Q1789126": {
+   "name": "Voltaire",
+   "validations": 1237747,
+   "points": 35
+  },
+  "Q1789135": {
+   "name": "Place des Fêtes",
+   "validations": 711620,
+   "points": 65
+  },
+  "Q1789145": {
+   "name": "Maubert - Mutualité",
+   "validations": 532400,
+   "points": 80
+  },
+  "Q181669": {
+   "name": "Porte de Saint-Ouen",
+   "validations": 824645,
+   "points": 55
+  },
+  "Q1845408": {
+   "name": "Créteil - Préfecture",
+   "validations": 1228534,
+   "points": 35
+  },
+  "Q1866688": {
+   "name": "Liège",
+   "validations": 453659,
+   "points": 90
+  },
+  "Q1885852": {
+   "name": "Mairie de Clichy",
+   "validations": 1326811,
+   "points": 30
+  },
+  "Q1885854": {
+   "name": "Mairie de Saint-Ouen",
+   "validations": 1883045,
+   "points": 20
+  },
+  "Q1885858": {
+   "name": "Mairie d'Issy",
+   "validations": 1176356,
+   "points": 35
+  },
+  "Q1886721": {
+   "name": "Malakoff - Plateau de Vanves",
+   "validations": 921652,
+   "points": 50
+  },
+  "Q1892927": {
+   "name": "Marcadet - Poissonniers",
+   "validations": 1494818,
+   "points": 25
+  },
+  "Q1937499": {
+   "name": "Saint-Georges",
+   "validations": 309098,
+   "points": 95
+  },
+  "Q1969289": {
+   "name": "Porte de Versailles",
+   "validations": 1444263,
+   "points": 25
+  },
+  "Q1969303": {
+   "name": "Pyrénées",
+   "validations": 791051,
+   "points": 55
+  },
+  "Q1969443": {
+   "name": "Sèvres - Lecourbe",
+   "validations": 590153,
+   "points": 75
+  },
+  "Q1969462": {
+   "name": "Pont de Levallois - Bécon",
+   "validations": 1136474,
+   "points": 40
+  },
+  "Q1969472": {
+   "name": "Rue des Boulets",
+   "validations": 629284,
+   "points": 75
+  },
+  "Q1969480": {
+   "name": "Porte de Clignancourt",
+   "validations": 1930820,
+   "points": 20
+  },
+  "Q1969501": {
+   "name": "Quai de la Rapée",
+   "validations": 348035,
+   "points": 95
+  },
+  "Q1969659": {
+   "name": "Quai de la Gare",
+   "validations": 610311,
+   "points": 75
+  },
+  "Q1969677": {
+   "name": "Rennes",
+   "validations": 338382,
+   "points": 95
+  },
+  "Q1969873": {
+   "name": "Saint-Denis - Porte de Paris",
+   "validations": 1030987,
+   "points": 40
+  },
+  "Q1969904": {
+   "name": "Pont de Sèvres",
+   "validations": 1236770,
+   "points": 35
+  },
+  "Q1969938": {
+   "name": "Ranelagh",
+   "validations": 636952,
+   "points": 70
+  },
+  "Q1969959": {
+   "name": "Porte de Clichy",
+   "validations": 2405759,
+   "points": 15
+  },
+  "Q1970325": {
+   "name": "Notre-Dame-des-Champs",
+   "validations": 647954,
+   "points": 70
+  },
+  "Q1970334": {
+   "name": "Parmentier",
+   "validations": 717894,
+   "points": 65
+  },
+  "Q1999538": {
+   "name": "Saint-Jacques",
+   "validations": 519921,
+   "points": 85
+  },
+  "Q21294263": {
+   "name": "Aéroport d'Orly",
+   "validations": 793046,
+   "points": 55
+  },
+  "Q2270685": {
+   "name": "Mairie de Montrouge",
+   "validations": 1500289,
+   "points": 25
+  },
+  "Q238902": {
+   "name": "Volontaires",
+   "validations": 584078,
+   "points": 75
+  },
+  "Q254308": {
+   "name": "Kléber",
+   "validations": 333720,
+   "points": 95
+  },
+  "Q25478742": {
+   "name": "Hôpital Bicêtre",
+   "validations": 863954,
+   "points": 50
+  },
+  "Q25478746": {
+   "name": "L'Haÿ-les-Roses",
+   "validations": 826136,
+   "points": 55
+  },
+  "Q25478754": {
+   "name": "Chevilly-Larue",
+   "validations": 1023456,
+   "points": 45
+  },
+  "Q257465": {
+   "name": "Sully - Morland",
+   "validations": 505661,
+   "points": 85
+  },
+  "Q273476": {
+   "name": "École Militaire",
+   "validations": 1025749,
+   "points": 40
+  },
+  "Q273645": {
+   "name": "École vétérinaire de Maisons-Alfort",
+   "validations": 782957,
+   "points": 55
+  },
+  "Q274526": {
+   "name": "Église de Pantin",
+   "validations": 945205,
+   "points": 45
+  },
+  "Q274534": {
+   "name": "Église d'Auteuil",
+   "validations": 47245,
+   "points": 100
+  },
+  "Q282600": {
+   "name": "Pont Marie",
+   "validations": 408927,
+   "points": 90
+  },
+  "Q2879106": {
+   "name": "Bagneux - Lucie Aubrac",
+   "validations": 769711,
+   "points": 60
+  },
+  "Q289916": {
+   "name": "Étienne Marcel",
+   "validations": 710107,
+   "points": 65
+  },
+  "Q2979015": {
+   "name": "Saint-Ouen",
+   "validations": 1777289,
+   "points": 20
+  },
+  "Q306256": {
+   "name": "Abbesses",
+   "validations": 534795,
+   "points": 80
+  },
+  "Q337855": {
+   "name": "Faidherbe - Chaligny",
+   "validations": 756226,
+   "points": 60
+  },
+  "Q338898": {
+   "name": "Pigalle",
+   "validations": 1446198,
+   "points": 25
+  },
+  "Q3396323": {
+   "name": "Pont Cardinet",
+   "validations": 1962352,
+   "points": 20
+  },
+  "Q3462074": {
+   "name": "Saint-Denis Pleyel",
+   "validations": 637509,
+   "points": 70
+  },
+  "Q3501980": {
+   "name": "Barbara",
+   "validations": 667935,
+   "points": 70
+  },
+  "Q377782": {
+   "name": "Gaîté",
+   "validations": 768703,
+   "points": 60
+  },
+  "Q382659": {
+   "name": "Porte de la Chapelle",
+   "validations": 738595,
+   "points": 60
+  },
+  "Q426440": {
+   "name": "Boulogne - Jean Jaurès",
+   "validations": 998275,
+   "points": 45
+  },
+  "Q450976": {
+   "name": "Alésia",
+   "validations": 1280791,
+   "points": 30
+  },
+  "Q476557": {
+   "name": "Villejuif - Léo Lagrange",
+   "validations": 676158,
+   "points": 65
+  },
+  "Q487505": {
+   "name": "Anatole France",
+   "validations": 897267,
+   "points": 50
+  },
+  "Q50724143": {
+   "name": "Thiais - Orly",
+   "validations": 326681,
+   "points": 95
+  },
+  "Q508256": {
+   "name": "Bastille",
+   "validations": 3047871,
+   "points": 10
+  },
+  "Q517739": {
+   "name": "Mirabeau",
+   "validations": 393628,
+   "points": 90
+  },
+  "Q517844": {
+   "name": "Avron",
+   "validations": 454659,
+   "points": 90
+  },
+  "Q524191": {
+   "name": "Chemin Vert",
+   "validations": 423853,
+   "points": 90
+  },
+  "Q550042": {
+   "name": "Saint-Sébastien - Froissart",
+   "validations": 457285,
+   "points": 90
+  },
+  "Q567806": {
+   "name": "Rome",
+   "validations": 649649,
+   "points": 70
+  },
+  "Q568013": {
+   "name": "Falguière",
+   "validations": 226860,
+   "points": 95
+  },
+  "Q568195": {
+   "name": "Jaurès",
+   "validations": 1432006,
+   "points": 25
+  },
+  "Q571159": {
+   "name": "Bibliothèque François-Mitterrand",
+   "validations": 2592296,
+   "points": 15
+  },
+  "Q571446": {
+   "name": "Porte de la Villette",
+   "validations": 829258,
+   "points": 55
+  },
+  "Q575604": {
+   "name": "Notre-Dame-de-Lorette",
+   "validations": 708092,
+   "points": 65
+  },
+  "Q585712": {
+   "name": "Hoche",
+   "validations": 1144459,
+   "points": 40
+  },
+  "Q585752": {
+   "name": "Château de Vincennes",
+   "validations": 1091962,
+   "points": 40
+  },
+  "Q586851": {
+   "name": "Garibaldi",
+   "validations": 596529,
+   "points": 75
+  },
+  "Q587093": {
+   "name": "Saint-Marcel",
+   "validations": 634255,
+   "points": 70
+  },
+  "Q589686": {
+   "name": "Picpus",
+   "validations": 407920,
+   "points": 90
+  },
+  "Q592367": {
+   "name": "Créteil - Université",
+   "validations": 903184,
+   "points": 50
+  },
+  "Q593257": {
+   "name": "Bobigny - Pablo Picasso",
+   "validations": 1939664,
+   "points": 20
+  },
+  "Q601484": {
+   "name": "Châtelet",
+   "validations": 3151131,
+   "points": 10
+  },
+  "Q602615": {
+   "name": "Dugommier",
+   "validations": 610361,
+   "points": 75
+  },
+  "Q606164": {
+   "name": "Porte des Lilas",
+   "validations": 1131624,
+   "points": 40
+  },
+  "Q607342": {
+   "name": "Cardinal Lemoine",
+   "validations": 501125,
+   "points": 85
+  },
+  "Q608305": {
+   "name": "Commerce",
+   "validations": 786691,
+   "points": 55
+  },
+  "Q610012": {
+   "name": "Place de Clichy",
+   "validations": 1998805,
+   "points": 15
+  },
+  "Q612971": {
+   "name": "Anvers",
+   "validations": 1242446,
+   "points": 35
+  },
+  "Q613123": {
+   "name": "Marcel Sembat",
+   "validations": 1365265,
+   "points": 30
+  },
+  "Q614049": {
+   "name": "Gare de Lyon",
+   "validations": 2426835,
+   "points": 15
+  },
+  "Q614636": {
+   "name": "Varenne",
+   "validations": 304440,
+   "points": 95
+  },
+  "Q616619": {
+   "name": "Michel Bizot",
+   "validations": 503694,
+   "points": 85
+  },
+  "Q617430": {
+   "name": "Jules Joffrin",
+   "validations": 871663,
+   "points": 50
+  },
+  "Q630642": {
+   "name": "Convention",
+   "validations": 1324081,
+   "points": 30
+  },
+  "Q631846": {
+   "name": "Maraîchers",
+   "validations": 672068,
+   "points": 65
+  },
+  "Q632881": {
+   "name": "Charles Michels",
+   "validations": 1144433,
+   "points": 40
+  },
+  "Q635744": {
+   "name": "Ternes",
+   "validations": 717273,
+   "points": 65
+  },
+  "Q645400": {
+   "name": "Argentine",
+   "validations": 769116,
+   "points": 60
+  },
+  "Q645691": {
+   "name": "Gabriel Péri",
+   "validations": 1231743,
+   "points": 35
+  },
+  "Q646376": {
+   "name": "Rambuteau",
+   "validations": 723499,
+   "points": 65
+  },
+  "Q646583": {
+   "name": "Courcelles",
+   "validations": 648110,
+   "points": 70
+  },
+  "Q647271": {
+   "name": "Reuilly - Diderot",
+   "validations": 1664865,
+   "points": 20
+  },
+  "Q649160": {
+   "name": "Les Sablons",
+   "validations": 1582414,
+   "points": 25
+  },
+  "Q649273": {
+   "name": "Saint-Augustin",
+   "validations": 611099,
+   "points": 75
+  },
+  "Q661846": {
+   "name": "Nationale",
+   "validations": 636490,
+   "points": 70
+  },
+  "Q666009": {
+   "name": "Tuileries",
+   "validations": 546749,
+   "points": 80
+  },
+  "Q668351": {
+   "name": "Mairie de Montreuil",
+   "validations": 1652111,
+   "points": 20
+  },
+  "Q669850": {
+   "name": "Réaumur - Sébastopol",
+   "validations": 1479376,
+   "points": 25
+  },
+  "Q670081": {
+   "name": "Pereire",
+   "validations": 667871,
+   "points": 70
+  },
+  "Q680787": {
+   "name": "Ledru-Rollin",
+   "validations": 932750,
+   "points": 45
+  },
+  "Q683208": {
+   "name": "Campo-Formio",
+   "validations": 364214,
+   "points": 95
+  },
+  "Q683544": {
+   "name": "Mairie des Lilas",
+   "validations": 793046,
+   "points": 55
+  },
+  "Q690975": {
+   "name": "George V",
+   "validations": 1512096,
+   "points": 25
+  },
+  "Q713944": {
+   "name": "Arts et Métiers",
+   "validations": 1103015,
+   "points": 40
+  },
+  "Q733618": {
+   "name": "Les Courtilles",
+   "validations": 970730,
+   "points": 45
+  },
+  "Q738879": {
+   "name": "Guy Môquet",
+   "validations": 1054734,
+   "points": 40
+  },
+  "Q740744": {
+   "name": "Assemblée nationale",
+   "validations": 265857,
+   "points": 95
+  },
+  "Q746288": {
+   "name": "Crimée",
+   "validations": 1223883,
+   "points": 35
+  },
+  "Q751245": {
+   "name": "Pré-Saint-Gervais",
+   "validations": 76984,
+   "points": 100
+  },
+  "Q758464": {
+   "name": "Aubervilliers - Pantin - Quatre Chemins",
+   "validations": 1298496,
+   "points": 30
+  },
+  "Q761518": {
+   "name": "Billancourt",
+   "validations": 707171,
+   "points": 65
+  },
+  "Q763411": {
+   "name": "Saint-Placide",
+   "validations": 1084658,
+   "points": 40
+  },
+  "Q764106": {
+   "name": "Poissonnière",
+   "validations": 852918,
+   "points": 50
+  },
+  "Q764465": {
+   "name": "Montparnasse - Bienvenüe",
+   "validations": 8012827,
+   "points": 10
+  },
+  "Q766186": {
+   "name": "Aimé Césaire",
+   "validations": 422158,
+   "points": 90
+  },
+  "Q766618": {
+   "name": "Europe",
+   "validations": 438618,
+   "points": 90
+  },
+  "Q766906": {
+   "name": "Maisons-Alfort - Les Juilliottes",
+   "validations": 565891,
+   "points": 80
+  },
+  "Q769848": {
+   "name": "Vaugirard",
+   "validations": 830192,
+   "points": 55
+  },
+  "Q771548": {
+   "name": "Rue de la Pompe",
+   "validations": 848088,
+   "points": 50
+  },
+  "Q777553": {
+   "name": "Bréguet - Sabin",
+   "validations": 649775,
+   "points": 70
+  },
+  "Q780625": {
+   "name": "La Fourche",
+   "validations": 631043,
+   "points": 70
+  },
+  "Q781873": {
+   "name": "Saint-Germain-des-Prés",
+   "validations": 1076408,
+   "points": 40
+  },
+  "Q790593": {
+   "name": "Avenue Émile Zola",
+   "validations": 428509,
+   "points": 90
+  },
+  "Q800624": {
+   "name": "Charles de Gaulle - Étoile",
+   "validations": 1969749,
+   "points": 15
+  },
+  "Q804647": {
+   "name": "Balard",
+   "validations": 1398759,
+   "points": 30
+  },
+  "Q807893": {
+   "name": "Barbès - Rochechouart",
+   "validations": 1964680,
+   "points": 20
+  },
+  "Q810151": {
+   "name": "Basilique de Saint-Denis",
+   "validations": 1169350,
+   "points": 35
+  },
+  "Q815061": {
+   "name": "Bel-Air",
+   "validations": 578153,
+   "points": 75
+  },
+  "Q815946": {
+   "name": "Belleville",
+   "validations": 2644867,
+   "points": 15
+  },
+  "Q818853": {
+   "name": "Bercy",
+   "validations": 1886324,
+   "points": 20
+  },
+  "Q881406": {
+   "name": "Blanche",
+   "validations": 940324,
+   "points": 45
+  },
+  "Q888758": {
+   "name": "Bobigny - Pantin - Raymond Queneau",
+   "validations": 786865,
+   "points": 55
+  },
+  "Q891105": {
+   "name": "Boissière",
+   "validations": 551830,
+   "points": 80
+  },
+  "Q891362": {
+   "name": "Bolivar",
+   "validations": 124017,
+   "points": 100
+  },
+  "Q892720": {
+   "name": "Bonne Nouvelle",
+   "validations": 1192615,
+   "points": 35
+  },
+  "Q894930": {
+   "name": "Botzaris",
+   "validations": 176766,
+   "points": 100
+  },
+  "Q894984": {
+   "name": "Boucicaut",
+   "validations": 842480,
+   "points": 50
+  },
+  "Q895108": {
+   "name": "Boulogne - Pont de Saint-Cloud",
+   "validations": 833245,
+   "points": 50
+  },
+  "Q895259": {
+   "name": "Bourse",
+   "validations": 814714,
+   "points": 55
+  },
+  "Q915581": {
+   "name": "Gallieni",
+   "validations": 1113449,
+   "points": 40
+  },
+  "Q923435": {
+   "name": "Brochant",
+   "validations": 489545,
+   "points": 85
+  },
+  "Q927829": {
+   "name": "Chardon-Lagache",
+   "validations": 211147,
+   "points": 95
+  },
+  "Q930284": {
+   "name": "Le Kremlin-Bicêtre",
+   "validations": 762428,
+   "points": 60
+  },
+  "Q935233": {
+   "name": "Pointe du Lac",
+   "validations": 964633,
+   "points": 45
+  },
+  "Q937680": {
+   "name": "Chevaleret",
+   "validations": 901467,
+   "points": 50
+  },
+  "Q938430": {
+   "name": "Censier - Daubenton",
+   "validations": 922624,
+   "points": 50
+  },
+  "Q944564": {
+   "name": "Wagram",
+   "validations": 551848,
+   "points": 80
+  },
+  "Q945229": {
+   "name": "Quatre-Septembre",
+   "validations": 483304,
+   "points": 85
+  },
+  "Q946441": {
+   "name": "Porte Dorée",
+   "validations": 608549,
+   "points": 75
+  },
+  "Q946826": {
+   "name": "Gambetta",
+   "validations": 1588086,
+   "points": 25
+  },
+  "Q948012": {
+   "name": "Charonne",
+   "validations": 944821,
+   "points": 45
+  },
+  "Q950314": {
+   "name": "Corvisart",
+   "validations": 613677,
+   "points": 75
+  },
+  "Q951466": {
+   "name": "Chaussée d'Antin - La Fayette",
+   "validations": 1668679,
+   "points": 20
+  },
+  "Q953454": {
+   "name": "Porte de Choisy",
+   "validations": 1002219,
+   "points": 45
+  },
+  "Q954301": {
+   "name": "Vavin",
+   "validations": 674686,
+   "points": 65
+  },
+  "Q954566": {
+   "name": "Rue du Bac",
+   "validations": 617498,
+   "points": 75
+  },
+  "Q957172": {
+   "name": "Château Rouge",
+   "validations": 2016750,
+   "points": 15
+  },
+  "Q961089": {
+   "name": "Villejuif - Paul Vaillant-Couturier",
+   "validations": 551019,
+   "points": 80
+  },
+  "Q962861": {
+   "name": "Les Agnettes",
+   "validations": 691030,
+   "points": 65
+  },
+  "Q968336": {
+   "name": "Porte de Montreuil",
+   "validations": 858017,
+   "points": 50
+  },
+  "Q968939": {
+   "name": "Hôtel de Ville",
+   "validations": 2605070,
+   "points": 15
+  },
+  "Q970075": {
+   "name": "Concorde",
+   "validations": 1659486,
+   "points": 20
+  },
+  "Q970844": {
+   "name": "Exelmans",
+   "validations": 555266,
+   "points": 80
+  },
+  "Q974510": {
+   "name": "Mabillon",
+   "validations": 438330,
+   "points": 90
+  },
+  "Q980380": {
+   "name": "Lamarck - Caulaincourt",
+   "validations": 650042,
+   "points": 70
+  },
+  "Q995228": {
+   "name": "Michel-Ange - Auteuil",
+   "validations": 548972,
+   "points": 80
+  },
+  "Q999159": {
+   "name": "Montgallet",
+   "validations": 357795,
+   "points": 95
+  }
+ }
+}

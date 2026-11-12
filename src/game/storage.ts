@@ -14,6 +14,8 @@ export interface Stats {
   played: number;
   perfect: number;
   totalFound: number;
+  /** Meilleur total de points sur une grille du jour (stations rares = plus de points). */
+  bestPoints?: number;
   streak: number;
   bestStreak: number;
   lastDaily: string | null;
@@ -54,7 +56,7 @@ export const saveDaily = (day: string, game: SavedGame) => writeJson(gameKey(day
 export const loadStats = async () => (await readJson<Stats>(STATS_KEY)) ?? EMPTY_STATS;
 
 /** Enregistre une grille du jour terminée et met à jour la série. */
-export async function recordDaily(day: string, found: number, yesterday: string): Promise<Stats> {
+export async function recordDaily(day: string, found: number, yesterday: string, points = 0): Promise<Stats> {
   const stats = await loadStats();
   if (stats.lastDaily === day) return stats;
   const streak = stats.lastDaily === yesterday ? stats.streak + 1 : 1;
@@ -62,6 +64,7 @@ export async function recordDaily(day: string, found: number, yesterday: string)
     played: stats.played + 1,
     perfect: stats.perfect + (found === 9 ? 1 : 0),
     totalFound: stats.totalFound + found,
+    bestPoints: Math.max(stats.bestPoints ?? 0, points),
     streak,
     bestStreak: Math.max(stats.bestStreak, streak),
     lastDaily: day,

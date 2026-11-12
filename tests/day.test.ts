@@ -61,3 +61,18 @@ test('compte à rebours jusqu’à minuit heure de Paris', async () => {
   // Veille du retour à l'heure d'hiver : minuit à Paris = 22 h UTC.
   assert.equal(msUntilNextParisDay(new Date('2027-10-30T21:00:00Z')), 3600000);
 });
+
+test('points de rareté de la grille', async () => {
+  const { stationPoints, gridPoints, bestGridPoints } = await import('../src/game/points');
+  const { dailySeed, generatePuzzle } = await import('../src/game/generator');
+  const { STATIONS } = await import('../src/data/stations');
+  const id = (name: string) => STATIONS.find((s) => s.name === name)!.id;
+  assert.equal(stationPoints(id('Châtelet')), 10);
+  assert.ok(stationPoints(id('Pelleport')) >= 90);
+  for (const s of STATIONS) assert.ok(stationPoints(s.id) >= 10 && stationPoints(s.id) <= 100, s.name);
+  assert.equal(gridPoints([[id('Châtelet'), null, null], [null, null, null], [null, null, null]]), 10);
+  // Le meilleur total possible est atteignable et au moins égal à 9 × 10.
+  const p = generatePuzzle(dailySeed('2026-12-01'));
+  const best = bestGridPoints(p.answers);
+  assert.ok(best >= 90 && best <= 900, String(best));
+});

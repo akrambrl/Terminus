@@ -11,6 +11,7 @@ import { addDays, currentDayKey } from './src/game/day';
 import { Button, Stat } from './src/components/Button';
 import { ModeTabs, type GameTab } from './src/components/ModeTabs';
 import { DayHeader } from './src/components/DayHeader';
+import { bestGridPoints, gridPoints, stationPoints } from './src/game/points';
 import { NextGame } from './src/components/NextGame';
 import { BrickWall } from './src/design/ui';
 import { screens, ui, type ScreenId } from './src/theme';
@@ -208,12 +209,15 @@ function Game() {
 
   const usedIds = useMemo(() => new Set(cells.flat().filter((c): c is string => !!c)), [cells]);
   const found = usedIds.size;
+  /** Points de la grille : stations peu fréquentées = plus de points. */
+  const points = gridPoints(cells);
+  const maxPoints = useMemo(() => bestGridPoints(puzzle.answers), [puzzle]);
 
   const finish = useCallback(
     async (finalCells: (string | null)[][], errorCount: number, gaveUp = false) => {
       setFinished(true);
       const foundCount = finalCells.flat().filter(Boolean).length;
-      track('game_finished', { game: 'grille', mode, found: foundCount, errors: errorCount, gave_up: gaveUp });
+      track('game_finished', { game: 'grille', mode, found: foundCount, errors: errorCount, gave_up: gaveUp, points: gridPoints(finalCells) });
       onGameFinished(foundCount);
       if (mode === 'free') {
         const game = { seed: freeSeed, cells: finalCells, errors: errorCount, finished: true };
@@ -224,7 +228,7 @@ function Game() {
         markDone('grille');
         await saveDaily(day, { puzzle: puzzleSignature(puzzle), cells: finalCells, errors: errorCount, finished: true });
         const count = finalCells.flat().filter(Boolean).length;
-        setStats(await recordDaily(day, count, yesterdayKey(day)));
+        setStats(await recordDaily(day, count, yesterdayKey(day), gridPoints(finalCells)));
       }
       setTimeout(() => setShowResult(true), 400);
     },
@@ -353,7 +357,7 @@ function Game() {
     const title =
       mode === 'daily' ? `Terminus Paris n°${dailyNumber(day)}` : 'Terminus Paris (partie libre)';
     const errorText = errors === 0 ? 'sans erreur' : `${errors} erreur${errors > 1 ? 's' : ''}`;
-    const message = `${title} : ${found}/9 · ${errorText}\n${grid}\n\nÀ toi de jouer : ${WEB_URL}`;
+    const message = `${title} : ${found}/9 · ${points} pts · ${errorText}\n${grid}\n\nÀ toi de jouer : ${WEB_URL}`;
     track('result_shared', { game: 'grille', mode, found, errors });
     if ((await shareMessage(message)) === 'copied') {
       setCopied(true);
@@ -444,8 +448,12 @@ function Game() {
 
         <View style={[styles.status, { width: contentWidth - 24 }]}>
           <View style={styles.statusRow}>
-            <Text style={styles.statusLabel}>{finished ? 'Terminé' : 'Erreurs possibles'}</Text>
-            <Text style={styles.statusValue}>{finished ? `${found}/9` : MAX_ERRORS - errors}</Text>
+            <Text style={styles.statusLabel}>
+              {finished ? `Terminé · ${found}/9` : `Erreurs possibles · ${MAX_ERRORS - errors}`}
+            </Text>
+            <Text style={styles.statusValue} accessibilityLabel={`${points} points`}>
+              {points} <Text style={styles.statusUnit}>pts</Text>
+            </Text>
           </View>
           <TicketTrack total={MAX_ERRORS} used={errors} />
           {mode === 'daily' && finished && <NextGame day={day} label="Prochaine grille" onNewDay={newDay} />}
@@ -503,7 +511,7 @@ function Game() {
             <Text style={infoStyles.small}>
               {puzzle.rows[answersFor.row].label} × {puzzle.cols[answersFor.col].label}
             </Text>
-            {puzzle.answers[answersFor.row][answersFor.col].map((id) => {
+            {[...puzzle.answers[answersFor.row][answersFor.col]].sort((a, b) => stationPoints(b) - stationPoints(a)).map((id) => {
               const s = STATION_BY_ID.get(id)!;
               return (
                 <View key={id} style={styles.answer}>
@@ -515,6 +523,7 @@ function Game() {
                       <LineBadge key={l} line={l as LineId} size={18} />
                     ))}
                     {s.rer.length > 0 && <Text style={styles.rer}>RER {s.rer.join(' ')}</Text>}
+                    <Text style={styles.answerPoints}>+{stationPoints(id)}</Text>
                   </View>
                 </View>
               );
@@ -530,6 +539,9 @@ function Game() {
         footer={<Button label={copied ? 'Résultat copié !' : 'Partager mon résultat'} onPress={share} primary />}
       >
         <Text style={styles.bigScore}>{found}/9</Text>
+        <Text style={styles.pointsLine}>
+          {points} points <Text style={styles.pointsMax}>sur {maxPoints} possibles</Text>
+        </Text>
         <Text style={[infoStyles.p, { textAlign: 'center' }]}>
           Touche une case de la grille pour voir toutes les réponses possibles.
         </Text>
@@ -537,6 +549,7 @@ function Game() {
           <View style={styles.stats}>
             <Stat value={stats.played} label="Grilles" />
             <Stat value={stats.perfect} label="Parfaites" />
+            <Stat value={stats.bestPoints ?? 0} label="Record pts" />
             <Stat value={stats.streak} label="Série" />
             <Stat value={stats.bestStreak} label="Record" />
           </View>
@@ -641,6 +654,11 @@ function Game() {
           Touche un critère pour lire sa définition exacte.
         </Text>
         <Text style={infoStyles.p}>
+          <Text style={infoStyles.strong}>Points</Text> : chaque bonne réponse rapporte de 10 à 100 points selon la
+          fréquentation de la station. Châtelet ou Saint-Lazare, très fréquentées, valent 10 points ; une petite station
+          comme Pelleport en vaut 100. Trouve les stations les moins connues pour battre ton record !
+        </Text>
+        <Text style={infoStyles.p}>
           Une nouvelle grille gratuite t'attend chaque jour. Pour jouer d'autres grilles, utilise tes pièces : chaque
           grille en plus coûte {GRID_COST} pièce, et tu gagnes {DAILY_BONUS} pièces chaque jour en ouvrant l'app (jusqu'à{' '}
           {MAX_COINS} en réserve). Les pièces ne s'achètent pas : elles se gagnent seulement en jouant.
@@ -653,7 +671,8 @@ function Game() {
         </Text>
         <Text style={infoStyles.small}>
           Jeu non officiel, sans lien avec la RATP ni Île-de-France Mobilités. Données des stations : Wikidata
-          (licence CC0). Les lignes en projet ne sont pas incluses.
+          (licence CC0) ; fréquentation : open data Île-de-France Mobilités (validations 2026). Les lignes en projet
+          ne sont pas incluses.
         </Text>
         <View style={styles.privacyLinks}>
           <Text style={styles.privacyLink} onPress={() => Linking.openURL(PRIVACY_URL)}>
@@ -721,6 +740,9 @@ const styles = StyleSheet.create({
   statusRow: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'baseline' },
   statusLabel: { fontFamily: fonts.heavy, fontSize: 13, color: colors.muted, textTransform: 'uppercase', letterSpacing: 1.8 },
   statusValue: { fontFamily: fonts.display, fontSize: 22, color: colors.ink },
+  statusUnit: { fontFamily: fonts.heavy, fontSize: 13, color: colors.muted },
+  pointsLine: { fontFamily: fonts.display, fontSize: 22, color: colors.ink, textAlign: 'center', marginBottom: 6 },
+  pointsMax: { fontFamily: fonts.bold, fontSize: 14, color: colors.muted },
   actions: { flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'center', gap: 10, marginTop: 14 },
   bigScore: { fontSize: 64, fontFamily: fonts.display, color: palette.ultramarine, textAlign: 'center', letterSpacing: -1.3 },
   stats: { flexDirection: 'row', justifyContent: 'space-around', marginTop: 8 },
@@ -738,6 +760,7 @@ const styles = StyleSheet.create({
   answerName: { fontSize: 15, fontFamily: fonts.bold, color: colors.ink, flexShrink: 1 },
   answerMine: { fontFamily: fonts.heavy, color: colors.ink, textDecorationLine: 'underline', textDecorationColor: palette.mint },
   answerLines: { flexDirection: 'row', alignItems: 'center', gap: 3 },
+  answerPoints: { fontFamily: fonts.heavy, fontSize: 12, color: colors.muted, minWidth: 34, textAlign: 'right' },
   privacyLinks: { marginTop: 12, gap: 8 },
   privacyLink: { fontFamily: fonts.bold, fontSize: 14, color: palette.ultramarine, textDecorationLine: 'underline' },
   bonusRow: { flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 12, marginVertical: 8 },

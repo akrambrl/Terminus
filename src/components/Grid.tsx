@@ -6,6 +6,7 @@ import { colors, fonts, lineColors, ui } from '../theme';
 import { CriterionLabel } from './CriterionLabel';
 import { GridMark } from './Logo';
 import { LineBadge } from './LineBadge';
+import { stationPoints } from '../game/points';
 
 interface Props {
   puzzle: Puzzle;
@@ -78,6 +79,10 @@ export function Grid({ puzzle, cells, finished, width, onPressCell, onPressCrite
               >
                 {station && tint ? (
                   <>
+                    {/* Points gagnés : plus la station est peu fréquentée, plus elle rapporte. */}
+                    <View style={[styles.points, { backgroundColor: tint.fg }]}>
+                      <Text style={[styles.pointsText, { color: tint.bg }]}>+{stationPoints(station.id)}</Text>
+                    </View>
                     <Text
                       style={[styles.stationName, { color: tint.fg }]}
                       numberOfLines={3}
@@ -131,6 +136,8 @@ const styles = StyleSheet.create({
   cellMissed: { backgroundColor: colors.missed, borderColor: colors.missed },
   plus: { fontSize: 28, color: colors.plus, fontFamily: fonts.heavy },
   stationName: { fontFamily: fonts.heavy, fontSize: 12, lineHeight: 14, textAlign: 'center' },
+  points: { position: 'absolute', top: 3, right: 3, borderRadius: ui.radiusPill, paddingHorizontal: 4, paddingVertical: 1 },
+  pointsText: { fontFamily: fonts.heavy, fontSize: 9 },
   badges: { flexDirection: 'row', gap: 2, marginTop: 4 },
   missedText: { color: colors.muted, fontFamily: fonts.bold, fontSize: 10, textAlign: 'center' },
   missedCount: { fontFamily: fonts.display, fontSize: 18, color: colors.ink },

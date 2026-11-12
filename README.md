@@ -69,6 +69,14 @@ La charte est dans `terminus-kit/` (`DIRECTION-ARTISTIQUE.md`, `tokens.css`, pol
 - Contraste : `textOn(fond, taille)` applique la règle de la charte (blanc sur tomate, menthe ou rose
   seulement à 24 px et plus). Zones tactiles de 44 px minimum.
 
+## Points de la grille (rareté des stations)
+
+Chaque bonne réponse rapporte de 10 points (station très fréquentée : Châtelet, Saint-Lazare) à 100 points
+(très peu fréquentée : Pelleport, Église d'Auteuil). Fréquentation réelle : open data Île-de-France Mobilités,
+validations sur le réseau ferré (1er trimestre 2026, métro), reliées à chaque station par sa zone de
+correspondance. Données : `scripts/data/frequentation.json` → `python3 scripts/build-frequentation.py`
+→ `src/data/frequentation.ts`. Calcul : `src/game/points.ts` (total, meilleur total possible).
+
 ## Les trois jeux du jour
 
 Onglets **Grille · Défi · Pendu** sous le logo (une ✓ quand le jeu du jour est terminé).
