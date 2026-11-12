@@ -19,10 +19,10 @@ const OUT = path.join(__dirname, 'captures');
 const RAW = path.join(OUT, 'raw');
 const PORT = 8199;
 
-const font = (p) => fs.readFileSync(path.join(ROOT, 'node_modules/@expo-google-fonts', p)).toString('base64');
+const font = (p) => fs.readFileSync(path.join(ROOT, 'assets/fonts', p)).toString('base64');
 const FONTS = `<style>
-@font-face{font-family:Display;src:url(data:font/ttf;base64,${font('bricolage-grotesque/800ExtraBold/BricolageGrotesque_800ExtraBold.ttf')})}
-@font-face{font-family:Body;src:url(data:font/ttf;base64,${font('figtree/700Bold/Figtree_700Bold.ttf')})}
+@font-face{font-family:Display;src:url(data:font/ttf;base64,${font('BricolageGrotesque-ExtraBold.ttf')})}
+@font-face{font-family:Body;src:url(data:font/ttf;base64,${font('Figtree-Bold.ttf')})}
 </style>`;
 
 const SHOTS = [

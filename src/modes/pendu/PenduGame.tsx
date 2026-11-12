@@ -19,9 +19,15 @@ import {
 } from '../../game/storage';
 import type { LineId, Station } from '../../game/types';
 import { onGameFinished } from '../../store/review';
-import { colors, fonts, palette } from '../../theme';
+import { DayHeader } from '../../components/DayHeader';
+import { MetroTrain } from '../../design/MetroTrain';
+import { solidShadow } from '../../design/ui';
+import { alpha, colors, fonts, logoColors, mix, textOn, ui } from '../../theme';
 import { segments } from './segments';
 import { AZERTY, baseLetter, isSolved, MAX_PENDU_ERRORS, nameLetters, penduStation } from './pendu';
+
+/** Tuile cachée : bleu nuit un peu éclairci, avec un trait clair (charte). */
+const HIDDEN_BG = mix(colors.ink, colors.white, 0.1);
 
 export function PenduGame({
   day,
@@ -51,6 +57,9 @@ export function PenduGame({
   const [feedback, setFeedback] = useState<string | null>(null);
   const [showResult, setShowResult] = useState(false);
   const [copied, setCopied] = useState(false);
+  /** La rame traverse l'écran avant la révélation du nom. */
+  const [train, setTrain] = useState(false);
+  const [boardH, setBoardH] = useState(0);
 
   useEffect(() => {
     (async () => {
@@ -73,7 +82,8 @@ export function PenduGame({
       setStats(await recordMode('pendu', day, addDays(day, -1), next.won));
       track('game_finished', { game: 'pendu', won: next.won, errors: next.errors, letters: next.letters.length });
       onGameFinished(next.won ? 9 : 0);
-      setTimeout(() => setShowResult(true), 500);
+      setGuessing(false);
+      setTrain(true);
     },
     [day, onDone],
   );
@@ -155,32 +165,48 @@ export function PenduGame({
 
   // Tuiles du nom : taille calculée pour que le morceau le plus long tienne sur une ligne.
   const parts = segments(station.name);
-  const longest = Math.max(...parts.map((p) => p.length));
-  const tile = Math.max(18, Math.min(38, Math.floor((width - 8) / longest) - 4));
+  // Taille des tuiles : la plus grande qui tient en largeur (morceau le plus long sur une ligne)
+  // et en hauteur (toutes les lignes dans la zone disponible, sans déborder).
+  const fits = (t: number) => {
+    const unit = (p: string) => [...p].reduce((w, ch) => w + (baseLetter(ch) ? t + 4 : t * 0.45 + 4), 0);
+    let lines = 1;
+    let used = 0;
+    for (const p of parts) {
+      const w = unit(p);
+      if (w > width) return false;
+      if (used && used + 12 + w > width) {
+        lines++;
+        used = w;
+      } else used += (used ? 12 : 0) + w;
+    }
+    const h = lines * t * 1.15 + (lines - 1) * 10 + (game.finished ? 32 : 0);
+    return !boardH || h <= boardH - 8;
+  };
+  let tile = 38;
+  while (tile > 14 && !fits(tile)) tile--;
   const compact = height < 760;
+  /** Très petits écrans : on masque le titre et on réduit les tickets pour laisser la place au nom. */
+  const tight = height < 700;
   const keyGap = 5;
   const keyW = Math.floor((width - keyGap * 9) / 10);
-  const keyH = compact ? 38 : 46;
+  // Zone tactile de 44 px minimum (charte d'accessibilité).
+  const keyH = compact ? ui.touch : ui.touch + 4;
+  const revealed = game.finished && !train;
+  let letterIndex = 0;
 
   return (
     <>
-      <View style={[sharedStyles.ticket, { width }]}>
-        <View>
-          <Text style={sharedStyles.ticketMain}>Pendu n°{dayNumber(day)}</Text>
-          <Text style={sharedStyles.ticketSub}>{formatDay(day)}</Text>
-        </View>
-        <View style={styles.hint}>
-          <Text style={styles.hintLabel}>Lignes</Text>
-          <View style={styles.hintBadges}>
-            {station.lines.map((l) => (
-              <LineBadge key={l} line={l as LineId} size={22} />
-            ))}
-          </View>
-        </View>
+      <DayHeader width={width} title={`Le Pendu n°${dayNumber(day)}`} sub={formatDay(day)} />
+      {!tight && <Text style={styles.title}>Devine la station</Text>}
+      <View style={styles.hint}>
+        <Text style={styles.hintLabel}>Indice</Text>
+        {station.lines.map((l) => (
+          <LineBadge key={l} line={l as LineId} size={24} ring />
+        ))}
       </View>
 
-      <View style={[styles.board, { width }]}>
-        {game.finished && (
+      <View style={[styles.board, { width }]} onLayout={(e) => setBoardH(e.nativeEvent.layout.height)}>
+        {revealed && (
           <Text style={styles.verdict}>
             {game.won ? 'Bravo, c’est bien la station !' : 'Perdu ! La station était :'}
           </Text>
@@ -193,26 +219,33 @@ export function PenduGame({
                 if (!l) {
                   // Espace, tiret, apostrophe, point : visibles d'office.
                   return (
-                    <Text key={ci} style={[styles.punct, { fontSize: tile * 0.7, width: tile * 0.45 }]}>
+                    <Text key={ci} style={[styles.punct, { fontSize: tile * 0.7, width: tile * 0.45 }]} accessibilityElementsHidden>
                       {ch}
                     </Text>
                   );
                 }
-                const shown = guessed.has(l) || game.finished;
-                const missed = game.finished && !guessed.has(l) && !game.won;
+                const shown = guessed.has(l) || revealed;
+                const missed = revealed && !guessed.has(l) && !game.won;
+                // Tuile révélée : couleurs du logo en alternance, légère rotation, lettre sans accent.
+                const i = letterIndex++;
+                const bg = logoColors[i % logoColors.length];
+                const font = tile * 0.6;
                 return (
                   <View
                     key={ci}
                     style={[
                       styles.tile,
-                      { width: tile, height: tile * 1.15, borderRadius: tile * 0.22 },
-                      shown && styles.tileShown,
-                      missed && styles.tileMissed,
+                      { width: tile, height: tile * 1.15, borderRadius: ui.radiusFor(tile) },
+                      shown
+                        ? { backgroundColor: missed ? colors.surface : bg, borderColor: missed ? colors.tomato : bg, transform: [{ rotate: i % 2 ? '3deg' : '-3deg' }] }
+                        : styles.tileHidden,
                     ]}
                   >
-                    <Text style={[styles.tileText, { fontSize: tile * 0.6 }, missed && { color: colors.danger }]}>
-                      {shown ? ch.toUpperCase() : ''}
-                    </Text>
+                    {shown ? (
+                      <Text style={[styles.tileText, { fontSize: font, color: missed ? colors.ink : textOn(bg, font) }]}>{l}</Text>
+                    ) : (
+                      <View style={[styles.tileDash, { width: tile * 0.5 }]} />
+                    )}
                   </View>
                 );
               })}
@@ -223,13 +256,13 @@ export function PenduGame({
 
       <View style={[sharedStyles.status, { width: width - 8, marginTop: 4 }]}>
         <View style={sharedStyles.statusRow}>
-          <Text style={sharedStyles.statusLabel}>{game.finished ? 'Terminé' : 'Erreurs possibles'}</Text>
-          <Text style={sharedStyles.statusValue}>{game.finished ? (game.won ? 'Trouvé' : 'Raté') : MAX_PENDU_ERRORS - game.errors}</Text>
+          <Text style={[sharedStyles.statusLabel, styles.light]}>{revealed ? 'Terminé' : 'Erreurs possibles'}</Text>
+          <Text style={[sharedStyles.statusValue, styles.light]}>{revealed ? (game.won ? 'Trouvé' : 'Raté') : MAX_PENDU_ERRORS - game.errors}</Text>
         </View>
-        <TicketTrack total={MAX_PENDU_ERRORS} used={game.errors} maxWidth={width - 8} />
+        <TicketTrack total={MAX_PENDU_ERRORS} used={game.errors} maxWidth={width - 8} compact={tight} />
       </View>
 
-      {!game.finished && (
+      {!revealed && (
         <View style={[styles.keyboard, { width, marginTop: compact ? 8 : 12 }]}>
           {AZERTY.map((row) => (
             <View key={row} style={[styles.keyRow, { gap: keyGap }]}>
@@ -239,17 +272,20 @@ export function PenduGame({
                 return (
                   <Pressable
                     key={k}
-                    disabled={used}
+                    disabled={used || game.finished}
                     onPress={() => tryLetter(k)}
+                    accessibilityRole="button"
                     accessibilityLabel={`Lettre ${k}`}
+                    accessibilityState={{ disabled: used }}
                     style={({ pressed }) => [
                       styles.key,
-                      { width: keyW, height: keyH },
+                      { width: keyW, height: keyH, borderRadius: ui.radiusFor(keyH) * 0.8 },
+                      !used && !pressed && solidShadow(colors.plus, 3),
                       used && (good ? styles.keyGood : styles.keyBad),
-                      pressed && { transform: [{ translateY: 1 }] },
+                      pressed && { transform: [{ translateY: 3 }] },
                     ]}
                   >
-                    <Text style={[styles.keyText, used && { color: good ? '#FFFFFF' : colors.muted }]}>{k}</Text>
+                    <Text style={[styles.keyText, used && !good && { color: alpha(colors.white, 0.5) }]}>{k}</Text>
                   </Pressable>
                 );
               })}
@@ -259,7 +295,7 @@ export function PenduGame({
       )}
 
       <View style={[sharedStyles.actions, { marginTop: compact ? 8 : 12 }]}>
-        {game.finished ? (
+        {revealed ? (
           <Button label="Voir le résultat" onPress={() => setShowResult(true)} primary />
         ) : (
           <Button
@@ -271,6 +307,15 @@ export function PenduGame({
           />
         )}
       </View>
+
+      {train && (
+        <MetroTrain
+          onDone={() => {
+            setTrain(false);
+            setTimeout(() => setShowResult(true), 700);
+          }}
+        />
+      )}
 
       <SearchModal
         visible={guessing}
@@ -317,38 +362,30 @@ export function PenduGame({
 }
 
 const styles = StyleSheet.create({
-  hint: { alignItems: 'flex-end', gap: 3 },
-  hintLabel: { fontFamily: fonts.bold, fontSize: 11, color: palette.sun, textTransform: 'uppercase', letterSpacing: 1 },
-  hintBadges: { flexDirection: 'row', gap: 3 },
-  board: { flex: 1, minHeight: 0, alignItems: 'center', justifyContent: 'center' },
-  words: { flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'center', rowGap: 8, columnGap: 10 },
+  light: { color: colors.white },
+  title: { fontFamily: fonts.display, fontSize: 26, letterSpacing: -0.5, color: colors.white, textAlign: 'center' },
+  hint: { flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: ui.space.xs + 2, marginTop: ui.space.s },
+  hintLabel: { fontFamily: fonts.heavy, fontSize: 13, color: colors.white, marginRight: 2 },
+  board: { flex: 1, minHeight: 0, alignItems: 'center', justifyContent: 'center', overflow: 'hidden' },
+  words: { flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'center', rowGap: 10, columnGap: 12 },
   word: { flexDirection: 'row', alignItems: 'center', gap: 4 },
-  tile: {
-    backgroundColor: colors.surface,
-    borderWidth: 2,
-    borderColor: colors.ink,
-    borderBottomWidth: 4,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  tileShown: { backgroundColor: palette.sun },
-  tileMissed: { backgroundColor: colors.dangerSoft, borderColor: colors.danger },
-  tileText: { fontFamily: fonts.display, color: colors.ink },
-  punct: { fontFamily: fonts.display, color: colors.ink, textAlign: 'center' },
-  verdict: { fontFamily: fonts.heavy, fontSize: 14, color: colors.muted, marginBottom: 10 },
+  tile: { borderWidth: ui.borderThin, alignItems: 'center', justifyContent: 'center' },
+  tileHidden: { backgroundColor: HIDDEN_BG, borderColor: alpha(colors.white, 0.22) },
+  tileDash: { height: 3, borderRadius: 2, backgroundColor: alpha(colors.white, 0.55), marginTop: '45%' },
+  tileText: { fontFamily: fonts.heavy },
+  punct: { fontFamily: fonts.display, color: colors.white, textAlign: 'center' },
+  verdict: { fontFamily: fonts.heavy, fontSize: 15, color: colors.sun, marginBottom: 12 },
   keyboard: { gap: 6, alignItems: 'center' },
   keyRow: { flexDirection: 'row', justifyContent: 'center' },
   key: {
-    borderRadius: 8,
-    borderWidth: 2,
-    borderBottomWidth: 3,
-    borderColor: colors.ink,
     backgroundColor: colors.surface,
+    borderWidth: ui.borderThin,
+    borderColor: colors.ink,
     alignItems: 'center',
     justifyContent: 'center',
   },
-  keyGood: { backgroundColor: palette.mint, borderColor: palette.mint },
-  keyBad: { backgroundColor: colors.missed, borderColor: colors.missed },
-  keyText: { fontFamily: fonts.heavy, fontSize: 16, color: colors.ink },
+  keyGood: { backgroundColor: colors.mint, borderColor: colors.mint },
+  keyBad: { backgroundColor: 'transparent', borderColor: alpha(colors.white, 0.25) },
+  keyText: { fontFamily: fonts.heavy, fontSize: 17, color: colors.ink },
   resultLines: { flexDirection: 'row', justifyContent: 'center', alignItems: 'center', gap: 5, marginVertical: 8 },
 });

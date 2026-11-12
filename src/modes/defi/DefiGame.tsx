@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from 'react';
-import { Pressable, StyleSheet, Text, View } from 'react-native';
+import { Animated, Pressable, StyleSheet, Text, View } from 'react-native';
 import { track } from '../../analytics';
 import { Button, Stat, sharedStyles } from '../../components/Button';
 import { CriterionLabel } from '../../components/CriterionLabel';
@@ -20,10 +20,25 @@ import {
 } from '../../game/storage';
 import type { LineId, Station } from '../../game/types';
 import { onGameFinished } from '../../store/review';
-import { colors, fonts, palette } from '../../theme';
+import { DayHeader } from '../../components/DayHeader';
+import { MetroTrain } from '../../design/MetroTrain';
+import { usePop } from '../../design/motion';
+import { Card, Plaque } from '../../design/ui';
+import { colors, fonts, textOn, ui, type ScreenId } from '../../theme';
 import { DEFI_MAX_ERRORS, defiSignature, generateDefi } from './defi';
 
-export function DefiGame({ day, width, onDone }: { day: string; width: number; onDone: (done: boolean) => void }) {
+export function DefiGame({
+  day,
+  width,
+  onDone,
+  onScreen,
+}: {
+  day: string;
+  width: number;
+  onDone: (done: boolean) => void;
+  /** Fond à afficher : violet pendant le défi, menthe pour les réponses (charte). */
+  onScreen: (screen: ScreenId) => void;
+}) {
   const defi = useMemo(() => generateDefi(day), [day]);
   const total = defi.answers.length;
   const [found, setFound] = useState<string[]>([]);
@@ -38,6 +53,10 @@ export function DefiGame({ day, width, onDone }: { day: string; width: number; o
   const [copied, setCopied] = useState(false);
   const [info, setInfo] = useState<'a' | 'b' | null>(null);
   const [listH, setListH] = useState(0);
+  /** La rame traverse l'écran avant les réponses. */
+  const [train, setTrain] = useState(false);
+  const popA = usePop(80, day);
+  const popB = usePop(220, day);
 
   useEffect(() => {
     (async () => {
@@ -47,21 +66,32 @@ export function DefiGame({ day, width, onDone }: { day: string; width: number; o
         setErrors(saved.errors);
         setFinished(saved.finished);
         setGaveUp(saved.gaveUp);
+        if (saved.finished) onScreen('reponse');
       }
       setStats(s);
       setLoaded(true);
     })();
+    return () => onScreen('defi');
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [day, defi]);
 
   const finish = async (finalFound: string[], finalErrors: number, abandoned: boolean) => {
-    setFinished(true);
+    setSearching(false);
+    setTrain(true);
     setGaveUp(abandoned);
     onDone(true);
     await saveDefi(day, { defi: defiSignature(defi), found: finalFound, errors: finalErrors, finished: true, gaveUp: abandoned });
     setStats(await recordMode('defi', day, addDays(day, -1), finalFound.length === total));
     track('game_finished', { game: 'defi', found: finalFound.length, total, errors: finalErrors, gave_up: abandoned });
     onGameFinished(finalFound.length === total ? 9 : 0);
-    setTimeout(() => setShowResult(true), 400);
+  };
+
+  /** Fin du passage de la rame : écran des réponses sur fond menthe, puis le résultat. */
+  const afterTrain = () => {
+    setTrain(false);
+    setFinished(true);
+    onScreen('reponse');
+    setTimeout(() => setShowResult(true), 700);
   };
 
   const submit = (station: Station) => {
@@ -101,109 +131,137 @@ export function DefiGame({ day, width, onDone }: { day: string; width: number; o
 
   if (!loaded) return <View style={{ flex: 1 }} />;
 
-  // Pendant la partie : les stations trouvées puis des cases vides. À la fin : toutes les réponses.
-  const shown: (string | null)[] = finished
-    ? [...found, ...defi.answers.filter((id) => !found.includes(id))]
-    : [...found, ...Array(total - found.length).fill(null)];
-  const tile = Math.min(110, Math.floor((width - 40) / 2));
-  // Les cases rétrécissent pour que toutes les réponses tiennent sans défilement (jusqu'à 8),
-  // sur 3 colonnes si l'écran est vraiment petit.
-  const GAP = 6;
-  const fit = (cols: number) => {
-    const rows = Math.ceil(shown.length / cols);
-    return listH ? Math.floor((listH - GAP * (rows - 1)) / rows) : 44;
-  };
-  const cols = fit(2) >= 30 ? 2 : 3;
-  const chipH = Math.max(24, Math.min(48, fit(cols)));
-  const chipW = cols === 2 ? '48%' : '31.5%';
-  const tiny = chipH < 38;
+  const caseW = Math.min(118, Math.floor((width - 56) / 2));
+  const caseH = Math.min(caseW, 96);
+  const whiteText = { color: colors.white };
 
   return (
     <>
-      <View style={[sharedStyles.ticket, { width }]}>
-        <View>
-          <Text style={sharedStyles.ticketMain}>Défi n°{dayNumber(day)}</Text>
-          <Text style={sharedStyles.ticketSub}>{formatDay(day)}</Text>
-        </View>
-        <Text style={styles.count}>
-          {found.length}
-          <Text style={styles.countTotal}>/{total}</Text>
-        </Text>
-      </View>
-
-      <View style={[styles.criteria, { width }]}>
-        <Pressable
-          style={[styles.criterion, { width: tile, height: Math.min(tile, 92) }]}
-          onPress={() => setInfo('a')}
-          accessibilityLabel={`Critère : ${defi.a.label}`}
-        >
-          <CriterionLabel criterion={defi.a} size={Math.min(tile, 92)} />
-        </Pressable>
-        <Text style={styles.times}>×</Text>
-        <Pressable
-          style={[styles.criterion, { width: tile, height: Math.min(tile, 92) }]}
-          onPress={() => setInfo('b')}
-          accessibilityLabel={`Critère : ${defi.b.label}`}
-        >
-          <CriterionLabel criterion={defi.b} size={Math.min(tile, 92)} />
-        </Pressable>
-      </View>
-      <Text style={styles.goal}>
-        {finished ? 'Toutes les réponses' : `Trouve les ${total} stations qui remplissent les deux critères`}
-      </Text>
-
-      <View style={[styles.list, { width }]} onLayout={(e) => setListH(e.nativeEvent.layout.height)}>
-        {shown.map((id, i) => {
-          const s = id ? STATION_BY_ID.get(id) : undefined;
-          const mine = !!id && found.includes(id);
-          return (
-            <View
-              key={id ?? `vide-${i}`}
-              style={[
-                styles.chip,
-                { width: chipW, height: chipH, paddingVertical: tiny ? 2 : 6 },
-                !s && styles.chipEmpty,
-                s && !mine && styles.chipMissed,
-                mine && styles.chipFound,
-              ]}
-            >
-              {s ? (
-                <>
-                  <Text
-                    style={[styles.chipName, tiny && { fontSize: 11 }, !mine && { color: colors.muted }]}
-                    numberOfLines={tiny ? 1 : 2}
-                  >
-                    {s.name}
-                  </Text>
-                  {!tiny && (
-                  <View style={styles.badges}>
-                    {s.lines.slice(0, 5).map((l) => (
-                      <LineBadge key={l} line={l as LineId} size={15} />
-                    ))}
+      {finished ? (
+        <>
+          <Plaque label="Réponse" style={{ marginTop: 2 }} />
+          <Text style={[styles.answerTitle, { color: textOn(colors.mint, 24) }]} numberOfLines={2}>
+            {defi.a.label} × {defi.b.label}
+          </Text>
+          <Card style={[styles.answerCard, { width }]}>
+            <View style={{ flex: 1 }} onLayout={(e) => setListH(e.nativeEvent.layout.height)}>
+              {[...found, ...defi.answers.filter((id) => !found.includes(id))].map((id) => {
+                const s = STATION_BY_ID.get(id)!;
+                const mine = found.includes(id);
+                const rowH = listH ? Math.min(46, listH / total) : 40;
+                return (
+                  <View key={id} style={[styles.answerRow, { height: rowH }]}>
+                    <View style={[styles.mark, mine ? styles.markMine : styles.markMissed]}>
+                      <Text style={[styles.markText, { color: mine ? colors.ink : colors.muted }]}>{mine ? '✓' : '–'}</Text>
+                    </View>
+                    <Text
+                      style={[styles.answerName, !mine && { color: colors.muted }, rowH < 34 && { fontSize: 13 }]}
+                      numberOfLines={1}
+                    >
+                      {s.name}
+                    </Text>
+                    <View style={styles.badges}>
+                      {s.lines.slice(0, 5).map((l) => (
+                        <LineBadge key={l} line={l as LineId} size={rowH < 34 ? 16 : 20} />
+                      ))}
+                    </View>
                   </View>
-                  )}
-                </>
-              ) : (
-                <Text style={styles.chipQ}>?</Text>
-              )}
+                );
+              })}
             </View>
-          );
-        })}
-      </View>
+          </Card>
+          <Text style={[styles.howMany, { color: textOn(colors.mint, 24) }]}>
+            Tu en avais {found.length} sur {total}
+          </Text>
+          <View style={sharedStyles.actions}>
+            <Button label="Voir mon résultat" onPress={() => setShowResult(true)} primary />
+          </View>
+        </>
+      ) : (
+        <>
+          <DayHeader
+            width={width}
+            title={`Défi n°${dayNumber(day)}`}
+            sub={formatDay(day)}
+            right={
+              <Text style={styles.count}>
+                {found.length}
+                <Text style={styles.countTotal}>/{total}</Text>
+              </Text>
+            }
+          />
+          <View style={[styles.criteria, { width }]}>
+            <Animated.View style={[popA, { transform: [...popA.transform, { rotate: '-3deg' }] }]}>
+              <Pressable
+                style={[styles.criterion, { width: caseW, height: caseH }]}
+                onPress={() => setInfo('a')}
+                accessibilityRole="button"
+                accessibilityLabel={`Critère : ${defi.a.label}`}
+              >
+                <CriterionLabel criterion={defi.a} size={caseW} height={caseH} />
+              </Pressable>
+            </Animated.View>
+            <Text style={styles.times}>×</Text>
+            <Animated.View style={[popB, { transform: [...popB.transform, { rotate: '3deg' }] }]}>
+              <Pressable
+                style={[styles.criterion, { width: caseW, height: caseH }]}
+                onPress={() => setInfo('b')}
+                accessibilityRole="button"
+                accessibilityLabel={`Critère : ${defi.b.label}`}
+              >
+                <CriterionLabel criterion={defi.b} size={caseW} height={caseH} />
+              </Pressable>
+            </Animated.View>
+          </View>
+          <Text style={[styles.goal, whiteText]}>Trouve les {total} stations qui cochent les deux</Text>
+          <View style={[styles.list, { width }]} onLayout={(e) => setListH(e.nativeEvent.layout.height)}>
+            {(() => {
+              // Toutes les cases tiennent sans défilement (jusqu'à 8), sur 3 colonnes si l'écran est petit.
+              const GAP = ui.space.s;
+              const fit = (cols: number) => {
+                const rows = Math.ceil(total / cols);
+                return listH ? Math.floor((listH - GAP * (rows - 1)) / rows) : 44;
+              };
+              const cols = fit(2) >= 34 ? 2 : 3;
+              const chipH = Math.max(28, Math.min(52, fit(cols)));
+              const chipW = (width - GAP * (cols - 1)) / cols;
+              const tiny = chipH < 40;
+              return [...found, ...Array(total - found.length).fill(null)].map((id: string | null, i) => {
+                const s = id ? STATION_BY_ID.get(id) : undefined;
+                return s ? (
+                  <View key={id} style={[styles.chip, { width: chipW, height: chipH, borderRadius: ui.radiusFor(chipH) }]}>
+                    <Text style={[styles.chipName, tiny && { fontSize: 12 }]} numberOfLines={tiny ? 1 : 2}>
+                      {s.name}
+                    </Text>
+                    {!tiny && (
+                      <View style={styles.badges}>
+                        {s.lines.slice(0, 5).map((l) => (
+                          <LineBadge key={l} line={l as LineId} size={15} />
+                        ))}
+                      </View>
+                    )}
+                  </View>
+                ) : (
+                  <View
+                    key={`vide-${i}`}
+                    style={[styles.chip, styles.mystery, { width: chipW, height: chipH, borderRadius: ui.radiusFor(chipH) }]}
+                  >
+                    <Text style={[styles.chipQ, { fontSize: Math.min(26, chipH * 0.6) }]}>?</Text>
+                  </View>
+                );
+              });
+            })()}
+          </View>
 
-      <View style={[sharedStyles.status, { width: width - 24 }]}>
-        <View style={sharedStyles.statusRow}>
-          <Text style={sharedStyles.statusLabel}>{finished ? 'Terminé' : 'Erreurs possibles'}</Text>
-          <Text style={sharedStyles.statusValue}>{finished ? `${found.length}/${total}` : DEFI_MAX_ERRORS - errors}</Text>
-        </View>
-        <TicketTrack total={DEFI_MAX_ERRORS} used={errors} />
-      </View>
+          <View style={[sharedStyles.status, { width: width - 24 }]}>
+            <View style={sharedStyles.statusRow}>
+              <Text style={[sharedStyles.statusLabel, whiteText]}>Erreurs possibles</Text>
+              <Text style={[sharedStyles.statusValue, whiteText]}>{DEFI_MAX_ERRORS - errors}</Text>
+            </View>
+            <TicketTrack total={DEFI_MAX_ERRORS} used={errors} />
+          </View>
 
-      <View style={sharedStyles.actions}>
-        {finished ? (
-          <Button label="Voir le résultat" onPress={() => setShowResult(true)} primary />
-        ) : (
-          <>
+          <View style={sharedStyles.actions}>
             <Button label="J'abandonne" tone="danger" onPress={() => finish(found, errors, true)} />
             <Button
               label="Proposer une station"
@@ -213,9 +271,11 @@ export function DefiGame({ day, width, onDone }: { day: string; width: number; o
                 setSearching(true);
               }}
             />
-          </>
-        )}
-      </View>
+          </View>
+        </>
+      )}
+
+      {train && <MetroTrain onDone={afterTrain} />}
 
       <SearchModal
         visible={searching}
@@ -243,7 +303,7 @@ export function DefiGame({ day, width, onDone }: { day: string; width: number; o
           {found.length}/{total}
         </Text>
         <Text style={[infoStyles.p, { textAlign: 'center' }]}>
-          {defi.a.label} × {defi.b.label}. Toutes les réponses sont affichées sous les critères. Nouveau défi demain !
+          {defi.a.label} × {defi.b.label}. Nouveau défi demain !
         </Text>
         <View style={sharedStyles.stats}>
           <Stat value={stats.played} label="Défis" />
@@ -258,12 +318,12 @@ export function DefiGame({ day, width, onDone }: { day: string; width: number; o
 }
 
 const styles = StyleSheet.create({
-  count: { fontFamily: fonts.display, fontSize: 24, color: '#FFFFFF' },
-  countTotal: { fontSize: 16, color: palette.sun },
-  criteria: { flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 8, marginTop: 2 },
+  count: { fontFamily: fonts.display, fontSize: 24, color: colors.white },
+  countTotal: { fontSize: 16, color: colors.sun },
+  criteria: { flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: ui.space.m, marginTop: ui.space.xs },
   criterion: { alignItems: 'stretch', justifyContent: 'center' },
-  times: { fontFamily: fonts.display, fontSize: 26, color: palette.sun },
-  goal: { fontFamily: fonts.bold, fontSize: 13, color: colors.muted, textAlign: 'center', marginTop: 6, marginBottom: 6 },
+  times: { fontFamily: fonts.display, fontSize: 30, color: colors.sun },
+  goal: { fontFamily: fonts.heavy, fontSize: 14, textAlign: 'center', marginTop: ui.space.m, marginBottom: ui.space.m },
   list: {
     flex: 1,
     minHeight: 0,
@@ -271,23 +331,34 @@ const styles = StyleSheet.create({
     flexWrap: 'wrap',
     alignContent: 'flex-start',
     justifyContent: 'center',
-    gap: 6,
+    gap: ui.space.s,
     overflow: 'hidden',
   },
   chip: {
-    borderRadius: 12,
     paddingHorizontal: 10,
-    paddingVertical: 6,
     backgroundColor: colors.surface,
-    borderWidth: 2,
-    borderColor: colors.border,
+    borderWidth: ui.border,
+    borderColor: colors.ink,
     justifyContent: 'center',
     gap: 3,
   },
-  chipEmpty: { borderStyle: 'dashed', alignItems: 'center', backgroundColor: 'transparent' },
-  chipFound: { borderColor: palette.mint, backgroundColor: '#E3F7F0' },
-  chipMissed: { backgroundColor: colors.missed, borderColor: colors.missed },
+  mystery: { borderStyle: 'dashed', alignItems: 'center' },
   chipName: { fontFamily: fonts.heavy, fontSize: 13, color: colors.ink },
-  chipQ: { fontFamily: fonts.display, fontSize: 18, color: colors.border },
-  badges: { flexDirection: 'row', gap: 2 },
+  chipQ: { fontFamily: fonts.display, color: colors.blue },
+  badges: { flexDirection: 'row', gap: 3 },
+  answerTitle: { fontFamily: fonts.display, fontSize: 26, letterSpacing: -0.5, textAlign: 'center', marginTop: ui.space.m, marginBottom: ui.space.m },
+  answerCard: { flex: 1, minHeight: 0, paddingHorizontal: ui.space.l, paddingVertical: ui.space.s },
+  answerRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: ui.space.s,
+    borderBottomWidth: StyleSheet.hairlineWidth,
+    borderBottomColor: colors.border,
+  },
+  mark: { width: 22, height: 22, borderRadius: 11, alignItems: 'center', justifyContent: 'center' },
+  markMine: { backgroundColor: colors.mint },
+  markMissed: { backgroundColor: colors.missed },
+  markText: { fontFamily: fonts.heavy, fontSize: 12 },
+  answerName: { flex: 1, fontFamily: fonts.heavy, fontSize: 15, color: colors.ink },
+  howMany: { fontFamily: fonts.display, fontSize: 24, textAlign: 'center', marginTop: ui.space.l },
 });

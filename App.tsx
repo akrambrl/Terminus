@@ -10,6 +10,9 @@ import { dailyNumber, dailySeed, generatePuzzle, puzzleSignature } from './src/g
 import { addDays, currentDayKey } from './src/game/day';
 import { Button, Stat } from './src/components/Button';
 import { ModeTabs, type GameTab } from './src/components/ModeTabs';
+import { DayHeader } from './src/components/DayHeader';
+import { BrickWall } from './src/design/ui';
+import { screens, ui, type ScreenId } from './src/theme';
 import { shareMessage } from './src/components/share';
 import { DefiGame } from './src/modes/defi/DefiGame';
 import { DEFI_MAX_ERRORS } from './src/modes/defi/defi';
@@ -59,12 +62,6 @@ import { Intro } from './src/components/Intro';
 import { AdBanner } from './src/ads/AdBanner';
 import { adsActive } from './src/ads/config';
 import { useFonts } from 'expo-font';
-// Import poids par poids pour n'embarquer que les fichiers de police utilisés.
-import { BricolageGrotesque_800ExtraBold } from '@expo-google-fonts/bricolage-grotesque/800ExtraBold';
-import { Figtree_500Medium } from '@expo-google-fonts/figtree/500Medium';
-import { Figtree_700Bold } from '@expo-google-fonts/figtree/700Bold';
-import { Figtree_800ExtraBold } from '@expo-google-fonts/figtree/800ExtraBold';
-
 /** Erreurs permises par grille : les bonnes réponses ne coûtent rien. */
 const MAX_ERRORS = 3;
 type Mode = 'daily' | 'free';
@@ -85,16 +82,17 @@ export default function App() {
 }
 
 function Game() {
-  const { width } = useWindowDimensions();
+  const { width, height } = useWindowDimensions();
+  // Polices de la charte, embarquées dans l'app (aucun chargement depuis Internet).
   const [fontsLoaded, fontError] = useFonts({
-    BricolageGrotesque_800ExtraBold,
-    Figtree_500Medium,
-    Figtree_700Bold,
-    Figtree_800ExtraBold,
+    [fonts.display]: require('./assets/fonts/BricolageGrotesque-ExtraBold.ttf'),
+    [fonts.bold]: require('./assets/fonts/Figtree-Bold.ttf'),
+    [fonts.heavy]: require('./assets/fonts/Figtree-ExtraBold.ttf'),
   });
   const [day] = useState(currentDayKey);
   const [tab, setTab] = useState<GameTab>('grille');
   const [done, setDone] = useState<Record<GameTab, boolean>>({ grille: false, defi: false, pendu: false });
+  const [defiScreen, setDefiScreen] = useState<ScreenId>('defi');
   const markDone = useCallback((t: GameTab) => setDone((d) => (d[t] ? d : { ...d, [t]: true })), []);
   const [mode, setMode] = useState<Mode>('daily');
   const [freeSeed, setFreeSeed] = useState(() => `libre-${Date.now()}`);
@@ -327,29 +325,37 @@ function Game() {
   const activeRow = active ? puzzle.rows[active.row] : undefined;
   const activeCol = active ? puzzle.cols[active.col] : undefined;
 
-  if (!loaded || !(fontsLoaded || fontError)) return <View style={styles.screen} />;
+  if (!loaded || !(fontsLoaded || fontError)) return <View style={[styles.screen, { backgroundColor: colors.background }]} />;
+
+  // Fond de l'écran (charte) : grille sur fond clair, défi violet, réponses menthe, pendu bleu nuit.
+  const screen: ScreenId = tab === 'grille' ? 'grille' : tab === 'defi' ? defiScreen : 'pendu';
+  const dark = screens[screen].dark;
 
   return (
     <View style={styles.root}>
+    <BrickWall screen={screen} />
     <SafeAreaView style={styles.screen} edges={adsActive ? ['top', 'left', 'right'] : undefined}>
-      <StatusBar style="dark" />
+      <StatusBar style={dark ? 'light' : 'dark'} />
       <View style={[styles.content, { paddingTop: WEB_TOP_GAP }]}>
         <View style={[styles.header, { width: contentWidth }]}>
-          <Logo tile={Math.min(36, (contentWidth - 60) / 8.6)} />
-          <Pressable onPress={() => { setShowHelp(true); track('help_opened', { game: tab }); }} style={styles.helpButton} accessibilityLabel="Règles du jeu">
+          <Logo tile={Math.min(dark ? (height < 700 ? 22 : 30) : 34, (contentWidth - 90) / 8.6)} plaque={dark} />
+          <Pressable onPress={() => { setShowHelp(true); track('help_opened', { game: tab }); }} style={styles.helpButton} accessibilityRole="button" accessibilityLabel="Règles du jeu">
             <Text style={styles.helpText}>?</Text>
           </Pressable>
         </View>
         <ModeTabs
           value={tab}
           done={done}
+          dark={dark}
           width={contentWidth}
           onChange={(t) => {
             if (t !== tab) track('mode_selected', { game: t, already_played: done[t] });
             setTab(t);
           }}
         />
-        {tab === 'defi' && <DefiGame day={day} width={contentWidth} onDone={() => markDone('defi')} />}
+        {tab === 'defi' && (
+          <DefiGame day={day} width={contentWidth} onDone={() => markDone('defi')} onScreen={setDefiScreen} />
+        )}
         {tab === 'pendu' && (
           <PenduGame
             day={day}
@@ -360,15 +366,12 @@ function Game() {
         )}
         {tab === 'grille' && (
         <>
-        <View style={[styles.ticket, { width: contentWidth }]}>
-          <View>
-            <Text style={styles.ticketMain}>
-              {mode === 'daily' ? `Grille n°${dailyNumber(day)}` : 'Grille en plus'}
-            </Text>
-            <Text style={styles.ticketSub}>{mode === 'daily' ? formatDay(day) : `${GRID_COST} pièce la grille`}</Text>
-          </View>
-          <CoinPill coins={coins} />
-        </View>
+        <DayHeader
+          width={contentWidth}
+          title={mode === 'daily' ? `Grille n°${dailyNumber(day)}` : 'Grille en plus'}
+          sub={mode === 'daily' ? formatDay(day) : `${GRID_COST} pièce la grille`}
+          right={<CoinPill coins={coins} />}
+        />
 
         <View
           style={styles.gridArea}
@@ -639,7 +642,7 @@ function formatDay(day: string) {
 
 const styles = StyleSheet.create({
   root: { flex: 1, backgroundColor: colors.ink },
-  screen: { flex: 1, backgroundColor: colors.background },
+  screen: { flex: 1, backgroundColor: 'transparent' },
   content: { flex: 1, alignItems: 'center', paddingHorizontal: 16, paddingBottom: 12 },
   gridArea: { flex: 1, alignSelf: 'stretch', alignItems: 'center', justifyContent: 'center', minHeight: 0 },
   header: {
@@ -650,48 +653,22 @@ const styles = StyleSheet.create({
     paddingBottom: 10,
   },
   helpButton: {
-    width: 38,
-    height: 38,
-    borderRadius: 19,
+    width: ui.touch,
+    height: ui.touch,
+    borderRadius: ui.radiusPill,
     backgroundColor: palette.sun,
+    borderWidth: ui.border,
+    borderColor: colors.ink,
     alignItems: 'center',
     justifyContent: 'center',
   },
   helpText: { fontSize: 20, fontFamily: fonts.display, color: colors.ink },
-  ticket: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    backgroundColor: colors.ink,
-    borderRadius: 12,
-    paddingHorizontal: 14,
-    paddingVertical: 8,
-    marginBottom: 8,
-  },
-  ticketMain: { fontFamily: fonts.display, fontSize: 17, color: '#FFFFFF' },
-  ticketSub: { fontFamily: fonts.bold, fontSize: 12, color: palette.sun, textTransform: 'uppercase', letterSpacing: 1, marginTop: 2 },
   status: { marginTop: 8, gap: 8 },
   statusRow: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'baseline' },
-  statusLabel: { fontFamily: fonts.heavy, fontSize: 13, color: colors.muted, textTransform: 'uppercase', letterSpacing: 1 },
+  statusLabel: { fontFamily: fonts.heavy, fontSize: 13, color: colors.muted, textTransform: 'uppercase', letterSpacing: 1.8 },
   statusValue: { fontFamily: fonts.display, fontSize: 22, color: colors.ink },
   actions: { flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'center', gap: 10, marginTop: 14 },
-  button: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 6,
-    paddingVertical: 12,
-    paddingHorizontal: 20,
-    borderRadius: 14,
-    borderWidth: 2,
-    borderBottomWidth: 4,
-    borderColor: colors.ink,
-    backgroundColor: colors.surface,
-  },
-  buttonPrimary: { backgroundColor: palette.ultramarine, borderColor: colors.ink, alignSelf: 'center' },
-  buttonDanger: { borderColor: colors.danger },
-  buttonText: { fontSize: 15, fontFamily: fonts.heavy, color: colors.ink },
-  buttonTextPrimary: { color: '#fff' },
-  bigScore: { fontSize: 64, fontFamily: fonts.display, color: palette.ultramarine, textAlign: 'center' },
+  bigScore: { fontSize: 64, fontFamily: fonts.display, color: palette.ultramarine, textAlign: 'center', letterSpacing: -1.3 },
   stats: { flexDirection: 'row', justifyContent: 'space-around', marginTop: 8 },
   stat: { alignItems: 'center' },
   statValue: { fontSize: 26, fontFamily: fonts.display, color: colors.ink },
@@ -705,7 +682,7 @@ const styles = StyleSheet.create({
     borderBottomColor: colors.border,
   },
   answerName: { fontSize: 15, fontFamily: fonts.bold, color: colors.ink, flexShrink: 1 },
-  answerMine: { fontFamily: fonts.heavy, color: palette.mint },
+  answerMine: { fontFamily: fonts.heavy, color: colors.ink, textDecorationLine: 'underline', textDecorationColor: palette.mint },
   answerLines: { flexDirection: 'row', alignItems: 'center', gap: 3 },
   privacyLinks: { marginTop: 12, gap: 8 },
   privacyLink: { fontFamily: fonts.bold, fontSize: 14, color: palette.ultramarine, textDecorationLine: 'underline' },
@@ -714,7 +691,7 @@ const styles = StyleSheet.create({
   rer: {
     fontFamily: fonts.heavy,
     fontSize: 10,
-    color: '#FFFFFF',
+    color: colors.white,
     backgroundColor: colors.ink,
     borderRadius: 5,
     paddingHorizontal: 5,

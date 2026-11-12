@@ -14,7 +14,7 @@ import {
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { searchStations } from '../game/lookup';
 import type { Criterion, Station } from '../game/types';
-import { colors, fonts, WEB_TOP_GAP } from '../theme';
+import { colors, fonts, ui, WEB_TOP_GAP } from '../theme';
 
 interface Props {
   visible: boolean;
@@ -186,23 +186,26 @@ const styles = StyleSheet.create({
   title: { fontFamily: fonts.display, fontSize: 20, color: colors.ink },
   times: { color: colors.gold },
   subtitle: { fontFamily: fonts.body, fontSize: 13, color: colors.muted, marginTop: 2 },
-  cancel: { paddingVertical: 8, paddingLeft: 8 },
+  cancel: { minHeight: ui.touch, justifyContent: 'center', paddingLeft: 8 },
   cancelText: { fontFamily: fonts.heavy, fontSize: 16, color: colors.accent },
   feedback: {
     marginTop: 10,
     backgroundColor: colors.dangerSoft,
-    color: colors.danger,
+    color: colors.ink,
+    borderWidth: ui.borderThin,
+    borderColor: colors.danger,
     padding: 10,
-    borderRadius: 10,
+    borderRadius: ui.radiusFor(44),
     textAlign: 'center',
     fontFamily: fonts.bold,
   },
   input: {
     marginTop: 12,
     backgroundColor: colors.surface,
-    borderWidth: 2,
-    borderColor: colors.accent,
-    borderRadius: 14,
+    borderWidth: ui.border,
+    borderColor: colors.ink,
+    borderRadius: ui.radiusPill,
+    minHeight: ui.touch,
     paddingHorizontal: 14,
     paddingVertical: 12,
     fontSize: 17,
@@ -211,6 +214,7 @@ const styles = StyleSheet.create({
   },
   list: { flex: 1, marginTop: 8 },
   item: {
+    minHeight: ui.touch,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
@@ -229,9 +233,9 @@ const styles = StyleSheet.create({
   helpIntro: { fontFamily: fonts.body, fontSize: 14, color: colors.muted },
   helpItem: {
     backgroundColor: colors.surface,
-    borderRadius: 12,
+    borderRadius: ui.radiusFor(60),
     padding: 12,
-    borderWidth: 1,
+    borderWidth: ui.borderThin,
     borderColor: colors.border,
     gap: 4,
   },

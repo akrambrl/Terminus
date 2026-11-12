@@ -1,3 +1,4 @@
+import { colors } from '../theme';
 import Svg, { Circle, Path, Polygon, Rect } from 'react-native-svg';
 
 export type MonumentId = 'eiffel' | 'arc' | 'sacre-coeur' | 'notre-dame';
@@ -7,7 +8,7 @@ export type MonumentId = 'eiffel' | 'arc' | 'sacre-coeur' | 'notre-dame';
  * la couleur de l'affiche. `bg` sert à « creuser » les arches et la rosace.
  */
 export function Monument({ id, size, bg }: { id: MonumentId; size: number; bg: string }) {
-  const fill = '#FFFFFF';
+  const fill = colors.white;
   return (
     <Svg width={size} height={size * 1.2} viewBox="0 0 100 120">
       {id === 'eiffel' && (

@@ -29,6 +29,23 @@ Monnaie virtuelle, jamais achetée avec de l'argent réel (`src/game/coins.ts`) 
 
 Le solde est stocké sur l'appareil (AsyncStorage / localStorage sur le web).
 
+## Direction artistique
+
+La charte est dans `terminus-kit/` (`DIRECTION-ARTISTIQUE.md`, `tokens.css`, polices, visuels).
+
+- `terminus-kit/tokens.css` est la source de vérité : `node scripts/sync-tokens.js` génère
+  `src/design/tokens.ts` ; `src/theme.ts` n'en fait que des choix d'usage (aucune couleur écrite en dur
+  dans les composants). Les valeurs de la charte (prévues pour des visuels de 1080 px) sont mises à
+  l'échelle de l'écran dans `ui` (bordures ~65 %, ombre pleine ~42 %, rayons ≈ 22 % du côté).
+- Polices du kit en local : `assets/fonts/*.ttf` (converties des woff2 du kit, iOS et Android ne lisant
+  pas le woff2), chargées par `useFonts` ; plus aucun paquet `@expo-google-fonts`.
+- Composants : `src/design/ui.tsx` (mur de briques, plaque, bouton pilule, carte, ombre pleine),
+  `src/design/MetroTrain.tsx` (rame de transition), `src/design/motion.ts` (apparitions « pop »,
+  `useReducedMotion`).
+- Fonds : grille sur fond clair, défi violet, réponses du défi menthe, pendu bleu nuit.
+- Contraste : `textOn(fond, taille)` applique la règle de la charte (blanc sur tomate, menthe ou rose
+  seulement à 24 px et plus). Zones tactiles de 44 px minimum.
+
 ## Les trois jeux du jour
 
 Onglets **Grille · Défi · Pendu** sous le logo (une ✓ quand le jeu du jour est terminé).

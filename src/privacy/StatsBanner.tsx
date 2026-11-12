@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Linking, Pressable, StyleSheet, Text, View } from 'react-native';
-import { colors, fonts, palette } from '../theme';
+import { alpha, colors, fonts, palette, ui } from '../theme';
 import { getWebChoice, setWebChoice } from './consent';
 import { PRIVACY_URL } from './links';
 
@@ -32,7 +32,7 @@ export function StatsBanner({ refreshKey }: { refreshKey: number }) {
       </Text>
       <View style={styles.buttons}>
         <Pressable style={[styles.button, styles.refuse]} onPress={() => choose(false)}>
-          <Text style={[styles.buttonText, { color: '#FFFFFF' }]}>Refuser</Text>
+          <Text style={[styles.buttonText, { color: colors.white }]}>Refuser</Text>
         </Pressable>
         <Pressable style={styles.button} onPress={() => choose(true)}>
           <Text style={styles.buttonText}>Accepter</Text>
@@ -49,10 +49,10 @@ const styles = StyleSheet.create({
     paddingVertical: 12,
     gap: 10,
   },
-  text: { fontFamily: fonts.body, fontSize: 13, lineHeight: 18, color: 'rgba(255,255,255,0.85)' },
+  text: { fontFamily: fonts.body, fontSize: 13, lineHeight: 18, color: alpha(colors.white, 0.9) },
   link: { color: palette.sun, textDecorationLine: 'underline' },
   buttons: { flexDirection: 'row', gap: 10 },
-  button: { flex: 1, backgroundColor: palette.sun, borderRadius: 10, paddingVertical: 10, alignItems: 'center' },
-  refuse: { backgroundColor: 'transparent', borderWidth: 1.5, borderColor: 'rgba(255,255,255,0.7)' },
+  button: { flex: 1, backgroundColor: palette.sun, borderRadius: ui.radiusPill, minHeight: ui.touch, justifyContent: 'center', alignItems: 'center' },
+  refuse: { backgroundColor: 'transparent', borderWidth: ui.border, borderColor: colors.white },
   buttonText: { fontFamily: fonts.heavy, fontSize: 14, color: colors.ink },
 });

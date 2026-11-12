@@ -1,6 +1,7 @@
 import type { ReactNode } from 'react';
 import { Modal, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
-import { colors, fonts, palette } from '../theme';
+import { solidShadow } from '../design/ui';
+import { alpha, colors, fonts, ui } from '../theme';
 
 interface Props {
   visible: boolean;
@@ -16,18 +17,13 @@ export function InfoModal({ visible, title, onClose, children, footer }: Props) 
     <Modal visible={visible} animationType="fade" transparent onRequestClose={onClose}>
       <View style={styles.backdrop}>
         <Pressable style={StyleSheet.absoluteFill} onPress={onClose} accessibilityLabel="Fermer" />
-        <View style={styles.card}>
-          <View style={styles.stripe}>
-            {STRIPE.map((c) => (
-              <View key={c} style={{ flex: 1, backgroundColor: c }} />
-            ))}
-          </View>
+        <View style={[styles.card, solidShadow()]}>
           <Text style={styles.title}>{title}</Text>
           <ScrollView style={styles.body} contentContainerStyle={{ paddingBottom: 4 }}>
             {children}
           </ScrollView>
           {footer}
-          <Pressable onPress={onClose} style={styles.close}>
+          <Pressable onPress={onClose} style={styles.close} accessibilityRole="button">
             <Text style={styles.closeText}>Fermer</Text>
           </Pressable>
         </View>
@@ -35,8 +31,6 @@ export function InfoModal({ visible, title, onClose, children, footer }: Props) 
     </Modal>
   );
 }
-
-const STRIPE = [palette.ultramarine, palette.tomato, palette.sun, palette.mint, palette.pink, palette.violet];
 
 export const infoStyles = StyleSheet.create({
   p: { fontFamily: fonts.body, fontSize: 15, lineHeight: 22, color: colors.ink, marginBottom: 10 },
@@ -47,7 +41,7 @@ export const infoStyles = StyleSheet.create({
 const styles = StyleSheet.create({
   backdrop: {
     flex: 1,
-    backgroundColor: 'rgba(21,18,61,0.6)',
+    backgroundColor: alpha(colors.ink, 0.6),
     alignItems: 'center',
     justifyContent: 'center',
     padding: 20,
@@ -57,18 +51,18 @@ const styles = StyleSheet.create({
     maxWidth: 420,
     maxHeight: '85%',
     backgroundColor: colors.surface,
-    borderRadius: 22,
-    padding: 20,
-    paddingTop: 28,
-    overflow: 'hidden',
+    borderColor: colors.ink,
+    borderWidth: ui.border,
+    borderRadius: ui.radiusCard,
+    padding: ui.space.xl,
   },
-  stripe: { position: 'absolute', top: 0, left: 0, right: 0, height: 8, flexDirection: 'row' },
-  title: { fontFamily: fonts.display, fontSize: 24, color: colors.ink, marginBottom: 12 },
+  title: { fontFamily: fonts.display, fontSize: 26, letterSpacing: -0.5, lineHeight: 28, color: colors.ink, marginBottom: 12 },
   body: { flexGrow: 0 },
   close: {
-    marginTop: 12,
+    marginTop: 8,
     alignSelf: 'center',
-    paddingVertical: 8,
+    minHeight: ui.touch,
+    justifyContent: 'center',
     paddingHorizontal: 24,
   },
   closeText: { color: colors.muted, fontFamily: fonts.bold, fontSize: 15 },

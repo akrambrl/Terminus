@@ -1,7 +1,8 @@
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 import { STATION_BY_ID } from '../game/lookup';
 import type { Criterion, LineId, Puzzle, Station } from '../game/types';
-import { colors, fonts, lineColors, palette } from '../theme';
+import { solidShadow } from '../design/ui';
+import { colors, fonts, lineColors, ui } from '../theme';
 import { CriterionLabel } from './CriterionLabel';
 import { GridMark } from './Logo';
 import { LineBadge } from './LineBadge';
@@ -25,9 +26,12 @@ function cellLine(station: Station, row: Criterion, col: Criterion): LineId {
 }
 
 export function Grid({ puzzle, cells, finished, width, onPressCell, onPressCriterion }: Props) {
-  const size = Math.floor(width / 4);
+  // La grille est posée dans une carte blanche à bordure bleu nuit et ombre pleine (charte).
+  const pad = ui.space.s;
+  const size = Math.floor((width - 2 * (pad + ui.border)) / 4);
+  const radius = ui.radiusFor(size - 8);
   return (
-    <View style={{ width: size * 4 }}>
+    <View style={[styles.board, solidShadow(), { padding: pad }]}>
       <View style={styles.row}>
         <View style={[styles.corner, { width: size, height: size }]}>
           <GridMark size={size * 0.5} />
@@ -64,7 +68,8 @@ export function Grid({ puzzle, cells, finished, width, onPressCell, onPressCrite
                 onPress={() => onPressCell(i, j)}
                 style={({ pressed }) => [
                   styles.cell,
-                  { width: size - 6, height: size - 6 },
+                  { width: size - 8, height: size - 8, borderRadius: radius },
+                  !station && !finished && solidShadow(colors.border, 3),
                   tint && { backgroundColor: tint.bg, borderColor: tint.bg },
                   !station && finished && styles.cellMissed,
                   pressed && styles.pressed,
@@ -82,9 +87,7 @@ export function Grid({ puzzle, cells, finished, width, onPressCell, onPressCrite
                     </Text>
                     <View style={styles.badges}>
                       {station.lines.slice(0, 4).map((l) => (
-                        <View key={l} style={styles.badgeRing}>
-                          <LineBadge line={l as LineId} size={14} />
-                        </View>
+                        <LineBadge key={l} line={l as LineId} size={Math.max(13, Math.min(17, size * 0.17))} ring />
                       ))}
                     </View>
                   </>
@@ -106,26 +109,29 @@ export function Grid({ puzzle, cells, finished, width, onPressCell, onPressCrite
 }
 
 const styles = StyleSheet.create({
+  board: {
+    backgroundColor: colors.surface,
+    borderWidth: ui.border,
+    borderColor: colors.ink,
+    borderRadius: ui.radiusCard,
+  },
   row: { flexDirection: 'row' },
   corner: { alignItems: 'center', justifyContent: 'center' },
   header: { alignItems: 'center', justifyContent: 'center' },
   pressed: { opacity: 0.75, transform: [{ scale: 0.97 }] },
   cell: {
-    margin: 3,
-    borderRadius: 14,
+    margin: 4,
     backgroundColor: colors.surface,
-    borderWidth: 2,
+    borderWidth: ui.borderThin,
     borderColor: colors.border,
-    borderBottomWidth: 5,
     alignItems: 'center',
     justifyContent: 'center',
     padding: 4,
   },
   cellMissed: { backgroundColor: colors.missed, borderColor: colors.missed },
-  plus: { fontSize: 30, color: palette.ultramarine, fontFamily: fonts.display, opacity: 0.35 },
+  plus: { fontSize: 28, color: colors.plus, fontFamily: fonts.heavy },
   stationName: { fontFamily: fonts.heavy, fontSize: 12, lineHeight: 14, textAlign: 'center' },
   badges: { flexDirection: 'row', gap: 2, marginTop: 4 },
-  badgeRing: { borderRadius: 5, borderWidth: 1, borderColor: 'rgba(255,255,255,0.8)' },
   missedText: { color: colors.muted, fontFamily: fonts.bold, fontSize: 10, textAlign: 'center' },
   missedCount: { fontFamily: fonts.display, fontSize: 18, color: colors.ink },
 });

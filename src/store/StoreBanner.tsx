@@ -2,7 +2,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useEffect, useState } from 'react';
 import { Linking, Platform, Pressable, StyleSheet, Text, View } from 'react-native';
 import { track } from '../analytics';
-import { colors, fonts, palette } from '../theme';
+import { alpha, colors, fonts, palette, ui } from '../theme';
 import { ANDROID_PUBLISHED, APP_STORE_URL, IOS_PUBLISHED, PLAY_STORE_URL } from './links';
 
 const HIDDEN_KEY = 'terminus:store-banner-hidden';
@@ -70,16 +70,18 @@ const styles = StyleSheet.create({
     maxWidth: 480,
     marginTop: 20,
     backgroundColor: colors.ink,
-    borderRadius: 16,
+    borderRadius: ui.radiusCard,
+    borderWidth: ui.border,
+    borderColor: colors.white,
     padding: 14,
     gap: 10,
   },
   text: { gap: 2 },
-  title: { fontFamily: fonts.display, fontSize: 17, color: '#FFFFFF' },
-  sub: { fontFamily: fonts.body, fontSize: 13, color: 'rgba(255,255,255,0.75)' },
+  title: { fontFamily: fonts.display, fontSize: 17, color: colors.white },
+  sub: { fontFamily: fonts.body, fontSize: 13, color: alpha(colors.white, 0.8) },
   buttons: { flexDirection: 'row', alignItems: 'center', gap: 8 },
-  button: { backgroundColor: palette.sun, borderRadius: 10, paddingVertical: 9, paddingHorizontal: 14 },
+  button: { backgroundColor: palette.sun, borderRadius: ui.radiusPill, minHeight: ui.touch, justifyContent: 'center', paddingHorizontal: 16, borderWidth: ui.border, borderColor: colors.ink },
   buttonText: { fontFamily: fonts.heavy, fontSize: 14, color: colors.ink },
-  close: { marginLeft: 'auto', padding: 6 },
-  closeText: { color: 'rgba(255,255,255,0.6)', fontSize: 16 },
+  close: { marginLeft: 'auto', minWidth: ui.touch, minHeight: ui.touch, alignItems: 'center', justifyContent: 'center' },
+  closeText: { color: alpha(colors.white, 0.7), fontSize: 16 },
 });

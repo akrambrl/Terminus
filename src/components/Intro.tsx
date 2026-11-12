@@ -10,7 +10,7 @@ import {
   View,
 } from 'react-native';
 import Svg, { Defs, Pattern, Rect } from 'react-native-svg';
-import { colors, fonts, logoColors, palette } from '../theme';
+import { alpha, colors, fonts, logoColors, mix, palette, textOn } from '../theme';
 import { Monument, type MonumentId } from './Monuments';
 
 const LETTERS = 'TERMINUS'.split('');
@@ -31,10 +31,10 @@ function TiledWall({ width, height }: { width: number; height: number }) {
     <Svg width={width} height={height} style={StyleSheet.absoluteFill}>
       <Defs>
         <Pattern id="tiles" width={TILE_W} height={TILE_H * 2} patternUnits="userSpaceOnUse">
-          <Rect width={TILE_W} height={TILE_H * 2} fill="#D5DBF0" />
-          <Rect x={1} y={1} width={TILE_W - 2} height={TILE_H - 2} rx={3} fill="#FBFCFF" />
-          <Rect x={-TILE_W / 2 + 1} y={TILE_H + 1} width={TILE_W - 2} height={TILE_H - 2} rx={3} fill="#FBFCFF" />
-          <Rect x={TILE_W / 2 + 1} y={TILE_H + 1} width={TILE_W - 2} height={TILE_H - 2} rx={3} fill="#FBFCFF" />
+          <Rect width={TILE_W} height={TILE_H * 2} fill={colors.border} />
+          <Rect x={1} y={1} width={TILE_W - 2} height={TILE_H - 2} rx={3} fill={colors.white} />
+          <Rect x={-TILE_W / 2 + 1} y={TILE_H + 1} width={TILE_W - 2} height={TILE_H - 2} rx={3} fill={colors.white} />
+          <Rect x={TILE_W / 2 + 1} y={TILE_H + 1} width={TILE_W - 2} height={TILE_H - 2} rx={3} fill={colors.white} />
         </Pattern>
       </Defs>
       <Rect width={width} height={height} fill="url(#tiles)" />
@@ -183,7 +183,7 @@ export function Intro({ onDone }: { onDone: () => void }) {
                       style={{
                         fontFamily: fonts.display,
                         fontSize: letter * 0.66,
-                        color: logoColors[i] === palette.sun ? colors.ink : '#FFFFFF',
+                        color: textOn(logoColors[i], 24),
                         includeFontPadding: false,
                       }}
                     >
@@ -278,11 +278,11 @@ const styles = StyleSheet.create({
     paddingTop: 14,
     paddingBottom: 10,
     borderWidth: 3,
-    borderColor: '#FFFFFF',
+    borderColor: colors.white,
     alignItems: 'center',
-    shadowColor: '#000',
-    shadowOpacity: 0.25,
-    shadowRadius: 10,
+    shadowColor: colors.ink,
+    shadowOpacity: 1,
+    shadowRadius: 0,
     shadowOffset: { width: 0, height: 4 },
   },
   letters: { flexDirection: 'row', gap: 4 },
@@ -299,31 +299,31 @@ const styles = StyleSheet.create({
   poster: {
     borderRadius: 8,
     borderWidth: 3,
-    borderColor: '#FFFFFF',
+    borderColor: colors.white,
     alignItems: 'center',
     paddingTop: 8,
     paddingBottom: 6,
     paddingHorizontal: 4,
-    shadowColor: '#000',
-    shadowOpacity: 0.2,
-    shadowRadius: 6,
+    shadowColor: colors.ink,
+    shadowOpacity: 1,
+    shadowRadius: 0,
     shadowOffset: { width: 0, height: 3 },
   },
-  posterName: { fontFamily: fonts.heavy, fontSize: 10, color: '#FFFFFF', textAlign: 'center', marginTop: 4 },
-  track: { position: 'absolute', left: 0, right: 0, backgroundColor: '#1D1A3F' },
-  rail: { position: 'absolute', left: 0, right: 0, height: 3, backgroundColor: '#8D90B5' },
-  platform: { position: 'absolute', left: 0, right: 0, bottom: 0, backgroundColor: '#5B5F82', alignItems: 'center' },
+  posterName: { fontFamily: fonts.heavy, fontSize: 10, color: colors.white, textAlign: 'center', marginTop: 4 },
+  track: { position: 'absolute', left: 0, right: 0, backgroundColor: colors.brick.ink },
+  rail: { position: 'absolute', left: 0, right: 0, height: 3, backgroundColor: colors.plus },
+  platform: { position: 'absolute', left: 0, right: 0, bottom: 0, backgroundColor: colors.muted, alignItems: 'center' },
   platformEdge: { alignSelf: 'stretch', height: 10, backgroundColor: palette.sun },
-  skip: { marginTop: 22, fontFamily: fonts.bold, fontSize: 12, color: 'rgba(255,255,255,0.6)' },
+  skip: { marginTop: 22, fontFamily: fonts.bold, fontSize: 12, color: alpha(colors.white, 0.6) },
   train: { position: 'absolute', left: 0, flexDirection: 'row' },
   cab: {
-    backgroundColor: '#FFFFFF',
+    backgroundColor: colors.white,
     borderBottomLeftRadius: 10,
     justifyContent: 'center',
     alignItems: 'flex-end',
     paddingRight: 4,
   },
-  cabWindow: { width: '70%', backgroundColor: '#1D1A3F', borderTopLeftRadius: 18, borderBottomLeftRadius: 4 },
+  cabWindow: { width: '70%', backgroundColor: colors.brick.ink, borderTopLeftRadius: 18, borderBottomLeftRadius: 4 },
   headlight: {
     position: 'absolute',
     left: 8,
@@ -335,7 +335,7 @@ const styles = StyleSheet.create({
   },
   body: {
     flex: 1,
-    backgroundColor: '#FFFFFF',
+    backgroundColor: colors.white,
     borderTopRightRadius: 8,
     borderBottomRightRadius: 8,
     paddingTop: 8,
@@ -343,7 +343,7 @@ const styles = StyleSheet.create({
   },
   headsign: {
     alignSelf: 'flex-start',
-    backgroundColor: '#1D1A3F',
+    backgroundColor: colors.brick.ink,
     borderRadius: 4,
     paddingHorizontal: 8,
     paddingVertical: 2,
@@ -351,13 +351,13 @@ const styles = StyleSheet.create({
   },
   headsignText: { fontFamily: fonts.heavy, fontSize: 10, letterSpacing: 2, color: palette.sun },
   windows: { flexDirection: 'row', alignItems: 'flex-start', gap: 10, paddingHorizontal: 12, marginTop: 8 },
-  window: { flex: 1, backgroundColor: '#2A2752', borderRadius: 6 },
+  window: { flex: 1, backgroundColor: mix(colors.ink, colors.white, 0.1), borderRadius: 6 },
   door: {
     width: 44,
     backgroundColor: palette.ultramarine,
     borderRadius: 4,
     alignItems: 'center',
   },
-  doorGap: { width: 2, height: '100%', backgroundColor: 'rgba(255,255,255,0.6)' },
+  doorGap: { width: 2, height: '100%', backgroundColor: alpha(colors.white, 0.6) },
   stripe: { position: 'absolute', left: 0, right: 0, bottom: 12, height: 6, backgroundColor: palette.tomato },
 });
