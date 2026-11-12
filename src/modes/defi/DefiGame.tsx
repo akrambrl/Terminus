@@ -248,12 +248,24 @@ export function DefiGame({
                     )}
                   </View>
                 ) : (
-                  <View
+                  // Une case « ? » se touche pour proposer une station, comme le bouton du bas.
+                  <Pressable
                     key={`vide-${i}`}
-                    style={[styles.chip, styles.mystery, { width: chipW, height: chipH, borderRadius: ui.radiusFor(chipH) }]}
+                    onPress={() => {
+                      setFeedback(null);
+                      setSearching(true);
+                    }}
+                    accessibilityRole="button"
+                    accessibilityLabel="Proposer une station"
+                    style={({ pressed }) => [
+                      styles.chip,
+                      styles.mystery,
+                      { width: chipW, height: chipH, borderRadius: ui.radiusFor(chipH) },
+                      pressed && { backgroundColor: colors.accentSoft, transform: [{ scale: 0.97 }] },
+                    ]}
                   >
                     <Text style={[styles.chipQ, { fontSize: Math.min(26, chipH * 0.6) }]}>?</Text>
-                  </View>
+                  </Pressable>
                 );
               });
             })()}
