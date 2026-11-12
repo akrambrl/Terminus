@@ -29,6 +29,29 @@ Monnaie virtuelle, jamais achetée avec de l'argent réel (`src/game/coins.ts`) 
 
 Le solde est stocké sur l'appareil (AsyncStorage / localStorage sur le web).
 
+## Les trois jeux du jour
+
+Onglets **Grille · Défi · Pendu** sous le logo (une ✓ quand le jeu du jour est terminé).
+Tous changent à **minuit heure de Paris** (`src/game/day.ts`), identiques pour tous, sans serveur.
+
+- **Grille** : la grille 3×3 (`src/game/generator.ts`, graine `terminus-paris-AAAA-MM-JJ`).
+- **Le Défi** (`src/modes/defi/`) : deux critères existants qui se croisent, entre 3 et 8 réponses ;
+  trouver le plus de stations possible, 3 erreurs (`DEFI_MAX_ERRORS`), bouton « J'abandonne ».
+- **Le Pendu** (`src/modes/pendu/`) : une station par jour (sans chiffre, 5 lettres et plus),
+  indice = pastilles des lignes, clavier AZERTY (et clavier physique sur ordinateur),
+  `MAX_PENDU_ERRORS` = 5, nom complet proposable à tout moment. Une station ne revient pas avant
+  60 jours (ordre mélangé par « cycles » de toutes les stations, jonction corrigée).
+
+Sauvegardes et stats séparées (`terminus:defi:…`, `terminus:pendu:…`, `terminus:defi-stats`…).
+Les événements de statistiques portent `game: 'grille' | 'defi' | 'pendu'`.
+
+Tests : `npm test` (choix du jour, minuit à Paris, 3 à 8 réponses du défi, lettres du pendu,
+pas de station répétée en 60 jours). Grilles : `npm run check:puzzles`.
+
+Simuler une autre date (développement) :
+- web : `npx expo start --web` puis http://localhost:8081/?date=2026-12-25
+- partout : `EXPO_PUBLIC_TERMINUS_DATE=2026-12-25 npx expo start`
+
 ## Web app (écran d'accueil)
 
 La version web est publiée avec GitHub Pages sur le domaine **https://terminusparis.fr**

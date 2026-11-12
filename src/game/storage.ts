@@ -86,3 +86,69 @@ export interface SavedFreeGame {
 const FREE_KEY = 'terminus:free-game';
 export const loadFreeGame = () => readJson<SavedFreeGame>(FREE_KEY);
 export const saveFreeGame = (game: SavedFreeGame) => writeJson(FREE_KEY, game);
+
+/* ---------- Le Défi et le Pendu : une partie par jour, des stats séparées ---------- */
+
+export type DailyMode = 'defi' | 'pendu';
+
+export interface ModeStats {
+  played: number;
+  /** Défi : toutes les réponses trouvées. Pendu : station trouvée. */
+  complete: number;
+  streak: number;
+  bestStreak: number;
+  lastDay: string | null;
+}
+
+export const EMPTY_MODE_STATS: ModeStats = { played: 0, complete: 0, streak: 0, bestStreak: 0, lastDay: null };
+
+export interface SavedDefi {
+  /** Signature du défi joué (ses deux critères). */
+  defi: string;
+  found: string[];
+  errors: number;
+  finished: boolean;
+  gaveUp: boolean;
+}
+
+export interface SavedPendu {
+  station: string;
+  /** Lettres proposées (de base, en majuscules). */
+  letters: string[];
+  /** Noms complets proposés à tort. */
+  wrongNames: string[];
+  errors: number;
+  finished: boolean;
+  won: boolean;
+}
+
+const modeGameKey = (mode: DailyMode, day: string) => `terminus:${mode}:${day}`;
+const modeStatsKey = (mode: DailyMode) => `terminus:${mode}-stats`;
+
+export const loadDefi = (day: string) => readJson<SavedDefi>(modeGameKey('defi', day));
+export const saveDefi = (day: string, game: SavedDefi) => writeJson(modeGameKey('defi', day), game);
+export const loadPendu = (day: string) => readJson<SavedPendu>(modeGameKey('pendu', day));
+export const savePendu = (day: string, game: SavedPendu) => writeJson(modeGameKey('pendu', day), game);
+
+export const loadModeStats = async (mode: DailyMode) =>
+  (await readJson<ModeStats>(modeStatsKey(mode))) ?? EMPTY_MODE_STATS;
+
+/** Calcule les stats après une partie du jour terminée (fonction pure, testable). */
+export function nextModeStats(stats: ModeStats, day: string, yesterday: string, complete: boolean): ModeStats {
+  if (stats.lastDay === day) return stats;
+  const streak = stats.lastDay === yesterday ? stats.streak + 1 : 1;
+  return {
+    played: stats.played + 1,
+    complete: stats.complete + (complete ? 1 : 0),
+    streak,
+    bestStreak: Math.max(stats.bestStreak, streak),
+    lastDay: day,
+  };
+}
+
+/** Enregistre une partie du jour terminée (Défi ou Pendu) et met à jour la série. */
+export async function recordMode(mode: DailyMode, day: string, yesterday: string, complete: boolean): Promise<ModeStats> {
+  const next = nextModeStats(await loadModeStats(mode), day, yesterday, complete);
+  await writeJson(modeStatsKey(mode), next);
+  return next;
+}

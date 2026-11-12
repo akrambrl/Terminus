@@ -63,7 +63,8 @@ export type GameEvent =
   | 'free_game_resumed'
   | 'ad_reward_started'
   | 'ad_reward_earned'
-  | 'ad_reward_failed';
+  | 'ad_reward_failed'
+  | 'mode_selected';
 
 /** Envoie un événement si le joueur a accepté les statistiques ; ne fait jamais planter le jeu. */
 export function track(event: GameEvent, properties?: Props) {

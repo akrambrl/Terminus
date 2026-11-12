@@ -1,17 +1,27 @@
 import { StatusBar } from 'expo-status-bar';
 import { useCallback, useEffect, useMemo, useState } from 'react';
-import { Linking, Pressable, Share, StyleSheet, Text, useWindowDimensions, View } from 'react-native';
+import { Linking, Pressable, StyleSheet, Text, useWindowDimensions, View } from 'react-native';
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 import { Grid } from './src/components/Grid';
 import { InfoModal, infoStyles } from './src/components/InfoModal';
 import { LineBadge } from './src/components/LineBadge';
 import { SearchModal } from './src/components/SearchModal';
-import { dailyNumber, dailySeed, generatePuzzle, puzzleSignature, todayKey } from './src/game/generator';
+import { dailyNumber, dailySeed, generatePuzzle, puzzleSignature } from './src/game/generator';
+import { addDays, currentDayKey } from './src/game/day';
+import { Button, Stat } from './src/components/Button';
+import { ModeTabs, type GameTab } from './src/components/ModeTabs';
+import { shareMessage } from './src/components/share';
+import { DefiGame } from './src/modes/defi/DefiGame';
+import { DEFI_MAX_ERRORS } from './src/modes/defi/defi';
+import { PenduGame } from './src/modes/pendu/PenduGame';
+import { MAX_PENDU_ERRORS } from './src/modes/pendu/pendu';
 import { STATION_BY_ID } from './src/game/lookup';
 import {
   EMPTY_STATS,
   hasSeenHelp,
   loadDaily,
+  loadDefi,
+  loadPendu,
   loadStats,
   markHelpSeen,
   recordDaily,
@@ -63,8 +73,7 @@ type Cell = { row: number; col: number };
 const emptyCells = () => [0, 1, 2].map(() => [null, null, null] as (string | null)[]);
 
 function yesterdayKey(day: string) {
-  const [y, m, d] = day.split('-').map(Number);
-  return todayKey(new Date(y, m - 1, d - 1));
+  return addDays(day, -1);
 }
 
 export default function App() {
@@ -83,7 +92,10 @@ function Game() {
     Figtree_700Bold,
     Figtree_800ExtraBold,
   });
-  const [day] = useState(todayKey);
+  const [day] = useState(currentDayKey);
+  const [tab, setTab] = useState<GameTab>('grille');
+  const [done, setDone] = useState<Record<GameTab, boolean>>({ grille: false, defi: false, pendu: false });
+  const markDone = useCallback((t: GameTab) => setDone((d) => (d[t] ? d : { ...d, [t]: true })), []);
   const [mode, setMode] = useState<Mode>('daily');
   const [freeSeed, setFreeSeed] = useState(() => `libre-${Date.now()}`);
   const puzzle = useMemo(
@@ -123,13 +135,16 @@ function Game() {
   // Chargement de la grille du jour sauvegardée et des statistiques.
   useEffect(() => {
     (async () => {
-      const [saved, s, seen, wallet, free] = await Promise.all([
+      const [saved, s, seen, wallet, free, defi, pendu] = await Promise.all([
         loadDaily(day),
         loadStats(),
         hasSeenHelp(),
         claimDailyBonus(day),
         loadFreeGame(),
+        loadDefi(day),
+        loadPendu(day),
       ]);
+      setDone({ grille: !!saved?.finished, defi: !!defi?.finished, pendu: !!pendu?.finished });
       setCoins(wallet.coins);
       setAdsLeft(wallet.adsLeft);
       // Les sauvegardes d'avant le système d'erreurs (9 essais) sont ignorées.
@@ -157,7 +172,7 @@ function Game() {
     async (finalCells: (string | null)[][], errorCount: number, gaveUp = false) => {
       setFinished(true);
       const foundCount = finalCells.flat().filter(Boolean).length;
-      track('game_finished', { mode, found: foundCount, errors: errorCount, gave_up: gaveUp });
+      track('game_finished', { game: 'grille', mode, found: foundCount, errors: errorCount, gave_up: gaveUp });
       onGameFinished(foundCount);
       if (mode === 'free') {
         const game = { seed: freeSeed, cells: finalCells, errors: errorCount, finished: true };
@@ -165,13 +180,14 @@ function Game() {
         saveFreeGame(game);
       }
       if (mode === 'daily') {
+        markDone('grille');
         await saveDaily(day, { puzzle: puzzleSignature(puzzle), cells: finalCells, errors: errorCount, finished: true });
         const count = finalCells.flat().filter(Boolean).length;
         setStats(await recordDaily(day, count, yesterdayKey(day)));
       }
       setTimeout(() => setShowResult(true), 400);
     },
-    [mode, day, puzzle, freeSeed],
+    [mode, day, puzzle, freeSeed, markDone],
   );
 
   const submit = (station: Station) => {
@@ -185,13 +201,14 @@ function Game() {
       : cells;
     setErrors(nextErrors);
     track('guess', {
+      game: 'grille',
       mode,
       correct,
       row: puzzle.rows[row].id,
       col: puzzle.cols[col].id,
       first_guess: firstGuess,
     });
-    if (firstGuess) track('game_started', { mode });
+    if (firstGuess) track('game_started', { game: 'grille', mode });
     if (correct) {
       setCells(next);
       setActive(null);
@@ -296,17 +313,10 @@ function Game() {
       mode === 'daily' ? `Terminus Paris n°${dailyNumber(day)}` : 'Terminus Paris (partie libre)';
     const errorText = errors === 0 ? 'sans erreur' : `${errors} erreur${errors > 1 ? 's' : ''}`;
     const message = `${title} : ${found}/9 · ${errorText}\n${grid}\n\nÀ toi de jouer : ${WEB_URL}`;
-    track('result_shared', { mode, found, errors });
-    try {
-      await Share.share({ message });
-    } catch {
-      // Navigateur sans fenêtre de partage : on copie le résultat.
-      const clipboard = (globalThis as { navigator?: { clipboard?: Clipboard } }).navigator?.clipboard;
-      if (clipboard) {
-        await clipboard.writeText(message);
-        setCopied(true);
-        setTimeout(() => setCopied(false), 2000);
-      }
+    track('result_shared', { game: 'grille', mode, found, errors });
+    if ((await shareMessage(message)) === 'copied') {
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
     }
   };
 
@@ -326,10 +336,30 @@ function Game() {
       <View style={[styles.content, { paddingTop: WEB_TOP_GAP }]}>
         <View style={[styles.header, { width: contentWidth }]}>
           <Logo tile={Math.min(36, (contentWidth - 60) / 8.6)} />
-          <Pressable onPress={() => { setShowHelp(true); track('help_opened'); }} style={styles.helpButton} accessibilityLabel="Règles du jeu">
+          <Pressable onPress={() => { setShowHelp(true); track('help_opened', { game: tab }); }} style={styles.helpButton} accessibilityLabel="Règles du jeu">
             <Text style={styles.helpText}>?</Text>
           </Pressable>
         </View>
+        <ModeTabs
+          value={tab}
+          done={done}
+          width={contentWidth}
+          onChange={(t) => {
+            if (t !== tab) track('mode_selected', { game: t, already_played: done[t] });
+            setTab(t);
+          }}
+        />
+        {tab === 'defi' && <DefiGame day={day} width={contentWidth} onDone={() => markDone('defi')} />}
+        {tab === 'pendu' && (
+          <PenduGame
+            day={day}
+            width={contentWidth}
+            active={!showHelp && !showIntro && !bonus}
+            onDone={() => markDone('pendu')}
+          />
+        )}
+        {tab === 'grille' && (
+        <>
         <View style={[styles.ticket, { width: contentWidth }]}>
           <View>
             <Text style={styles.ticketMain}>
@@ -391,6 +421,8 @@ function Game() {
             </>
           )}
         </View>
+        </>
+        )}
 
         <StoreBanner />
       </View>
@@ -515,12 +547,40 @@ function Game() {
 
       <InfoModal
         visible={showHelp && !showIntro}
-        title="Comment jouer"
+        title={tab === 'defi' ? 'Le Défi' : tab === 'pendu' ? 'Le Pendu du métro' : 'Comment jouer'}
         onClose={() => {
           setShowHelp(false);
           markHelpSeen();
         }}
       >
+        {tab === 'defi' && (
+          <>
+            <Text style={infoStyles.p}>
+              Chaque jour, <Text style={infoStyles.strong}>deux critères</Text> se croisent, par exemple « Ligne 4 » ×
+              « Commence par S ». Trouve le plus possible de stations qui remplissent les deux.
+            </Text>
+            <Text style={infoStyles.p}>
+              Propose les stations une par une. Une mauvaise réponse coûte un ticket :{' '}
+              <Text style={infoStyles.strong}>{DEFI_MAX_ERRORS} erreurs</Text> maximum. Tu peux aussi abandonner, et
+              découvrir alors toutes les réponses.
+            </Text>
+          </>
+        )}
+        {tab === 'pendu' && (
+          <>
+            <Text style={infoStyles.p}>
+              Chaque jour, <Text style={infoStyles.strong}>une station à deviner</Text>, lettre par lettre. Les pastilles
+              des lignes qui la desservent sont ton indice.
+            </Text>
+            <Text style={infoStyles.p}>
+              Une lettre juste apparaît partout dans le nom (É compte comme E) ; une lettre absente coûte un ticket :{' '}
+              <Text style={infoStyles.strong}>{MAX_PENDU_ERRORS} erreurs</Text> maximum. Tu peux proposer le nom complet à
+              tout moment, mais un mauvais nom coûte aussi un ticket.
+            </Text>
+          </>
+        )}
+        {tab === 'grille' && (
+        <>
         <Text style={infoStyles.p}>
           Remplis la grille avec <Text style={infoStyles.strong}>9 stations de métro parisiennes</Text>.
         </Text>
@@ -537,6 +597,12 @@ function Game() {
           Une nouvelle grille gratuite t'attend chaque jour. Pour jouer d'autres grilles, utilise tes pièces : chaque
           grille en plus coûte {GRID_COST} pièce, et tu gagnes {DAILY_BONUS} pièces chaque jour en ouvrant l'app (jusqu'à{' '}
           {MAX_COINS} en réserve). Les pièces ne s'achètent pas : elles se gagnent seulement en jouant.
+        </Text>
+        </>
+        )}
+        <Text style={infoStyles.p}>
+          Trois jeux t'attendent chaque jour, les mêmes pour tout le monde : la Grille, le Défi et le Pendu. Ils changent
+          à minuit, heure de Paris.
         </Text>
         <Text style={infoStyles.small}>
           Jeu non officiel, sans lien avec la RATP ni Île-de-France Mobilités. Données des stations : Wikidata
@@ -562,53 +628,6 @@ function Game() {
       </InfoModal>
     </SafeAreaView>
     {showIntro && <Intro onDone={() => setShowIntro(false)} />}
-    </View>
-  );
-}
-
-function Button({
-  label,
-  onPress,
-  primary,
-  tone,
-  coin,
-}: {
-  label: string;
-  onPress: () => void;
-  primary?: boolean;
-  tone?: 'danger';
-  /** Affiche une pièce après le libellé (action payante en pièces). */
-  coin?: boolean;
-}) {
-  return (
-    <Pressable
-      onPress={onPress}
-      style={({ pressed }) => [
-        styles.button,
-        primary && styles.buttonPrimary,
-        tone === 'danger' && styles.buttonDanger,
-        pressed && { transform: [{ translateY: 2 }], borderBottomWidth: 2 },
-      ]}
-    >
-      <Text
-        style={[
-          styles.buttonText,
-          primary && styles.buttonTextPrimary,
-          tone === 'danger' && { color: colors.danger },
-        ]}
-      >
-        {label}
-      </Text>
-      {coin && <Coin size={16} />}
-    </Pressable>
-  );
-}
-
-function Stat({ value, label }: { value: number; label: string }) {
-  return (
-    <View style={styles.stat}>
-      <Text style={styles.statValue}>{value}</Text>
-      <Text style={styles.statLabel}>{label}</Text>
     </View>
   );
 }

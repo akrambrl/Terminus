@@ -1,3 +1,4 @@
+import { dayNumber, parisDayKey } from './day';
 import { STATIONS } from '../data/stations';
 import { USABLE_CRITERIA } from './criteria';
 import { createRng, pick, shuffle } from './rng';
@@ -125,19 +126,11 @@ export function puzzleSignature(p: Puzzle): string {
   return [...p.rows, ...p.cols].map((c) => c.id).join('|');
 }
 
-/** Date locale au format AAAA-MM-JJ. */
-export function todayKey(date = new Date()): string {
-  const pad = (n: number) => String(n).padStart(2, '0');
-  return `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(date.getDate())}`;
-}
-
-const LAUNCH = Date.UTC(2026, 10, 8);
+/** Date du jour à Paris (AAAA-MM-JJ) : voir day.ts. */
+export const todayKey = parisDayKey;
 
 /** Numéro de la grille du jour (n° 1 le 8 novembre 2026). */
-export function dailyNumber(key: string): number {
-  const [y, m, d] = key.split('-').map(Number);
-  return Math.round((Date.UTC(y, m - 1, d) - LAUNCH) / 86400000) + 1;
-}
+export const dailyNumber = dayNumber;
 
 export function dailySeed(key: string): string {
   return `terminus-paris-${key}`;

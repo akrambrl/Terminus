@@ -40,6 +40,7 @@
     "web": "expo start --web",
     "typecheck": "tsc --noEmit",
     "check:puzzles": "npx --yes tsx scripts/check-puzzles.ts",
+    "test": "npx --yes tsx --test tests/*.test.ts",
     "build:stations": "python3 scripts/build-stations.py",
     "build:pages": "rm -rf dist && expo export --platform web && python3 scripts/build-pages.py",
     "lint": "expo lint"

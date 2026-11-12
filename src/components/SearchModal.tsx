@@ -20,6 +20,12 @@ interface Props {
   visible: boolean;
   row?: Criterion;
   col?: Criterion;
+  /** Titre affiché à la place de « critère × critère » (pendu). */
+  title?: string;
+  /** Aide affichée quand le champ est vide, à la place des définitions des critères. */
+  hint?: string;
+  /** Libellé des stations déjà jouées (« déjà utilisée » par défaut). */
+  usedText?: string;
   usedIds: Set<string>;
   errorsLeft: number;
   feedback: string | null;
@@ -62,7 +68,7 @@ function useVisibleArea(active: boolean): { top: number; height: number } | null
   return area;
 }
 
-export function SearchModal({ visible, row, col, usedIds, errorsLeft, feedback, onSubmit, onClose }: Props) {
+export function SearchModal({ visible, row, col, title, hint, usedText = 'déjà utilisée', usedIds, errorsLeft, feedback, onSubmit, onClose }: Props) {
   const [query, setQuery] = useState('');
   const insets = useSafeAreaInsets();
   const area = useVisibleArea(visible);
@@ -90,7 +96,11 @@ export function SearchModal({ visible, row, col, usedIds, errorsLeft, feedback, 
         <View style={styles.topBar}>
           <View style={styles.topText}>
             <Text style={styles.title} numberOfLines={2}>
-              {row?.label} <Text style={styles.times}>×</Text> {col?.label}
+              {title ?? (
+                <>
+                  {row?.label} <Text style={styles.times}>×</Text> {col?.label}
+                </>
+              )}
             </Text>
             <Text style={styles.subtitle}>
               {errorsLeft} erreur{errorsLeft > 1 ? 's' : ''} possible{errorsLeft > 1 ? 's' : ''}
@@ -136,7 +146,7 @@ export function SearchModal({ visible, row, col, usedIds, errorsLeft, feedback, 
                   <Text style={[styles.itemText, used && styles.itemTextUsed]} numberOfLines={1}>
                     {item.name}
                   </Text>
-                  {used && <Text style={styles.usedLabel}>déjà utilisée</Text>}
+                  {used && <Text style={styles.usedLabel}>{usedText}</Text>}
                 </Pressable>
               );
             }}
@@ -146,8 +156,12 @@ export function SearchModal({ visible, row, col, usedIds, errorsLeft, feedback, 
               ) : (
                 <View style={styles.help}>
                   <Text style={styles.helpTitle}>Touche le champ ci-dessus et tape le nom d'une station.</Text>
-                  <Text style={styles.helpIntro}>Elle doit remplir les deux critères :</Text>
-                  {[row, col].map(
+                  {hint ? (
+                    <Text style={styles.helpIntro}>{hint}</Text>
+                  ) : (
+                    <Text style={styles.helpIntro}>Elle doit remplir les deux critères :</Text>
+                  )}
+                  {!hint && [row, col].map(
                     (c) =>
                       c && (
                         <View key={c.id} style={styles.helpItem}>

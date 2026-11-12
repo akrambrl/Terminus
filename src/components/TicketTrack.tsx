@@ -5,18 +5,22 @@ import { colors, fonts, palette } from '../theme';
  * Les erreurs possibles, dessinées comme des tickets de métro.
  * Chaque erreur composte (barre) un ticket.
  */
-export function TicketTrack({ total, used }: { total: number; used: number }) {
+export function TicketTrack({ total, used, maxWidth }: { total: number; used: number; maxWidth?: number }) {
+  // Avec beaucoup de tickets (pendu : 5), ils rétrécissent pour tenir sur une ligne.
+  const gap = total > 3 ? 8 : 12;
+  const w = maxWidth ? Math.min(W, Math.floor((maxWidth - gap * (total - 1)) / total)) : W;
+  const narrow = w < 70;
   return (
-    <View style={styles.row} accessibilityLabel={`${total - used} erreurs possibles sur ${total}`}>
+    <View style={[styles.row, { gap }]} accessibilityLabel={`${total - used} erreurs possibles sur ${total}`}>
       {Array.from({ length: total }, (_, i) => {
         const punched = i >= total - used;
         return (
-          <View key={i} style={[styles.ticket, punched && styles.ticketPunched]}>
+          <View key={i} style={[styles.ticket, { width: w }, punched && styles.ticketPunched]}>
             <View style={[styles.stripe, punched && styles.stripePunched]} />
-            <Text style={[styles.label, punched && styles.labelPunched]}>TICKET</Text>
+            <Text style={[styles.label, narrow && styles.labelNarrow, punched && styles.labelPunched]}>TICKET</Text>
             <View style={[styles.notch, styles.notchLeft]} />
             <View style={[styles.notch, styles.notchRight]} />
-            {punched && <View style={styles.cross} />}
+            {punched && <View style={[styles.cross, { width: w * 1.1 }]} />}
           </View>
         );
       })}
@@ -43,6 +47,7 @@ const styles = StyleSheet.create({
   stripe: { position: 'absolute', left: 0, right: 0, bottom: 7, height: 7, backgroundColor: palette.violet },
   stripePunched: { backgroundColor: colors.border },
   label: { fontFamily: fonts.heavy, fontSize: 11, letterSpacing: 2, color: colors.ink, marginBottom: 8 },
+  labelNarrow: { fontSize: 10, letterSpacing: 1 },
   labelPunched: { color: colors.muted },
   notch: {
     position: 'absolute',
