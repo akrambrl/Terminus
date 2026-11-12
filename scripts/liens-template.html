@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Terminus Paris – Joue au jeu du métro</title>
+<meta name="description" content="Terminus Paris, le jeu quotidien des stations du métro parisien : la Grille, le Défi et le Pendu. Gratuit sur terminusparis.fr, iPhone et Android." />
+<meta name="robots" content="noindex,follow" />
+<link rel="canonical" href="https://terminusparis.fr/liens/" />
+<meta property="og:title" content="Terminus Paris – le jeu du métro parisien" />
+<meta property="og:description" content="3 jeux par jour sur les stations du métro. Tu prends le métro tous les jours ? Prouve-le." />
+<meta property="og:image" content="https://terminusparis.fr/og-image.png" />
+<meta name="theme-color" content="#2B3FD6" />
+<link rel="icon" href="/favicon.ico" />
+<link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+<style>
+/* Page « lien en bio » de Terminus Paris (même principe que goatfc.fr/liens/) :
+   chaque bouton porte la provenance du visiteur (TikTok, Instagram…) pour les statistiques
+   de l'App Store (ct=), de Google Play (referrer=) et du site (utm_*). Charte : terminus-kit. */
+/*__TOKENS__*/
+@font-face { font-family: "Bricolage Grotesque"; font-weight: 800; font-display: swap; src: url("/polices/BricolageGrotesque-ExtraBold.woff2") format("woff2"); }
+@font-face { font-family: "Figtree"; font-weight: 700; font-display: swap; src: url("/polices/Figtree-Bold.woff2") format("woff2"); }
+@font-face { font-family: "Figtree"; font-weight: 800; font-display: swap; src: url("/polices/Figtree-ExtraBold.woff2") format("woff2"); }
+* { box-sizing: border-box; }
+html, body { margin: 0; min-height: 100%; }
+body {
+  font-family: var(--tp-font-text); font-weight: 700; color: var(--tp-white);
+  background-color: var(--tp-blue);
+  /* Mur de briques arrondies (charte), un ton plus clair que le fond. */
+  background-image:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='66' height='36'%3E%3Crect x='0' y='3' width='62' height='12' rx='6' fill='__BRICK__'/%3E%3Crect x='-33' y='21' width='62' height='12' rx='6' fill='__BRICK__'/%3E%3Crect x='33' y='21' width='62' height='12' rx='6' fill='__BRICK__'/%3E%3C/svg%3E");
+  display: flex; justify-content: center;
+}
+main { width: 100%; max-width: 440px; padding: 40px 20px 48px; display: flex; flex-direction: column; align-items: center; text-align: center; }
+.plaque { background: var(--tp-ink); border: 3px solid var(--tp-white); border-radius: 18px; padding: 12px 14px 8px; box-shadow: 0 5px 0 var(--tp-ink); }
+.tuiles { display: flex; gap: 4px; }
+.tuiles span { width: 34px; height: 38px; border-radius: 8px; display: flex; align-items: center; justify-content: center;
+  font-family: var(--tp-font-text); font-weight: 800; font-size: 22px; color: var(--tp-white); }
+.tuiles span:nth-child(odd) { transform: rotate(-4deg); } .tuiles span:nth-child(even) { transform: rotate(3deg); }
+.paris { margin-top: 6px; font-weight: 800; font-size: 13px; letter-spacing: .6em; padding-left: .6em; color: var(--tp-sun); }
+h1 { font-family: var(--tp-font-display); font-weight: 800; letter-spacing: -.02em; line-height: 1; font-size: clamp(34px, 10vw, 44px); margin: 26px 0 8px; }
+.sous { margin: 0 0 28px; font-size: 16px; }
+.sous b { color: var(--tp-sun); }
+.liens { width: 100%; display: flex; flex-direction: column; gap: 14px; align-items: center; }
+a.badge { display: flex; justify-content: center; align-items: center; text-decoration: none; height: 72px; }
+a.badge img { display: block; height: 58px; width: auto; }
+a.badge img.gp { height: 76px; }
+a.jouer { display: flex; align-items: center; gap: 14px; width: 100%; text-align: left; text-decoration: none;
+  background: var(--tp-sun); color: var(--tp-ink); border: 3px solid var(--tp-ink); border-radius: 999px;
+  box-shadow: 0 5px 0 var(--tp-ink); padding: 12px 22px; min-height: 64px; transition: transform .08s ease, box-shadow .08s ease; }
+a.jouer:active { transform: translateY(5px); box-shadow: none; }
+a.jouer:focus-visible, a.badge:focus-visible { outline: 3px solid var(--tp-white); outline-offset: 3px; }
+.jouer .petit { font-size: 12px; font-weight: 800; letter-spacing: .14em; text-transform: uppercase; }
+.jouer .gros { font-family: var(--tp-font-display); font-weight: 800; font-size: 24px; letter-spacing: -.02em; }
+.jouer .fleche { margin-left: auto; font-size: 24px; font-weight: 800; }
+.jeux { margin-top: 26px; display: flex; gap: 8px; flex-wrap: wrap; justify-content: center; }
+.jeux span { background: var(--tp-ink); border: 2px solid var(--tp-white); border-radius: 999px; padding: 6px 12px; font-size: 13px; font-weight: 800; letter-spacing: .1em; text-transform: uppercase; }
+.bas { margin-top: 26px; font-size: 12px; opacity: .85; }
+[hidden] { display: none !important; }
+@media (prefers-reduced-motion: reduce) { a.jouer { transition: none; } }
+</style>
+</head>
+<body>
+<main>
+  <div class="plaque" aria-label="Terminus Paris" role="img">
+    <div class="tuiles" aria-hidden="true">
+      <span style="background:var(--tp-blue)">T</span><span style="background:var(--tp-tomato)">E</span><span style="background:var(--tp-sun);color:var(--tp-ink)">R</span><span style="background:var(--tp-mint)">M</span><span style="background:var(--tp-pink)">I</span><span style="background:var(--tp-violet)">N</span><span style="background:var(--tp-tomato)">U</span><span style="background:var(--tp-blue)">S</span>
+    </div>
+    <div class="paris" aria-hidden="true">PARIS</div>
+  </div>
+  <h1>Le jeu du métro parisien</h1>
+  <p class="sous">Tu prends le métro tous les jours ? <b>Prouve-le.</b></p>
+
+  <nav class="liens" id="liens" aria-label="Jouer à Terminus Paris">
+    <!-- Badges OFFICIELS d'Apple et de Google, non modifiés (leurs chartes interdisent de les redessiner).
+         Affichés seulement une fois les apps publiées. -->
+    <a class="badge" id="ios" href="__APP_STORE_URL__" rel="noopener" __IOS_HIDDEN__>
+      <img src="/liens/app-store.svg" height="58" alt="Télécharger dans l'App Store" />
+    </a>
+    <a class="badge" id="android" href="__PLAY_STORE_URL__" rel="noopener" __ANDROID_HIDDEN__>
+      <img class="gp" src="/liens/google-play.webp" height="76" alt="Disponible sur Google Play" />
+    </a>
+    <a class="jouer" id="web" href="/" rel="noopener">
+      <span><span class="petit">Jouer tout de suite sur</span><br /><span class="gros">terminusparis.fr</span></span>
+      <span class="fleche" aria-hidden="true">→</span>
+    </a>
+  </nav>
+
+  <div class="jeux" aria-label="Les 3 jeux du jour"><span>Grille</span><span>Défi</span><span>Pendu</span></div>
+  <p class="bas">Gratuit · un nouveau jeu chaque jour à minuit<br />Jeu non officiel, sans lien avec la RATP ni Île-de-France Mobilités.</p>
+</main>
+<script>
+/* Provenance : fixée par la page (/tiktok, /insta…) et complétée par ?c=nom-de-campagne
+   (ex. terminusparis.fr/tiktok?c=defi-13nov pour une vidéo précise). */
+(function () {
+  var SOURCE = "__SOURCE__";
+  var APPLE_PT = "__APPLE_PT__";
+  try {
+    var params = new URLSearchParams(location.search);
+    var clean = function (v) { return (v || "").toLowerCase().replace(/[^a-z0-9_.-]/g, "").slice(0, 40); };
+    var campaign = clean(params.get("c") || params.get("utm_campaign"));
+    var source = clean(params.get("s")) || SOURCE;
+    var medium = source === "qr" ? "qr" : "bio";
+    // Site : utm_* lus par le jeu et joints aux statistiques PostHog.
+    var q = "utm_source=" + source + "&utm_medium=" + medium + (campaign ? "&utm_campaign=" + campaign : "");
+    document.getElementById("web").href = "/?" + q;
+    // App Store : jeton de campagne (ct, 40 caractères max) ; pt = identifiant fournisseur Apple.
+    var ios = document.getElementById("ios");
+    ios.href += (ios.href.indexOf("?") < 0 ? "?" : "&") + (APPLE_PT ? "pt=" + APPLE_PT + "&" : "") +
+      "ct=" + (source + (campaign ? "_" + campaign : "")).slice(0, 40) + "&mt=8";
+    // Google Play : referrer d'installation (rapports d'acquisition de la Play Console).
+    var android = document.getElementById("android");
+    android.href += "&referrer=" + encodeURIComponent(q);
+    // Sur iPhone, l'App Store en premier ; sur Android, Google Play.
+    var ua = navigator.userAgent || "";
+    var cible = /iPhone|iPad|iPod/i.test(ua) ? "ios" : /Android/i.test(ua) ? "android" : null;
+    var liens = document.getElementById("liens");
+    if (cible && !document.getElementById(cible).hidden) liens.insertBefore(document.getElementById(cible), liens.firstChild);
+  } catch (e) { /* les liens par défaut fonctionnent */ }
+})();
+</script>
+</body>
+</html>

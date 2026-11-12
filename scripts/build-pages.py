@@ -62,6 +62,37 @@ if os.path.isdir(src_mods):
     for js in glob.glob(os.path.join(DOCS, '_expo', 'static', 'js', 'web', '*.js')):
         code = open(js, encoding='utf-8').read()
         open(js, 'w', encoding='utf-8').write(code.replace('/assets/node_modules/', '/assets/vendor/'))
+# Liens suivis (« lien en bio ») : une page par réseau, avec sa provenance.
+# terminusparis.fr/tiktok, /insta, /x… (+ ?c=nom-de-campagne pour une vidéo précise).
+# Même principe que goatfc.fr/liens/ : provenance transmise à l'App Store (ct), à Google Play
+# (referrer) et au site (utm_*, enregistrés dans PostHog).
+import re
+LINK_PAGES = {
+    'liens': 'bio', 'tiktok': 'tiktok', 'insta': 'instagram', 'x': 'x',
+    'youtube': 'youtube', 'facebook': 'facebook', 'snap': 'snapchat', 'qr': 'qr',
+}
+# Identifiant fournisseur Apple (App Store Connect → Analytics → Acquisition → Liens de campagne).
+# Facultatif : sans lui, l'App Store reçoit quand même le jeton de campagne ct.
+APPLE_PT = ''
+links_ts = open(os.path.join(ROOT, 'src/store/links.ts'), encoding='utf-8').read()
+const = lambda name: re.search(rf"export const {name} = ([^;]+);", links_ts).group(1).strip().strip("'")
+tokens_css = open(os.path.join(ROOT, 'terminus-kit/tokens.css'), encoding='utf-8').read()
+root_block = tokens_css[tokens_css.index(':root'):]
+brick = re.search(r'--tp-brick-on-blue:\s*(#[0-9A-Fa-f]{6})', tokens_css).group(1)
+template = open(os.path.join(ROOT, 'scripts/liens-template.html'), encoding='utf-8').read()
+for folder, source in LINK_PAGES.items():
+    page = (template
+        .replace('/*__TOKENS__*/', root_block)
+        .replace('__BRICK__', brick.replace('#', '%23'))
+        .replace('__SOURCE__', source)
+        .replace('__APPLE_PT__', APPLE_PT)
+        .replace('__APP_STORE_URL__', const('APP_STORE_URL'))
+        .replace('__PLAY_STORE_URL__', const('PLAY_STORE_URL'))
+        .replace('__IOS_HIDDEN__', '' if const('IOS_PUBLISHED') == 'true' else 'hidden')
+        .replace('__ANDROID_HIDDEN__', '' if const('ANDROID_PUBLISHED') == 'true' else 'hidden'))
+    os.makedirs(os.path.join(DOCS, folder), exist_ok=True)
+    open(os.path.join(DOCS, folder, 'index.html'), 'w', encoding='utf-8').write(page)
+
 # Sans ce fichier, GitHub Pages ignore le dossier _expo (nom commençant par « _ »).
 open(os.path.join(DOCS, '.nojekyll'), 'w').close()
 print('docs/ prêt :', sum(len(f) for _, _, f in os.walk(DOCS)), 'fichiers')

@@ -39,6 +39,7 @@ import type { Criterion, LineId, Station } from './src/game/types';
 import { colors, fonts, palette, WEB_TOP_GAP } from './src/theme';
 import { APP_VERSION } from './src/version';
 import { track } from './src/analytics';
+import { readAcquisition } from './src/analytics/acquisition';
 import { openPrivacyChoices, startConsent } from './src/privacy/consent';
 import { StatsBanner } from './src/privacy/StatsBanner';
 import { CONTACT_EMAIL, PRIVACY_URL } from './src/privacy/links';
@@ -169,7 +170,13 @@ function Game() {
       setStats(s);
       setShowHelp(!seen);
       setLoaded(true);
-      track('app_opened', { daily_number: dailyNumber(day), daily_finished: !!saved?.finished, returning: s.played > 0 });
+      const acq = readAcquisition();
+      track('app_opened', {
+        daily_number: dailyNumber(day),
+        daily_finished: !!saved?.finished,
+        returning: s.played > 0,
+        ...(acq ? { source: acq.source, medium: acq.medium, campaign: acq.campaign } : {}),
+      });
     })();
   }, [day]);
 

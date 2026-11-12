@@ -1,6 +1,7 @@
 import PostHog from 'posthog-react-native';
 import { Platform } from 'react-native';
 import { APP_VERSION } from '../version';
+import { readAcquisition } from './acquisition';
 
 /**
  * Statistiques d'utilisation (PostHog, hébergement européen).
@@ -26,7 +27,13 @@ function startClient() {
       // Joueurs anonymes : aucun nom ni e-mail n'est collecté.
       personProfiles: 'identified_only',
     });
-    client.register({ app_version: APP_VERSION, platform: Platform.OS });
+    const acq = readAcquisition();
+    client.register({
+      app_version: APP_VERSION,
+      platform: Platform.OS,
+      // Provenance du joueur (lien suivi TikTok, Instagram…), sur chaque événement.
+      ...(acq ? { acq_source: acq.source, acq_medium: acq.medium, acq_campaign: acq.campaign } : {}),
+    });
   } catch {
     client = null;
   }

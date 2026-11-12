@@ -29,6 +29,30 @@ Monnaie virtuelle, jamais achetée avec de l'argent réel (`src/game/coins.ts`) 
 
 Le solde est stocké sur l'appareil (AsyncStorage / localStorage sur le web).
 
+## Liens suivis (« lien en bio »)
+
+Même principe que goatfc.fr/liens/ : une page par réseau, générée par `scripts/build-pages.py`
+à partir de `scripts/liens-template.html` (charte du kit).
+
+| Lien | Provenance |
+|---|---|
+| terminusparis.fr/tiktok | tiktok |
+| terminusparis.fr/insta | instagram |
+| terminusparis.fr/x, /youtube, /facebook, /snap | x, youtube, facebook, snapchat |
+| terminusparis.fr/qr | qr (affiches, flyers) |
+| terminusparis.fr/liens | bio (générique) |
+
+Ajouter `?c=nom` pour suivre une vidéo précise : `terminusparis.fr/tiktok?c=defi-13nov`.
+
+- Site : `utm_source`, `utm_medium`, `utm_campaign` mémorisés au premier passage
+  (`src/analytics/acquisition.ts`) et joints à tous les événements PostHog (`acq_source`…),
+  seulement si le joueur accepte les statistiques.
+- App Store : jeton `ct=source_campagne` (App Store Connect → Analytics → Acquisition).
+  Renseigner `APPLE_PT` dans `scripts/build-pages.py` (identifiant fournisseur) pour les liens de campagne complets.
+- Google Play : `referrer=utm_source…` (Play Console → Statistiques → Acquisition).
+- Les boutons App Store / Google Play n'apparaissent qu'avec `IOS_PUBLISHED` / `ANDROID_PUBLISHED`
+  à `true` dans `src/store/links.ts` (puis `npm run build:pages`).
+
 ## Direction artistique
 
 La charte est dans `terminus-kit/` (`DIRECTION-ARTISTIQUE.md`, `tokens.css`, polices, visuels).
