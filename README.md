@@ -168,10 +168,21 @@ src/components/            grille, recherche, pastilles de lignes, fenêtres d'i
 - App native : formulaire de consentement Google (UMP) pour la publicité.
 - Web : pas de publicité pour l'instant, donc aucun bandeau.
 
-## Statistiques d'utilisation
+## Statistiques d'utilisation (tableau de bord privé)
 
-PostHog a été retiré. `track()` (`src/analytics/index.ts`) transmet les événements à l'envoi branché
-par `setAnalyticsSink` : base Supabase de Terminus et tableau de bord privé `?stats=` (à venir).
+Comme GOAT FC (goatfc.fr/?stats=…), sans service tiers :
+
+- Le jeu envoie ses événements (ouverture, jeu choisi, parties commencées / terminées, partages,
+  provenance des liens suivis) et un signal « en ligne » toutes les minutes vers la base Supabase
+  du projet GOAT FC, dans des tables séparées `tp_*` (`src/analytics/supabase.ts`).
+- Script de la base : `supabase/terminus-stats.sql` (remplacer `__CODE_SECRET__`, puis SQL Editor → Run).
+  La clé publique ne permet que d'écrire ; les chiffres sortent seulement par `tp_stats(code)`.
+- Tableau de bord : **https://terminusparis.fr/?stats=CODE** (`src/stats/StatsDashboard.tsx`) :
+  en ligne maintenant, visiteurs, visites, nouveaux joueurs, parties, partages, jour par jour,
+  par jeu, provenance, supports. Le code n'est écrit nulle part dans le site (vérifié par la base).
+- Vie privée (exemption CNIL « mesure d'audience ») : identifiant aléatoire renouvelé tous les
+  13 mois, aucune IP ni donnée personnelle, événements supprimés après 13 mois ; le joueur peut
+  refuser (« Ne pas compter mes visites », dans l'aide).
 
 ## Construire avec EAS
 

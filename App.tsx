@@ -1,6 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
 import { useCallback, useEffect, useMemo, useState } from 'react';
-import { Linking, Pressable, StyleSheet, Text, useWindowDimensions, View } from 'react-native';
+import { Linking, Platform, Pressable, StyleSheet, Text, useWindowDimensions, View } from 'react-native';
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 import { Grid } from './src/components/Grid';
 import { InfoModal, infoStyles } from './src/components/InfoModal';
@@ -38,7 +38,9 @@ import {
 import type { Criterion, LineId, Station } from './src/game/types';
 import { colors, fonts, palette, WEB_TOP_GAP } from './src/theme';
 import { APP_VERSION } from './src/version';
-import { track } from './src/analytics';
+import { setAnalyticsSink, track } from './src/analytics';
+import { getStatsOptOut, sendEvent, setStatsOptOut, startPresence } from './src/analytics/supabase';
+import { StatsDashboard } from './src/stats/StatsDashboard';
 import { readAcquisition } from './src/analytics/acquisition';
 import { hasPrivacyChoices, openPrivacyChoices, startConsent } from './src/privacy/consent';
 import { CONTACT_EMAIL, PRIVACY_URL } from './src/privacy/links';
@@ -74,23 +76,46 @@ function yesterdayKey(day: string) {
   return addDays(day, -1);
 }
 
+/**
+ * Tableau de bord privé : terminusparis.fr/?stats=CODE (le code est vérifié par la base, pas ici).
+ * Lu une fois au chargement, sur le web seulement.
+ */
+const STATS_CODE = (() => {
+  if (Platform.OS !== 'web') return null;
+  try {
+    return new URLSearchParams((globalThis as { location?: { search?: string } }).location?.search ?? '').get('stats');
+  } catch {
+    return null;
+  }
+})();
+
+// Statistiques du jeu : envoyées à la base Supabase de Terminus (sauf sur le tableau de bord lui-même).
+if (!STATS_CODE) setAnalyticsSink(sendEvent);
+
 export default function App() {
-  return (
-    <SafeAreaProvider>
-      <Game />
-    </SafeAreaProvider>
-  );
+  return <SafeAreaProvider>{STATS_CODE ? <StatsPage code={STATS_CODE} /> : <Game />}</SafeAreaProvider>;
 }
 
-function Game() {
-  const { width, height } = useWindowDimensions();
+function useGameFonts() {
   // Polices de la charte, embarquées dans l'app (aucun chargement depuis Internet).
-  const [fontsLoaded, fontError] = useFonts({
+  return useFonts({
     [fonts.display]: require('./assets/fonts/BricolageGrotesque-ExtraBold.ttf'),
     [fonts.bold]: require('./assets/fonts/Figtree-Bold.ttf'),
     [fonts.heavy]: require('./assets/fonts/Figtree-ExtraBold.ttf'),
   });
+}
+
+function StatsPage({ code }: { code: string }) {
+  const [loaded, error] = useGameFonts();
+  if (!loaded && !error) return <View style={[styles.screen, { backgroundColor: colors.background }]} />;
+  return <StatsDashboard code={code} />;
+}
+
+function Game() {
+  const { width, height } = useWindowDimensions();
+  const [fontsLoaded, fontError] = useGameFonts();
   const [day, setDay] = useState(currentDayKey);
+  const [noStats, setNoStats] = useState(false);
   /** Minuit à Paris : on passe aux jeux du nouveau jour sans relancer l'app. */
   const newDay = useCallback(() => setDay(currentDayKey()), []);
   const [tab, setTab] = useState<GameTab>('grille');
@@ -123,6 +148,9 @@ function Game() {
   // Consentement (pub et statistiques) dès le lancement.
   useEffect(() => {
     startConsent();
+    getStatsOptOut().then(setNoStats);
+    // « Je suis en ligne » pour le tableau de bord (toutes les minutes tant que le jeu est affiché).
+    return startPresence();
   }, []);
   const [coins, setCoins] = useState(0);
   const [adsLeft, setAdsLeft] = useState(0);
@@ -630,6 +658,15 @@ function Game() {
         <View style={styles.privacyLinks}>
           <Text style={styles.privacyLink} onPress={() => Linking.openURL(PRIVACY_URL)}>
             Politique de confidentialité
+          </Text>
+          <Text
+            style={styles.privacyLink}
+            onPress={async () => {
+              await setStatsOptOut(!noStats);
+              setNoStats(!noStats);
+            }}
+          >
+            {noStats ? 'Compter de nouveau mes visites (statistiques anonymes)' : 'Ne pas compter mes visites (statistiques anonymes)'}
           </Text>
           {hasPrivacyChoices && (
             <Text
