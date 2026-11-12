@@ -22,7 +22,8 @@ export type GameEvent =
   | 'ad_reward_started'
   | 'ad_reward_earned'
   | 'ad_reward_failed'
-  | 'mode_selected';
+  | 'mode_selected'
+  | 'leaderboard_opened';
 
 type Sink = (event: GameEvent, properties?: Props) => void;
 let sink: Sink | null = null;

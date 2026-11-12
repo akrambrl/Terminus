@@ -69,6 +69,20 @@ La charte est dans `terminus-kit/` (`DIRECTION-ARTISTIQUE.md`, `tokens.css`, pol
 - Contraste : `textOn(fond, taille)` applique la règle de la charte (blanc sur tomate, menthe ou rose
   seulement à 24 px et plus). Zones tactiles de 44 px minimum.
 
+## Classement du jour
+
+Bouton 🏆 (en-tête) et « Voir le classement » après chaque partie : Grille (points), Défi (stations
+trouvées), Pendu (trouvé avec le moins d'erreurs), aujourd'hui ou 7 derniers jours ; pseudo facultatif.
+
+- Base : `supabase/terminus-classement.sql` (après `terminus-stats.sql`, même projet, tables `tp_*`).
+- Le serveur recalcule chaque score (`tp_submit`) à partir des réponses du jour chargées dans `tp_daily`
+  et des points des stations (`tp_station_points`). Une seule partie comptée par jeu, par jour et par appareil.
+- Charger / recharger les réponses (2 ans d'avance) : `npx tsx scripts/export-classement.ts 2026-11-01 800`
+  puis `tp_load(code, 'points' | 'daily', lignes)` avec le code du tableau de bord (à refaire si les
+  grilles, le défi, le pendu ou les points changent, et avant la fin de la période chargée).
+- Pseudos : 3 à 16 caractères, filtre de mots interdits (`tp_pseudo_ok`), « Me retirer du classement »
+  supprime pseudo et scores.
+
 ## Points de la grille (rareté des stations)
 
 Chaque bonne réponse rapporte de 10 points (station très fréquentée : Châtelet, Saint-Lazare) à 100 points

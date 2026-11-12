@@ -21,6 +21,7 @@ import {
 import type { LineId, Station } from '../../game/types';
 import { onGameFinished } from '../../store/review';
 import { DayHeader } from '../../components/DayHeader';
+import { submitScore } from '../../analytics/supabase';
 import { NextGame } from '../../components/NextGame';
 import { MetroTrain } from '../../design/MetroTrain';
 import { usePop } from '../../design/motion';
@@ -34,9 +35,12 @@ export function DefiGame({
   onDone,
   onScreen,
   onNewDay,
+  onRanking,
 }: {
   /** Minuit est passé : l'app passe aux jeux du nouveau jour. */
   onNewDay?: () => void;
+  /** Ouvre le classement du jour. */
+  onRanking?: () => void;
   day: string;
   width: number;
   onDone: (done: boolean) => void;
@@ -70,7 +74,10 @@ export function DefiGame({
         setErrors(saved.errors);
         setFinished(saved.finished);
         setGaveUp(saved.gaveUp);
-        if (saved.finished) onScreen('reponse');
+        if (saved.finished) {
+          onScreen('reponse');
+          submitScore(day, 'defi', { found: saved.found, errors: saved.errors });
+        }
       }
       setStats(s);
       setLoaded(true);
@@ -84,6 +91,7 @@ export function DefiGame({
     setTrain(true);
     setGaveUp(abandoned);
     onDone(true);
+    submitScore(day, 'defi', { found: finalFound, errors: finalErrors });
     await saveDefi(day, { defi: defiSignature(defi), found: finalFound, errors: finalErrors, finished: true, gaveUp: abandoned });
     setStats(await recordMode('defi', day, addDays(day, -1), finalFound.length === total));
     track('game_finished', { game: 'defi', found: finalFound.length, total, errors: finalErrors, gave_up: abandoned });
@@ -315,7 +323,20 @@ export function DefiGame({
         visible={showResult}
         title={found.length === total ? 'Défi réussi !' : gaveUp ? 'Défi abandonné' : 'Fin du défi'}
         onClose={() => setShowResult(false)}
-        footer={<Button label={copied ? 'Résultat copié !' : 'Partager mon résultat'} onPress={share} primary />}
+        footer={
+          <View style={{ gap: 10 }}>
+            <Button label={copied ? 'Résultat copié !' : 'Partager mon résultat'} onPress={share} primary />
+            {onRanking && (
+              <Button
+                label="Voir le classement"
+                onPress={() => {
+                  setShowResult(false);
+                  onRanking();
+                }}
+              />
+            )}
+          </View>
+        }
       >
         <Text style={sharedStyles.bigScore}>
           {found.length}/{total}

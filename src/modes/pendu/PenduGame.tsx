@@ -20,6 +20,7 @@ import {
 import type { LineId, Station } from '../../game/types';
 import { onGameFinished } from '../../store/review';
 import { DayHeader } from '../../components/DayHeader';
+import { submitScore } from '../../analytics/supabase';
 import { NextGame } from '../../components/NextGame';
 import { MetroTrain } from '../../design/MetroTrain';
 import { solidShadow } from '../../design/ui';
@@ -36,9 +37,12 @@ export function PenduGame({
   active,
   onDone,
   onNewDay,
+  onRanking,
 }: {
   /** Minuit est passé : l'app passe aux jeux du nouveau jour. */
   onNewDay?: () => void;
+  /** Ouvre le classement du jour. */
+  onRanking?: () => void;
   day: string;
   width: number;
   /** Onglet affiché et aucune fenêtre ouverte : le clavier physique est écouté. */
@@ -68,7 +72,10 @@ export function PenduGame({
   useEffect(() => {
     (async () => {
       const [saved, s] = await Promise.all([loadPendu(day), loadModeStats('pendu')]);
-      if (saved && saved.station === station.id) setGame(saved);
+      if (saved && saved.station === station.id) {
+        setGame(saved);
+        if (saved.finished) submitScore(day, 'pendu', { won: saved.won, errors: saved.errors });
+      }
       setStats(s);
       setLoaded(true);
     })();
@@ -83,6 +90,7 @@ export function PenduGame({
       await savePendu(day, next);
       if (!next.finished) return;
       onDone(true);
+      submitScore(day, 'pendu', { won: next.won, errors: next.errors });
       setStats(await recordMode('pendu', day, addDays(day, -1), next.won));
       track('game_finished', { game: 'pendu', won: next.won, errors: next.errors, letters: next.letters.length });
       onGameFinished(next.won ? 9 : 0);
@@ -338,7 +346,20 @@ export function PenduGame({
         visible={showResult}
         title={game.won ? 'Station trouvée !' : 'Pas cette fois…'}
         onClose={() => setShowResult(false)}
-        footer={<Button label={copied ? 'Résultat copié !' : 'Partager mon résultat'} onPress={share} primary />}
+        footer={
+          <View style={{ gap: 10 }}>
+            <Button label={copied ? 'Résultat copié !' : 'Partager mon résultat'} onPress={share} primary />
+            {onRanking && (
+              <Button
+                label="Voir le classement"
+                onPress={() => {
+                  setShowResult(false);
+                  onRanking();
+                }}
+              />
+            )}
+          </View>
+        }
       >
         <Text style={[sharedStyles.bigScore, { fontSize: 30 }]}>{station.name}</Text>
         <View style={styles.resultLines}>

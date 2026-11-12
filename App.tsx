@@ -40,8 +40,9 @@ import type { Criterion, LineId, Station } from './src/game/types';
 import { colors, fonts, palette, WEB_TOP_GAP } from './src/theme';
 import { APP_VERSION } from './src/version';
 import { setAnalyticsSink, track } from './src/analytics';
-import { getStatsOptOut, sendEvent, setStatsOptOut, startPresence } from './src/analytics/supabase';
+import { getStatsOptOut, sendEvent, setStatsOptOut, startPresence, submitScore } from './src/analytics/supabase';
 import { StatsDashboard } from './src/stats/StatsDashboard';
+import { LeaderboardModal } from './src/leaderboard/LeaderboardModal';
 import { readAcquisition } from './src/analytics/acquisition';
 import { hasPrivacyChoices, openPrivacyChoices, startConsent } from './src/privacy/consent';
 import { CONTACT_EMAIL, PRIVACY_URL } from './src/privacy/links';
@@ -117,6 +118,8 @@ function Game() {
   const [fontsLoaded, fontError] = useGameFonts();
   const [day, setDay] = useState(currentDayKey);
   const [noStats, setNoStats] = useState(false);
+  const [showRanking, setShowRanking] = useState(false);
+  const openRanking = useCallback(() => setShowRanking(true), []);
   /** Minuit à Paris : on passe aux jeux du nouveau jour sans relancer l'app. */
   const newDay = useCallback(() => setDay(currentDayKey()), []);
   const [tab, setTab] = useState<GameTab>('grille');
@@ -186,6 +189,8 @@ function Game() {
         setCells(saved.cells);
         setErrors(saved.errors);
         setFinished(saved.finished);
+        // Classement : renvoie la grille du jour terminée (sans effet si elle est déjà enregistrée).
+        if (saved.finished) submitScore(day, 'grille', { cells: saved.cells.flat(), errors: saved.errors });
       } else {
         // Nouveau jour (ou première partie) : grille du jour vierge.
         setMode('daily');
@@ -226,6 +231,7 @@ function Game() {
       }
       if (mode === 'daily') {
         markDone('grille');
+        submitScore(day, 'grille', { cells: finalCells.flat(), errors: errorCount });
         await saveDaily(day, { puzzle: puzzleSignature(puzzle), cells: finalCells, errors: errorCount, finished: true });
         const count = finalCells.flat().filter(Boolean).length;
         setStats(await recordDaily(day, count, yesterdayKey(day), gridPoints(finalCells)));
@@ -385,10 +391,15 @@ function Game() {
       <StatusBar style={dark ? 'light' : 'dark'} />
       <View style={[styles.content, { paddingTop: WEB_TOP_GAP }]}>
         <View style={[styles.header, { width: contentWidth }]}>
-          <Logo tile={Math.min(dark ? (height < 700 ? 22 : 30) : 34, (contentWidth - 90) / 8.6)} plaque={dark} />
-          <Pressable onPress={() => { setShowHelp(true); track('help_opened', { game: tab }); }} style={styles.helpButton} accessibilityRole="button" accessibilityLabel="Règles du jeu">
-            <Text style={styles.helpText}>?</Text>
-          </Pressable>
+          <Logo tile={Math.min(dark ? (height < 700 ? 22 : 30) : 34, (contentWidth - 140) / 8.6)} plaque={dark} />
+          <View style={styles.headerButtons}>
+            <Pressable onPress={openRanking} style={styles.helpButton} accessibilityRole="button" accessibilityLabel="Classement du jour">
+              <Text style={styles.trophy}>🏆</Text>
+            </Pressable>
+            <Pressable onPress={() => { setShowHelp(true); track('help_opened', { game: tab }); }} style={styles.helpButton} accessibilityRole="button" accessibilityLabel="Règles du jeu">
+              <Text style={styles.helpText}>?</Text>
+            </Pressable>
+          </View>
         </View>
         <ModeTabs
           value={tab}
@@ -401,13 +412,14 @@ function Game() {
           }}
         />
         {tab === 'defi' && (
-          <DefiGame key={day} day={day} width={contentWidth} onDone={() => markDone('defi')} onScreen={setDefiScreen} onNewDay={newDay} />
+          <DefiGame key={day} day={day} width={contentWidth} onDone={() => markDone('defi')} onScreen={setDefiScreen} onNewDay={newDay} onRanking={openRanking} />
         )}
         {tab === 'pendu' && (
           <PenduGame
             key={day}
             day={day}
             onNewDay={newDay}
+            onRanking={openRanking}
             width={contentWidth}
             active={!showHelp && !showIntro && !bonus}
             onDone={() => markDone('pendu')}
@@ -536,7 +548,20 @@ function Game() {
         visible={showResult}
         title={found === 9 ? 'Grille parfaite !' : found >= 6 ? 'Bien joué !' : 'Fin de partie'}
         onClose={() => setShowResult(false)}
-        footer={<Button label={copied ? 'Résultat copié !' : 'Partager mon résultat'} onPress={share} primary />}
+        footer={
+          <View style={{ gap: 10 }}>
+            <Button label={copied ? 'Résultat copié !' : 'Partager mon résultat'} onPress={share} primary />
+            {mode === 'daily' && (
+              <Button
+                label="Voir le classement"
+                onPress={() => {
+                  setShowResult(false);
+                  setShowRanking(true);
+                }}
+              />
+            )}
+          </View>
+        }
       >
         <Text style={styles.bigScore}>{found}/9</Text>
         <Text style={styles.pointsLine}>
@@ -703,6 +728,7 @@ function Game() {
         </View>
       </InfoModal>
     </SafeAreaView>
+    <LeaderboardModal visible={showRanking} initialGame={tab} onClose={() => setShowRanking(false)} />
     {showIntro && <Intro onDone={() => setShowIntro(false)} />}
     </View>
   );
@@ -736,6 +762,8 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   helpText: { fontSize: 20, fontFamily: fonts.display, color: colors.ink },
+  trophy: { fontSize: 20 },
+  headerButtons: { flexDirection: 'row', gap: 8 },
   status: { marginTop: 8, gap: 8 },
   statusRow: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'baseline' },
   statusLabel: { fontFamily: fonts.heavy, fontSize: 13, color: colors.muted, textTransform: 'uppercase', letterSpacing: 1.8 },

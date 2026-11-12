@@ -28,6 +28,7 @@ const KEPT = new Set<GameEvent>([
   'free_game_started',
   'ad_reward_earned',
   'store_link_clicked',
+  'leaderboard_opened',
 ]);
 
 const headers = {
@@ -164,4 +165,97 @@ export interface StatsData {
   per_game: { game: string; started: number; finished: number; players: number; shares: number }[];
   sources: { source: string; campaign: string; visitors: number; visits: number }[];
   platforms: { platform: string; visitors: number }[];
+}
+
+/* ---------- Classement (supabase/terminus-classement.sql) ---------- */
+
+export type RankedGame = 'grille' | 'defi' | 'pendu';
+export type RankPeriod = 'day' | 'week';
+
+export interface RankRow {
+  rank: number;
+  pseudo: string | null;
+  score: number;
+  found: number;
+  errors: number;
+  games: number;
+  me?: boolean;
+}
+
+export interface Leaderboard {
+  game: RankedGame;
+  period: RankPeriod;
+  day: string;
+  players: number;
+  top: RankRow[];
+  me: RankRow | null;
+  pseudo: string | null;
+}
+
+async function rpc<T>(name: string, args: Record<string, unknown>): Promise<T> {
+  const res = await fetch(`${SUPABASE_URL}/rest/v1/rpc/${name}`, {
+    method: 'POST',
+    headers: { ...headers, Prefer: 'return=representation' },
+    body: JSON.stringify(args),
+  });
+  if (!res.ok) throw new Error(`HTTP ${res.status}`);
+  return (await res.json()) as T;
+}
+
+/** Identifiant aléatoire de l'appareil (le même que pour les statistiques). */
+export const getDeviceId = ensureDevice;
+
+const PSEUDO_KEY = 'terminus:pseudo';
+
+export async function getLocalPseudo(): Promise<string | null> {
+  try {
+    return await AsyncStorage.getItem(PSEUDO_KEY);
+  } catch {
+    return null;
+  }
+}
+
+/** Choisit le pseudo du classement. Renvoie 'ok', 'invalid' (format ou mot interdit), 'taken' ou 'error'. */
+export async function setPseudo(pseudo: string): Promise<'ok' | 'invalid' | 'taken' | 'error'> {
+  const device = await ensureDevice();
+  if (!device) return 'error';
+  try {
+    const r = await rpc<string>('tp_set_pseudo', { p_device: device, p_pseudo: pseudo });
+    if (r === 'ok') await AsyncStorage.setItem(PSEUDO_KEY, pseudo.trim().replace(/\s+/g, ' '));
+    return r === 'ok' || r === 'invalid' || r === 'taken' ? r : 'error';
+  } catch {
+    return 'error';
+  }
+}
+
+/** Retire le joueur du classement (pseudo et scores supprimés). */
+export async function deletePlayer(): Promise<boolean> {
+  const device = await ensureDevice();
+  if (!device) return false;
+  try {
+    await rpc('tp_delete_player', { p_device: device });
+    await AsyncStorage.removeItem(PSEUDO_KEY);
+    return true;
+  } catch {
+    return false;
+  }
+}
+
+/**
+ * Envoie une partie du jour terminée. Le serveur recalcule le score et ne garde que la première partie
+ * du jour par jeu ; un nouvel envoi (au lancement suivant, par exemple) est donc sans effet.
+ */
+export async function submitScore(day: string, game: RankedGame, payload: Record<string, unknown>): Promise<void> {
+  const device = await ensureDevice();
+  if (!device) return;
+  try {
+    await rpc('tp_submit', { p_device: device, p_day: day, p_game: game, p_payload: payload });
+  } catch {
+    // Hors ligne : la partie sera renvoyée au prochain lancement.
+  }
+}
+
+export async function fetchLeaderboard(game: RankedGame, period: RankPeriod): Promise<Leaderboard> {
+  const device = (await ensureDevice()) ?? '';
+  return rpc<Leaderboard>('tp_leaderboard', { p_game: game, p_period: period, p_device: device });
 }
