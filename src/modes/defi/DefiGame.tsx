@@ -21,6 +21,7 @@ import {
 import type { LineId, Station } from '../../game/types';
 import { onGameFinished } from '../../store/review';
 import { DayHeader } from '../../components/DayHeader';
+import { NextGame } from '../../components/NextGame';
 import { MetroTrain } from '../../design/MetroTrain';
 import { usePop } from '../../design/motion';
 import { Card, Plaque } from '../../design/ui';
@@ -32,7 +33,10 @@ export function DefiGame({
   width,
   onDone,
   onScreen,
+  onNewDay,
 }: {
+  /** Minuit est passé : l'app passe aux jeux du nouveau jour. */
+  onNewDay?: () => void;
   day: string;
   width: number;
   onDone: (done: boolean) => void;
@@ -173,6 +177,8 @@ export function DefiGame({
           <Text style={[styles.howMany, { color: textOn(colors.mint, 24) }]}>
             Tu en avais {found.length} sur {total}
           </Text>
+          {/* Sur menthe, petit texte en bleu nuit (règle de contraste de la charte). */}
+          <NextGame day={day} label="Prochain défi" color={colors.ink} onNewDay={onNewDay} />
           <View style={sharedStyles.actions}>
             <Button label="Voir mon résultat" onPress={() => setShowResult(true)} primary />
           </View>

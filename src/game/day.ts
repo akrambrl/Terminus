@@ -66,3 +66,22 @@ function simulatedDay(): string | null {
 export function currentDayKey(): string {
   return simulatedDay() ?? parisDayKey();
 }
+
+/** Millisecondes avant le prochain minuit à Paris (changement de grille, défi et pendu). */
+export function msUntilNextParisDay(now = new Date()): number {
+  const [y, m, d] = parisDayKey(now).split('-').map(Number);
+  // Minuit à Paris = minuit UTC moins le décalage de Paris à ce moment-là.
+  const guess = Date.UTC(y, m - 1, d + 1);
+  const midnight = guess - parisOffsetHours(new Date(guess - 3600000)) * 3600000;
+  return Math.max(0, midnight - now.getTime());
+}
+
+/** « 6 h 21 min », « 42 min », « moins d'une minute ». */
+export function formatCountdown(ms: number): string {
+  const total = Math.ceil(ms / 60000);
+  if (total <= 0) return "moins d'une minute";
+  const h = Math.floor(total / 60);
+  const min = total % 60;
+  if (!h) return `${min} min`;
+  return min ? `${h} h ${String(min).padStart(2, '0')} min` : `${h} h`;
+}

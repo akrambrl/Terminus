@@ -11,6 +11,7 @@ import { addDays, currentDayKey } from './src/game/day';
 import { Button, Stat } from './src/components/Button';
 import { ModeTabs, type GameTab } from './src/components/ModeTabs';
 import { DayHeader } from './src/components/DayHeader';
+import { NextGame } from './src/components/NextGame';
 import { BrickWall } from './src/design/ui';
 import { screens, ui, type ScreenId } from './src/theme';
 import { shareMessage } from './src/components/share';
@@ -89,7 +90,9 @@ function Game() {
     [fonts.bold]: require('./assets/fonts/Figtree-Bold.ttf'),
     [fonts.heavy]: require('./assets/fonts/Figtree-ExtraBold.ttf'),
   });
-  const [day] = useState(currentDayKey);
+  const [day, setDay] = useState(currentDayKey);
+  /** Minuit à Paris : on passe aux jeux du nouveau jour sans relancer l'app. */
+  const newDay = useCallback(() => setDay(currentDayKey()), []);
   const [tab, setTab] = useState<GameTab>('grille');
   const [done, setDone] = useState<Record<GameTab, boolean>>({ grille: false, defi: false, pendu: false });
   const [defiScreen, setDefiScreen] = useState<ScreenId>('defi');
@@ -155,6 +158,13 @@ function Game() {
         setCells(saved.cells);
         setErrors(saved.errors);
         setFinished(saved.finished);
+      } else {
+        // Nouveau jour (ou première partie) : grille du jour vierge.
+        setMode('daily');
+        setCells(emptyCells());
+        setErrors(0);
+        setFinished(false);
+        setShowResult(false);
       }
       setStats(s);
       setShowHelp(!seen);
@@ -354,11 +364,13 @@ function Game() {
           }}
         />
         {tab === 'defi' && (
-          <DefiGame day={day} width={contentWidth} onDone={() => markDone('defi')} onScreen={setDefiScreen} />
+          <DefiGame key={day} day={day} width={contentWidth} onDone={() => markDone('defi')} onScreen={setDefiScreen} onNewDay={newDay} />
         )}
         {tab === 'pendu' && (
           <PenduGame
+            key={day}
             day={day}
+            onNewDay={newDay}
             width={contentWidth}
             active={!showHelp && !showIntro && !bonus}
             onDone={() => markDone('pendu')}
@@ -403,6 +415,7 @@ function Game() {
             <Text style={styles.statusValue}>{finished ? `${found}/9` : MAX_ERRORS - errors}</Text>
           </View>
           <TicketTrack total={MAX_ERRORS} used={errors} />
+          {mode === 'daily' && finished && <NextGame day={day} label="Prochaine grille" onNewDay={newDay} />}
         </View>
 
         <View style={styles.actions}>

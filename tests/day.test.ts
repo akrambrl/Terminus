@@ -49,3 +49,15 @@ test('contenu du jour déterministe pour une date donnée', () => {
   // Et il change d'un jour à l'autre.
   assert.notEqual(penduStation(day).id, penduStation(addDays(day, 1)).id);
 });
+
+test('compte à rebours jusqu’à minuit heure de Paris', async () => {
+  const { msUntilNextParisDay, formatCountdown } = await import('../src/game/day');
+  // 17 h 39 à Paris (hiver, UTC+1) -> 6 h 21 min.
+  assert.equal(formatCountdown(msUntilNextParisDay(new Date('2026-11-12T16:39:00Z'))), '6 h 21 min');
+  // 23 h 30 à Paris en été (UTC+2) -> 30 min.
+  assert.equal(formatCountdown(msUntilNextParisDay(new Date('2027-07-14T21:30:00Z'))), '30 min');
+  // Veille du passage à l'heure d'été : minuit à Paris = 23 h UTC.
+  assert.equal(msUntilNextParisDay(new Date('2027-03-27T22:00:00Z')), 3600000);
+  // Veille du retour à l'heure d'hiver : minuit à Paris = 22 h UTC.
+  assert.equal(msUntilNextParisDay(new Date('2027-10-30T21:00:00Z')), 3600000);
+});

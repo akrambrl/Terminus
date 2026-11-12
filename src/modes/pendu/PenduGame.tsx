@@ -20,6 +20,7 @@ import {
 import type { LineId, Station } from '../../game/types';
 import { onGameFinished } from '../../store/review';
 import { DayHeader } from '../../components/DayHeader';
+import { NextGame } from '../../components/NextGame';
 import { MetroTrain } from '../../design/MetroTrain';
 import { solidShadow } from '../../design/ui';
 import { alpha, colors, fonts, logoColors, mix, textOn, ui } from '../../theme';
@@ -34,7 +35,10 @@ export function PenduGame({
   width,
   active,
   onDone,
+  onNewDay,
 }: {
+  /** Minuit est passé : l'app passe aux jeux du nouveau jour. */
+  onNewDay?: () => void;
   day: string;
   width: number;
   /** Onglet affiché et aucune fenêtre ouverte : le clavier physique est écouté. */
@@ -179,7 +183,7 @@ export function PenduGame({
         used = w;
       } else used += (used ? 12 : 0) + w;
     }
-    const h = lines * t * 1.15 + (lines - 1) * 10 + (game.finished ? 32 : 0);
+    const h = lines * t * 1.15 + (lines - 1) * 10 + (game.finished ? 32 + 52 : 0);
     return !boardH || h <= boardH - 8;
   };
   let tile = 38;
@@ -252,6 +256,7 @@ export function PenduGame({
             </View>
           ))}
         </View>
+        {revealed && <NextGame day={day} label="Prochain pendu" color={colors.white} onNewDay={onNewDay} />}
       </View>
 
       <View style={[sharedStyles.status, { width: width - 8, marginTop: 4 }]}>
@@ -347,7 +352,7 @@ export function PenduGame({
             ? game.errors === 0
               ? 'Sans aucune erreur, chapeau !'
               : `Trouvée avec ${game.errors} erreur${game.errors > 1 ? 's' : ''}.`
-            : 'Une nouvelle station à deviner demain !'}
+            : 'Une nouvelle station à deviner demain, à minuit !'}
         </Text>
         <View style={sharedStyles.stats}>
           <Stat value={stats.played} label="Parties" />
