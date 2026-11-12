@@ -66,6 +66,8 @@ import {
   DAILY_BONUS,
   grantAdReward,
   GRID_COST,
+  TICKETS_COST,
+  TICKETS_PACK,
   MAX_COINS,
   spendCoins,
   type BonusResult,
@@ -150,6 +152,9 @@ function Game() {
 
   const [cells, setCells] = useState(emptyCells);
   const [errors, setErrors] = useState(0);
+  /** Lots de 3 tickets rachetés pour la grille en cours. */
+  const [bought, setBought] = useState(0);
+  const [showOut, setShowOut] = useState(false);
   const [finished, setFinished] = useState(false);
   const [loaded, setLoaded] = useState(false);
   const [stats, setStats] = useState<Stats>(EMPTY_STATS);
@@ -206,6 +211,7 @@ function Game() {
       if (saved && typeof saved.errors === 'number' && saved.puzzle === puzzleSignature(generatePuzzle(dailySeed(day)))) {
         setCells(saved.cells);
         setErrors(saved.errors);
+        setBought(saved.bought ?? 0);
         setFinished(saved.finished);
         // Classement : renvoie la grille du jour terminée (sans effet si elle est déjà enregistrée).
         if (saved.finished) submitScore(day, 'grille', { cells: saved.cells.flat(), errors: saved.errors });
@@ -214,6 +220,7 @@ function Game() {
         setMode('daily');
         setCells(emptyCells());
         setErrors(0);
+        setBought(0);
         setFinished(false);
         setShowResult(false);
       }
@@ -234,6 +241,10 @@ function Game() {
   const found = usedIds.size;
   /** Points de la grille : stations peu fréquentées = plus de points. */
   const points = gridPoints(cells);
+  /** Erreurs permises : 3, plus 3 par lot de tickets racheté. */
+  const maxErrors = MAX_ERRORS + TICKETS_PACK * bought;
+  /** Plus de tickets, grille pas finie : en attente d'un rachat ou de « Terminer ». */
+  const outOfTickets = !finished && errors >= maxErrors;
   const maxPoints = useMemo(() => bestGridPoints(puzzle.answers), [puzzle]);
 
   const finish = useCallback(
@@ -243,20 +254,20 @@ function Game() {
       track('game_finished', { game: 'grille', mode, found: foundCount, errors: errorCount, gave_up: gaveUp, points: gridPoints(finalCells) });
       onGameFinished(foundCount);
       if (mode === 'free') {
-        const game = { seed: freeSeed, cells: finalCells, errors: errorCount, finished: true };
+        const game = { seed: freeSeed, cells: finalCells, errors: errorCount, finished: true, bought };
         setFreeSaved(game);
         saveFreeGame(game);
       }
       if (mode === 'daily') {
         markDone('grille');
         submitScore(day, 'grille', { cells: finalCells.flat(), errors: errorCount });
-        await saveDaily(day, { puzzle: puzzleSignature(puzzle), cells: finalCells, errors: errorCount, finished: true });
+        await saveDaily(day, { puzzle: puzzleSignature(puzzle), cells: finalCells, errors: errorCount, finished: true, bought });
         const count = finalCells.flat().filter(Boolean).length;
         setStats(await recordDaily(day, count, yesterdayKey(day), gridPoints(finalCells)));
       }
       setTimeout(() => setShowResult(true), 400);
     },
-    [mode, day, puzzle, freeSeed, markDone],
+    [mode, day, puzzle, freeSeed, markDone, bought],
   );
 
   const submit = (station: Station) => {
@@ -283,7 +294,7 @@ function Game() {
       setActive(null);
       setFeedback(null);
     } else {
-      const left = MAX_ERRORS - nextErrors;
+      const left = maxErrors - nextErrors;
       setFeedback(
         left > 0
           ? `« ${station.name} » ne remplit pas les deux critères. Encore ${left} erreur${left > 1 ? 's' : ''} possible${left > 1 ? 's' : ''}.`
@@ -291,16 +302,51 @@ function Game() {
       );
     }
     const complete = next.flat().every(Boolean);
-    if (complete || nextErrors >= MAX_ERRORS) {
+    if (complete) {
       setActive(null);
       finish(next, nextErrors);
-    } else if (mode === 'daily') {
-      saveDaily(day, { puzzle: puzzleSignature(puzzle), cells: next, errors: nextErrors, finished: false });
+      return;
+    }
+    if (nextErrors >= maxErrors) {
+      // Plus de tickets : on propose d'en racheter 3 avec une pièce, ou de terminer la grille.
+      setActive(null);
+      setTimeout(() => setShowOut(true), 350);
+    }
+    saveProgress(next, nextErrors, bought);
+  };
+
+  /** Sauvegarde de la grille en cours (du jour ou en plus). */
+  const saveProgress = (c: (string | null)[][], e: number, b: number) => {
+    if (mode === 'daily') {
+      saveDaily(day, { puzzle: puzzleSignature(puzzle), cells: c, errors: e, finished: false, bought: b });
     } else {
-      const game = { seed: freeSeed, cells: next, errors: nextErrors, finished: false };
+      const game = { seed: freeSeed, cells: c, errors: e, finished: false, bought: b };
       setFreeSaved(game);
       saveFreeGame(game);
     }
+  };
+
+  /** Rachète 3 tickets avec une pièce pour continuer la grille. */
+  const buyTickets = async () => {
+    const paid = await spendCoins(TICKETS_COST, day);
+    setCoins(paid.coins);
+    setAdsLeft(paid.adsLeft);
+    if (!paid.ok) {
+      track('not_enough_coins', { coins: paid.coins, for: 'tickets' });
+      return;
+    }
+    track('tickets_bought', { game: 'grille', mode, cost: TICKETS_COST, coins_left: paid.coins, found });
+    const b = bought + 1;
+    setBought(b);
+    setShowOut(false);
+    setFeedback(null);
+    saveProgress(cells, errors, b);
+  };
+
+  /** Le joueur ne rachète pas de tickets : la grille se termine. */
+  const endGrid = () => {
+    setShowOut(false);
+    finish(cells, errors);
   };
 
   const showFreeGame = (game: SavedFreeGame) => {
@@ -308,6 +354,7 @@ function Game() {
     setFreeSeed(game.seed);
     setCells(game.cells);
     setErrors(game.errors);
+    setBought(game.bought ?? 0);
     setFinished(game.finished);
     setShowResult(false);
   };
@@ -333,7 +380,7 @@ function Game() {
       return;
     }
     track('free_game_started', { cost: GRID_COST, coins_left: paid.coins });
-    const game = { seed: `libre-${Date.now()}`, cells: emptyCells(), errors: 0, finished: false };
+    const game = { seed: `libre-${Date.now()}`, cells: emptyCells(), errors: 0, finished: false, bought: 0 };
     setFreeSaved(game);
     saveFreeGame(game);
     showFreeGame(game);
@@ -368,6 +415,7 @@ function Game() {
     setMode('daily');
     setCells(saved?.cells ?? emptyCells());
     setErrors(saved?.errors ?? 0);
+    setBought(saved?.bought ?? 0);
     setFinished(saved?.finished ?? false);
     setShowResult(false);
   };
@@ -464,6 +512,7 @@ function Game() {
               width={gridWidth}
               onPressCell={(row, col) => {
                 if (finished) setAnswersFor({ row, col });
+                else if (outOfTickets) setShowOut(true);
                 else {
                   setFeedback(null);
                   setActive({ row, col });
@@ -479,28 +528,35 @@ function Game() {
         <View style={[styles.status, { width: contentWidth - 24 }]}>
           <View style={styles.statusRow}>
             <Text style={styles.statusLabel}>
-              {finished ? `Terminé · ${found}/9` : `Erreurs possibles · ${MAX_ERRORS - errors}`}
+              {finished ? `Terminé · ${found}/9` : `Erreurs possibles · ${maxErrors - errors}`}
             </Text>
             <Text style={styles.statusValue} accessibilityLabel={`${points} points`}>
               {points} <Text style={styles.statusUnit}>pts</Text>
             </Text>
           </View>
-          <TicketTrack total={MAX_ERRORS} used={errors} />
+          {/* Après un rachat, 3 tickets neufs : on n'affiche que le lot en cours. */}
+          <TicketTrack total={MAX_ERRORS} used={Math.min(MAX_ERRORS, Math.max(0, errors - TICKETS_PACK * bought))} />
           {mode === 'daily' && finished && <NextGame day={day} label="Prochaine grille" onNewDay={newDay} />}
         </View>
 
         <View style={styles.actions}>
           {finished ? (
             <Button label="Voir le résultat" onPress={() => setShowResult(true)} primary />
+          ) : outOfTickets ? (
+            <>
+              <Button label="Terminer" onPress={endGrid} tone="danger" />
+              <Button label={`3 tickets · ${TICKETS_COST}`} coin primary onPress={() => setShowOut(true)} />
+            </>
           ) : (
             <Button label="Abandonner" onPress={giveUp} tone="danger" />
           )}
           {mode === 'daily' ? (
             freeSaved && !freeSaved.finished ? (
               <Button label="Reprendre la grille en plus" onPress={resumeOrBuyFree} />
-            ) : (
+            ) : finished && found === 9 ? (
+              // Les grilles en plus sont réservées à ceux qui ont réussi la grille du jour.
               <Button label={`Grille en plus · ${GRID_COST}`} coin onPress={buyFree} />
-            )
+            ) : null
           ) : (
             <>
               {finished && <Button label={`Nouvelle grille · ${GRID_COST}`} coin onPress={buyFree} />}
@@ -521,7 +577,7 @@ function Game() {
         row={activeRow}
         col={activeCol}
         usedIds={usedIds}
-        errorsLeft={MAX_ERRORS - errors}
+        errorsLeft={maxErrors - errors}
         feedback={feedback}
         onSubmit={submit}
         onClose={() => setActive(null)}
@@ -588,6 +644,11 @@ function Game() {
         <Text style={[infoStyles.p, { textAlign: 'center' }]}>
           Touche une case de la grille pour voir toutes les réponses possibles.
         </Text>
+        {mode === 'daily' && found < 9 && (
+          <Text style={[infoStyles.small, { textAlign: 'center' }]}>
+            Réussis la grille du jour (9/9) pour débloquer des grilles en plus.
+          </Text>
+        )}
         {mode === 'daily' && (
           <View style={styles.stats}>
             <Stat value={stats.played} label="Grilles" />
@@ -617,6 +678,44 @@ function Game() {
         <Text style={[infoStyles.small, { textAlign: 'center' }]}>
           Une grille en plus coûte {GRID_COST} pièce. Ton solde : {bonus?.coins} pièces (maximum {MAX_COINS}).
         </Text>
+      </InfoModal>
+
+      <InfoModal
+        visible={showOut}
+        title="Plus de tickets !"
+        onClose={() => setShowOut(false)}
+        footer={
+          <View style={{ gap: 10 }}>
+            {coins >= TICKETS_COST ? (
+              <Button label={`Racheter 3 tickets · ${TICKETS_COST}`} coin primary onPress={buyTickets} />
+            ) : canWatchAd ? (
+              <Button
+                label={watchingAd ? 'Chargement de la pub…' : `Regarder une pub · +${AD_REWARD}`}
+                coin
+                primary
+                onPress={() => !watchingAd && watchAd()}
+              />
+            ) : null}
+            <Button label="Terminer la grille" onPress={endGrid} />
+          </View>
+        }
+      >
+        <View style={styles.bonusRow}>
+          <TicketTrack total={MAX_ERRORS} used={MAX_ERRORS} />
+        </View>
+        <Text style={[infoStyles.p, { textAlign: 'center' }]}>
+          Tu as trouvé {found} station{found > 1 ? 's' : ''} sur 9. Rachète 3 tickets pour {TICKETS_COST} pièce et
+          continue la grille, ou termine-la pour voir toutes les réponses.
+        </Text>
+        <Text style={[infoStyles.small, { textAlign: 'center' }]}>
+          {coins >= TICKETS_COST
+            ? `Ton solde : ${coins} pièce${coins > 1 ? 's' : ''}.`
+            : canWatchAd
+              ? `Tu n'as plus de pièce : regarde une courte pub pour en gagner ${AD_REWARD}.`
+              : "Tu n'as plus de pièce : tu en gagnes 3 chaque jour en ouvrant le jeu."}
+          {mode === 'daily' ? ' Au classement, chaque erreur compte.' : ''}
+        </Text>
+        {adMessage && <Text style={[infoStyles.small, { textAlign: 'center', color: colors.ink }]}>{adMessage}</Text>}
       </InfoModal>
 
       <InfoModal
@@ -703,9 +802,10 @@ function Game() {
           comme Pelleport en vaut 100. Trouve les stations les moins connues pour battre ton record !
         </Text>
         <Text style={infoStyles.p}>
-          Une nouvelle grille gratuite t'attend chaque jour. Pour jouer d'autres grilles, utilise tes pièces : chaque
-          grille en plus coûte {GRID_COST} pièce, et tu gagnes {DAILY_BONUS} pièces chaque jour en ouvrant l'app (jusqu'à{' '}
-          {MAX_COINS} en réserve). Les pièces ne s'achètent pas : elles se gagnent seulement en jouant.
+          Une nouvelle grille gratuite t'attend chaque jour. Tu gagnes {DAILY_BONUS} pièces chaque jour en ouvrant l'app
+          (jusqu'à {MAX_COINS} en réserve) : plus de tickets après 3 erreurs ? {TICKETS_COST} pièce rachète 3 tickets pour
+          continuer. Grille du jour réussie (9/9) ? {GRID_COST} pièce débloque une grille en plus. Les pièces ne
+          s'achètent pas : elles se gagnent seulement en jouant.
         </Text>
         </>
         )}

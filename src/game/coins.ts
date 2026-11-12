@@ -9,6 +9,9 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
  */
 export const DAILY_BONUS = 3;
 export const GRID_COST = 1;
+/** Grille perdue (3 erreurs) : 1 pièce pour racheter 3 tickets et continuer. */
+export const TICKETS_COST = 1;
+export const TICKETS_PACK = 3;
 export const AD_REWARD = 2;
 export const MAX_ADS_PER_DAY = 3;
 export const MAX_COINS = 10;

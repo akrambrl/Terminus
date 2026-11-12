@@ -29,6 +29,7 @@ const KEPT = new Set<GameEvent>([
   'ad_reward_earned',
   'store_link_clicked',
   'leaderboard_opened',
+  'tickets_bought',
 ]);
 
 const headers = {

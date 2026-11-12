@@ -5,9 +5,11 @@ export interface SavedGame {
   puzzle?: string;
   /** cells[r][c] = identifiant de la station trouvée, ou null. */
   cells: (string | null)[][];
-  /** Erreurs commises (la partie s'arrête à MAX_ERRORS). */
+  /** Erreurs commises (la partie s'arrête à MAX_ERRORS, plus 3 par lot de tickets racheté). */
   errors: number;
   finished: boolean;
+  /** Lots de 3 tickets rachetés avec des pièces. */
+  bought?: number;
 }
 
 export interface Stats {
@@ -84,6 +86,7 @@ export interface SavedFreeGame {
   cells: (string | null)[][];
   errors: number;
   finished: boolean;
+  bought?: number;
 }
 
 const FREE_KEY = 'terminus:free-game';

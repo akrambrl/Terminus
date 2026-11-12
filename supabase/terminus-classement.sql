@@ -126,7 +126,8 @@ begin
   if d is null then return null; end if;
 
   if p_game = 'grille' then
-    if v_errors not between 0 and 3 or jsonb_array_length(p_payload -> 'cells') <> 9 then return null; end if;
+    -- 3 erreurs, plus 3 par lot de tickets racheté avec une pièce.
+    if v_errors not between 0 and 63 or jsonb_array_length(p_payload -> 'cells') <> 9 then return null; end if;
     for i in 0..8 loop
       cell := p_payload -> 'cells' -> i;
       if cell is null or jsonb_typeof(cell) = 'null' then continue; end if;
