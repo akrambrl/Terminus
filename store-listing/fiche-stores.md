@@ -13,54 +13,62 @@ Ne jamais utiliser « RATP », « IDFM » ni le nom d'un autre jeu dans les text
 Terminus Paris : jeu du métro
 ```
 
-**Sous-titre** (29/30)
+**Sous-titre** (30/30)
 ```
-Quiz des stations chaque jour
+3 jeux par jour sur le métro !
 ```
 
 **Mots-clés** (≤ 100, virgules sans espaces, ne pas répéter les mots du nom / sous-titre)
 ```
-station,ligne,grille,devinette,parisien,rer,transport,logique,culture,casse-tete,sudoku,enigme,carte
+station,ligne,grille,pendu,defi,quiz,parisien,rer,devinette,culture,casse-tete,sudoku,enigme,carte
 ```
 
-**Texte promotionnel** (143/170, modifiable à tout moment sans nouvelle version)
+**Texte promotionnel** (≤ 170, modifiable à tout moment sans nouvelle version)
 ```
-Une nouvelle grille chaque jour : trouve 9 stations du métro parisien qui respectent deux critères. Ligne, quartier, monument… À toi de jouer !
+Chaque matin : une grille de 9 stations, un défi et un pendu du métro parisien. Les stations rares rapportent plus de points. Grimpe au classement !
 ```
 
 **Description**
 ```
 Tu prends le métro tous les jours ? Prouve-le !
 
-Terminus Paris est le jeu de grille quotidien des stations du métro parisien. Chaque case de la grille 3×3 croise deux critères : trouve une station qui respecte les deux à la fois.
+Terminus Paris, c'est 3 jeux quotidiens sur les stations du métro parisien. Chaque jour à minuit, une nouvelle Grille, un nouveau Défi et un nouveau Pendu, les mêmes pour tout le monde.
 
-EXEMPLES DE CRITÈRES
-• Une ligne : ligne 4, ligne 7 ou 7 bis, ligne automatique…
-• Un lieu : centre de Paris, arrondissement pair, hors Paris, à moins de 1 km de la Seine
-• Un monument : à moins de 2 km de la tour Eiffel, du Sacré-Cœur, du Louvre…
-• Le nom : commence par P, contient un Y, nom en deux parties, avec « de » ou « du »…
-• Les correspondances : une seule ligne, 2 lignes ou plus, avec le RER
+🧩 LA GRILLE
+Chaque case de la grille 3×3 croise deux critères : trouve une station qui respecte les deux. Ligne, quartier, monument proche, nom de la station, correspondances… 9 stations à trouver, 3 erreurs permises.
 
-COMMENT JOUER
-• 9 cases à remplir, 3 erreurs permises
-• Chaque station ne sert qu'une fois
-• Tape le nom d'une station : la recherche comprend même sans les accents
-• Touche un critère pour lire sa définition exacte
+⭐ DES POINTS SELON LA RARETÉ
+Chaque bonne réponse rapporte de 10 à 100 points selon la fréquentation réelle de la station. Châtelet ne vaut que 10 points ; une petite station tranquille en vaut 100. Trouve les stations les moins connues pour battre ton record !
 
-CHAQUE JOUR UNE NOUVELLE GRILLE
-La même grille pour tout le monde : compare ton score avec tes amis et partage ton résultat en un geste. Garde ta série de jours d'affilée et vise la grille parfaite.
+🎯 LE DÉFI
+Deux critères, par exemple « Ligne 4 » et « Commence par S » : trouve toutes les stations qui conviennent.
 
-DES GRILLES EN PLUS
-Envie de continuer ? Débloque des grilles en plus avec tes pièces : tu en gagnes 3 chaque jour, sans aucun achat.
+🔤 LE PENDU DU MÉTRO
+Devine la station du jour lettre par lettre, avec les lignes qui la desservent pour indice.
 
-Plus de 300 stations des lignes 1 à 14, de La Défense à l'aéroport d'Orly. Que tu sois Parisien, banlieusard ou amoureux de Paris, Terminus va tester ta mémoire du réseau… et t'apprendre plein de choses.
+🏆 LE CLASSEMENT DU JOUR
+Choisis un pseudo et compare-toi aux autres joueurs, aujourd'hui ou sur la semaine. Partage ton score avec tes amis en un geste.
+
+🪙 SANS ACHAT
+Tu gagnes des pièces chaque jour en jouant : rachète des tickets quand tu es bloqué, ou débloque des grilles en plus après avoir réussi celle du jour. Aucun achat avec de l'argent réel.
+
+🔔 UN RAPPEL CHAQUE MATIN
+Si tu le souhaites, une notification t'annonce les jeux du jour à 8 h.
+
+Plus de 300 stations des lignes 1 à 14, de La Défense à l'aéroport d'Orly. Parisien, banlieusard ou amoureux de Paris : teste ta connaissance du réseau… et apprends plein de choses.
 
 Jeu non officiel, sans lien avec la RATP ni Île-de-France Mobilités.
 ```
 
-**Nouveautés de cette version** (première version)
+**Nouveautés de cette version** (version suivant la 1.0)
 ```
-Première version de Terminus Paris ! Une grille par jour, 9 stations à trouver. Bon voyage 🚇
+Grosse mise à jour !
+• 2 nouveaux jeux chaque jour : le Défi et le Pendu du métro
+• Des points selon la rareté des stations : les petites stations rapportent plus
+• Un classement du jour et de la semaine
+• Rachète 3 tickets quand tu es bloqué
+• Un rappel chaque matin (facultatif)
+• Toute nouvelle apparence
 ```
 
 **Catégories** : principale **Jeux**, sous-catégories **Réflexion** et **Quiz**.
@@ -91,34 +99,34 @@ L'app contient des publicités : à indiquer quand la question est posée.
 Terminus Paris : jeu du métro
 ```
 
-**Description courte** (78/80)
+**Description courte** (≤ 80)
 ```
-Trouve 9 stations du métro parisien chaque jour. Le quiz des vrais Parisiens !
+Grille, Défi et Pendu : 3 jeux par jour sur les stations du métro de Paris !
 ```
 
 **Description complète** (indexée par Google : les mots métro, Paris, station, quiz, ligne, jeu y reviennent naturellement)
 ```
-Terminus Paris, c'est le quiz quotidien du métro de Paris : un jeu de grille où chaque case croise deux critères. Trouve une station de métro qui respecte les deux à la fois !
+Terminus Paris, c'est le quiz quotidien du métro de Paris : 3 jeux chaque jour sur les stations de métro parisiennes. Gratuit, sans inscription.
 
-🚇 UN JEU DE MÉTRO PARISIEN CHAQUE JOUR
-Chaque jour, une nouvelle grille de 9 cases. La même pour tout le monde : compare ton score avec tes amis, partage ton résultat et garde ta série de jours d'affilée.
+🧩 LA GRILLE DU MÉTRO
+Chaque case de la grille 3×3 croise deux critères. Trouve une station de métro qui respecte les deux à la fois : ligne de métro, quartier, monument proche (tour Eiffel, Sacré-Cœur, Louvre…), la Seine, le nom de la station, les correspondances RER. 9 cases, 3 erreurs permises.
 
-🗺️ DES CRITÈRES VARIÉS
-• Lignes de métro : ligne 1, ligne 4, ligne 7 ou 7 bis, lignes automatiques…
-• Quartiers : centre de Paris, arrondissements pairs ou impairs, stations hors Paris
-• Monuments : à moins de 2 km de la tour Eiffel, du Sacré-Cœur, du Louvre, de Notre-Dame…
-• La Seine : stations à moins de 1 km du fleuve
-• Le nom de la station : commence par P, contient un Y, nom en deux parties…
-• Correspondances : une seule ligne, 2 lignes ou plus, correspondance avec le RER
+⭐ DES POINTS SELON LA RARETÉ
+Chaque station rapporte de 10 à 100 points selon sa fréquentation réelle : Châtelet et Saint-Lazare valent 10 points, les petites stations de quartier jusqu'à 100. Vise les stations les moins connues !
 
-🎯 COMMENT JOUER
-• 9 cases à remplir, 3 erreurs permises, chaque station ne sert qu'une fois
-• Tape le nom d'une station : la recherche fonctionne même sans accents
-• Touche un critère pour voir sa définition
-• En fin de partie, découvre toutes les réponses possibles
+🎯 LE DÉFI DU JOUR
+Deux critères se croisent, comme « Ligne 4 » et « Commence par S » : trouve toutes les stations de métro qui conviennent.
 
-🪙 DES GRILLES EN PLUS
-Tu as fini la grille du jour ? Débloque des grilles en plus avec les pièces gagnées chaque jour. Aucun achat : tout se gagne en jouant.
+🔤 LE PENDU DU MÉTRO
+Une station de Paris à deviner lettre par lettre, avec les lignes de métro qui la desservent comme indice.
+
+🏆 CLASSEMENT DU JOUR
+Choisis un pseudo, compare ton score aux autres joueurs du jour ou de la semaine, et partage ton résultat avec tes amis.
+
+🪙 AUCUN ACHAT
+Les pièces se gagnent en jouant : rachète des tickets ou débloque des grilles en plus. Rien n'est payant.
+
+🔔 Un rappel chaque matin à 8 h, si tu le souhaites.
 
 Plus de 300 stations du métro de Paris, des lignes 1 à 14, de La Défense à Orly. Parisien, banlieusard, touriste ou passionné de transports : teste ta connaissance du plan du métro et apprends en jouant.
 
@@ -146,7 +154,7 @@ Données chiffrées en transit : **Oui**. Suppression des données sur demande :
 
 ## Visuels
 
-Dossier `store-listing/captures/` :
+Dossier `store-listing/captures/` (régénérer : `npm run build:pages` puis `node store-listing/make-screenshots.js`) :
 
 | Fichier | Store | Taille |
 |---|---|---|
@@ -157,5 +165,4 @@ Dossier `store-listing/captures/` :
 | `google-feature-graphic.png` | Google Play, image de présentation | 1024 × 500 |
 | `google-icon-512.png` | Google Play, icône | 512 × 512 |
 
-Ordre conseillé : 1 grille colorée, 2 recherche, 3 critères variés, 4 résultat partagé, 5 intro quai.
-Régénérer : `node store-listing/make-screenshots.js` (voir le script).
+Ordre conseillé : 1 grille, 2 défi, 3 pendu, 4 résultat et points, 5 classement, 6 intro quai.

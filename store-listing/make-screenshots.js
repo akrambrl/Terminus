@@ -26,10 +26,11 @@ const FONTS = `<style>
 
 const SHOTS = [
   { raw: 'grid', title: '9 stations à trouver\nchaque jour', bg: '#2B3FD6', fg: '#FFFFFF' },
-  { raw: 'search', title: 'Tape une station,\non vérifie !', bg: '#FF5A36', fg: '#FFFFFF' },
-  { raw: 'answers', title: 'Découvre toutes\nles réponses', bg: '#14B88A', fg: '#FFFFFF' },
-  { raw: 'result', title: 'Partage ton score\navec tes amis', bg: '#7B4AE2', fg: '#FFFFFF' },
-  { raw: 'intro', title: 'Plonge dans\nle métro parisien', bg: '#15123D', fg: '#FFC229' },
+  { raw: 'defi', title: 'Le Défi :\ntrouve-les toutes', bg: '#7B4AE2', fg: '#FFFFFF' },
+  { raw: 'pendu', title: 'Le Pendu\ndu métro', bg: '#15123D', fg: '#FFC229' },
+  { raw: 'result', title: 'Les stations rares\nrapportent plus', bg: '#14B88A', fg: '#15123D' },
+  { raw: 'classement', title: 'Grimpe au\nclassement du jour', bg: '#FFC229', fg: '#15123D' },
+  { raw: 'intro', title: 'Plonge dans\nle métro parisien', bg: '#FF5A36', fg: '#FFFFFF' },
 ];
 const SIZES = [
   // iPhone avec Dynamic Island, écran moyen (6,1" / 6,3") : taille demandée par App Store Connect.
@@ -40,7 +41,7 @@ const SIZES = [
 ];
 
 function serve() {
-  const types = { '.html': 'text/html', '.js': 'text/javascript', '.ttf': 'font/ttf', '.png': 'image/png', '.json': 'application/json', '.webmanifest': 'application/manifest+json', '.ico': 'image/x-icon' };
+  const types = { '.html': 'text/html', '.js': 'text/javascript', '.ttf': 'font/ttf', '.woff2': 'font/woff2', '.svg': 'image/svg+xml', '.png': 'image/png', '.json': 'application/json', '.webmanifest': 'application/manifest+json', '.ico': 'image/x-icon' };
   return http
     .createServer((req, res) => {
       let p = decodeURIComponent(req.url.split('?')[0]);
@@ -54,19 +55,37 @@ function serve() {
     .listen(PORT);
 }
 
+/** Jour utilisé pour les captures (jeux variés et lisibles). */
+const DAY = '2026-11-20';
+
+/** Classement d'exemple pour la capture (pseudos fictifs). */
+const SAMPLE_RANKING = {
+  game: 'grille', period: 'day', day: DAY, players: 1284,
+  top: [
+    ['Metro_Lover', 845, 9, 0], ['LigneSix', 790, 9, 1], ['Pigalle75', 760, 9, 0], ['Parisienne', 705, 9, 2],
+    ['Correspondance', 680, 8, 3], ['RERdesBois', 655, 9, 1], ['Bastoche', 610, 8, 2],
+  ].map(([pseudo, score, found, errors], i) => ({ rank: i + 1, pseudo, score, found, errors, games: 1, me: i === 2 })),
+  me: { rank: 3, pseudo: 'Pigalle75', score: 760, found: 9, errors: 0, games: 1 },
+  pseudo: 'Pigalle75',
+};
+
 async function captureGame(browser) {
-  const day = new Date().toISOString().slice(0, 10);
-  const { cells } = JSON.parse(
-    execSync(`npx tsx store-listing/puzzle-answers.ts ${day}`, { cwd: ROOT }).toString(),
+  const { cells, defi, pendu } = JSON.parse(
+    execSync(`npx tsx store-listing/puzzle-answers.ts ${DAY}`, { cwd: ROOT }).toString(),
   );
   const page = await browser.newPage({ viewport: { width: 430, height: 932 }, deviceScaleFactor: 3 });
-  await page.goto(`http://localhost:${PORT}/`);
+  // Pas de vraies données envoyées pendant les captures ; classement d'exemple.
+  await page.route(/supabase\.co/, (r) =>
+    r.request().url().includes('tp_leaderboard')
+      ? r.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify(SAMPLE_RANKING) })
+      : r.fulfill({ status: 200, contentType: 'application/json', body: 'null' }),
+  );
+  await page.goto(`http://localhost:${PORT}/?date=${DAY}`);
 
   // Intro : la rame à quai.
   await page.waitForTimeout(2900);
   await page.screenshot({ path: path.join(RAW, 'intro.png') });
   await page.waitForTimeout(3000);
-  // Ferme les fenêtres d'accueil (règles, pièces du jour).
   for (let k = 0; k < 3; k++) {
     const close = page.getByText('Fermer');
     if (!(await close.count())) break;
@@ -74,10 +93,10 @@ async function captureGame(browser) {
     await page.waitForTimeout(400);
   }
 
-  const fill = async (cell, query) => {
+  const fill = async (cell) => {
     await page.locator(`[aria-label="Case vide : ${cell.row} et ${cell.col}"]`).click();
     await page.waitForTimeout(500);
-    await page.keyboard.type(query ?? cell.name);
+    await page.keyboard.type(cell.name);
     await page.waitForTimeout(300);
     await page.getByText(cell.name, { exact: true }).last().click();
     await page.waitForTimeout(500);
@@ -87,27 +106,40 @@ async function captureGame(browser) {
   for (const [i, j] of [[0, 0], [0, 1], [1, 1], [1, 2], [2, 0], [2, 2]]) await fill(cells[i][j]);
   await page.screenshot({ path: path.join(RAW, 'grid.png') });
 
-  // Recherche : quelques lettres tapées, plusieurs stations proposées.
-  const searchCell = cells[2][1];
-  await page.locator(`[aria-label="Case vide : ${searchCell.row} et ${searchCell.col}"]`).click();
-  await page.waitForTimeout(500);
-  await page.keyboard.type(searchCell.name.split(' ')[0].toLowerCase());
-  await page.waitForTimeout(400);
-  await page.screenshot({ path: path.join(RAW, 'search.png') });
-  await page.getByText(searchCell.name, { exact: true }).last().click();
-  await page.waitForTimeout(500);
-
-  // Fin de grille : résultat.
-  for (const [i, j] of [[0, 2], [1, 0]]) await fill(cells[i][j]);
-  await page.waitForTimeout(900);
+  // Fin de grille : résultat avec les points.
+  for (const [i, j] of [[0, 2], [1, 0], [2, 1]]) await fill(cells[i][j]);
+  await page.waitForTimeout(1200);
   await page.screenshot({ path: path.join(RAW, 'result.png') });
 
-  // Réponses possibles d'une case.
-  await page.getByText('Fermer').last().click();
-  await page.waitForTimeout(400);
-  await page.getByText(cells[1][1].name, { exact: true }).first().click();
-  await page.waitForTimeout(500);
-  await page.screenshot({ path: path.join(RAW, 'answers.png') });
+  // Classement du jour (données d'exemple).
+  await page.getByText('Voir le classement').click();
+  await page.waitForTimeout(1200);
+  await page.screenshot({ path: path.join(RAW, 'classement.png') });
+  await page.getByText('Fermer').first().click();
+  await page.waitForTimeout(600);
+
+  // Défi : deux stations trouvées.
+  await page.getByRole('tab', { name: /Défi/ }).click();
+  await page.waitForTimeout(900);
+  for (const name of defi.slice(0, 2)) {
+    await page.getByText('Proposer une station').click();
+    await page.waitForTimeout(500);
+    await page.keyboard.type(name.split(' ')[0]);
+    await page.waitForTimeout(300);
+    await page.getByText(name, { exact: true }).last().click();
+    await page.waitForTimeout(600);
+  }
+  await page.screenshot({ path: path.join(RAW, 'defi.png') });
+
+  // Pendu : quelques lettres trouvées.
+  await page.getByRole('tab', { name: /Pendu/ }).click();
+  await page.waitForTimeout(900);
+  const letters = [...new Set(pendu.normalize('NFD').replace(/[^A-Za-z]/g, '').toLowerCase())];
+  for (const k of [...letters.slice(0, 3), 'w']) {
+    await page.keyboard.press(k);
+    await page.waitForTimeout(200);
+  }
+  await page.screenshot({ path: path.join(RAW, 'pendu.png') });
   await page.close();
 }
 
@@ -125,7 +157,7 @@ async function compose(browser) {
                       white-space:pre-line;margin-top:${Math.round(size.h * 0.06)}px;padding:0 ${Math.round(size.w * 0.06)}px">${shot.title}</div>
           <img src="data:image/png;base64,${img}" style="width:${phoneW}px;margin-top:${Math.round(size.h * 0.045)}px;
                border-radius:${Math.round(phoneW * 0.09)}px;border:${Math.round(size.w * 0.012)}px solid #15123D;
-               box-shadow:0 ${Math.round(size.w * 0.03)}px ${Math.round(size.w * 0.08)}px rgba(0,0,0,0.35)"/>
+               box-shadow:0 ${Math.round(size.w * 0.025)}px 0 #15123D"/>
         </div></body></html>`);
       await page.waitForTimeout(150);
       await page.screenshot({ path: path.join(OUT, `${size.prefix}-${n + 1}-${shot.raw}.png`) });
@@ -146,7 +178,7 @@ async function compose(browser) {
     <div style="width:1024px;height:500px;background:#15123D;position:relative;overflow:hidden">
       <div style="position:absolute;left:56px;top:120px">${tiles}
         <div style="font-family:Body;color:#FFC229;font-size:22px;letter-spacing:14px;margin-top:16px">PARIS</div>
-        <div style="font-family:Display;color:#fff;font-size:34px;margin-top:26px;line-height:1.15">Le jeu des stations<br/>du métro parisien</div>
+        <div style="font-family:Display;color:#fff;font-size:34px;margin-top:26px;line-height:1.15">3 jeux par jour sur<br/>le métro parisien</div>
       </div>
       <img src="data:image/png;base64,${grid}" style="position:absolute;right:46px;top:46px;width:250px;border-radius:28px;
         border:8px solid #fff;transform:rotate(4deg)"/>

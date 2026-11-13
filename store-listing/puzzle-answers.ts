@@ -2,6 +2,8 @@
 // Usage : npx tsx store-listing/puzzle-answers.ts AAAA-MM-JJ > fichier.json
 import { STATION_BY_ID } from '../src/game/lookup';
 import { dailySeed, generatePuzzle } from '../src/game/generator';
+import { generateDefi } from '../src/modes/defi/defi';
+import { penduStation } from '../src/modes/pendu/pendu';
 
 const day = process.argv[2];
 const p = generatePuzzle(dailySeed(day));
@@ -17,4 +19,5 @@ const cells = p.rows.map((r, i) =>
     return { row: r.label, col: c.label, name: STATION_BY_ID.get(id)!.name };
   }),
 );
-console.log(JSON.stringify({ day, cells }, null, 1));
+const defi = generateDefi(day).answers.map((id) => STATION_BY_ID.get(id)!.name);
+console.log(JSON.stringify({ day, cells, defi, pendu: penduStation(day).name }, null, 1));
