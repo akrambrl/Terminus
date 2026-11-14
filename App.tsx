@@ -26,6 +26,8 @@ import { MORNING_HOUR } from './src/notifications/content';
 import { BrickWall } from './src/design/ui';
 import { screens, ui, type ScreenId } from './src/theme';
 import { shareMessage } from './src/components/share';
+import { challengeLink, getChallenge } from './src/share/challenge';
+import { ChallengeBanner, DuelLine } from './src/share/ChallengeBanner';
 import { DefiGame } from './src/modes/defi/DefiGame';
 import { DEFI_MAX_ERRORS, defiFromSeed, defiSignature, generateDefi } from './src/modes/defi/defi';
 import { PenduGame } from './src/modes/pendu/PenduGame';
@@ -141,7 +143,8 @@ function Game() {
   const openRanking = useCallback(() => setShowRanking(true), []);
   /** Minuit à Paris : on passe aux jeux du nouveau jour sans relancer l'app. */
   const newDay = useCallback(() => setDay(currentDayKey()), []);
-  const [tab, setTab] = useState<GameTab>('grille');
+  // Lien de défi d'un ami : on ouvre directement le jeu concerné.
+  const [tab, setTab] = useState<GameTab>(() => getChallenge()?.game ?? 'grille');
   const [done, setDone] = useState<Record<GameTab, boolean>>({ grille: false, defi: false, pendu: false });
   const [defiScreen, setDefiScreen] = useState<ScreenId>('defi');
   /** Défi / Pendu en plus en cours (graine), ou null pour celui du jour. */
@@ -493,7 +496,9 @@ function Game() {
     const title =
       mode === 'daily' ? `Terminus Paris n°${dailyNumber(day)}` : 'Terminus Paris (partie libre)';
     const errorText = errors === 0 ? 'sans erreur' : `${errors} erreur${errors > 1 ? 's' : ''}`;
-    const message = `${title} : ${found}/9 · ${points} pts · ${errorText}\n${grid}\n\nÀ toi de jouer : ${WEB_URL}`;
+    const link = mode === 'daily' ? await challengeLink('grille', day, { found, extra: points }) : WEB_URL;
+    const call = mode === 'daily' ? 'Fais mieux que moi 👀' : 'À toi de jouer :';
+    const message = `${title} : ${found}/9 · ${points} pts · ${errorText}\n${grid}\n\n${call} ${link}`;
     track('result_shared', { game: 'grille', mode, found, errors });
     if ((await shareMessage(message)) === 'copied') {
       setCopied(true);
@@ -541,6 +546,7 @@ function Game() {
             setTab(t);
           }}
         />
+        <ChallengeBanner game={tab} day={day} width={contentWidth} refresh={`${done[tab]}-${finished}`} />
         {tab === 'defi' && (
           <DefiGame
             key={`${day}-${defiSeed ?? 'jour'}`}
@@ -717,7 +723,11 @@ function Game() {
         onClose={() => setShowResult(false)}
         footer={
           <View style={{ gap: 10 }}>
-            <Button label={copied ? 'Résultat copié !' : 'Partager mon résultat'} onPress={share} primary />
+            <Button
+              label={copied ? 'Lien copié !' : mode === 'daily' ? 'Défier mes amis 🎯' : 'Partager mon résultat'}
+              onPress={share}
+              primary
+            />
             {mode === 'daily' && (
               <Button
                 label="Voir le classement"
@@ -731,6 +741,7 @@ function Game() {
         }
       >
         <Text style={styles.bigScore}>{found}/9</Text>
+        {mode === 'daily' && <DuelLine game="grille" day={day} mine={{ found, extra: points }} />}
         <Text style={styles.pointsLine}>
           {points} points <Text style={styles.pointsMax}>sur {maxPoints} possibles</Text>
         </Text>

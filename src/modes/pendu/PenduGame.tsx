@@ -6,6 +6,8 @@ import { InfoModal, infoStyles } from '../../components/InfoModal';
 import { LineBadge } from '../../components/LineBadge';
 import { SearchModal } from '../../components/SearchModal';
 import { formatDay, shareMessage, SITE_LABEL, ticketLine } from '../../components/share';
+import { challengeLink } from '../../share/challenge';
+import { DuelLine } from '../../share/ChallengeBanner';
 import { TicketTrack } from '../../components/TicketTrack';
 import { addDays, dayNumber } from '../../game/day';
 import {
@@ -187,7 +189,10 @@ export function PenduGame({
       ? `trouvé ${game.errors === 0 ? 'sans erreur' : `avec ${game.errors} erreur${game.errors > 1 ? 's' : ''}`}`
       : 'pas trouvé';
     const title = free ? 'Pendu en plus' : `Pendu n°${dayNumber(day)}`;
-    const message = `Terminus Paris · ${title} · ${result} · ${SITE_LABEL}\n${ticketLine(MAX_PENDU_ERRORS, game.errors)}`;
+    const tail = free
+      ? SITE_LABEL
+      : `Fais mieux que moi 👀 ${await challengeLink('pendu', day, { found: game.won ? 1 : 0, extra: game.errors })}`;
+    const message = `Terminus Paris · ${title} · ${result}\n${ticketLine(MAX_PENDU_ERRORS, game.errors)}\n\n${tail}`;
     track('result_shared', { game: 'pendu', won: game.won, errors: game.errors });
     if ((await shareMessage(message)) === 'copied') {
       setCopied(true);
@@ -387,7 +392,11 @@ export function PenduGame({
         onClose={() => setShowResult(false)}
         footer={
           <View style={{ gap: 10 }}>
-            <Button label={copied ? 'Résultat copié !' : 'Partager mon résultat'} onPress={share} primary />
+            <Button
+              label={copied ? 'Lien copié !' : free ? 'Partager mon résultat' : 'Défier mes amis 🎯'}
+              onPress={share}
+              primary
+            />
             {onRanking && (
               <Button
                 label="Voir le classement"
@@ -407,6 +416,7 @@ export function PenduGame({
           ))}
           {station.rer.length > 0 && <Text style={sharedStyles.rer}>RER {station.rer.join(' ')}</Text>}
         </View>
+        {!free && <DuelLine game="pendu" day={day} mine={{ found: game.won ? 1 : 0, extra: game.errors }} />}
         <Text style={[infoStyles.p, { textAlign: 'center' }]}>
           {game.won
             ? game.errors === 0

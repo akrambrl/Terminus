@@ -7,6 +7,8 @@ import { InfoModal, infoStyles } from '../../components/InfoModal';
 import { LineBadge } from '../../components/LineBadge';
 import { SearchModal } from '../../components/SearchModal';
 import { formatDay, shareMessage, SITE_LABEL, ticketLine } from '../../components/share';
+import { challengeLink } from '../../share/challenge';
+import { DuelLine } from '../../share/ChallengeBanner';
 import { TicketTrack } from '../../components/TicketTrack';
 import { addDays, dayNumber } from '../../game/day';
 import { STATION_BY_ID } from '../../game/lookup';
@@ -159,7 +161,10 @@ export function DefiGame({
 
   const share = async () => {
     const title = free ? 'Défi en plus' : `Défi n°${dayNumber(day)}`;
-    const message = `Terminus Paris · ${title} · ${found.length}/${total} · ${SITE_LABEL}\n${ticketLine(DEFI_MAX_ERRORS, errors)}`;
+    const tail = free
+      ? SITE_LABEL
+      : `Fais mieux que moi 👀 ${await challengeLink('defi', day, { found: found.length, extra: total })}`;
+    const message = `Terminus Paris · ${title} · ${found.length}/${total}\n${ticketLine(DEFI_MAX_ERRORS, errors)}\n\n${tail}`;
     track('result_shared', { game: 'defi', found: found.length, total, errors });
     if ((await shareMessage(message)) === 'copied') {
       setCopied(true);
@@ -360,7 +365,11 @@ export function DefiGame({
         onClose={() => setShowResult(false)}
         footer={
           <View style={{ gap: 10 }}>
-            <Button label={copied ? 'Résultat copié !' : 'Partager mon résultat'} onPress={share} primary />
+            <Button
+              label={copied ? 'Lien copié !' : free ? 'Partager mon résultat' : 'Défier mes amis 🎯'}
+              onPress={share}
+              primary
+            />
             {onRanking && (
               <Button
                 label="Voir le classement"
@@ -376,6 +385,7 @@ export function DefiGame({
         <Text style={sharedStyles.bigScore}>
           {found.length}/{total}
         </Text>
+        {!free && <DuelLine game="defi" day={day} mine={{ found: found.length, extra: total }} />}
         <Text style={[infoStyles.p, { textAlign: 'center' }]}>
           {defi.a.label} × {defi.b.label}. Nouveau défi demain !
         </Text>
