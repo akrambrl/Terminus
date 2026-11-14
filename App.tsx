@@ -551,8 +551,9 @@ function Game() {
             <Button label="Abandonner" onPress={giveUp} tone="danger" />
           )}
           {mode === 'daily' ? (
-            freeSaved && !freeSaved.finished ? (
-              <Button label="Reprendre la grille en plus" onPress={resumeOrBuyFree} />
+            // Grille en plus déjà payée et pas finie : reprise gratuite, une fois la grille du jour terminée.
+            finished && freeSaved && !freeSaved.finished ? (
+              <Button label="Reprendre ma grille en plus (déjà payée)" onPress={resumeOrBuyFree} />
             ) : finished && found === 9 ? (
               // Les grilles en plus sont réservées à ceux qui ont réussi la grille du jour.
               <Button label={`Grille en plus · ${GRID_COST}`} coin onPress={buyFree} />
