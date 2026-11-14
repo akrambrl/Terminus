@@ -158,3 +158,13 @@ export async function recordMode(mode: DailyMode, day: string, yesterday: string
   await writeJson(modeStatsKey(mode), next);
   return next;
 }
+
+/* ---------- Défi et Pendu en plus (payés avec une pièce, hors classement et statistiques) ---------- */
+
+export type SavedFreeDefi = SavedDefi & { seed: string };
+export type SavedFreePendu = SavedPendu & { seed: string };
+
+export const loadFreeDefi = () => readJson<SavedFreeDefi>('terminus:free-defi');
+export const saveFreeDefi = (game: SavedFreeDefi) => writeJson('terminus:free-defi', game);
+export const loadFreePendu = () => readJson<SavedFreePendu>('terminus:free-pendu');
+export const saveFreePendu = (game: SavedFreePendu) => writeJson('terminus:free-pendu', game);

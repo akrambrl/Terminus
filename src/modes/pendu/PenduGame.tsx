@@ -10,9 +10,11 @@ import { TicketTrack } from '../../components/TicketTrack';
 import { addDays, dayNumber } from '../../game/day';
 import {
   EMPTY_MODE_STATS,
+  loadFreePendu,
   loadModeStats,
   loadPendu,
   recordMode,
+  saveFreePendu,
   savePendu,
   type ModeStats,
   type SavedPendu,
@@ -27,7 +29,7 @@ import { MetroTrain } from '../../design/MetroTrain';
 import { solidShadow } from '../../design/ui';
 import { alpha, colors, fonts, logoColors, mix, textOn, ui } from '../../theme';
 import { segments } from './segments';
-import { AZERTY, baseLetter, isSolved, MAX_PENDU_ERRORS, nameLetters, penduStation } from './pendu';
+import { AZERTY, baseLetter, isSolved, MAX_PENDU_ERRORS, nameLetters, penduFromSeed, penduStation } from './pendu';
 
 /** Tuile cachée : bleu nuit un peu éclairci, avec un trait clair (charte). */
 const HIDDEN_BG = mix(colors.ink, colors.white, 0.1);
@@ -39,7 +41,18 @@ export function PenduGame({
   onDone,
   onNewDay,
   onRanking,
+  seed,
+  extraLabel,
+  onExtra,
+  onBackToDaily,
 }: {
+  /** Pendu en plus (payé avec une pièce) : graine de la station. Absent = pendu du jour. */
+  seed?: string;
+  /** Bouton « Pendu en plus » ou « Reprendre… », proposé par l'app après un pendu du jour réussi. */
+  extraLabel?: string;
+  onExtra?: () => void;
+  /** Pendu en plus : retour au pendu du jour. */
+  onBackToDaily?: () => void;
   /** Minuit est passé : l'app passe aux jeux du nouveau jour. */
   onNewDay?: () => void;
   /** Ouvre le classement du jour. */
@@ -48,9 +61,11 @@ export function PenduGame({
   width: number;
   /** Onglet affiché et aucune fenêtre ouverte : le clavier physique est écouté. */
   active: boolean;
-  onDone: (done: boolean) => void;
+  /** Pendu du jour terminé (success : station trouvée). */
+  onDone: (done: boolean, success?: boolean) => void;
 }) {
-  const station = useMemo(() => penduStation(day), [day]);
+  const station = useMemo(() => (seed ? penduFromSeed(seed, day) : penduStation(day)), [day, seed]);
+  const free = !!seed;
   const { height } = useWindowDimensions();
   const [game, setGame] = useState<SavedPendu>({
     station: station.id,
@@ -72,15 +87,16 @@ export function PenduGame({
 
   useEffect(() => {
     (async () => {
-      const [saved, s] = await Promise.all([loadPendu(day), loadModeStats('pendu')]);
+      const [savedDay, savedFree, s] = await Promise.all([loadPendu(day), loadFreePendu(), loadModeStats('pendu')]);
+      const saved = free ? (savedFree?.seed === seed ? savedFree : null) : savedDay;
       if (saved && saved.station === station.id) {
         setGame(saved);
-        if (saved.finished) submitScore(day, 'pendu', { won: saved.won, errors: saved.errors });
+        if (saved.finished && !free) submitScore(day, 'pendu', { won: saved.won, errors: saved.errors });
       }
       setStats(s);
       setLoaded(true);
     })();
-  }, [day, station]);
+  }, [day, station, seed, free]);
 
   const letters = useMemo(() => new Set(nameLetters(station.name)), [station]);
   const guessed = useMemo(() => new Set(game.letters), [game.letters]);
@@ -88,17 +104,21 @@ export function PenduGame({
   const update = useCallback(
     async (next: SavedPendu) => {
       setGame(next);
-      await savePendu(day, next);
+      if (seed) await saveFreePendu({ ...next, seed });
+      else await savePendu(day, next);
       if (!next.finished) return;
-      onDone(true);
-      submitScore(day, 'pendu', { won: next.won, errors: next.errors });
-      setStats(await recordMode('pendu', day, addDays(day, -1), next.won));
-      track('game_finished', { game: 'pendu', won: next.won, errors: next.errors, letters: next.letters.length });
+      track('game_finished', { game: 'pendu', mode: seed ? 'free' : 'daily', won: next.won, errors: next.errors, letters: next.letters.length });
+      if (!seed) {
+        // Pendu en plus : ni classement, ni statistiques.
+        onDone(true, next.won);
+        submitScore(day, 'pendu', { won: next.won, errors: next.errors });
+        setStats(await recordMode('pendu', day, addDays(day, -1), next.won));
+      }
       onGameFinished(next.won ? 9 : 0);
       setGuessing(false);
       setTrain(true);
     },
-    [day, onDone],
+    [day, onDone, seed],
   );
 
   const firstMove = () => {
@@ -166,7 +186,8 @@ export function PenduGame({
     const result = game.won
       ? `trouvé ${game.errors === 0 ? 'sans erreur' : `avec ${game.errors} erreur${game.errors > 1 ? 's' : ''}`}`
       : 'pas trouvé';
-    const message = `Terminus Paris · Pendu n°${dayNumber(day)} · ${result} · ${SITE_LABEL}\n${ticketLine(MAX_PENDU_ERRORS, game.errors)}`;
+    const title = free ? 'Pendu en plus' : `Pendu n°${dayNumber(day)}`;
+    const message = `Terminus Paris · ${title} · ${result} · ${SITE_LABEL}\n${ticketLine(MAX_PENDU_ERRORS, game.errors)}`;
     track('result_shared', { game: 'pendu', won: game.won, errors: game.errors });
     if ((await shareMessage(message)) === 'copied') {
       setCopied(true);
@@ -209,7 +230,11 @@ export function PenduGame({
 
   return (
     <>
-      <DayHeader width={width} title={`Le Pendu n°${dayNumber(day)}`} sub={formatDay(day)} />
+      <DayHeader
+        width={width}
+        title={free ? 'Pendu en plus' : `Le Pendu n°${dayNumber(day)}`}
+        sub={free ? '1 pièce le pendu' : formatDay(day)}
+      />
       {!tight && <Text style={styles.title}>Devine la station</Text>}
       <View style={styles.hint}>
         <Text style={styles.hintLabel}>Indice</Text>
@@ -265,7 +290,7 @@ export function PenduGame({
             </View>
           ))}
         </View>
-        {revealed && <NextGame day={day} label="Prochain pendu" color={colors.white} onNewDay={onNewDay} />}
+        {revealed && !free && <NextGame day={day} label="Prochain pendu" color={colors.white} onNewDay={onNewDay} />}
       </View>
 
       <View style={[sharedStyles.status, { width: width - 8, marginTop: 4 }]}>
@@ -310,15 +335,28 @@ export function PenduGame({
 
       <View style={[sharedStyles.actions, { marginTop: compact ? 8 : 12 }]}>
         {revealed ? (
-          <Button label="Voir le résultat" onPress={() => setShowResult(true)} primary />
+          <>
+            <Button label="Voir le résultat" onPress={() => setShowResult(true)} primary />
+            {free ? (
+              <>
+                {onExtra && <Button label="Nouveau pendu · 1" coin onPress={onExtra} />}
+                {onBackToDaily && <Button label="Pendu du jour" onPress={onBackToDaily} />}
+              </>
+            ) : (
+              extraLabel && onExtra && <Button label={extraLabel} coin={!extraLabel.startsWith('Reprendre')} onPress={onExtra} />
+            )}
+          </>
         ) : (
-          <Button
-            label="Proposer le nom"
-            onPress={() => {
-              setFeedback(null);
-              setGuessing(true);
-            }}
-          />
+          <>
+            <Button
+              label="Proposer le nom"
+              onPress={() => {
+                setFeedback(null);
+                setGuessing(true);
+              }}
+            />
+            {free && onBackToDaily && <Button label="Pendu du jour" onPress={onBackToDaily} />}
+          </>
         )}
       </View>
 
@@ -376,12 +414,12 @@ export function PenduGame({
               : `Trouvée avec ${game.errors} erreur${game.errors > 1 ? 's' : ''}.`
             : 'Une nouvelle station à deviner demain, à minuit !'}
         </Text>
-        <View style={sharedStyles.stats}>
+        {!free && <View style={sharedStyles.stats}>
           <Stat value={stats.played} label="Parties" />
           <Stat value={stats.complete} label="Trouvées" />
           <Stat value={stats.streak} label="Série" />
           <Stat value={stats.bestStreak} label="Record" />
-        </View>
+        </View>}
         <NotifPrompt />
         <Text style={sharedStyles.unofficial}>Jeu non officiel, sans lien avec la RATP ni Île-de-France Mobilités.</Text>
       </InfoModal>

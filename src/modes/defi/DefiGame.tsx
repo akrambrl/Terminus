@@ -13,9 +13,11 @@ import { STATION_BY_ID } from '../../game/lookup';
 import {
   EMPTY_MODE_STATS,
   loadDefi,
+  loadFreeDefi,
   loadModeStats,
   recordMode,
   saveDefi,
+  saveFreeDefi,
   type ModeStats,
 } from '../../game/storage';
 import type { LineId, Station } from '../../game/types';
@@ -28,7 +30,7 @@ import { MetroTrain } from '../../design/MetroTrain';
 import { usePop } from '../../design/motion';
 import { Card, Plaque } from '../../design/ui';
 import { colors, fonts, textOn, ui, type ScreenId } from '../../theme';
-import { DEFI_MAX_ERRORS, defiSignature, generateDefi } from './defi';
+import { DEFI_MAX_ERRORS, defiFromSeed, defiSignature, generateDefi } from './defi';
 
 export function DefiGame({
   day,
@@ -37,18 +39,31 @@ export function DefiGame({
   onScreen,
   onNewDay,
   onRanking,
+  seed,
+  extraLabel,
+  onExtra,
+  onBackToDaily,
 }: {
+  /** Défi en plus (payé avec une pièce) : graine du défi. Absent = défi du jour. */
+  seed?: string;
+  /** Bouton « Défi en plus » ou « Reprendre… », proposé par l'app après un défi du jour réussi. */
+  extraLabel?: string;
+  onExtra?: () => void;
+  /** Défi en plus : retour au défi du jour. */
+  onBackToDaily?: () => void;
   /** Minuit est passé : l'app passe aux jeux du nouveau jour. */
   onNewDay?: () => void;
   /** Ouvre le classement du jour. */
   onRanking?: () => void;
   day: string;
   width: number;
-  onDone: (done: boolean) => void;
+  /** Défi du jour terminé (success : toutes les stations trouvées). */
+  onDone: (done: boolean, success?: boolean) => void;
   /** Fond à afficher : violet pendant le défi, menthe pour les réponses (charte). */
   onScreen: (screen: ScreenId) => void;
 }) {
-  const defi = useMemo(() => generateDefi(day), [day]);
+  const defi = useMemo(() => (seed ? defiFromSeed(seed) : generateDefi(day)), [day, seed]);
+  const free = !!seed;
   const total = defi.answers.length;
   const [found, setFound] = useState<string[]>([]);
   const [errors, setErrors] = useState(0);
@@ -69,7 +84,8 @@ export function DefiGame({
 
   useEffect(() => {
     (async () => {
-      const [saved, s] = await Promise.all([loadDefi(day), loadModeStats('defi')]);
+      const [savedDay, savedFree, s] = await Promise.all([loadDefi(day), loadFreeDefi(), loadModeStats('defi')]);
+      const saved = free ? (savedFree?.seed === seed ? savedFree : null) : savedDay;
       if (saved && saved.defi === defiSignature(defi)) {
         setFound(saved.found);
         setErrors(saved.errors);
@@ -77,7 +93,7 @@ export function DefiGame({
         setGaveUp(saved.gaveUp);
         if (saved.finished) {
           onScreen('reponse');
-          submitScore(day, 'defi', { found: saved.found, errors: saved.errors });
+          if (!free) submitScore(day, 'defi', { found: saved.found, errors: saved.errors });
         }
       }
       setStats(s);
@@ -85,17 +101,23 @@ export function DefiGame({
     })();
     return () => onScreen('defi');
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [day, defi]);
+  }, [day, defi, seed]);
 
   const finish = async (finalFound: string[], finalErrors: number, abandoned: boolean) => {
     setSearching(false);
     setTrain(true);
     setGaveUp(abandoned);
-    onDone(true);
+    track('game_finished', { game: 'defi', mode: free ? 'free' : 'daily', found: finalFound.length, total, errors: finalErrors, gave_up: abandoned });
+    const state = { defi: defiSignature(defi), found: finalFound, errors: finalErrors, finished: true, gaveUp: abandoned };
+    if (free) {
+      // Défi en plus : ni classement, ni statistiques.
+      await saveFreeDefi({ ...state, seed: seed! });
+      return;
+    }
+    onDone(true, finalFound.length === total);
     submitScore(day, 'defi', { found: finalFound, errors: finalErrors });
-    await saveDefi(day, { defi: defiSignature(defi), found: finalFound, errors: finalErrors, finished: true, gaveUp: abandoned });
+    await saveDefi(day, state);
     setStats(await recordMode('defi', day, addDays(day, -1), finalFound.length === total));
-    track('game_finished', { game: 'defi', found: finalFound.length, total, errors: finalErrors, gave_up: abandoned });
     onGameFinished(finalFound.length === total ? 9 : 0);
   };
 
@@ -129,12 +151,15 @@ export function DefiGame({
       setSearching(false);
       finish(nextFound, nextErrors, false);
     } else {
-      saveDefi(day, { defi: defiSignature(defi), found: nextFound, errors: nextErrors, finished: false, gaveUp: false });
+      const state = { defi: defiSignature(defi), found: nextFound, errors: nextErrors, finished: false, gaveUp: false };
+      if (free) saveFreeDefi({ ...state, seed: seed! });
+      else saveDefi(day, state);
     }
   };
 
   const share = async () => {
-    const message = `Terminus Paris · Défi n°${dayNumber(day)} · ${found.length}/${total} · ${SITE_LABEL}\n${ticketLine(DEFI_MAX_ERRORS, errors)}`;
+    const title = free ? 'Défi en plus' : `Défi n°${dayNumber(day)}`;
+    const message = `Terminus Paris · ${title} · ${found.length}/${total} · ${SITE_LABEL}\n${ticketLine(DEFI_MAX_ERRORS, errors)}`;
     track('result_shared', { game: 'defi', found: found.length, total, errors });
     if ((await shareMessage(message)) === 'copied') {
       setCopied(true);
@@ -187,17 +212,25 @@ export function DefiGame({
             Tu en avais {found.length} sur {total}
           </Text>
           {/* Sur menthe, petit texte en bleu nuit (règle de contraste de la charte). */}
-          <NextGame day={day} label="Prochain défi" color={colors.ink} onNewDay={onNewDay} />
+          {!free && <NextGame day={day} label="Prochain défi" color={colors.ink} onNewDay={onNewDay} />}
           <View style={sharedStyles.actions}>
             <Button label="Voir mon résultat" onPress={() => setShowResult(true)} primary />
+            {free ? (
+              <>
+                {onExtra && <Button label="Nouveau défi · 1" coin onPress={onExtra} />}
+                {onBackToDaily && <Button label="Défi du jour" onPress={onBackToDaily} />}
+              </>
+            ) : (
+              extraLabel && onExtra && <Button label={extraLabel} coin={!extraLabel.startsWith('Reprendre')} onPress={onExtra} />
+            )}
           </View>
         </>
       ) : (
         <>
           <DayHeader
             width={width}
-            title={`Défi n°${dayNumber(day)}`}
-            sub={formatDay(day)}
+            title={free ? 'Défi en plus' : `Défi n°${dayNumber(day)}`}
+            sub={free ? '1 pièce le défi' : formatDay(day)}
             right={
               <Text style={styles.count}>
                 {found.length}
@@ -290,6 +323,7 @@ export function DefiGame({
 
           <View style={sharedStyles.actions}>
             <Button label="J'abandonne" tone="danger" onPress={() => finish(found, errors, true)} />
+            {free && onBackToDaily && <Button label="Défi du jour" onPress={onBackToDaily} />}
             <Button
               label="Proposer une station"
               primary
@@ -345,12 +379,12 @@ export function DefiGame({
         <Text style={[infoStyles.p, { textAlign: 'center' }]}>
           {defi.a.label} × {defi.b.label}. Nouveau défi demain !
         </Text>
-        <View style={sharedStyles.stats}>
+        {!free && <View style={sharedStyles.stats}>
           <Stat value={stats.played} label="Défis" />
           <Stat value={stats.complete} label="Complets" />
           <Stat value={stats.streak} label="Série" />
           <Stat value={stats.bestStreak} label="Record" />
-        </View>
+        </View>}
         <NotifPrompt />
         <Text style={sharedStyles.unofficial}>Jeu non officiel, sans lien avec la RATP ni Île-de-France Mobilités.</Text>
       </InfoModal>

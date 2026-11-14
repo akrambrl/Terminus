@@ -69,6 +69,13 @@ export function penduStation(day: string): Station {
   return cycleOrder(cycle)[pos];
 }
 
+/** Station tirée au hasard pour un pendu en plus (payé avec une pièce), différente de celle du jour. */
+export function penduFromSeed(seed: string, day: string): Station {
+  const today = penduStation(day).id;
+  const pool = PENDU_STATIONS.filter((s) => s.id !== today);
+  return pool[Math.floor(createRng(seed)() * pool.length)];
+}
+
 /** Toutes les lettres du nom sont-elles trouvées ? */
 export function isSolved(name: string, guessed: Set<string>): boolean {
   return nameLetters(name).every((l) => guessed.has(l));

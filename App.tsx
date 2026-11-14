@@ -27,16 +27,22 @@ import { BrickWall } from './src/design/ui';
 import { screens, ui, type ScreenId } from './src/theme';
 import { shareMessage } from './src/components/share';
 import { DefiGame } from './src/modes/defi/DefiGame';
-import { DEFI_MAX_ERRORS } from './src/modes/defi/defi';
+import { DEFI_MAX_ERRORS, defiFromSeed, defiSignature, generateDefi } from './src/modes/defi/defi';
 import { PenduGame } from './src/modes/pendu/PenduGame';
-import { MAX_PENDU_ERRORS } from './src/modes/pendu/pendu';
+import { MAX_PENDU_ERRORS, penduFromSeed } from './src/modes/pendu/pendu';
 import { STATION_BY_ID } from './src/game/lookup';
 import {
   EMPTY_STATS,
   hasSeenHelp,
   loadDaily,
   loadDefi,
+  loadFreeDefi,
+  loadFreePendu,
   loadPendu,
+  saveFreeDefi,
+  saveFreePendu,
+  type SavedFreeDefi,
+  type SavedFreePendu,
   loadStats,
   markHelpSeen,
   recordDaily,
@@ -138,6 +144,12 @@ function Game() {
   const [tab, setTab] = useState<GameTab>('grille');
   const [done, setDone] = useState<Record<GameTab, boolean>>({ grille: false, defi: false, pendu: false });
   const [defiScreen, setDefiScreen] = useState<ScreenId>('defi');
+  /** Défi / Pendu en plus en cours (graine), ou null pour celui du jour. */
+  const [defiSeed, setDefiSeed] = useState<string | null>(null);
+  const [penduSeed, setPenduSeed] = useState<string | null>(null);
+  const [freeDefi, setFreeDefi] = useState<SavedFreeDefi | null>(null);
+  const [freePendu, setFreePendu] = useState<SavedFreePendu | null>(null);
+  const [success, setSuccess] = useState({ defi: false, pendu: false });
   // Les trois jeux du jour sont faits : pas de rappel ce matin-là (parties jouées avant 8 h).
   useEffect(() => {
     if (done.grille && done.defi && done.pendu) skipTodayNotification(day);
@@ -200,6 +212,16 @@ function Game() {
         loadPendu(day),
       ]);
       setDone({ grille: !!saved?.finished, defi: !!defi?.finished, pendu: !!pendu?.finished });
+      // Défi et Pendu en plus : réservés à ceux qui ont réussi celui du jour (comme la grille).
+      setSuccess({
+        defi: !!defi?.finished && defi.found.length === generateDefi(day).answers.length,
+        pendu: !!pendu?.won,
+      });
+      const [fd, fp] = await Promise.all([loadFreeDefi(), loadFreePendu()]);
+      setFreeDefi(fd);
+      setFreePendu(fp);
+      setDefiSeed(null);
+      setPenduSeed(null);
       setCoins(wallet.coins);
       setAdsLeft(wallet.adsLeft);
       // Les sauvegardes d'avant le système d'erreurs (9 essais) sont ignorées.
@@ -386,6 +408,48 @@ function Game() {
     showFreeGame(game);
   };
 
+  /**
+   * Défi ou Pendu en plus : reprend gratuitement celui déjà payé et pas fini, sinon en achète un
+   * nouveau pour 1 pièce (jamais d'argent réel).
+   */
+  const playExtra = async (game: 'defi' | 'pendu') => {
+    const saved = game === 'defi' ? await loadFreeDefi() : await loadFreePendu();
+    const setSeed = game === 'defi' ? setDefiSeed : setPenduSeed;
+    if (saved && !saved.finished) {
+      track('free_game_resumed', { game });
+      setSeed(saved.seed);
+      return;
+    }
+    const paid = await spendCoins(GRID_COST, day);
+    setCoins(paid.coins);
+    setAdsLeft(paid.adsLeft);
+    if (!paid.ok) {
+      track('not_enough_coins', { coins: paid.coins, for: game });
+      setShowNoCoins(true);
+      return;
+    }
+    const seed = `${game}-${Date.now()}`;
+    track('free_game_started', { game, cost: GRID_COST, coins_left: paid.coins });
+    if (game === 'defi') {
+      const g = { seed, defi: defiSignature(defiFromSeed(seed)), found: [], errors: 0, finished: false, gaveUp: false };
+      await saveFreeDefi(g);
+      setFreeDefi(g);
+    } else {
+      const g = { seed, station: penduFromSeed(seed, day).id, letters: [], wrongNames: [], errors: 0, finished: false, won: false };
+      await saveFreePendu(g);
+      setFreePendu(g);
+    }
+    setSeed(seed);
+  };
+
+  /** Bouton proposé sous le Défi / Pendu du jour terminé. */
+  const extraLabel = (game: 'defi' | 'pendu'): string | undefined => {
+    const pending = game === 'defi' ? freeDefi : freePendu;
+    const noun = game === 'defi' ? 'défi' : 'pendu';
+    if (pending && !pending.finished) return `Reprendre mon ${noun} en plus (déjà payé)`;
+    return success[game] ? `${noun === 'défi' ? 'Défi' : 'Pendu'} en plus · ${GRID_COST}` : undefined;
+  };
+
   /** Pub vidéo facultative : des pièces en échange d'une pub regardée jusqu'au bout. */
   const watchAd = async () => {
     setWatchingAd(true);
@@ -478,17 +542,45 @@ function Game() {
           }}
         />
         {tab === 'defi' && (
-          <DefiGame key={day} day={day} width={contentWidth} onDone={() => markDone('defi')} onScreen={setDefiScreen} onNewDay={newDay} onRanking={openRanking} />
+          <DefiGame
+            key={`${day}-${defiSeed ?? 'jour'}`}
+            day={day}
+            width={contentWidth}
+            seed={defiSeed ?? undefined}
+            onDone={(_, ok) => {
+              markDone('defi');
+              if (ok) setSuccess((s) => ({ ...s, defi: true }));
+            }}
+            onScreen={setDefiScreen}
+            onNewDay={newDay}
+            onRanking={defiSeed ? undefined : openRanking}
+            extraLabel={extraLabel('defi')}
+            onExtra={() => playExtra('defi')}
+            onBackToDaily={async () => {
+              setDefiSeed(null);
+              setFreeDefi(await loadFreeDefi());
+            }}
+          />
         )}
         {tab === 'pendu' && (
           <PenduGame
-            key={day}
+            key={`${day}-${penduSeed ?? 'jour'}`}
             day={day}
+            seed={penduSeed ?? undefined}
             onNewDay={newDay}
-            onRanking={openRanking}
+            onRanking={penduSeed ? undefined : openRanking}
             width={contentWidth}
             active={!showHelp && !showIntro && !bonus}
-            onDone={() => markDone('pendu')}
+            onDone={(_, ok) => {
+              markDone('pendu');
+              if (ok) setSuccess((s) => ({ ...s, pendu: true }));
+            }}
+            extraLabel={extraLabel('pendu')}
+            onExtra={() => playExtra('pendu')}
+            onBackToDaily={async () => {
+              setPenduSeed(null);
+              setFreePendu(await loadFreePendu());
+            }}
           />
         )}
         {tab === 'grille' && (
@@ -677,7 +769,7 @@ function Game() {
             : `Tu gagnes ${bonus?.granted} pièces pour ta visite du jour. Reviens demain pour en gagner ${DAILY_BONUS} de plus !`}
         </Text>
         <Text style={[infoStyles.small, { textAlign: 'center' }]}>
-          Une grille en plus coûte {GRID_COST} pièce. Ton solde : {bonus?.coins} pièces (maximum {MAX_COINS}).
+          Une grille, un défi ou un pendu en plus coûte {GRID_COST} pièce. Ton solde : {bonus?.coins} pièces (maximum {MAX_COINS}).
         </Text>
       </InfoModal>
 
@@ -742,11 +834,11 @@ function Game() {
           <Text style={styles.bonusAmount}>{coins}</Text>
         </View>
         <Text style={[infoStyles.p, { textAlign: 'center' }]}>
-          Une grille en plus coûte {GRID_COST} pièce. Tu gagnes {DAILY_BONUS} pièces chaque jour en ouvrant l'app
+          Une partie en plus coûte {GRID_COST} pièce. Tu gagnes {DAILY_BONUS} pièces chaque jour en ouvrant l'app
           {canWatchAd ? `, ou ${AD_REWARD} pièces en regardant une courte pub.` : ' : reviens demain !'}
         </Text>
         {adMessage && <Text style={[infoStyles.small, { textAlign: 'center', color: colors.danger }]}>{adMessage}</Text>}
-        <Text style={[infoStyles.small, { textAlign: 'center' }]}>La grille du jour, elle, est toujours gratuite.</Text>
+        <Text style={[infoStyles.small, { textAlign: 'center' }]}>Les jeux du jour, eux, sont toujours gratuits.</Text>
       </InfoModal>
 
       <InfoModal
@@ -805,7 +897,8 @@ function Game() {
         <Text style={infoStyles.p}>
           Une nouvelle grille gratuite t'attend chaque jour. Tu gagnes {DAILY_BONUS} pièces chaque jour en ouvrant l'app
           (jusqu'à {MAX_COINS} en réserve) : plus de tickets après 3 erreurs ? {TICKETS_COST} pièce rachète 3 tickets pour
-          continuer. Grille du jour réussie (9/9) ? {GRID_COST} pièce débloque une grille en plus. Les pièces ne
+          continuer. Jeu du jour réussi (grille en 9/9, défi complet, station du pendu trouvée) ? {GRID_COST} pièce débloque
+          une partie en plus du même jeu, hors classement. Les pièces ne
           s'achètent pas : elles se gagnent seulement en jouant.
         </Text>
         </>

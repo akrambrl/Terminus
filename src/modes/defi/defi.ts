@@ -52,7 +52,12 @@ export function defiSeed(day: string): string {
  * Une fois sur deux environ, le défi porte sur une ligne précise, le cœur du jeu.
  */
 export function generateDefi(day: string): Defi {
-  const rng = createRng(defiSeed(day));
+  return defiFromSeed(defiSeed(day));
+}
+
+/** Défi tiré d'une graine quelconque (défi du jour, ou défi en plus payé avec une pièce). */
+export function defiFromSeed(seed: string): Defi {
+  const rng = createRng(seed);
   const all = validDefis();
   const withLine = all.filter((d) => d.a.kind === 'line');
   const pool = rng() < 0.55 && withLine.length ? withLine : all;

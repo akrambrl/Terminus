@@ -50,7 +50,7 @@ Devine la station du jour lettre par lettre, avec les lignes qui la desservent p
 Choisis un pseudo et compare-toi aux autres joueurs, aujourd'hui ou sur la semaine. Partage ton score avec tes amis en un geste.
 
 🪙 SANS ACHAT
-Tu gagnes des pièces chaque jour en jouant : rachète des tickets quand tu es bloqué, ou débloque des grilles en plus après avoir réussi celle du jour. Aucun achat avec de l'argent réel.
+Tu gagnes des pièces chaque jour en jouant : rachète des tickets quand tu es bloqué, ou débloque une grille, un défi ou un pendu en plus après avoir réussi celui du jour. Aucun achat avec de l'argent réel.
 
 🔔 UN RAPPEL CHAQUE MATIN
 Si tu le souhaites, une notification t'annonce les jeux du jour à 8 h.
@@ -67,6 +67,7 @@ Grosse mise à jour !
 • Des points selon la rareté des stations : les petites stations rapportent plus
 • Un classement du jour et de la semaine
 • Rachète 3 tickets quand tu es bloqué
+• Des défis et des pendus en plus avec tes pièces
 • Un rappel chaque matin (facultatif)
 • Toute nouvelle apparence
 ```
@@ -124,7 +125,7 @@ Une station de Paris à deviner lettre par lettre, avec les lignes de métro qui
 Choisis un pseudo, compare ton score aux autres joueurs du jour ou de la semaine, et partage ton résultat avec tes amis.
 
 🪙 AUCUN ACHAT
-Les pièces se gagnent en jouant : rachète des tickets ou débloque des grilles en plus. Rien n'est payant.
+Les pièces se gagnent en jouant : rachète des tickets, ou débloque une grille, un défi ou un pendu en plus. Rien n'est payant.
 
 🔔 Un rappel chaque matin à 8 h, si tu le souhaites.
 
