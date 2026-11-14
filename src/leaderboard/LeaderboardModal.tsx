@@ -211,13 +211,13 @@ export function LeaderboardModal({
                 <Text style={styles.cardTitle}>
                   {data.players} joueur{data.players > 1 ? 's' : ''} {period === 'day' ? "aujourd'hui" : 'cette semaine'}
                 </Text>
-                {data.top.map((r) => (
-                  <View key={`${r.rank}-${r.pseudo}`} style={[styles.row, r.me && styles.rowMe]}>
+                {data.top.map((r, i) => (
+                  <View key={`${i}-${r.rank}`} style={[styles.row, r.me && styles.rowMe]}>
                     <Text style={[styles.rank, r.rank <= 3 && styles.podium]}>
                       {r.rank === 1 ? '🥇' : r.rank === 2 ? '🥈' : r.rank === 3 ? '🥉' : `${r.rank}`}
                     </Text>
-                    <Text style={styles.name} numberOfLines={1}>
-                      {r.pseudo}
+                    <Text style={[styles.name, !r.pseudo && styles.anon]} numberOfLines={1}>
+                      {r.pseudo ?? (r.me ? 'Toi (sans pseudo)' : 'Joueur anonyme')}
                     </Text>
                     <Text style={styles.score}>{scoreText(game, r, period)}</Text>
                   </View>
@@ -231,7 +231,7 @@ export function LeaderboardModal({
                 {me && !meInTop && (
                   <View style={[styles.row, styles.rowMe, { marginTop: ui.space.s }]}>
                     <Text style={styles.rank}>{me.rank}</Text>
-                    <Text style={styles.name} numberOfLines={1}>
+                    <Text style={[styles.name, !me.pseudo && styles.anon]} numberOfLines={1}>
                       {me.pseudo ?? 'Toi (sans pseudo)'}
                     </Text>
                     <Text style={styles.score}>{scoreText(game, me, period)}</Text>
@@ -240,7 +240,7 @@ export function LeaderboardModal({
                 {me && (
                   <Text style={styles.small}>
                     Ta place : {me.rank}e sur {data.players}
-                    {!me.pseudo ? ' (choisis un pseudo pour apparaître dans la liste)' : ''}.
+                    {!me.pseudo ? ' (choisis un pseudo pour que les autres voient ton nom)' : ''}.
                   </Text>
                 )}
                 {!me && (
@@ -326,6 +326,7 @@ const styles = StyleSheet.create({
   rank: { width: 30, textAlign: 'center', fontFamily: fonts.display, fontSize: 16, color: colors.ink },
   podium: { fontSize: 20 },
   name: { flex: 1, fontFamily: fonts.heavy, fontSize: 15, color: colors.ink },
+  anon: { fontFamily: fonts.bold, color: colors.muted },
   score: { fontFamily: fonts.heavy, fontSize: 13, color: colors.ink },
   footer: { fontFamily: fonts.bold, fontSize: 11, color: colors.muted, textAlign: 'center' },
 });

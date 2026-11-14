@@ -162,8 +162,8 @@ begin
 end;
 $$;
 
--- Classement : top 50 du jour (p_period = 'day') ou des 7 derniers jours ('week'), joueurs avec pseudo,
--- et la place de l'appareil p_device (même sans pseudo, pour lui dire où il se situerait).
+-- Classement : top 50 du jour (p_period = 'day') ou des 7 derniers jours ('week'), tous les joueurs
+-- (pseudo null pour ceux qui n'en ont pas choisi : affichés « Joueur anonyme »), et la place de l'appareil p_device (même sans pseudo, pour lui dire où il se situerait).
 create or replace function public.tp_leaderboard(p_game text, p_period text, p_device text)
 returns json language plpgsql security definer set search_path = public as $$
 declare
@@ -194,7 +194,7 @@ begin
     'top', coalesce((select json_agg(json_build_object(
         'rank', r.rank, 'pseudo', r.pseudo, 'score', r.score, 'found', r.found, 'errors', r.errors,
         'games', r.games, 'me', r.device = p_device) order by r.rank)
-      from (select * from ranked where pseudo is not null order by rank limit 50) r), '[]'::json),
+      from (select * from ranked order by rank, first_at limit 50) r), '[]'::json),
     'me', (select json_build_object('rank', r.rank, 'pseudo', r.pseudo, 'score', r.score, 'found', r.found,
         'errors', r.errors, 'games', r.games) from ranked r where r.device = p_device),
     'pseudo', (select pseudo from tp_players where device = p_device)

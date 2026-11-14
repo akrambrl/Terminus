@@ -2,7 +2,7 @@
   "expo": {
     "name": "Terminus Paris",
     "slug": "terminus-paris",
-    "version": "1.34.0",
+    "version": "1.35.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
