@@ -26,6 +26,19 @@ function cellLine(station: Station, row: Criterion, col: Criterion): LineId {
   return (inGroup ?? station.lines[0]) as LineId;
 }
 
+/**
+ * Taille du nom de la station : le mot le plus long tient sur une ligne de la case, et le nom sur
+ * 3 lignes au plus (adjustsFontSizeToFit n'existe pas sur le web).
+ */
+function nameFont(name: string, size: number) {
+  const inner = size - 8 - 10;
+  const longest = Math.max(...name.split(/[\s-]+/).map((w) => w.length));
+  // Noms longs (« Palais Royal - Musée du Louvre ») : un peu plus petits pour tenir avec les points et les pastilles.
+  const max = name.length > 22 ? 10 : name.length > 15 ? 11 : 12;
+  const fontSize = Math.max(8.5, Math.min(max, Math.floor((inner / (longest * 0.62)) * 2) / 2));
+  return { fontSize, lineHeight: Math.round(fontSize * 1.15) };
+}
+
 export function Grid({ puzzle, cells, finished, width, onPressCell, onPressCriterion }: Props) {
   // La grille est posée dans une carte blanche à bordure bleu nuit et ombre pleine (charte).
   const pad = ui.space.s;
@@ -84,7 +97,7 @@ export function Grid({ puzzle, cells, finished, width, onPressCell, onPressCrite
                       <Text style={[styles.pointsText, { color: tint.bg }]}>+{stationPoints(station.id)}</Text>
                     </View>
                     <Text
-                      style={[styles.stationName, { color: tint.fg }]}
+                      style={[styles.stationName, { color: tint.fg, ...nameFont(station.name, size) }]}
                       numberOfLines={3}
                       adjustsFontSizeToFit
                     >
@@ -136,7 +149,8 @@ const styles = StyleSheet.create({
   cellMissed: { backgroundColor: colors.missed, borderColor: colors.missed },
   plus: { fontSize: 28, color: colors.plus, fontFamily: fonts.heavy },
   stationName: { fontFamily: fonts.heavy, fontSize: 12, lineHeight: 14, textAlign: 'center' },
-  points: { position: 'absolute', top: 3, right: 3, borderRadius: ui.radiusPill, paddingHorizontal: 4, paddingVertical: 1 },
+  // Pastille des points posée au-dessus du nom (dans le flux) : elle ne cache plus jamais le nom.
+  points: { borderRadius: ui.radiusPill, paddingHorizontal: 5, paddingVertical: 1, marginBottom: 2 },
   pointsText: { fontFamily: fonts.heavy, fontSize: 9 },
   badges: { flexDirection: 'row', gap: 2, marginTop: 4 },
   missedText: { color: colors.muted, fontFamily: fonts.bold, fontSize: 10, textAlign: 'center' },
