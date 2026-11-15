@@ -5,7 +5,7 @@ import { fonts } from '../theme';
 export function ArchivesLink({ onPress, color }: { onPress: () => void; color: string }) {
   return (
     <Pressable onPress={onPress} hitSlop={8} accessibilityRole="button" style={styles.wrap}>
-      <Text style={[styles.text, { color }]}>📅 Rejouer les jours passés</Text>
+      <Text style={[styles.text, { color }]}>Rejouer les jours passés</Text>
     </Pressable>
   );
 }

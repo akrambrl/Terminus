@@ -9,7 +9,7 @@ import { SearchModal } from './src/components/SearchModal';
 import { dailyNumber, dailySeed, generatePuzzle, puzzleSignature } from './src/game/generator';
 import { addDays, currentDayKey } from './src/game/day';
 import { Button, Stat } from './src/components/Button';
-import { ModeTabs, type GameTab } from './src/components/ModeTabs';
+import type { GameTab } from './src/components/ModeTabs';
 import { DayHeader } from './src/components/DayHeader';
 import { bestGridPoints, gridPoints, stationPoints } from './src/game/points';
 import { goldStations } from './src/game/gold';
@@ -717,16 +717,6 @@ function Game() {
           />
         ) : (
         <>
-        <ModeTabs
-          value={tab}
-          done={done}
-          dark={dark}
-          width={contentWidth}
-          onChange={(t) => {
-            if (t !== tab) track('mode_selected', { game: t, already_played: done[t] });
-            setTab(t);
-          }}
-        />
         <ChallengeBanner game={tab} day={day} width={contentWidth} refresh={`${done[tab]}-${finished}`} />
         {tab === 'defi' && (
           <DefiGame
