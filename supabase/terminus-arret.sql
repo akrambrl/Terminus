@@ -87,3 +87,6 @@ end;
 $$;
 
 grant execute on function public.tp_submit(text, date, text, jsonb) to anon, authenticated;
+
+-- Passage au chrono (15 novembre 2026) : les scores de l'ancienne règle (1 à 5 points) sont effacés.
+delete from public.tp_scores where game = 'arret' and day <= date '2026-11-15';
