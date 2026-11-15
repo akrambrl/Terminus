@@ -190,6 +190,8 @@ function useGameFonts() {
 function StatsPage({ code }: { code: string }) {
   const [loaded, error] = useGameFonts();
   if (!loaded && !error) return <View style={[styles.screen, { backgroundColor: colors.background }]} />;
+  // Barre du navigateur en bleu nuit, comme le fond du tableau de bord.
+  (globalThis as { document?: Document }).document?.querySelector('meta[name="theme-color"]')?.setAttribute('content', colors.ink);
   return <StatsDashboard code={code} />;
 }
 

@@ -73,11 +73,11 @@ export function StatsDashboard({ code }: { code: string }) {
 
   return (
     <View style={{ flex: 1 }}>
-      <BrickWall screen="grille" />
+      <BrickWall screen="pendu" />
       <ScrollView contentContainerStyle={styles.page}>
         <View style={{ width: w, gap: ui.space.l }}>
           <View style={styles.header}>
-            <Logo tile={Math.min(30, (w - 40) / 9)} />
+            <Logo tile={Math.min(30, (w - 40) / 9)} plaque />
             <Plaque label="Tableau de bord" />
           </View>
 
@@ -103,7 +103,7 @@ export function StatsDashboard({ code }: { code: string }) {
               <Text style={styles.errorText}>{error}</Text>
             </Card>
           )}
-          {loading && !data && !error && <Text style={styles.muted}>Chargement…</Text>}
+          {loading && !data && !error && <Text style={[styles.muted, { color: colors.white }]}>Chargement…</Text>}
 
           {data && (
             <>
@@ -272,5 +272,5 @@ const styles = StyleSheet.create({
   muted: { fontFamily: fonts.bold, fontSize: 13, color: colors.muted },
   errorCard: { padding: ui.space.l, borderColor: colors.danger },
   errorText: { fontFamily: fonts.heavy, fontSize: 15, color: colors.ink },
-  footer: { fontFamily: fonts.bold, fontSize: 11, color: colors.muted, textAlign: 'center', marginBottom: ui.space.xl },
+  footer: { fontFamily: fonts.bold, fontSize: 11, color: colors.white, opacity: 0.7, textAlign: 'center', marginBottom: ui.space.xl },
 });
