@@ -143,14 +143,17 @@ export function PenduGame({
 
   const tryLetter = useCallback(
     (letter: string) => {
-      if (game.finished || game.letters.includes(letter)) return;
+      if (game.finished || game.lastChance || game.letters.includes(letter)) return;
       firstMove();
       const correct = letters.has(letter);
       const nextLetters = [...game.letters, letter];
       const errors = game.errors + (correct ? 0 : 1);
       const won = correct && isSolved(station.name, new Set(nextLetters));
       track('guess', { game: 'pendu', kind: 'letter', correct });
-      update({ ...game, letters: nextLetters, errors, won, finished: won || errors >= MAX_PENDU_ERRORS });
+      // Plus de tickets : pas encore perdu, il reste une dernière proposition de nom.
+      const out = !won && errors >= MAX_PENDU_ERRORS;
+      update({ ...game, letters: nextLetters, errors, won, finished: won, lastChance: out });
+      if (out) setFeedback(null);
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [game, letters, station, update],
@@ -167,15 +170,20 @@ export function PenduGame({
       update({ ...game, won: true, finished: true });
       return;
     }
+    if (game.lastChance) {
+      // Dernière chance ratée : la partie est perdue.
+      setGuessing(false);
+      update({ ...game, wrongNames: [...game.wrongNames, s.id], finished: true, lastChance: false });
+      return;
+    }
     const errors = game.errors + 1;
     const left = MAX_PENDU_ERRORS - errors;
     setFeedback(
       left > 0
         ? `Ce n'est pas « ${s.name} ». Encore ${left} erreur${left > 1 ? 's' : ''} possible${left > 1 ? 's' : ''}.`
-        : `Ce n'est pas « ${s.name} ».`,
+        : `Ce n'est pas « ${s.name} ». Plus de tickets : une dernière chance !`,
     );
-    if (left <= 0) setGuessing(false);
-    update({ ...game, wrongNames: [...game.wrongNames, s.id], errors, finished: left <= 0 });
+    update({ ...game, wrongNames: [...game.wrongNames, s.id], errors, lastChance: left <= 0 });
   };
 
   // Clavier physique (ordinateur) : une touche lettre = une proposition.
@@ -314,13 +322,20 @@ export function PenduGame({
 
       <View style={[sharedStyles.status, { width: width - 8, marginTop: 4 }]}>
         <View style={sharedStyles.statusRow}>
-          <Text style={[sharedStyles.statusLabel, styles.light]}>{revealed ? 'Terminé' : 'Erreurs possibles'}</Text>
+          <Text style={[sharedStyles.statusLabel, styles.light]}>
+            {revealed ? 'Terminé' : game.lastChance ? 'Dernière chance' : 'Erreurs possibles'}
+          </Text>
           <Text style={[sharedStyles.statusValue, styles.light]}>{revealed ? (game.won ? 'Trouvé' : 'Raté') : MAX_PENDU_ERRORS - game.errors}</Text>
         </View>
         <TicketTrack total={MAX_PENDU_ERRORS} used={game.errors} maxWidth={width - 8} compact={tight} />
       </View>
 
-      {!revealed && (
+      {!revealed && game.lastChance && (
+        <Text style={styles.lastChance}>
+          Plus de tickets ! Dernière chance : propose le nom de la station. Si ce n’est pas le bon, c’est perdu.
+        </Text>
+      )}
+      {!revealed && !game.lastChance && (
         <View style={[styles.keyboard, { width, marginTop: compact ? 8 : 12 }]}>
           {AZERTY.map((row) => (
             <View key={row} style={[styles.keyRow, { gap: keyGap }]}>
@@ -374,11 +389,19 @@ export function PenduGame({
           <>
             <Button
               label="Proposer le nom"
+              primary={!!game.lastChance}
               onPress={() => {
                 setFeedback(null);
                 setGuessing(true);
               }}
             />
+            {game.lastChance && (
+              <Button
+                label="Abandonner"
+                tone="danger"
+                onPress={() => update({ ...game, finished: true, lastChance: false })}
+              />
+            )}
             {(free || archive) && onBackToDaily && <Button label="Pendu du jour" onPress={onBackToDaily} />}
           </>
         )}
@@ -397,7 +420,7 @@ export function PenduGame({
       <SearchModal
         visible={guessing}
         title="Quelle est cette station ?"
-        hint={`Si ce n'est pas la bonne, tu perds un ticket. Indice : ${station.lines.length > 1 ? 'lignes' : 'ligne'} ${station.lines.join(', ').replace(/bis/g, ' bis')}.`}
+        hint={`${game.lastChance ? "Dernière chance : si ce n'est pas la bonne, c'est perdu." : "Si ce n'est pas la bonne, tu perds un ticket."} Indice : ${station.lines.length > 1 ? 'lignes' : 'ligne'} ${station.lines.join(', ').replace(/bis/g, ' bis')}.`}
         usedIds={new Set(game.wrongNames)}
         usedText="déjà proposée"
         errorsLeft={MAX_PENDU_ERRORS - game.errors}
@@ -468,6 +491,19 @@ export function PenduGame({
 }
 
 const styles = StyleSheet.create({
+  lastChance: {
+    fontFamily: fonts.heavy,
+    fontSize: 15,
+    lineHeight: 21,
+    color: colors.ink,
+    backgroundColor: colors.sun,
+    borderRadius: 14,
+    overflow: 'hidden',
+    paddingVertical: 12,
+    paddingHorizontal: 16,
+    marginTop: 14,
+    textAlign: 'center',
+  },
   light: { color: colors.white },
   title: { fontFamily: fonts.display, fontSize: 26, letterSpacing: -0.5, color: colors.white, textAlign: 'center' },
   hint: { flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: ui.space.xs + 2, marginTop: ui.space.s },

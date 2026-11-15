@@ -126,6 +126,8 @@ export interface SavedPendu {
   errors: number;
   finished: boolean;
   won: boolean;
+  /** Plus de tickets : une dernière proposition de nom avant de perdre. */
+  lastChance?: boolean;
 }
 
 /** Prochain arrêt : lignes proposées (fausses, puis la bonne si trouvée) et chrono. */
