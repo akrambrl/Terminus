@@ -665,11 +665,11 @@ function Game() {
 
   if (!loaded || !(fontsLoaded || fontError)) return <View style={[styles.screen, { backgroundColor: colors.ink }]} />;
 
-  // Fond de l'écran (charte) : grille sur fond clair, défi violet, réponses menthe, pendu bleu nuit.
+  // Fond de l'écran (charte) : accueil, grille et pendu bleu nuit, défi violet, réponses menthe, arrêt bleu.
   const screen: ScreenId = home
     ? 'pendu'
     : tab === 'grille'
-      ? 'grille'
+      ? 'pendu'
       : tab === 'defi'
         ? defiScreen
         : tab === 'arret'
@@ -851,16 +851,16 @@ function Game() {
 
         <View style={[styles.status, { width: contentWidth - 24 }]}>
           <View style={styles.statusRow}>
-            <Text style={styles.statusLabel}>
+            <Text style={[styles.statusLabel, dark && { color: colors.white }]}>
               {finished ? `Terminé · ${found}/9` : `Erreurs possibles · ${maxErrors - errors}`}
             </Text>
-            <Text style={styles.statusValue} accessibilityLabel={`${points} points`}>
-              {points} <Text style={styles.statusUnit}>pts</Text>
+            <Text style={[styles.statusValue, dark && { color: colors.white }]} accessibilityLabel={`${points} points`}>
+              {points} <Text style={[styles.statusUnit, dark && { color: colors.sun }]}>pts</Text>
             </Text>
           </View>
           {/* Après un rachat, 3 tickets neufs : on n'affiche que le lot en cours. */}
           <TicketTrack total={MAX_ERRORS} used={Math.min(MAX_ERRORS, Math.max(0, errors - TICKETS_PACK * bought))} />
-          {mode === 'daily' && finished && <NextGame day={day} label="Prochaine grille" onNewDay={newDay} />}
+          {mode === 'daily' && finished && <NextGame day={day} label="Prochaine grille" color={dark ? colors.white : colors.ink} onNewDay={newDay} />}
         </View>
 
         <View style={styles.actions}>
