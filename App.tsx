@@ -1272,7 +1272,8 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    paddingTop: 8,
+    // Un peu d'air sous la barre d'état (site sur iPhone, raccourci de l'écran d'accueil).
+    paddingTop: Platform.OS === 'web' ? 22 : 12,
     paddingBottom: 10,
   },
   helpButton: {
