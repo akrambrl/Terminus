@@ -46,28 +46,12 @@ head = f'''
     <link rel="manifest" href="{BASE}/manifest.webmanifest" />
     <link rel="apple-touch-icon" href="{BASE}/apple-touch-icon.png" />
     <style>html, body {{ background: #15123D; }}
-      #accueil-statique {{ min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 24px 20px; box-sizing: border-box; font-family: system-ui, sans-serif; color: #C9CFEE; }}
-      #accueil-statique .logo {{ display: flex; gap: 6px; margin-bottom: 8px; }}
-      #accueil-statique .logo span {{ width: 34px; height: 34px; border-radius: 9px; display: flex; align-items: center; justify-content: center; font: 800 18px system-ui, sans-serif; color: #fff; }}
-      #accueil-statique .paris {{ color: #FFC229; font: 800 12px system-ui, sans-serif; letter-spacing: 6px; margin-bottom: 28px; }}
-      #accueil-statique h1 {{ color: #fff; font-size: 18px; margin: 0 0 10px; }}
-      #accueil-statique p {{ max-width: 560px; font-size: 13px; line-height: 1.5; margin: 0 0 10px; }}
-      #accueil-statique strong {{ color: #fff; }}
-      #accueil-statique a {{ color: #FFC229; }}
     </style>
   </head>'''
 assert '</head>' in html
 html = html.replace('</head>', head, 1)
-# Contenu lisible sans JavaScript (moteurs de recherche, AdSense) : remplacé par le jeu dès qu'il démarre.
-STATIC = """<div id="root"><main id="accueil-statique">
-<div class="logo" aria-hidden="true"><span style="background:#2B3FD6">T</span><span style="background:#FF5A36">E</span><span style="background:#FFC229;color:#15123D">R</span><span style="background:#14B88A">M</span><span style="background:#F2458C">I</span><span style="background:#7B4AE2">N</span><span style="background:#FF5A36">U</span><span style="background:#2B3FD6">S</span></div>
-<div class="paris" aria-hidden="true">PARIS</div>
-<h1>Terminus Paris, le jeu quotidien du métro parisien</h1>
-<p>Chaque jour à minuit, quatre nouveaux jeux sur les 321 stations du métro de Paris : <strong>la Grille</strong> (9 stations à trouver, chaque case croise deux critères), <strong>le Défi</strong> (toutes les stations qui cochent deux critères), <strong>le Pendu du métro</strong> (une station à deviner lettre par lettre) et <strong>Prochain arrêt</strong> (devine la ligne de la rame, station après station). Gratuit, sans inscription, avec un classement du jour.</p>
-<p><a href="/regles/">Les règles</a> · <a href="/lignes/">Les 16 lignes du métro</a> · <a href="/stations/">Les stations de A à Z</a> · <a href="/archives/">Les réponses des jours passés</a> · <a href="/faq/">Questions fréquentes</a> · <a href="/a-propos/">À propos</a></p>
-</main></div>"""
-assert '<div id="root"></div>' in html
-html = html.replace('<div id="root"></div>', STATIC, 1)
+# Page d'accueil vide jusqu'au démarrage du jeu (fond bleu nuit, aucun texte affiché) ;
+# le contenu lisible par les moteurs de recherche est dans les pages /regles/, /faq/, /lignes/…
 html = html.replace('You need to enable JavaScript to run this app.', 'Active JavaScript pour jouer à Terminus Paris.')
 open(index, 'w', encoding='utf-8').write(html)
 
