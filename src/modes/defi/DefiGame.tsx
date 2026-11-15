@@ -430,7 +430,7 @@ export function DefiGame({
         {ranked && <DuelLine game="defi" day={day} mine={{ found: found.length, extra: total }} />}
         {rarest && (
           <Text style={[infoStyles.p, { textAlign: 'center' }]}>
-            🦄 Ta réponse la plus originale : <Text style={infoStyles.strong}>{STATION_BY_ID.get(rarest.id)?.name}</Text>,
+            Ta réponse la plus originale : <Text style={infoStyles.strong}>{STATION_BY_ID.get(rarest.id)?.name}</Text>,
             trouvée par {percentText(rarest.percent)} des joueurs.
           </Text>
         )}

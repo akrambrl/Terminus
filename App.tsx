@@ -3,7 +3,8 @@ import { useCallback, useEffect, useMemo, useState } from 'react';
 import { Linking, Platform, Pressable, StyleSheet, Text, useWindowDimensions, View } from 'react-native';
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 import { Grid } from './src/components/Grid';
-import { InfoModal, infoStyles } from './src/components/InfoModal';
+import { Confetti, InfoModal, infoStyles } from './src/components/InfoModal';
+import { CoinBurst } from './src/design/CoinBurst';
 import { LineBadge } from './src/components/LineBadge';
 import { SearchModal } from './src/components/SearchModal';
 import { dailyNumber, dailySeed, generatePuzzle, puzzleSignature } from './src/game/generator';
@@ -645,8 +646,8 @@ function Game() {
     const errorText = errors === 0 ? 'sans erreur' : `${errors} erreur${errors > 1 ? 's' : ''}`;
     const link = mode === 'daily' ? await challengeLink('grille', day, { found, extra: points }) : WEB_URL;
     const call = mode === 'daily' ? 'Fais mieux que moi 👀' : 'À toi de jouer :';
-    const goldLine = goldFound ? `\n⭐ Station en or trouvée !` : '';
-    const rare = rarest ? `\n🦄 ${STATION_BY_ID.get(rarest.id)?.name} : ${percentText(rarest.percent)} des joueurs` : '';
+    const goldLine = goldFound ? `\nStation en or trouvée !` : '';
+    const rare = rarest ? `\nRéponse la plus originale : ${STATION_BY_ID.get(rarest.id)?.name} (${percentText(rarest.percent)} des joueurs)` : '';
     const message = `${title} : ${found}/9 · ${points} pts · ${errorText}\n${grid}${goldLine}${rare}\n\n${call} ${link}`;
     track('result_shared', { game: 'grille', mode, found, errors });
     if ((await shareMessage(message)) === 'copied') {
@@ -947,8 +948,8 @@ function Game() {
               return (
                 <View key={id} style={styles.answer}>
                   <Text style={[styles.answerName, cells[answersFor.row][answersFor.col] === id && styles.answerMine]}>
-                    {gold.ids.has(id) ? '⭐ ' : ''}
                     {s.name}
+                    {gold.ids.has(id) ? ' (station en or)' : ''}
                   </Text>
                   <View style={styles.answerLines}>
                     {s.lines.map((l) => (
@@ -1006,12 +1007,12 @@ function Game() {
           <Text style={[infoStyles.p, { textAlign: 'center' }]}>
             {goldFound ? (
               <>
-                ⭐ Tu as trouvé la station en or : <Text style={infoStyles.strong}>{STATION_BY_ID.get(goldFound)?.name}</Text>,
+                Tu as trouvé la station en or : <Text style={infoStyles.strong}>{STATION_BY_ID.get(goldFound)?.name}</Text>,
                 {gold.cells === 9 ? ' qui remplit les 6 critères !' : ` valable dans ${gold.cells} cases !`}
               </>
             ) : (
               <>
-                ⭐ Station en or ({gold.cells === 9 ? 'elle remplit les 6 critères' : `valable dans ${gold.cells} cases`}) :{' '}
+                Station en or ({gold.cells === 9 ? 'elle remplit les 6 critères' : `valable dans ${gold.cells} cases`}) :{' '}
                 <Text style={infoStyles.strong}>
                   {[...gold.ids].map((id) => STATION_BY_ID.get(id)?.name).join(', ')}
                 </Text>
@@ -1022,7 +1023,7 @@ function Game() {
         )}
         {rarest && (
           <Text style={[infoStyles.p, { textAlign: 'center' }]}>
-            🦄 Ta réponse la plus originale : <Text style={infoStyles.strong}>{STATION_BY_ID.get(rarest.id)?.name}</Text>,
+            Ta réponse la plus originale : <Text style={infoStyles.strong}>{STATION_BY_ID.get(rarest.id)?.name}</Text>,
             choisie par {percentText(rarest.percent)} des joueurs.
           </Text>
         )}
@@ -1048,20 +1049,24 @@ function Game() {
 
       <InfoModal
         visible={!!bonus && !showIntro && !(showHelp && !showIntro)}
-        title={bonus?.welcome ? 'Bienvenue !' : 'Bonus du jour'}
+        title={bonus?.welcome ? 'Bienvenue !' : 'Bonus du jour !'}
         onClose={() => setBonus(null)}
+        decor={<Confetti />}
       >
-        <View style={styles.bonusRow}>
-          <Coin size={40} />
-          <Text style={styles.bonusAmount}>+{bonus?.granted}</Text>
-        </View>
-        <Text style={[infoStyles.p, { textAlign: 'center' }]}>
+        <CoinBurst amount={bonus?.granted ?? 0} />
+        <Text style={[infoStyles.p, styles.bonusText]}>
           {bonus?.welcome
-            ? `Voici tes ${bonus?.granted} pièces du jour. Tu en gagnes ${DAILY_BONUS} chaque jour en ouvrant l'app.`
-            : `Tu gagnes ${bonus?.granted} pièces pour ta visite du jour. Reviens demain pour en gagner ${DAILY_BONUS} de plus !`}
+            ? `Voici tes ${bonus?.granted} premières pièces. Tu en gagnes ${DAILY_BONUS} chaque jour en ouvrant le jeu.`
+            : `Merci d'être passé ! Reviens demain pour ${DAILY_BONUS} pièces de plus.`}
         </Text>
+        <View style={styles.wallet}>
+          <Coin size={18} />
+          <Text style={styles.walletText}>
+            Ton solde : {bonus?.coins} pièce{(bonus?.coins ?? 0) > 1 ? 's' : ''} (maximum {MAX_COINS})
+          </Text>
+        </View>
         <Text style={[infoStyles.small, { textAlign: 'center' }]}>
-          Une grille, un défi ou un pendu en plus coûte {GRID_COST} pièce. Ton solde : {bonus?.coins} pièces (maximum {MAX_COINS}).
+          1 pièce = une partie en plus, 3 tickets de plus ou un jour passé.
         </Text>
       </InfoModal>
 
@@ -1200,9 +1205,9 @@ function Game() {
           comme Pelleport en vaut 100. Trouve les stations les moins connues pour battre ton record !
         </Text>
         <Text style={infoStyles.p}>
-          <Text style={infoStyles.strong}>⭐ Station en or</Text> : chaque grille est construite autour d'une station
+          <Text style={infoStyles.strong}>Station en or</Text> : chaque grille est construite autour d'une station
           qui remplit les 6 critères à la fois. La trouveras-tu ? Et à la fin, découvre quelle part des joueurs a
-          choisi les mêmes stations que toi : 🦄 la réponse la plus originale est mise en avant.
+          choisi les mêmes stations que toi : ta réponse la plus originale est mise en avant.
         </Text>
         <Text style={infoStyles.p}>
           Une nouvelle grille gratuite t'attend chaque jour. Tu gagnes {DAILY_BONUS} pièces chaque jour en ouvrant l'app
@@ -1310,6 +1315,19 @@ const styles = StyleSheet.create({
   helpText: { fontSize: 20, fontFamily: fonts.display, color: colors.ink },
   trophy: { fontSize: 20 },
   headerButtons: { flexDirection: 'row', gap: 8 },
+  bonusText: { textAlign: 'center', fontFamily: fonts.heavy, fontSize: 17, lineHeight: 24 },
+  wallet: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: 8,
+    alignSelf: 'center',
+    backgroundColor: colors.ink,
+    borderRadius: ui.radiusPill,
+    paddingVertical: 8,
+    paddingHorizontal: 14,
+  },
+  walletText: { fontFamily: fonts.heavy, fontSize: 13, color: colors.white },
   headerLeft: { flexDirection: 'row', alignItems: 'center', gap: 8 },
   backButton: { width: 40 },
   status: { marginTop: 8, gap: 8 },
