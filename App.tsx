@@ -645,7 +645,7 @@ function Game() {
 
   // Fond de l'écran (charte) : grille sur fond clair, défi violet, réponses menthe, pendu bleu nuit.
   const screen: ScreenId = home
-    ? 'grille'
+    ? 'pendu'
     : tab === 'grille'
       ? 'grille'
       : tab === 'defi'

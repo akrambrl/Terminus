@@ -88,128 +88,99 @@ export function HomeScreen({
     };
   }, [day, refresh]);
 
-  const done = statuses ? GAMES.filter((g) => statuses[g.id].state === 'done').length : 0;
+  const tileW = (width - 12) / 2;
 
   return (
     <ScrollView style={{ width, flex: 1 }} contentContainerStyle={styles.scroll} showsVerticalScrollIndicator={false}>
       <View style={styles.hero}>
-        <Text style={styles.kicker}>JEUX DU JOUR · N°{dayNumber(day)}</Text>
         <Text style={styles.date}>{longDate(day)}</Text>
-      </View>
-
-      <View style={[styles.summary, solidShadow()]}>
-        <View style={{ flex: 1, gap: 6 }}>
-          <Text style={styles.summaryTitle}>
-            {done === GAMES.length ? 'Tout est joué, bravo !' : `${done} jeu${done > 1 ? 'x' : ''} sur ${GAMES.length} terminé${done > 1 ? 's' : ''}`}
-          </Text>
-          <View style={styles.bar}>
-            {GAMES.map((g) => (
-              <View
-                key={g.id}
-                style={[styles.barPart, { backgroundColor: statuses?.[g.id].state === 'done' ? TAB_COLORS[g.id] : colors.border }]}
-              />
-            ))}
+        <View style={styles.heroRow}>
+          <Text style={styles.kicker}>JEUX N°{dayNumber(day)}</Text>
+          <View style={styles.coins} accessibilityLabel={`${coins} pièces`}>
+            <Coin size={16} />
+            <Text style={styles.coinsText}>{coins}</Text>
           </View>
-          {streak > 1 && <Text style={styles.summarySub}>Série en cours : {streak} jours</Text>}
-        </View>
-        <View style={styles.coins} accessibilityLabel={`${coins} pièces`}>
-          <Coin size={20} />
-          <Text style={styles.coinsText}>{coins}</Text>
+          {streak > 1 && <Text style={styles.kicker}>SÉRIE {streak} J</Text>}
         </View>
       </View>
 
-      {GAMES.map((g) => {
-        const s = statuses?.[g.id];
-        const state = s?.state ?? 'todo';
-        return (
-          <Pressable
-            key={g.id}
-            onPress={() => onOpen(g.id)}
-            accessibilityRole="button"
-            accessibilityLabel={`${g.title}${state === 'done' ? ', terminé' : ''}`}
-            style={({ pressed }) => [styles.card, solidShadow(), pressed && styles.pressed]}
-          >
-            <BadgeArt id={g.art} size={58} />
-            <View style={styles.cardText}>
-              <Text style={styles.cardTitle}>{g.title}</Text>
-              <Text style={styles.cardSub} numberOfLines={2}>
-                {g.text}
-              </Text>
+      <View style={styles.grid}>
+        {GAMES.map((g) => {
+          const st = statuses?.[g.id];
+          const state = st?.state ?? 'todo';
+          const bg = TAB_COLORS[g.id];
+          const fg = g.id === 'arret' ? colors.ink : colors.white;
+          return (
+            <Pressable
+              key={g.id}
+              onPress={() => onOpen(g.id)}
+              accessibilityRole="button"
+              accessibilityLabel={`${g.title}${state === 'done' ? ', terminé' : ''}`}
+              style={({ pressed }) => [
+                styles.tile,
+                { width: tileW, backgroundColor: bg },
+                solidShadow('#0A0820'),
+                pressed && styles.pressed,
+              ]}
+            >
               {state === 'done' && (
-                <Text style={styles.cardResult} numberOfLines={1}>
-                  Fait{s?.result ? ` · ${s.result}` : ''}
-                </Text>
+                <View style={styles.check}>
+                  <Text style={styles.checkText}>✓</Text>
+                </View>
               )}
-            </View>
-            {state === 'done' ? (
-              <View style={[styles.check, { backgroundColor: colors.mint }]}>
-                <Text style={styles.checkText}>✓</Text>
-              </View>
-            ) : (
-              <View style={[styles.play, { backgroundColor: TAB_COLORS[g.id] }]}>
-                <Text style={[styles.playText, g.id === 'arret' && { color: colors.ink }]}>
-                  {state === 'started' ? 'Reprendre' : 'Jouer'}
-                </Text>
-              </View>
-            )}
-          </Pressable>
-        );
-      })}
+              <BadgeArt id={g.art} size={Math.min(76, tileW * 0.46)} />
+              <Text style={[styles.tileTitle, { color: fg }]} numberOfLines={1}>
+                {g.title}
+              </Text>
+              <Text style={[styles.tileState, { color: fg }]} numberOfLines={1}>
+                {state === 'done' ? (st?.result ?? 'Terminé') : state === 'started' ? 'Reprendre' : 'Jouer'}
+              </Text>
+            </Pressable>
+          );
+        })}
+      </View>
 
-      <NextGame day={day} label="Nouveaux jeux" onNewDay={onNewDay} />
+      <NextGame day={day} label="Nouveaux jeux" color={colors.white} onNewDay={onNewDay} />
       <Text style={styles.unofficial}>Jeu non officiel, sans lien avec la RATP ni Île-de-France Mobilités.</Text>
     </ScrollView>
   );
 }
 
 const styles = StyleSheet.create({
-  scroll: { gap: 12, paddingBottom: 24 },
-  hero: { alignItems: 'center', marginTop: 4, gap: 2 },
-  kicker: { fontFamily: fonts.heavy, fontSize: 12, letterSpacing: 2, color: colors.muted },
-  date: { fontFamily: fonts.display, fontSize: 26, color: colors.ink, letterSpacing: -0.5 },
-  summary: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 12,
-    backgroundColor: colors.white,
-    borderWidth: ui.border,
-    borderColor: colors.ink,
-    borderRadius: 18,
-    padding: 14,
-  },
-  coins: {
-    flexDirection: 'row',
+  scroll: { gap: 18, paddingBottom: 24, paddingTop: 6, flexGrow: 1, justifyContent: 'center' },
+  hero: { alignItems: 'center', gap: 6 },
+  date: { fontFamily: fonts.display, fontSize: 28, color: colors.white, letterSpacing: -0.5 },
+  heroRow: { flexDirection: 'row', alignItems: 'center', gap: 12 },
+  kicker: { fontFamily: fonts.heavy, fontSize: 12, letterSpacing: 2, color: colors.sun },
+  coins: { flexDirection: 'row', alignItems: 'center', gap: 5 },
+  coinsText: { fontFamily: fonts.display, fontSize: 15, color: colors.white },
+  grid: { flexDirection: 'row', flexWrap: 'wrap', gap: 12 },
+  tile: {
     alignItems: 'center',
     gap: 6,
-    backgroundColor: colors.ink,
-    borderRadius: ui.radiusPill,
-    paddingVertical: 6,
-    paddingHorizontal: 12,
-  },
-  coinsText: { fontFamily: fonts.display, fontSize: 17, color: colors.white },
-  summaryTitle: { fontFamily: fonts.heavy, fontSize: 16, color: colors.ink },
-  summarySub: { fontFamily: fonts.bold, fontSize: 12, color: colors.muted },
-  bar: { flexDirection: 'row', gap: 5 },
-  barPart: { flex: 1, height: 8, borderRadius: 4 },
-  card: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 12,
-    backgroundColor: colors.white,
     borderWidth: ui.border,
-    borderColor: colors.ink,
-    borderRadius: 18,
-    paddingVertical: 12,
-    paddingHorizontal: 12,
+    borderColor: colors.white,
+    borderRadius: 22,
+    paddingTop: 16,
+    paddingBottom: 14,
+    paddingHorizontal: 8,
   },
   pressed: { transform: [{ translateY: 2 }] },
-  cardText: { flex: 1, gap: 2 },
-  cardTitle: { fontFamily: fonts.display, fontSize: 19, color: colors.ink, letterSpacing: -0.3 },
-  cardSub: { fontFamily: fonts.bold, fontSize: 12.5, lineHeight: 16, color: colors.muted },
-  cardResult: { fontFamily: fonts.heavy, fontSize: 13, color: colors.ink, marginTop: 2 },
-  play: { borderRadius: ui.radiusPill, borderWidth: 2, borderColor: colors.ink, paddingVertical: 8, paddingHorizontal: 12 },
-  playText: { fontFamily: fonts.heavy, fontSize: 13, color: colors.white },
-  check: { width: 32, height: 32, borderRadius: 16, borderWidth: 2, borderColor: colors.ink, alignItems: 'center', justifyContent: 'center' },
-  checkText: { fontFamily: fonts.heavy, fontSize: 16, color: colors.ink },
-  unofficial: { fontFamily: fonts.bold, fontSize: 11, color: colors.muted, textAlign: 'center' },
+  tileTitle: { fontFamily: fonts.display, fontSize: 19, letterSpacing: -0.3, marginTop: 4 },
+  tileState: { fontFamily: fonts.heavy, fontSize: 13, opacity: 0.9 },
+  check: {
+    position: 'absolute',
+    top: 8,
+    right: 8,
+    width: 26,
+    height: 26,
+    borderRadius: 13,
+    backgroundColor: colors.mint,
+    borderWidth: 2,
+    borderColor: colors.white,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  checkText: { fontFamily: fonts.heavy, fontSize: 14, color: colors.white },
+  unofficial: { fontFamily: fonts.bold, fontSize: 11, color: colors.white, opacity: 0.6, textAlign: 'center' },
 });

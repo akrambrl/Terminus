@@ -42,7 +42,7 @@ const BG: Record<string, keyof Palette> = {
   gold: 'violet',
   points600: 'pink',
   points800: 'tomato',
-  defi: 'violet',
+  defi: 'pink',
   pendu: 'blue',
   arret1: 'tomato',
   arret10: 'blue',
