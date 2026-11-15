@@ -1,8 +1,8 @@
 import type { Puzzle } from './types';
 
 /**
- * Station en or : la ou les stations valables dans le plus de cases de la grille (4 ou 6 cases,
- * parfois les 9 critères…). Trouver une station en or ne rapporte pas de points en plus (le classement
+ * Station en or : la ou les stations valables dans le plus de cases de la grille. Depuis le 16 novembre
+ * 2026, chaque grille est construite autour d'elle (6 critères remplis, donc les 9 cases) ; avant, 4 ou 6 cases. Trouver une station en or ne rapporte pas de points en plus (le classement
  * reste le même pour tous), mais elle est signalée dans les résultats et compte pour un badge.
  */
 export function goldStations(puzzle: Puzzle): { ids: Set<string>; cells: number } {

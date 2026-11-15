@@ -888,11 +888,11 @@ function Game() {
             {goldFound ? (
               <>
                 ⭐ Tu as trouvé la station en or : <Text style={infoStyles.strong}>{STATION_BY_ID.get(goldFound)?.name}</Text>,
-                valable dans {gold.cells} cases !
+                {gold.cells === 9 ? ' qui remplit les 6 critères !' : ` valable dans ${gold.cells} cases !`}
               </>
             ) : (
               <>
-                ⭐ Station en or (valable dans {gold.cells} cases) :{' '}
+                ⭐ Station en or ({gold.cells === 9 ? 'elle remplit les 6 critères' : `valable dans ${gold.cells} cases`}) :{' '}
                 <Text style={infoStyles.strong}>
                   {[...gold.ids].map((id) => STATION_BY_ID.get(id)?.name).join(', ')}
                 </Text>
@@ -1068,9 +1068,9 @@ function Game() {
           comme Pelleport en vaut 100. Trouve les stations les moins connues pour battre ton record !
         </Text>
         <Text style={infoStyles.p}>
-          <Text style={infoStyles.strong}>⭐ Station en or</Text> : chaque grille cache une station qui marche dans
-          plusieurs cases à la fois (4 ou 6). La trouveras-tu ? Et à la fin, découvre quelle part des joueurs a choisi
-          les mêmes stations que toi : 🦄 la réponse la plus originale est mise en avant.
+          <Text style={infoStyles.strong}>⭐ Station en or</Text> : chaque grille est construite autour d'une station
+          qui remplit les 6 critères à la fois. La trouveras-tu ? Et à la fin, découvre quelle part des joueurs a
+          choisi les mêmes stations que toi : 🦄 la réponse la plus originale est mise en avant.
         </Text>
         <Text style={infoStyles.p}>
           Une nouvelle grille gratuite t'attend chaque jour. Tu gagnes {DAILY_BONUS} pièces chaque jour en ouvrant l'app
