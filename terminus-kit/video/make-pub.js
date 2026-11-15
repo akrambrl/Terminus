@@ -20,7 +20,7 @@ body{width:1080px;height:1920px;overflow:hidden;background:#15123D}
 .phone{position:absolute;width:620px;height:1342px;border-radius:86px;background:#0A0820;border:14px solid #fff;box-shadow:0 28px 0 rgba(0,0,0,.35);overflow:hidden}
 .phone img{width:100%;height:100%;object-fit:cover;display:block}
 .chip{position:absolute;font-family:B;font-size:46px;padding:22px 40px;border-radius:999px;border:6px solid #15123D;box-shadow:0 10px 0 #15123D;white-space:nowrap}
-.plaque{position:absolute;left:50%;transform:translateX(-50%);background:#15123D;border:6px solid #fff;border-radius:22px;color:#fff;font-family:B;letter-spacing:10px;font-size:44px;padding:18px 40px;white-space:nowrap}
+.plaque{position:absolute;left:50%;transform:translateX(-50%);background:#15123D;border:6px solid #fff;border-radius:22px;color:#fff;font-family:B;letter-spacing:6px;font-size:40px;padding:18px 34px;white-space:nowrap}
 .bar{position:absolute;left:-200px;width:1500px;height:420px}
 .car{position:absolute;background:#fff;border:8px solid #15123D;border-radius:40px;overflow:hidden}
 </style></head><body><div id="s"></div>
@@ -67,9 +67,9 @@ function render(t){ let o='';
   // Scène 1 (0–2,6 s) : accroche
   if(t<2.6){ o+=bricks(BG.ink[0],BG.ink[1],t*20);
     o+=word('Tu prends',560,150,0.15,t)+word('le <span class="hl">métro</span>',730,170,0.55,t)+word('tous les jours ?',920,130,0.95,t);
-    const out=prog(t,2.2,2.6); if(out>0) o+='<div class="abs" style="inset:0;background:'+C.blue+';transform:translateY('+(1-eio(out))*1920+'px)"></div>'; }
+    const out=prog(t,2.2,2.6); if(out>0) o+='<div class="abs" style="inset:0;background:#0E0C2C;transform:translateY('+(1-eio(out))*1920+'px)"></div>'; }
   // Scène 2 (2,6–4,7 s) : « vraiment ? » + rame
-  else if(t<4.7){ o+=bricks(BG.blue[0],BG.blue[1],t*20);
+  else if(t<4.7){ o+=bricks(BG.ink[0],BG.ink[1],t*20);
     const tx=1080+60-eio(prog(t,2.7,4.1))*(1080+3*(460+18)+600); o+=train(tx,1180,200);
     o+=word('Mais tu le connais',620,104,2.7,t)+word('<span class="hl">vraiment ?</span>',780,190,3.1,t);
     const out=prog(t,4.35,4.7); if(out>0) o+='<div class="abs" style="inset:0;background:'+C.ink+';clip-path:circle('+eio(out)*1400+'px at 540px 960px)"></div>'; }
@@ -95,13 +95,13 @@ function render(t){ let o='';
     const chips=[['Classement du jour',C.sun,C.ink,1130,-3],['Défie tes amis',C.mint,'#fff',1290,2],['Badges à gagner',C.pink,'#fff',1450,-2]];
     chips.forEach(([txt,bg,fg,top,r],i)=>{ const p=prog(t,15.6+i*.25,16.1+i*.25); if(p<=0) return;
       o+='<div class="chip" style="left:50%;top:'+top+'px;background:'+bg+';color:'+fg+';opacity:'+clamp(p*2)+';transform:translateX(-50%) rotate('+r+'deg) scale('+(.5+.5*back(p))+')">'+txt+'</div>'; });
-    const out=prog(t,16.9,17.2); if(out>0) o+='<div class="abs" style="inset:0;background:'+C.blue+';clip-path:circle('+eio(out)*1400+'px at 540px 960px)"></div>'; }
+    const out=prog(t,16.9,17.2); if(out>0) o+='<div class="abs" style="inset:0;background:#0E0C2C;clip-path:circle('+eio(out)*1400+'px at 540px 960px)"></div>'; }
   // Scène 6 (17,2–20 s) : fin
-  else { o+=bricks(BG.blue[0],BG.blue[1],t*20);
+  else { o+=bricks(BG.ink[0],BG.ink[1],t*20);
     o+='<div class="abs" style="left:60px;right:60px;top:600px;height:330px;border-radius:44px;background:#15123D;border:8px solid #fff;opacity:'+prog(t,17.2,17.5)+'"></div>';
     o+=logo(t,17.3,740,1);
     const p=prog(t,18.1,18.5); if(p>0){ o+='<div class="word" style="top:1060px;font-size:96px;opacity:'+p+'">Joue gratuitement</div>';
-      o+='<div class="plaque" style="top:1230px;opacity:'+p+';transform:translateX(-50%) scale('+(.8+.2*back(p))+')">TERMINUSPARIS.FR</div>'; }
+      o+='<div class="plaque" style="top:1230px;opacity:'+p+';transform:translateX(-50%) scale('+(.8+.2*back(p))+')">TERMINUSPARIS.FR/TIKTOK</div>'; }
     const q=prog(t,18.8,19.2); if(q>0) o+='<div class="word" style="top:1420px;font-family:B;font-size:30px;letter-spacing:0;color:rgba(255,255,255,.75);opacity:'+q+'">Jeu non officiel, sans lien avec la RATP ni Île-de-France Mobilités.</div>'; }
   s.innerHTML=o; }
 window.render=render; render(0);
