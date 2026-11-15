@@ -1273,7 +1273,7 @@ function Game() {
           (jusqu'à {MAX_COINS} en réserve) : plus de tickets après 3 erreurs ? {TICKETS_COST} pièce rachète 3 tickets pour
           continuer. Jeu du jour réussi (grille en 9/9, défi complet, station du pendu trouvée) ? {GRID_COST} pièce débloque
           une partie en plus du même jeu, hors classement. Les jours passés se rejouent aussi pour {ARCHIVE_COST} pièce
-          (📅 sous le jeu du jour terminé). Un indice coûte aussi {HINT_COST} pièce. Les pièces ne
+          (lien « Rejouer les jours passés » sous le jeu du jour terminé). Un indice coûte aussi {HINT_COST} pièce. Les pièces ne
           s'achètent pas : elles se gagnent seulement en jouant.
         </Text>
         </>
