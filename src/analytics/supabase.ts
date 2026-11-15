@@ -30,6 +30,8 @@ const KEPT = new Set<GameEvent>([
   'store_link_clicked',
   'leaderboard_opened',
   'tickets_bought',
+  'archive_started',
+  'badges_opened',
 ]);
 
 const headers = {
@@ -259,4 +261,30 @@ export async function submitScore(day: string, game: RankedGame, payload: Record
 export async function fetchLeaderboard(game: RankedGame, period: RankPeriod): Promise<Leaderboard> {
   const device = (await ensureDevice()) ?? '';
   return rpc<Leaderboard>('tp_leaderboard', { p_game: game, p_period: period, p_device: device });
+}
+
+/* ---------- Originalité des réponses (supabase/terminus-originalite.sql) ---------- */
+
+export interface Picks {
+  /** Parties comptées ce jour-là. */
+  players: number;
+  /** picks[case][station] = nombre de joueurs (grille : case 0 à 8 ; défi : case 0). */
+  picks: Record<string, Record<string, number>>;
+}
+
+const picksCache = new Map<string, { at: number; value: Picks | null }>();
+
+/** Totaux des réponses d'un jour (null hors ligne ou si personne n'a encore joué). */
+export async function fetchPicks(day: string, game: 'grille' | 'defi'): Promise<Picks | null> {
+  const key = `${day}:${game}`;
+  const hit = picksCache.get(key);
+  if (hit && Date.now() - hit.at < 60000) return hit.value;
+  try {
+    const value = await rpc<Picks | null>('tp_picks', { p_day: day, p_game: game });
+    const ok = value && value.players > 0 ? value : null;
+    picksCache.set(key, { at: Date.now(), value: ok });
+    return ok;
+  } catch {
+    return null;
+  }
 }

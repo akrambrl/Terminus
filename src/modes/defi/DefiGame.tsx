@@ -27,6 +27,9 @@ import { onGameFinished } from '../../store/review';
 import { DayHeader } from '../../components/DayHeader';
 import { submitScore } from '../../analytics/supabase';
 import { NextGame } from '../../components/NextGame';
+import { ArchivesLink } from '../../archives/ArchivesLink';
+import { NewBadgesLine } from '../../badges/BadgesModal';
+import { percentText, pickPercent, rarestPick, usePicks } from '../../game/originality';
 import { NotifPrompt } from '../../notifications/NotifPrompt';
 import { MetroTrain } from '../../design/MetroTrain';
 import { usePop } from '../../design/motion';
@@ -45,7 +48,16 @@ export function DefiGame({
   extraLabel,
   onExtra,
   onBackToDaily,
+  archive,
+  onArchives,
+  onBadges,
 }: {
+  /** Ouvre « Mes badges ». */
+  onBadges?: () => void;
+  /** Défi d'un jour passé (archives) : ni classement, ni statistiques. */
+  archive?: boolean;
+  /** Ouvre la liste des jours passés. */
+  onArchives?: () => void;
   /** Défi en plus (payé avec une pièce) : graine du défi. Absent = défi du jour. */
   seed?: string;
   /** Bouton « Défi en plus » ou « Reprendre… », proposé par l'app après un défi du jour réussi. */
@@ -66,6 +78,8 @@ export function DefiGame({
 }) {
   const defi = useMemo(() => (seed ? defiFromSeed(seed) : generateDefi(day)), [day, seed]);
   const free = !!seed;
+  /** Partie du jour qui compte (classement, statistiques, défi entre amis). */
+  const ranked = !free && !archive;
   const total = defi.answers.length;
   const [found, setFound] = useState<string[]>([]);
   const [errors, setErrors] = useState(0);
@@ -81,6 +95,9 @@ export function DefiGame({
   const [listH, setListH] = useState(0);
   /** La rame traverse l'écran avant les réponses. */
   const [train, setTrain] = useState(false);
+  /** Réponses des autres joueurs ce jour-là (défi du jour ou jour passé terminé). */
+  const picks = usePicks(day, 'defi', !free && finished);
+  const rarest = !free ? rarestPick(picks, found.map((id) => ({ cell: 0, id }))) : null;
   const popA = usePop(80, day);
   const popB = usePop(220, day);
 
@@ -95,7 +112,7 @@ export function DefiGame({
         setGaveUp(saved.gaveUp);
         if (saved.finished) {
           onScreen('reponse');
-          if (!free) submitScore(day, 'defi', { found: saved.found, errors: saved.errors });
+          if (ranked) submitScore(day, 'defi', { found: saved.found, errors: saved.errors });
         }
       }
       setStats(s);
@@ -109,11 +126,17 @@ export function DefiGame({
     setSearching(false);
     setTrain(true);
     setGaveUp(abandoned);
-    track('game_finished', { game: 'defi', mode: free ? 'free' : 'daily', found: finalFound.length, total, errors: finalErrors, gave_up: abandoned });
+    track('game_finished', { game: 'defi', mode: free ? 'free' : archive ? 'archive' : 'daily', found: finalFound.length, total, errors: finalErrors, gave_up: abandoned });
     const state = { defi: defiSignature(defi), found: finalFound, errors: finalErrors, finished: true, gaveUp: abandoned };
     if (free) {
       // Défi en plus : ni classement, ni statistiques.
       await saveFreeDefi({ ...state, seed: seed! });
+      return;
+    }
+    if (archive) {
+      // Jour passé : gardé pour les archives et les badges, sans classement ni série.
+      await saveDefi(day, state);
+      onDone(true, finalFound.length === total);
       return;
     }
     onDone(true, finalFound.length === total);
@@ -160,8 +183,8 @@ export function DefiGame({
   };
 
   const share = async () => {
-    const title = free ? 'Défi en plus' : `Défi n°${dayNumber(day)}`;
-    const tail = free
+    const title = free ? 'Défi en plus' : `Défi n°${dayNumber(day)}${archive ? ` (${formatDay(day)})` : ''}`;
+    const tail = !ranked
       ? SITE_LABEL
       : `Fais mieux que moi 👀 ${await challengeLink('defi', day, { found: found.length, extra: total })}`;
     const message = `Terminus Paris · ${title} · ${found.length}/${total}\n${ticketLine(DEFI_MAX_ERRORS, errors)}\n\n${tail}`;
@@ -208,6 +231,9 @@ export function DefiGame({
                         <LineBadge key={l} line={l as LineId} size={rowH < 34 ? 16 : 20} />
                       ))}
                     </View>
+                    {picks && (
+                      <Text style={styles.percent}>{percentText(pickPercent(picks, 0, id) ?? 0)}</Text>
+                    )}
                   </View>
                 );
               })}
@@ -217,7 +243,7 @@ export function DefiGame({
             Tu en avais {found.length} sur {total}
           </Text>
           {/* Sur menthe, petit texte en bleu nuit (règle de contraste de la charte). */}
-          {!free && <NextGame day={day} label="Prochain défi" color={colors.ink} onNewDay={onNewDay} />}
+          {ranked && <NextGame day={day} label="Prochain défi" color={colors.ink} onNewDay={onNewDay} />}
           <View style={sharedStyles.actions}>
             <Button label="Voir mon résultat" onPress={() => setShowResult(true)} primary />
             {free ? (
@@ -225,17 +251,23 @@ export function DefiGame({
                 {onExtra && <Button label="Nouveau défi · 1" coin onPress={onExtra} />}
                 {onBackToDaily && <Button label="Défi du jour" onPress={onBackToDaily} />}
               </>
+            ) : archive ? (
+              <>
+                {onArchives && <Button label="Autres jours" onPress={onArchives} />}
+                {onBackToDaily && <Button label="Défi du jour" onPress={onBackToDaily} />}
+              </>
             ) : (
               extraLabel && onExtra && <Button label={extraLabel} coin={!extraLabel.startsWith('Reprendre')} onPress={onExtra} />
             )}
           </View>
+          {ranked && onArchives && <ArchivesLink onPress={onArchives} color={colors.ink} />}
         </>
       ) : (
         <>
           <DayHeader
             width={width}
             title={free ? 'Défi en plus' : `Défi n°${dayNumber(day)}`}
-            sub={free ? '1 pièce le défi' : formatDay(day)}
+            sub={free ? '1 pièce le défi' : archive ? `${formatDay(day)} · jour passé` : formatDay(day)}
             right={
               <Text style={styles.count}>
                 {found.length}
@@ -328,7 +360,7 @@ export function DefiGame({
 
           <View style={sharedStyles.actions}>
             <Button label="J'abandonne" tone="danger" onPress={() => finish(found, errors, true)} />
-            {free && onBackToDaily && <Button label="Défi du jour" onPress={onBackToDaily} />}
+            {(free || archive) && onBackToDaily && <Button label="Défi du jour" onPress={onBackToDaily} />}
             <Button
               label="Proposer une station"
               primary
@@ -366,7 +398,7 @@ export function DefiGame({
         footer={
           <View style={{ gap: 10 }}>
             <Button
-              label={copied ? 'Lien copié !' : free ? 'Partager mon résultat' : 'Défier mes amis 🎯'}
+              label={copied ? 'Lien copié !' : !ranked ? 'Partager mon résultat' : 'Défier mes amis 🎯'}
               onPress={share}
               primary
             />
@@ -385,11 +417,27 @@ export function DefiGame({
         <Text style={sharedStyles.bigScore}>
           {found.length}/{total}
         </Text>
-        {!free && <DuelLine game="defi" day={day} mine={{ found: found.length, extra: total }} />}
+        <NewBadgesLine
+          visible={showResult}
+          onOpen={
+            onBadges &&
+            (() => {
+              setShowResult(false);
+              onBadges();
+            })
+          }
+        />
+        {ranked && <DuelLine game="defi" day={day} mine={{ found: found.length, extra: total }} />}
+        {rarest && (
+          <Text style={[infoStyles.p, { textAlign: 'center' }]}>
+            🦄 Ta réponse la plus originale : <Text style={infoStyles.strong}>{STATION_BY_ID.get(rarest.id)?.name}</Text>,
+            trouvée par {percentText(rarest.percent)} des joueurs.
+          </Text>
+        )}
         <Text style={[infoStyles.p, { textAlign: 'center' }]}>
           {defi.a.label} × {defi.b.label}. Nouveau défi demain !
         </Text>
-        {!free && <View style={sharedStyles.stats}>
+        {ranked && <View style={sharedStyles.stats}>
           <Stat value={stats.played} label="Défis" />
           <Stat value={stats.complete} label="Complets" />
           <Stat value={stats.streak} label="Série" />
@@ -403,6 +451,7 @@ export function DefiGame({
 }
 
 const styles = StyleSheet.create({
+  percent: { fontFamily: fonts.heavy, fontSize: 12, color: colors.muted, minWidth: 40, textAlign: 'right' },
   count: { fontFamily: fonts.display, fontSize: 24, color: colors.white },
   countTotal: { fontSize: 16, color: colors.sun },
   criteria: { flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: ui.space.m, marginTop: ui.space.xs },

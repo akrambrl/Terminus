@@ -12,6 +12,8 @@ import { Button, Stat } from './src/components/Button';
 import { ModeTabs, type GameTab } from './src/components/ModeTabs';
 import { DayHeader } from './src/components/DayHeader';
 import { bestGridPoints, gridPoints, stationPoints } from './src/game/points';
+import { goldStations } from './src/game/gold';
+import { gridAnswers, percentText, pickPercent, rarestPick, usePicks } from './src/game/originality';
 import { NextGame } from './src/components/NextGame';
 import { NotifPrompt } from './src/notifications/NotifPrompt';
 import {
@@ -31,7 +33,11 @@ import { ChallengeBanner, DuelLine } from './src/share/ChallengeBanner';
 import { DefiGame } from './src/modes/defi/DefiGame';
 import { DEFI_MAX_ERRORS, defiFromSeed, defiSignature, generateDefi } from './src/modes/defi/defi';
 import { PenduGame } from './src/modes/pendu/PenduGame';
-import { MAX_PENDU_ERRORS, penduFromSeed } from './src/modes/pendu/pendu';
+import { MAX_PENDU_ERRORS, penduFromSeed, penduStation } from './src/modes/pendu/pendu';
+import { ARCHIVE_COST, archiveState, type ArchiveDay, type ArchiveGame } from './src/archives/archives';
+import { ArchivesLink } from './src/archives/ArchivesLink';
+import { ArchivesModal } from './src/archives/ArchivesModal';
+import { BadgesModal, NewBadgesLine } from './src/badges/BadgesModal';
 import { STATION_BY_ID } from './src/game/lookup';
 import {
   EMPTY_STATS,
@@ -49,6 +55,8 @@ import {
   markHelpSeen,
   recordDaily,
   saveDaily,
+  saveDefi,
+  savePendu,
   loadFreeGame,
   saveFreeGame,
   type SavedFreeGame,
@@ -89,7 +97,7 @@ import { adsActive } from './src/ads/config';
 import { useFonts } from 'expo-font';
 /** Erreurs permises par grille : les bonnes réponses ne coûtent rien. */
 const MAX_ERRORS = 3;
-type Mode = 'daily' | 'free';
+type Mode = 'daily' | 'free' | 'archive';
 type Cell = { row: number; col: number };
 
 const emptyCells = () => [0, 1, 2].map(() => [null, null, null] as (string | null)[]);
@@ -141,6 +149,8 @@ function Game() {
   const [notifOn, setNotifOn] = useState(false);
   const [showRanking, setShowRanking] = useState(false);
   const openRanking = useCallback(() => setShowRanking(true), []);
+  const [showBadges, setShowBadges] = useState(false);
+  const openBadges = useCallback(() => setShowBadges(true), []);
   /** Minuit à Paris : on passe aux jeux du nouveau jour sans relancer l'app. */
   const newDay = useCallback(() => setDay(currentDayKey()), []);
   // Lien de défi d'un ami : on ouvre directement le jeu concerné.
@@ -160,9 +170,16 @@ function Game() {
   const markDone = useCallback((t: GameTab) => setDone((d) => (d[t] ? d : { ...d, [t]: true })), []);
   const [mode, setMode] = useState<Mode>('daily');
   const [freeSeed, setFreeSeed] = useState(() => `libre-${Date.now()}`);
+  /** Jours passés (archives) en cours de jeu, ou null. */
+  const [gridArchive, setGridArchive] = useState<string | null>(null);
+  const [defiArchive, setDefiArchive] = useState<string | null>(null);
+  const [penduArchive, setPenduArchive] = useState<string | null>(null);
+  const [archivesFor, setArchivesFor] = useState<ArchiveGame | null>(null);
+  /** Jour de la grille affichée (celui d'aujourd'hui, ou un jour passé). */
+  const gridDay = mode === 'archive' && gridArchive ? gridArchive : day;
   const puzzle = useMemo(
-    () => generatePuzzle(mode === 'daily' ? dailySeed(day) : freeSeed),
-    [mode, day, freeSeed],
+    () => generatePuzzle(mode === 'free' ? freeSeed : dailySeed(gridDay)),
+    [mode, gridDay, freeSeed],
   );
 
   const [cells, setCells] = useState(emptyCells);
@@ -225,6 +242,10 @@ function Game() {
       setFreePendu(fp);
       setDefiSeed(null);
       setPenduSeed(null);
+      setDefiArchive(null);
+      setPenduArchive(null);
+      setGridArchive(null);
+      setMode((m) => (m === 'archive' ? 'daily' : m));
       setCoins(wallet.coins);
       setAdsLeft(wallet.adsLeft);
       // Les sauvegardes d'avant le système d'erreurs (9 essais) sont ignorées.
@@ -271,6 +292,11 @@ function Game() {
   /** Plus de tickets, grille pas finie : en attente d'un rachat ou de « Terminer ». */
   const outOfTickets = !finished && errors >= maxErrors;
   const maxPoints = useMemo(() => bestGridPoints(puzzle.answers), [puzzle]);
+  /** Réponses des autres joueurs ce jour-là (grille du jour ou jour passé terminée). */
+  const picks = usePicks(gridDay, 'grille', mode !== 'free' && finished);
+  const gold = useMemo(() => goldStations(puzzle), [puzzle]);
+  const goldFound = cells.flat().find((id) => !!id && gold.ids.has(id)) ?? null;
+  const rarest = mode !== 'free' ? rarestPick(picks, gridAnswers(cells)) : null;
 
   const finish = useCallback(
     async (finalCells: (string | null)[][], errorCount: number, gaveUp = false) => {
@@ -283,6 +309,10 @@ function Game() {
         setFreeSaved(game);
         saveFreeGame(game);
       }
+      if (mode === 'archive') {
+        // Jour passé : gardé pour les archives et les badges, sans classement ni série.
+        await saveDaily(gridDay, { puzzle: puzzleSignature(puzzle), cells: finalCells, errors: errorCount, finished: true, bought });
+      }
       if (mode === 'daily') {
         markDone('grille');
         submitScore(day, 'grille', { cells: finalCells.flat(), errors: errorCount });
@@ -292,7 +322,7 @@ function Game() {
       }
       setTimeout(() => setShowResult(true), 400);
     },
-    [mode, day, puzzle, freeSeed, markDone, bought],
+    [mode, day, gridDay, puzzle, freeSeed, markDone, bought],
   );
 
   const submit = (station: Station) => {
@@ -342,8 +372,8 @@ function Game() {
 
   /** Sauvegarde de la grille en cours (du jour ou en plus). */
   const saveProgress = (c: (string | null)[][], e: number, b: number) => {
-    if (mode === 'daily') {
-      saveDaily(day, { puzzle: puzzleSignature(puzzle), cells: c, errors: e, finished: false, bought: b });
+    if (mode !== 'free') {
+      saveDaily(gridDay, { puzzle: puzzleSignature(puzzle), cells: c, errors: e, finished: false, bought: b });
     } else {
       const game = { seed: freeSeed, cells: c, errors: e, finished: false, bought: b };
       setFreeSaved(game);
@@ -453,6 +483,55 @@ function Game() {
     return success[game] ? `${noun === 'défi' ? 'Défi' : 'Pendu'} en plus · ${GRID_COST}` : undefined;
   };
 
+  /**
+   * Jour passé choisi dans les archives : une partie jamais ouverte coûte une pièce (elle est alors
+   * enregistrée comme commencée, donc reprise gratuitement ensuite) ; sinon on la rouvre telle quelle.
+   */
+  const openArchive = async (game: ArchiveGame, picked: ArchiveDay) => {
+    // État relu au moment du choix : un jour déjà payé n'est jamais facturé deux fois.
+    const d = await archiveState(game, picked.day);
+    if (d.state === 'none') {
+      const paid = await spendCoins(ARCHIVE_COST, day);
+      setCoins(paid.coins);
+      setAdsLeft(paid.adsLeft);
+      if (!paid.ok) {
+        track('not_enough_coins', { coins: paid.coins, for: `archive-${game}` });
+        setArchivesFor(null);
+        setShowNoCoins(true);
+        return;
+      }
+      track('archive_started', { game, day: d.day, cost: ARCHIVE_COST, coins_left: paid.coins });
+      if (game === 'grille') {
+        const p = generatePuzzle(dailySeed(d.day));
+        await saveDaily(d.day, { puzzle: puzzleSignature(p), cells: emptyCells(), errors: 0, finished: false, bought: 0 });
+      } else if (game === 'defi') {
+        await saveDefi(d.day, { defi: defiSignature(generateDefi(d.day)), found: [], errors: 0, finished: false, gaveUp: false });
+      } else {
+        await savePendu(d.day, { station: penduStation(d.day).id, letters: [], wrongNames: [], errors: 0, finished: false, won: false });
+      }
+    } else {
+      track('archive_opened', { game, day: d.day, state: d.state });
+    }
+    setArchivesFor(null);
+    setTab(game);
+    if (game === 'grille') {
+      const saved = await loadDaily(d.day);
+      setMode('archive');
+      setGridArchive(d.day);
+      setCells(saved?.cells ?? emptyCells());
+      setErrors(saved?.errors ?? 0);
+      setBought(saved?.bought ?? 0);
+      setFinished(saved?.finished ?? false);
+      setShowResult(false);
+    } else if (game === 'defi') {
+      setDefiSeed(null);
+      setDefiArchive(d.day);
+    } else {
+      setPenduSeed(null);
+      setPenduArchive(d.day);
+    }
+  };
+
   /** Pub vidéo facultative : des pièces en échange d'une pub regardée jusqu'au bout. */
   const watchAd = async () => {
     setWatchingAd(true);
@@ -480,6 +559,7 @@ function Game() {
         ? loadedGame
         : null;
     setMode('daily');
+    setGridArchive(null);
     setCells(saved?.cells ?? emptyCells());
     setErrors(saved?.errors ?? 0);
     setBought(saved?.bought ?? 0);
@@ -494,11 +574,17 @@ function Game() {
   const share = async () => {
     const grid = cells.map((r) => r.map((c) => (c ? '🟩' : '⬜')).join('')).join('\n');
     const title =
-      mode === 'daily' ? `Terminus Paris n°${dailyNumber(day)}` : 'Terminus Paris (partie libre)';
+      mode === 'daily'
+        ? `Terminus Paris n°${dailyNumber(day)}`
+        : mode === 'archive'
+          ? `Terminus Paris n°${dailyNumber(gridDay)} (${formatDay(gridDay)})`
+          : 'Terminus Paris (partie libre)';
     const errorText = errors === 0 ? 'sans erreur' : `${errors} erreur${errors > 1 ? 's' : ''}`;
     const link = mode === 'daily' ? await challengeLink('grille', day, { found, extra: points }) : WEB_URL;
     const call = mode === 'daily' ? 'Fais mieux que moi 👀' : 'À toi de jouer :';
-    const message = `${title} : ${found}/9 · ${points} pts · ${errorText}\n${grid}\n\n${call} ${link}`;
+    const goldLine = goldFound ? `\n⭐ Station en or trouvée !` : '';
+    const rare = rarest ? `\n🦄 ${STATION_BY_ID.get(rarest.id)?.name} : ${percentText(rarest.percent)} des joueurs` : '';
+    const message = `${title} : ${found}/9 · ${points} pts · ${errorText}\n${grid}${goldLine}${rare}\n\n${call} ${link}`;
     track('result_shared', { game: 'grille', mode, found, errors });
     if ((await shareMessage(message)) === 'copied') {
       setCopied(true);
@@ -526,10 +612,21 @@ function Game() {
       <StatusBar style={dark ? 'light' : 'dark'} />
       <View style={[styles.content, { paddingTop: WEB_TOP_GAP }]}>
         <View style={[styles.header, { width: contentWidth }]}>
-          <Logo tile={Math.min(dark ? (height < 700 ? 22 : 30) : 34, (contentWidth - 140) / 8.6)} plaque={dark} />
+          <Logo tile={Math.min(dark ? (height < 700 ? 22 : 30) : 34, (contentWidth - 196) / 8.6)} plaque={dark} />
           <View style={styles.headerButtons}>
             <Pressable onPress={openRanking} style={styles.helpButton} accessibilityRole="button" accessibilityLabel="Classement du jour">
               <Text style={styles.trophy}>🏆</Text>
+            </Pressable>
+            <Pressable
+              onPress={() => {
+                setShowBadges(true);
+                track('badges_opened', { game: tab });
+              }}
+              style={styles.helpButton}
+              accessibilityRole="button"
+              accessibilityLabel="Mes badges"
+            >
+              <Text style={styles.trophy}>🎖️</Text>
             </Pressable>
             <Pressable onPress={() => { setShowHelp(true); track('help_opened', { game: tab }); }} style={styles.helpButton} accessibilityRole="button" accessibilityLabel="Règles du jeu">
               <Text style={styles.helpText}>?</Text>
@@ -549,35 +646,44 @@ function Game() {
         <ChallengeBanner game={tab} day={day} width={contentWidth} refresh={`${done[tab]}-${finished}`} />
         {tab === 'defi' && (
           <DefiGame
-            key={`${day}-${defiSeed ?? 'jour'}`}
-            day={day}
+            key={`${defiArchive ?? day}-${defiSeed ?? (defiArchive ? 'archive' : 'jour')}`}
+            day={defiArchive ?? day}
             width={contentWidth}
             seed={defiSeed ?? undefined}
+            archive={!!defiArchive}
+            onArchives={() => setArchivesFor('defi')}
+            onBadges={openBadges}
             onDone={(_, ok) => {
+              if (defiArchive) return;
               markDone('defi');
               if (ok) setSuccess((s) => ({ ...s, defi: true }));
             }}
             onScreen={setDefiScreen}
             onNewDay={newDay}
-            onRanking={defiSeed ? undefined : openRanking}
+            onRanking={defiSeed || defiArchive ? undefined : openRanking}
             extraLabel={extraLabel('defi')}
             onExtra={() => playExtra('defi')}
             onBackToDaily={async () => {
               setDefiSeed(null);
+              setDefiArchive(null);
               setFreeDefi(await loadFreeDefi());
             }}
           />
         )}
         {tab === 'pendu' && (
           <PenduGame
-            key={`${day}-${penduSeed ?? 'jour'}`}
-            day={day}
+            key={`${penduArchive ?? day}-${penduSeed ?? (penduArchive ? 'archive' : 'jour')}`}
+            day={penduArchive ?? day}
             seed={penduSeed ?? undefined}
+            archive={!!penduArchive}
+            onArchives={() => setArchivesFor('pendu')}
+            onBadges={openBadges}
             onNewDay={newDay}
-            onRanking={penduSeed ? undefined : openRanking}
+            onRanking={penduSeed || penduArchive ? undefined : openRanking}
             width={contentWidth}
             active={!showHelp && !showIntro && !bonus}
             onDone={(_, ok) => {
+              if (penduArchive) return;
               markDone('pendu');
               if (ok) setSuccess((s) => ({ ...s, pendu: true }));
             }}
@@ -585,6 +691,7 @@ function Game() {
             onExtra={() => playExtra('pendu')}
             onBackToDaily={async () => {
               setPenduSeed(null);
+              setPenduArchive(null);
               setFreePendu(await loadFreePendu());
             }}
           />
@@ -593,8 +700,10 @@ function Game() {
         <>
         <DayHeader
           width={contentWidth}
-          title={mode === 'daily' ? `Grille n°${dailyNumber(day)}` : 'Grille en plus'}
-          sub={mode === 'daily' ? formatDay(day) : `${GRID_COST} pièce la grille`}
+          title={mode === 'free' ? 'Grille en plus' : `Grille n°${dailyNumber(gridDay)}`}
+          sub={
+            mode === 'daily' ? formatDay(day) : mode === 'archive' ? `${formatDay(gridDay)} · jour passé` : `${GRID_COST} pièce la grille`
+          }
           right={<CoinPill coins={coins} />}
         />
 
@@ -656,6 +765,11 @@ function Game() {
               // Les grilles en plus sont réservées à ceux qui ont réussi la grille du jour.
               <Button label={`Grille en plus · ${GRID_COST}`} coin onPress={buyFree} />
             ) : null
+          ) : mode === 'archive' ? (
+            <>
+              {finished && <Button label="Autres jours" onPress={() => setArchivesFor('grille')} />}
+              <Button label="Grille du jour" onPress={backToDaily} />
+            </>
           ) : (
             <>
               {finished && <Button label={`Nouvelle grille · ${GRID_COST}`} coin onPress={buyFree} />}
@@ -663,6 +777,9 @@ function Game() {
             </>
           )}
         </View>
+        {mode === 'daily' && finished && (
+          <ArchivesLink onPress={() => setArchivesFor('grille')} color={dark ? colors.white : colors.ink} />
+        )}
         </>
         )}
 
@@ -670,6 +787,16 @@ function Game() {
       </View>
       {/* Bannière publicitaire (app des stores uniquement). */}
       <AdBanner />
+
+      <BadgesModal visible={showBadges} onClose={() => setShowBadges(false)} />
+
+      <ArchivesModal
+        game={archivesFor}
+        today={day}
+        coins={coins}
+        onPick={openArchive}
+        onClose={() => setArchivesFor(null)}
+      />
 
       <SearchModal
         visible={!!active}
@@ -701,6 +828,7 @@ function Game() {
               return (
                 <View key={id} style={styles.answer}>
                   <Text style={[styles.answerName, cells[answersFor.row][answersFor.col] === id && styles.answerMine]}>
+                    {gold.ids.has(id) ? '⭐ ' : ''}
                     {s.name}
                   </Text>
                   <View style={styles.answerLines}>
@@ -708,7 +836,10 @@ function Game() {
                       <LineBadge key={l} line={l as LineId} size={18} />
                     ))}
                     {s.rer.length > 0 && <Text style={styles.rer}>RER {s.rer.join(' ')}</Text>}
-                    <Text style={styles.answerPoints}>+{stationPoints(id)}</Text>
+                    <Text style={styles.answerPoints}>
+                      +{stationPoints(id)}
+                      {picks && mode !== 'free' ? ` · ${percentText(pickPercent(picks, answersFor.row * 3 + answersFor.col, id) ?? 0)}` : ''}
+                    </Text>
                   </View>
                 </View>
               );
@@ -741,10 +872,41 @@ function Game() {
         }
       >
         <Text style={styles.bigScore}>{found}/9</Text>
+        <NewBadgesLine
+          visible={showResult}
+          onOpen={() => {
+            setShowResult(false);
+            setShowBadges(true);
+          }}
+        />
         {mode === 'daily' && <DuelLine game="grille" day={day} mine={{ found, extra: points }} />}
         <Text style={styles.pointsLine}>
           {points} points <Text style={styles.pointsMax}>sur {maxPoints} possibles</Text>
         </Text>
+        {gold.ids.size > 0 && (
+          <Text style={[infoStyles.p, { textAlign: 'center' }]}>
+            {goldFound ? (
+              <>
+                ⭐ Tu as trouvé la station en or : <Text style={infoStyles.strong}>{STATION_BY_ID.get(goldFound)?.name}</Text>,
+                valable dans {gold.cells} cases !
+              </>
+            ) : (
+              <>
+                ⭐ Station en or (valable dans {gold.cells} cases) :{' '}
+                <Text style={infoStyles.strong}>
+                  {[...gold.ids].map((id) => STATION_BY_ID.get(id)?.name).join(', ')}
+                </Text>
+                .
+              </>
+            )}
+          </Text>
+        )}
+        {rarest && (
+          <Text style={[infoStyles.p, { textAlign: 'center' }]}>
+            🦄 Ta réponse la plus originale : <Text style={infoStyles.strong}>{STATION_BY_ID.get(rarest.id)?.name}</Text>,
+            choisie par {percentText(rarest.percent)} des joueurs.
+          </Text>
+        )}
         <Text style={[infoStyles.p, { textAlign: 'center' }]}>
           Touche une case de la grille pour voir toutes les réponses possibles.
         </Text>
@@ -906,10 +1068,16 @@ function Game() {
           comme Pelleport en vaut 100. Trouve les stations les moins connues pour battre ton record !
         </Text>
         <Text style={infoStyles.p}>
+          <Text style={infoStyles.strong}>⭐ Station en or</Text> : chaque grille cache une station qui marche dans
+          plusieurs cases à la fois (4 ou 6). La trouveras-tu ? Et à la fin, découvre quelle part des joueurs a choisi
+          les mêmes stations que toi : 🦄 la réponse la plus originale est mise en avant.
+        </Text>
+        <Text style={infoStyles.p}>
           Une nouvelle grille gratuite t'attend chaque jour. Tu gagnes {DAILY_BONUS} pièces chaque jour en ouvrant l'app
           (jusqu'à {MAX_COINS} en réserve) : plus de tickets après 3 erreurs ? {TICKETS_COST} pièce rachète 3 tickets pour
           continuer. Jeu du jour réussi (grille en 9/9, défi complet, station du pendu trouvée) ? {GRID_COST} pièce débloque
-          une partie en plus du même jeu, hors classement. Les pièces ne
+          une partie en plus du même jeu, hors classement. Les jours passés se rejouent aussi pour {ARCHIVE_COST} pièce
+          (📅 sous le jeu du jour terminé). Les pièces ne
           s'achètent pas : elles se gagnent seulement en jouant.
         </Text>
         </>

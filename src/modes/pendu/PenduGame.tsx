@@ -26,6 +26,8 @@ import { onGameFinished } from '../../store/review';
 import { DayHeader } from '../../components/DayHeader';
 import { submitScore } from '../../analytics/supabase';
 import { NextGame } from '../../components/NextGame';
+import { ArchivesLink } from '../../archives/ArchivesLink';
+import { NewBadgesLine } from '../../badges/BadgesModal';
 import { NotifPrompt } from '../../notifications/NotifPrompt';
 import { MetroTrain } from '../../design/MetroTrain';
 import { solidShadow } from '../../design/ui';
@@ -47,7 +49,16 @@ export function PenduGame({
   extraLabel,
   onExtra,
   onBackToDaily,
+  archive,
+  onArchives,
+  onBadges,
 }: {
+  /** Ouvre « Mes badges ». */
+  onBadges?: () => void;
+  /** Pendu d'un jour passé (archives) : ni classement, ni statistiques. */
+  archive?: boolean;
+  /** Ouvre la liste des jours passés. */
+  onArchives?: () => void;
   /** Pendu en plus (payé avec une pièce) : graine de la station. Absent = pendu du jour. */
   seed?: string;
   /** Bouton « Pendu en plus » ou « Reprendre… », proposé par l'app après un pendu du jour réussi. */
@@ -68,6 +79,8 @@ export function PenduGame({
 }) {
   const station = useMemo(() => (seed ? penduFromSeed(seed, day) : penduStation(day)), [day, seed]);
   const free = !!seed;
+  /** Partie du jour qui compte (classement, statistiques, défi entre amis). */
+  const ranked = !free && !archive;
   const { height } = useWindowDimensions();
   const [game, setGame] = useState<SavedPendu>({
     station: station.id,
@@ -93,12 +106,12 @@ export function PenduGame({
       const saved = free ? (savedFree?.seed === seed ? savedFree : null) : savedDay;
       if (saved && saved.station === station.id) {
         setGame(saved);
-        if (saved.finished && !free) submitScore(day, 'pendu', { won: saved.won, errors: saved.errors });
+        if (saved.finished && ranked) submitScore(day, 'pendu', { won: saved.won, errors: saved.errors });
       }
       setStats(s);
       setLoaded(true);
     })();
-  }, [day, station, seed, free]);
+  }, [day, station, seed, free, ranked]);
 
   const letters = useMemo(() => new Set(nameLetters(station.name)), [station]);
   const guessed = useMemo(() => new Set(game.letters), [game.letters]);
@@ -109,9 +122,10 @@ export function PenduGame({
       if (seed) await saveFreePendu({ ...next, seed });
       else await savePendu(day, next);
       if (!next.finished) return;
-      track('game_finished', { game: 'pendu', mode: seed ? 'free' : 'daily', won: next.won, errors: next.errors, letters: next.letters.length });
-      if (!seed) {
-        // Pendu en plus : ni classement, ni statistiques.
+      track('game_finished', { game: 'pendu', mode: seed ? 'free' : archive ? 'archive' : 'daily', won: next.won, errors: next.errors, letters: next.letters.length });
+      if (archive) onDone(true, next.won);
+      else if (!seed) {
+        // Pendu en plus ou jour passé : ni classement, ni statistiques.
         onDone(true, next.won);
         submitScore(day, 'pendu', { won: next.won, errors: next.errors });
         setStats(await recordMode('pendu', day, addDays(day, -1), next.won));
@@ -120,7 +134,7 @@ export function PenduGame({
       setGuessing(false);
       setTrain(true);
     },
-    [day, onDone, seed],
+    [day, onDone, seed, archive],
   );
 
   const firstMove = () => {
@@ -188,8 +202,8 @@ export function PenduGame({
     const result = game.won
       ? `trouvé ${game.errors === 0 ? 'sans erreur' : `avec ${game.errors} erreur${game.errors > 1 ? 's' : ''}`}`
       : 'pas trouvé';
-    const title = free ? 'Pendu en plus' : `Pendu n°${dayNumber(day)}`;
-    const tail = free
+    const title = free ? 'Pendu en plus' : `Pendu n°${dayNumber(day)}${archive ? ` (${formatDay(day)})` : ''}`;
+    const tail = !ranked
       ? SITE_LABEL
       : `Fais mieux que moi 👀 ${await challengeLink('pendu', day, { found: game.won ? 1 : 0, extra: game.errors })}`;
     const message = `Terminus Paris · ${title} · ${result}\n${ticketLine(MAX_PENDU_ERRORS, game.errors)}\n\n${tail}`;
@@ -238,7 +252,7 @@ export function PenduGame({
       <DayHeader
         width={width}
         title={free ? 'Pendu en plus' : `Le Pendu n°${dayNumber(day)}`}
-        sub={free ? '1 pièce le pendu' : formatDay(day)}
+        sub={free ? '1 pièce le pendu' : archive ? `${formatDay(day)} · jour passé` : formatDay(day)}
       />
       {!tight && <Text style={styles.title}>Devine la station</Text>}
       <View style={styles.hint}>
@@ -295,7 +309,7 @@ export function PenduGame({
             </View>
           ))}
         </View>
-        {revealed && !free && <NextGame day={day} label="Prochain pendu" color={colors.white} onNewDay={onNewDay} />}
+        {revealed && ranked && <NextGame day={day} label="Prochain pendu" color={colors.white} onNewDay={onNewDay} />}
       </View>
 
       <View style={[sharedStyles.status, { width: width - 8, marginTop: 4 }]}>
@@ -347,6 +361,11 @@ export function PenduGame({
                 {onExtra && <Button label="Nouveau pendu · 1" coin onPress={onExtra} />}
                 {onBackToDaily && <Button label="Pendu du jour" onPress={onBackToDaily} />}
               </>
+            ) : archive ? (
+              <>
+                {onArchives && <Button label="Autres jours" onPress={onArchives} />}
+                {onBackToDaily && <Button label="Pendu du jour" onPress={onBackToDaily} />}
+              </>
             ) : (
               extraLabel && onExtra && <Button label={extraLabel} coin={!extraLabel.startsWith('Reprendre')} onPress={onExtra} />
             )}
@@ -360,10 +379,11 @@ export function PenduGame({
                 setGuessing(true);
               }}
             />
-            {free && onBackToDaily && <Button label="Pendu du jour" onPress={onBackToDaily} />}
+            {(free || archive) && onBackToDaily && <Button label="Pendu du jour" onPress={onBackToDaily} />}
           </>
         )}
       </View>
+      {revealed && ranked && onArchives && <ArchivesLink onPress={onArchives} color={colors.white} />}
 
       {train && (
         <MetroTrain
@@ -393,7 +413,7 @@ export function PenduGame({
         footer={
           <View style={{ gap: 10 }}>
             <Button
-              label={copied ? 'Lien copié !' : free ? 'Partager mon résultat' : 'Défier mes amis 🎯'}
+              label={copied ? 'Lien copié !' : !ranked ? 'Partager mon résultat' : 'Défier mes amis 🎯'}
               onPress={share}
               primary
             />
@@ -416,7 +436,17 @@ export function PenduGame({
           ))}
           {station.rer.length > 0 && <Text style={sharedStyles.rer}>RER {station.rer.join(' ')}</Text>}
         </View>
-        {!free && <DuelLine game="pendu" day={day} mine={{ found: game.won ? 1 : 0, extra: game.errors }} />}
+        <NewBadgesLine
+          visible={showResult}
+          onOpen={
+            onBadges &&
+            (() => {
+              setShowResult(false);
+              onBadges();
+            })
+          }
+        />
+        {ranked && <DuelLine game="pendu" day={day} mine={{ found: game.won ? 1 : 0, extra: game.errors }} />}
         <Text style={[infoStyles.p, { textAlign: 'center' }]}>
           {game.won
             ? game.errors === 0
@@ -424,7 +454,7 @@ export function PenduGame({
               : `Trouvée avec ${game.errors} erreur${game.errors > 1 ? 's' : ''}.`
             : 'Une nouvelle station à deviner demain, à minuit !'}
         </Text>
-        {!free && <View style={sharedStyles.stats}>
+        {ranked && <View style={sharedStyles.stats}>
           <Stat value={stats.played} label="Parties" />
           <Stat value={stats.complete} label="Trouvées" />
           <Stat value={stats.streak} label="Série" />
