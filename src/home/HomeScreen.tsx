@@ -13,10 +13,10 @@ import { myDailyResult } from '../share/ChallengeBanner';
 import { colors, fonts, ui } from '../theme';
 
 const GAMES: { id: GameTab; title: string; text: string; art: string }[] = [
-  { id: 'grille', title: 'La Grille', text: '9 stations à placer : chaque case croise deux critères', art: 'perfect' },
-  { id: 'defi', title: 'Le Défi', text: 'Toutes les stations qui cochent deux critères', art: 'defi' },
-  { id: 'pendu', title: 'Le Pendu', text: 'La station du jour, lettre par lettre', art: 'pendu' },
-  { id: 'arret', title: 'Prochain arrêt', text: 'Devine la ligne de la rame, au chrono', art: 'arret10' },
+  { id: 'grille', title: 'La Grille', text: '9 stations à placer', art: 'perfect' },
+  { id: 'defi', title: 'Le Défi', text: 'Deux critères croisés', art: 'defi' },
+  { id: 'pendu', title: 'Le Pendu', text: 'Lettre par lettre', art: 'pendu' },
+  { id: 'arret', title: 'Prochain arrêt', text: 'Devine la ligne', art: 'arret10' },
 ];
 
 type Status = { state: 'todo' | 'started' | 'done'; result?: string };
@@ -145,7 +145,7 @@ export function HomeScreen({
                 {g.title}
               </Text>
               <Text style={[styles.tileState, { color: fg }]} numberOfLines={1}>
-                {state === 'done' ? (st?.result ?? 'Terminé') : state === 'started' ? 'Reprendre' : 'Jouer'}
+                {g.text}
               </Text>
             </Pressable>
           );
