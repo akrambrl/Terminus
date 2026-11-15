@@ -641,7 +641,7 @@ function Game() {
   const activeRow = active ? puzzle.rows[active.row] : undefined;
   const activeCol = active ? puzzle.cols[active.col] : undefined;
 
-  if (!loaded || !(fontsLoaded || fontError)) return <View style={[styles.screen, { backgroundColor: colors.background }]} />;
+  if (!loaded || !(fontsLoaded || fontError)) return <View style={[styles.screen, { backgroundColor: colors.ink }]} />;
 
   // Fond de l'écran (charte) : grille sur fond clair, défi violet, réponses menthe, pendu bleu nuit.
   const screen: ScreenId = home
