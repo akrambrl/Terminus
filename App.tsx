@@ -42,6 +42,7 @@ import { ArchivesLink } from './src/archives/ArchivesLink';
 import { ArchivesModal } from './src/archives/ArchivesModal';
 import { BadgesModal, NewBadgesLine } from './src/badges/BadgesModal';
 import { MedalIcon } from './src/badges/BadgeArt';
+import { HomeScreen } from './src/home/HomeScreen';
 import { STATION_BY_ID } from './src/game/lookup';
 import {
   EMPTY_STATS,
@@ -101,6 +102,7 @@ import { Intro } from './src/components/Intro';
 import { AdBanner } from './src/ads/AdBanner';
 import { adsActive } from './src/ads/config';
 import { useFonts } from 'expo-font';
+import Svg, { Path } from 'react-native-svg';
 /** Erreurs permises par grille : les bonnes réponses ne coûtent rien. */
 const MAX_ERRORS = 3;
 type Mode = 'daily' | 'free' | 'archive';
@@ -186,6 +188,8 @@ function Game() {
   const newDay = useCallback(() => setDay(currentDayKey()), []);
   // Lien de défi d'un ami : on ouvre directement le jeu concerné.
   const [tab, setTab] = useState<GameTab>(() => getChallenge()?.game ?? 'grille');
+  /** Page d'accueil (les quatre jeux) : affichée à l'ouverture, sauf lien de défi d'un ami. */
+  const [home, setHome] = useState(() => !getChallenge());
   const [done, setDone] = useState<Record<GameTab, boolean>>({ grille: false, defi: false, pendu: false, arret: false });
   const [defiScreen, setDefiScreen] = useState<ScreenId>('defi');
   /** Défi / Pendu en plus en cours (graine), ou null pour celui du jour. */
@@ -640,7 +644,15 @@ function Game() {
   if (!loaded || !(fontsLoaded || fontError)) return <View style={[styles.screen, { backgroundColor: colors.background }]} />;
 
   // Fond de l'écran (charte) : grille sur fond clair, défi violet, réponses menthe, pendu bleu nuit.
-  const screen: ScreenId = tab === 'grille' ? 'grille' : tab === 'defi' ? defiScreen : tab === 'arret' ? 'arret' : 'pendu';
+  const screen: ScreenId = home
+    ? 'grille'
+    : tab === 'grille'
+      ? 'grille'
+      : tab === 'defi'
+        ? defiScreen
+        : tab === 'arret'
+          ? 'arret'
+          : 'pendu';
   const dark = screens[screen].dark;
 
   return (
@@ -650,7 +662,26 @@ function Game() {
       <StatusBar style={dark ? 'light' : 'dark'} />
       <View style={[styles.content, { paddingTop: WEB_TOP_GAP }]}>
         <View style={[styles.header, { width: contentWidth }]}>
-          <Logo tile={Math.min(dark ? (height < 700 ? 22 : 30) : 34, (contentWidth - 196) / 8.6)} plaque={dark} />
+          <View style={styles.headerLeft}>
+            {!home && (
+              <Pressable
+                onPress={() => setHome(true)}
+                style={[styles.helpButton, styles.backButton]}
+                accessibilityRole="button"
+                accessibilityLabel="Retour à l'accueil"
+              >
+                <Svg width={18} height={18} viewBox="0 0 24 24">
+                  <Path d="M15 4 L7 12 L15 20" fill="none" stroke={colors.ink} strokeWidth={3.5} strokeLinecap="round" strokeLinejoin="round" />
+                </Svg>
+              </Pressable>
+            )}
+            <Pressable onPress={() => setHome(true)} accessibilityRole="button" accessibilityLabel="Accueil">
+              <Logo
+                tile={Math.min(dark ? (height < 700 ? 22 : 30) : 34, (contentWidth - (home ? 196 : 250)) / 8.6)}
+                plaque={dark}
+              />
+            </Pressable>
+          </View>
           <View style={styles.headerButtons}>
             <Pressable onPress={openRanking} style={styles.helpButton} accessibilityRole="button" accessibilityLabel="Classement du jour">
               <Text style={styles.trophy}>🏆</Text>
@@ -671,6 +702,21 @@ function Game() {
             </Pressable>
           </View>
         </View>
+        {home ? (
+          <HomeScreen
+            day={day}
+            width={contentWidth}
+            coins={coins}
+            refresh={JSON.stringify(done)}
+            onNewDay={newDay}
+            onOpen={(t) => {
+              track('mode_selected', { game: t, already_played: done[t], from: 'home' });
+              setTab(t);
+              setHome(false);
+            }}
+          />
+        ) : (
+        <>
         <ModeTabs
           value={tab}
           done={done}
@@ -834,6 +880,9 @@ function Game() {
         {mode === 'daily' && finished && (
           <ArchivesLink onPress={() => setArchivesFor('grille')} color={dark ? colors.white : colors.ink} />
         )}
+        </>
+        )}
+
         </>
         )}
 
@@ -1244,6 +1293,8 @@ const styles = StyleSheet.create({
   helpText: { fontSize: 20, fontFamily: fonts.display, color: colors.ink },
   trophy: { fontSize: 20 },
   headerButtons: { flexDirection: 'row', gap: 8 },
+  headerLeft: { flexDirection: 'row', alignItems: 'center', gap: 8 },
+  backButton: { width: 40 },
   status: { marginTop: 8, gap: 8 },
   statusRow: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'baseline' },
   statusLabel: { fontFamily: fonts.heavy, fontSize: 13, color: colors.muted, textTransform: 'uppercase', letterSpacing: 1.8 },
