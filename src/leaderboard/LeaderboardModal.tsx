@@ -24,12 +24,17 @@ const GAMES: { id: RankedGame; label: string; color: string }[] = [
   { id: 'grille', label: 'Grille', color: colors.blue },
   { id: 'defi', label: 'Défi', color: colors.violet },
   { id: 'pendu', label: 'Pendu', color: colors.ink },
+  { id: 'arret', label: 'Arrêt', color: colors.tomato },
 ];
 
 /** Texte du score selon le jeu. */
 export function scoreText(game: RankedGame, r: Pick<RankRow, 'score' | 'found' | 'errors' | 'games'>, period: RankPeriod): string {
   if (game === 'grille') return period === 'week' ? `${r.score} pts · ${r.games} grille${r.games > 1 ? 's' : ''}` : `${r.score} pts · ${r.found}/9`;
   if (game === 'defi') return period === 'week' ? `${r.score} stations · ${r.games} défi${r.games > 1 ? 's' : ''}` : `${r.score} station${r.score > 1 ? 's' : ''}`;
+  if (game === 'arret') {
+    if (period === 'week') return `${r.score} pts · ${r.games} trajet${r.games > 1 ? 's' : ''}`;
+    return r.found ? `${r.score} pts · ${r.errors + 1}${r.errors === 0 ? 're' : 'e'} station` : 'pas trouvée';
+  }
   if (period === 'week') return `${r.found} trouvée${r.found > 1 ? 's' : ''} sur ${r.games}`;
   return r.found ? `trouvée · ${r.errors} erreur${r.errors > 1 ? 's' : ''}` : 'pas trouvée';
 }
@@ -253,7 +258,9 @@ export function LeaderboardModal({
                 ? 'Grille : classement aux points (stations rares = plus de points), puis au moins d’erreurs.'
                 : game === 'defi'
                   ? 'Défi : classement au nombre de stations trouvées, puis au moins d’erreurs.'
-                  : 'Pendu : station trouvée avec le moins d’erreurs possible.'}{' '}
+                  : game === 'arret'
+                    ? 'Prochain arrêt : ligne trouvée le plus tôt possible (5 points à la 1re station).'
+                    : 'Pendu : station trouvée avec le moins d’erreurs possible.'}{' '}
               Seule la première partie du jour compte. À égalité, le premier à finir passe devant.
             </Text>
           </View>
@@ -269,7 +276,7 @@ const styles = StyleSheet.create({
   closeText: { fontFamily: fonts.heavy, fontSize: 16, color: colors.accent },
   page: { alignItems: 'center', paddingHorizontal: 16 },
   inner: { width: '100%', maxWidth: 560, gap: ui.space.l },
-  tabs: { flexDirection: 'row', gap: ui.space.m },
+  tabs: { flexDirection: 'row', gap: ui.space.s },
   tab: {
     flex: 1,
     minHeight: ui.touch,

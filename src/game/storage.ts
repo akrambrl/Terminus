@@ -95,7 +95,7 @@ export const saveFreeGame = (game: SavedFreeGame) => writeJson(FREE_KEY, game);
 
 /* ---------- Le Défi et le Pendu : une partie par jour, des stats séparées ---------- */
 
-export type DailyMode = 'defi' | 'pendu';
+export type DailyMode = 'defi' | 'pendu' | 'arret';
 
 export interface ModeStats {
   played: number;
@@ -128,6 +128,15 @@ export interface SavedPendu {
   won: boolean;
 }
 
+/** Prochain arrêt : une proposition de ligne par station (null : le joueur a attendu la suivante). */
+export interface SavedArret {
+  /** Signature du trajet (ligne et stations). */
+  trip: string;
+  guesses: (string | null)[];
+  finished: boolean;
+  won: boolean;
+}
+
 const modeGameKey = (mode: DailyMode, day: string) => `terminus:${mode}:${day}`;
 const modeStatsKey = (mode: DailyMode) => `terminus:${mode}-stats`;
 
@@ -135,6 +144,8 @@ export const loadDefi = (day: string) => readJson<SavedDefi>(modeGameKey('defi',
 export const saveDefi = (day: string, game: SavedDefi) => writeJson(modeGameKey('defi', day), game);
 export const loadPendu = (day: string) => readJson<SavedPendu>(modeGameKey('pendu', day));
 export const savePendu = (day: string, game: SavedPendu) => writeJson(modeGameKey('pendu', day), game);
+export const loadArret = (day: string) => readJson<SavedArret>(modeGameKey('arret', day));
+export const saveArret = (day: string, game: SavedArret) => writeJson(modeGameKey('arret', day), game);
 
 export const loadModeStats = async (mode: DailyMode) =>
   (await readJson<ModeStats>(modeStatsKey(mode))) ?? EMPTY_MODE_STATS;

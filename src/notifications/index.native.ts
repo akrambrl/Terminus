@@ -120,7 +120,7 @@ export async function refreshMorningNotifications(): Promise<void> {
   }
 }
 
-/** Les trois jeux du jour sont terminés : inutile de rappeler ce jour-là (partie jouée après minuit). */
+/** Les quatre jeux du jour sont terminés : inutile de rappeler ce jour-là (partie jouée après minuit). */
 export async function skipTodayNotification(day: string): Promise<void> {
   try {
     await cancelMorning(day);

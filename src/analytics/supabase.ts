@@ -172,7 +172,7 @@ export interface StatsData {
 
 /* ---------- Classement (supabase/terminus-classement.sql) ---------- */
 
-export type RankedGame = 'grille' | 'defi' | 'pendu';
+export type RankedGame = 'grille' | 'defi' | 'pendu' | 'arret';
 export type RankPeriod = 'day' | 'week';
 
 export interface RankRow {

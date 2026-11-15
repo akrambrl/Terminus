@@ -4,7 +4,8 @@ import { LINES } from '../game/criteria';
 import { dailySeed, generatePuzzle } from '../game/generator';
 import { goldStations } from '../game/gold';
 import { gridPoints } from '../game/points';
-import { loadModeStats, loadStats, type SavedDefi, type SavedGame, type SavedPendu } from '../game/storage';
+import { loadModeStats, loadStats, type SavedArret, type SavedDefi, type SavedGame, type SavedPendu } from '../game/storage';
+import { arretTrip } from '../modes/arret/arret';
 import type { LineId } from '../game/types';
 import { generateDefi } from '../modes/defi/defi';
 
@@ -37,7 +38,7 @@ export interface BadgeReport {
   totalStations: number;
 }
 
-const DAY_KEY = /^terminus:(daily|defi|pendu):(\d{4}-\d{2}-\d{2})$/;
+const DAY_KEY = /^terminus:(daily|defi|pendu|arret):(\d{4}-\d{2}-\d{2})$/;
 const SEEN_KEY = 'terminus:badges-seen';
 
 const goldCache = new Map<string, Set<string>>();
@@ -62,7 +63,12 @@ export async function computeBadges(): Promise<BadgeReport> {
     keys = [];
   }
   const entries = keys.length ? await AsyncStorage.multiGet(keys) : [];
-  const [stats, defiStats, penduStats] = await Promise.all([loadStats(), loadModeStats('defi'), loadModeStats('pendu')]);
+  const [stats, defiStats, penduStats, arretStats] = await Promise.all([
+    loadStats(),
+    loadModeStats('defi'),
+    loadModeStats('pendu'),
+    loadModeStats('arret'),
+  ]);
 
   const collection = new Set<string>();
   const finishedByDay = new Map<string, Set<string>>();
@@ -73,6 +79,8 @@ export async function computeBadges(): Promise<BadgeReport> {
   let gold = 0;
   let defiComplete = 0;
   let penduFlawless = 0;
+  let arretFirst = 0;
+  let arretWon = 0;
 
   for (const [key, raw] of entries) {
     if (!raw) continue;
@@ -105,6 +113,19 @@ export async function computeBadges(): Promise<BadgeReport> {
       } catch {
         // défi d'un ancien format : ignoré
       }
+    } else if (game === 'arret') {
+      const g = data as SavedArret;
+      if (!g?.finished || !Array.isArray(g.guesses)) continue;
+      if (g.won) {
+        arretWon++;
+        if (g.guesses.length === 1) arretFirst++;
+      }
+      // Stations vues pendant le trajet : elles rejoignent la collection.
+      try {
+        arretTrip(day).stops.slice(0, g.guesses.length).forEach((id) => collection.add(id));
+      } catch {
+        // trajet d'un ancien format : ignoré
+      }
     } else {
       const g = data as SavedPendu;
       if (!g?.finished) continue;
@@ -118,8 +139,9 @@ export async function computeBadges(): Promise<BadgeReport> {
     finishedByDay.set(day, set);
   }
 
-  const trio = [...finishedByDay.values()].some((s) => s.size === 3) ? 1 : 0;
-  const bestStreak = Math.max(stats.bestStreak, defiStats.bestStreak, penduStats.bestStreak);
+  const trio = [...finishedByDay.values()].some((s) => s.size >= 3) ? 1 : 0;
+  const quatuor = [...finishedByDay.values()].some((s) => s.size >= 4) ? 1 : 0;
+  const bestStreak = Math.max(stats.bestStreak, defiStats.bestStreak, penduStats.bestStreak, arretStats.bestStreak);
   const lines: LineProgress[] = LINES.map((line) => {
     const ids = STATIONS_BY_LINE.get(line) ?? [];
     return { line, found: ids.filter((id) => collection.has(id)).length, total: ids.length };
@@ -139,7 +161,8 @@ export async function computeBadges(): Promise<BadgeReport> {
 
   const badges: Badge[] = [
     b('first', '🎫', 'Premier ticket', 'Terminer une grille', grids, 1),
-    b('trio', '🚇', 'Trio', 'Finir la grille, le défi et le pendu d’un même jour', trio, 1),
+    b('trio', '🚇', 'Trio', 'Finir trois jeux le même jour', trio, 1),
+    b('quatuor', '🎟️', 'Carnet complet', 'Finir les quatre jeux le même jour', quatuor, 1),
     b('perfect', '✅', 'Grille parfaite', 'Faire 9/9', perfect, 1),
     b('flawless', '💎', 'Sans faute', 'Faire 9/9 sans aucune erreur', flawless, 1),
     b('perfect10', '🏅', 'Abonné au 9/9', '10 grilles parfaites', perfect, 10),
@@ -148,6 +171,8 @@ export async function computeBadges(): Promise<BadgeReport> {
     b('points800', '🗺️', 'Grand explorateur', '800 points sur une grille', bestPoints, 800),
     b('defi', '🎯', 'Défi complet', 'Trouver toutes les stations d’un défi', defiComplete, 1),
     b('pendu', '🔤', 'Pendu sans faute', 'Trouver la station du pendu sans erreur', penduFlawless, 1),
+    b('arret1', '🚦', 'Du premier coup', 'Trouver la ligne du Prochain arrêt dès la 1re station', arretFirst, 1),
+    b('arret10', '🧳', 'Navigateur', 'Trouver 10 lignes au Prochain arrêt', arretWon, 10),
     b('streak7', '🔥', 'Une semaine', 'Jouer 7 jours de suite (série)', bestStreak, 7),
     b('streak30', '🚀', 'Un mois', 'Jouer 30 jours de suite (série)', bestStreak, 30),
     b('col50', '🧭', 'Voyageur', 'Trouver 50 stations différentes', collection.size, 50),

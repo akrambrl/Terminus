@@ -82,6 +82,7 @@ export const screens = {
   defi: { bg: color.violet, brick: color.brickOnViolet, dark: true },
   reponse: { bg: color.mint, brick: color.brickOnMint, dark: true },
   pendu: { bg: color.ink, brick: color.brickOnInk, dark: true },
+  arret: { bg: color.blue, brick: color.brickOnBlue, dark: true },
 } as const;
 export type ScreenId = keyof typeof screens;
 

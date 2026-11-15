@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
-import { loadDaily, loadDefi, loadPendu } from '../game/storage';
+import { loadArret, loadDaily, loadDefi, loadPendu } from '../game/storage';
 import { generateDefi } from '../modes/defi/defi';
 import { gridPoints } from '../game/points';
 import { colors, fonts, ui } from '../theme';
@@ -26,6 +26,11 @@ export async function myDailyResult(game: ChallengeGame, day: string): Promise<M
     const g = await loadDefi(day);
     if (!g?.finished) return null;
     return { found: g.found.length, extra: generateDefi(day).answers.length };
+  }
+  if (game === 'arret') {
+    const a = await loadArret(day);
+    if (!a?.finished) return null;
+    return { found: a.won ? 1 : 0, extra: a.guesses.length };
   }
   const g = await loadPendu(day);
   if (!g?.finished) return null;

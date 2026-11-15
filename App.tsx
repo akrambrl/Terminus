@@ -33,6 +33,9 @@ import { ChallengeBanner, DuelLine } from './src/share/ChallengeBanner';
 import { DefiGame } from './src/modes/defi/DefiGame';
 import { DEFI_MAX_ERRORS, defiFromSeed, defiSignature, generateDefi } from './src/modes/defi/defi';
 import { PenduGame } from './src/modes/pendu/PenduGame';
+import { ArretGame } from './src/modes/arret/ArretGame';
+import { ArretCapture } from './src/modes/arret/ArretCapture';
+import { ARRET_STOPS, arretTrip, tripSignature } from './src/modes/arret/arret';
 import { MAX_PENDU_ERRORS, penduFromSeed, penduStation } from './src/modes/pendu/pendu';
 import { ARCHIVE_COST, archiveState, type ArchiveDay, type ArchiveGame } from './src/archives/archives';
 import { ArchivesLink } from './src/archives/ArchivesLink';
@@ -57,6 +60,8 @@ import {
   saveDaily,
   saveDefi,
   savePendu,
+  loadArret,
+  saveArret,
   loadFreeGame,
   saveFreeGame,
   type SavedFreeGame,
@@ -119,11 +124,36 @@ const STATS_CODE = (() => {
   }
 })();
 
-// Statistiques du jeu : envoyées à la base Supabase de Terminus (sauf sur le tableau de bord lui-même).
-if (!STATS_CODE) setAnalyticsSink(sendEvent);
+/**
+ * Page de capture pour TikTok et Instagram : terminusparis.fr/?capture=arret (&stops=3, &reveal=1).
+ * Le trajet du jour en plein écran 9:16, sans boutons, à filmer avec l'enregistrement d'écran.
+ */
+const CAPTURE = (() => {
+  if (Platform.OS !== 'web') return null;
+  try {
+    const q = new URLSearchParams((globalThis as { location?: { search?: string } }).location?.search ?? '');
+    if (q.get('capture') !== 'arret') return null;
+    return { stops: Number(q.get('stops') ?? 3) || 3, reveal: q.get('reveal') === '1' };
+  } catch {
+    return null;
+  }
+})();
+
+// Statistiques du jeu : envoyées à la base Supabase de Terminus (sauf sur le tableau de bord et la capture).
+if (!STATS_CODE && !CAPTURE) setAnalyticsSink(sendEvent);
 
 export default function App() {
-  return <SafeAreaProvider>{STATS_CODE ? <StatsPage code={STATS_CODE} /> : <Game />}</SafeAreaProvider>;
+  return (
+    <SafeAreaProvider>
+      {STATS_CODE ? <StatsPage code={STATS_CODE} /> : CAPTURE ? <CapturePage {...CAPTURE} /> : <Game />}
+    </SafeAreaProvider>
+  );
+}
+
+function CapturePage({ stops, reveal }: { stops: number; reveal: boolean }) {
+  const [loaded, error] = useGameFonts();
+  if (!loaded && !error) return <View style={[styles.screen, { backgroundColor: '#000' }]} />;
+  return <ArretCapture stops={stops} reveal={reveal} />;
 }
 
 function useGameFonts() {
@@ -155,7 +185,7 @@ function Game() {
   const newDay = useCallback(() => setDay(currentDayKey()), []);
   // Lien de défi d'un ami : on ouvre directement le jeu concerné.
   const [tab, setTab] = useState<GameTab>(() => getChallenge()?.game ?? 'grille');
-  const [done, setDone] = useState<Record<GameTab, boolean>>({ grille: false, defi: false, pendu: false });
+  const [done, setDone] = useState<Record<GameTab, boolean>>({ grille: false, defi: false, pendu: false, arret: false });
   const [defiScreen, setDefiScreen] = useState<ScreenId>('defi');
   /** Défi / Pendu en plus en cours (graine), ou null pour celui du jour. */
   const [defiSeed, setDefiSeed] = useState<string | null>(null);
@@ -163,9 +193,9 @@ function Game() {
   const [freeDefi, setFreeDefi] = useState<SavedFreeDefi | null>(null);
   const [freePendu, setFreePendu] = useState<SavedFreePendu | null>(null);
   const [success, setSuccess] = useState({ defi: false, pendu: false });
-  // Les trois jeux du jour sont faits : pas de rappel ce matin-là (parties jouées avant 8 h).
+  // Les quatre jeux du jour sont faits : pas de rappel ce matin-là (parties jouées avant 8 h).
   useEffect(() => {
-    if (done.grille && done.defi && done.pendu) skipTodayNotification(day);
+    if (done.grille && done.defi && done.pendu && done.arret) skipTodayNotification(day);
   }, [done, day]);
   const markDone = useCallback((t: GameTab) => setDone((d) => (d[t] ? d : { ...d, [t]: true })), []);
   const [mode, setMode] = useState<Mode>('daily');
@@ -174,6 +204,7 @@ function Game() {
   const [gridArchive, setGridArchive] = useState<string | null>(null);
   const [defiArchive, setDefiArchive] = useState<string | null>(null);
   const [penduArchive, setPenduArchive] = useState<string | null>(null);
+  const [arretArchive, setArretArchive] = useState<string | null>(null);
   const [archivesFor, setArchivesFor] = useState<ArchiveGame | null>(null);
   /** Jour de la grille affichée (celui d'aujourd'hui, ou un jour passé). */
   const gridDay = mode === 'archive' && gridArchive ? gridArchive : day;
@@ -222,7 +253,7 @@ function Game() {
   // Chargement de la grille du jour sauvegardée et des statistiques.
   useEffect(() => {
     (async () => {
-      const [saved, s, seen, wallet, free, defi, pendu] = await Promise.all([
+      const [saved, s, seen, wallet, free, defi, pendu, arret] = await Promise.all([
         loadDaily(day),
         loadStats(),
         hasSeenHelp(),
@@ -230,8 +261,9 @@ function Game() {
         loadFreeGame(),
         loadDefi(day),
         loadPendu(day),
+        loadArret(day),
       ]);
-      setDone({ grille: !!saved?.finished, defi: !!defi?.finished, pendu: !!pendu?.finished });
+      setDone({ grille: !!saved?.finished, defi: !!defi?.finished, pendu: !!pendu?.finished, arret: !!arret?.finished });
       // Défi et Pendu en plus : réservés à ceux qui ont réussi celui du jour (comme la grille).
       setSuccess({
         defi: !!defi?.finished && defi.found.length === generateDefi(day).answers.length,
@@ -244,6 +276,7 @@ function Game() {
       setPenduSeed(null);
       setDefiArchive(null);
       setPenduArchive(null);
+      setArretArchive(null);
       setGridArchive(null);
       setMode((m) => (m === 'archive' ? 'daily' : m));
       setCoins(wallet.coins);
@@ -506,8 +539,10 @@ function Game() {
         await saveDaily(d.day, { puzzle: puzzleSignature(p), cells: emptyCells(), errors: 0, finished: false, bought: 0 });
       } else if (game === 'defi') {
         await saveDefi(d.day, { defi: defiSignature(generateDefi(d.day)), found: [], errors: 0, finished: false, gaveUp: false });
-      } else {
+      } else if (game === 'pendu') {
         await savePendu(d.day, { station: penduStation(d.day).id, letters: [], wrongNames: [], errors: 0, finished: false, won: false });
+      } else {
+        await saveArret(d.day, { trip: tripSignature(arretTrip(d.day)), guesses: [], finished: false, won: false });
       }
     } else {
       track('archive_opened', { game, day: d.day, state: d.state });
@@ -526,9 +561,11 @@ function Game() {
     } else if (game === 'defi') {
       setDefiSeed(null);
       setDefiArchive(d.day);
-    } else {
+    } else if (game === 'pendu') {
       setPenduSeed(null);
       setPenduArchive(d.day);
+    } else {
+      setArretArchive(d.day);
     }
   };
 
@@ -602,7 +639,7 @@ function Game() {
   if (!loaded || !(fontsLoaded || fontError)) return <View style={[styles.screen, { backgroundColor: colors.background }]} />;
 
   // Fond de l'écran (charte) : grille sur fond clair, défi violet, réponses menthe, pendu bleu nuit.
-  const screen: ScreenId = tab === 'grille' ? 'grille' : tab === 'defi' ? defiScreen : 'pendu';
+  const screen: ScreenId = tab === 'grille' ? 'grille' : tab === 'defi' ? defiScreen : tab === 'arret' ? 'arret' : 'pendu';
   const dark = screens[screen].dark;
 
   return (
@@ -668,6 +705,22 @@ function Game() {
               setDefiArchive(null);
               setFreeDefi(await loadFreeDefi());
             }}
+          />
+        )}
+        {tab === 'arret' && (
+          <ArretGame
+            key={arretArchive ?? day}
+            day={arretArchive ?? day}
+            width={contentWidth}
+            archive={!!arretArchive}
+            onArchives={() => setArchivesFor('arret')}
+            onBadges={openBadges}
+            onNewDay={newDay}
+            onRanking={arretArchive ? undefined : openRanking}
+            onDone={() => {
+              if (!arretArchive) markDone('arret');
+            }}
+            onBackToDaily={() => setArretArchive(null)}
           />
         )}
         {tab === 'pendu' && (
@@ -1016,7 +1069,7 @@ function Game() {
 
       <InfoModal
         visible={showHelp && !showIntro}
-        title={tab === 'defi' ? 'Le Défi' : tab === 'pendu' ? 'Le Pendu du métro' : 'Comment jouer'}
+        title={tab === 'defi' ? 'Le Défi' : tab === 'pendu' ? 'Le Pendu du métro' : tab === 'arret' ? 'Prochain arrêt' : 'Comment jouer'}
         onClose={() => {
           setShowHelp(false);
           markHelpSeen();
@@ -1032,6 +1085,19 @@ function Game() {
               Propose les stations une par une. Une mauvaise réponse coûte un ticket :{' '}
               <Text style={infoStyles.strong}>{DEFI_MAX_ERRORS} erreurs</Text> maximum. Tu peux aussi abandonner, et
               découvrir alors toutes les réponses.
+            </Text>
+          </>
+        )}
+        {tab === 'arret' && (
+          <>
+            <Text style={infoStyles.p}>
+              Tu es dans une rame, mais <Text style={infoStyles.strong}>sur quelle ligne ?</Text> La rame s'arrête station
+              après station : à chaque arrêt, touche la pastille de la ligne, ou attends la station suivante.
+            </Text>
+            <Text style={infoStyles.p}>
+              Une seule proposition par station, {ARRET_STOPS} stations au maximum. Plus tu trouves tôt, plus tu marques :{' '}
+              <Text style={infoStyles.strong}>5 points</Text> à la 1re station, 1 point à la 5e. Attention, la 1re
+              station est souvent une correspondance : tu paries, ou tu attends ?
             </Text>
           </>
         )}

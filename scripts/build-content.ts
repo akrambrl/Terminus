@@ -16,6 +16,7 @@ import { stationPoints } from '../src/game/points';
 import type { LineId, Station } from '../src/game/types';
 import { DEFI_MAX_ERRORS, generateDefi } from '../src/modes/defi/defi';
 import { MAX_PENDU_ERRORS, nameLetters, penduStation } from '../src/modes/pendu/pendu';
+import { ARRET_LAUNCH, arretTrip } from '../src/modes/arret/arret';
 import { lineColor } from '../src/design/tokens';
 
 const ROOT = join(__dirname, '..');
@@ -149,7 +150,7 @@ add('/regles/', {
   description: 'Comment jouer à Terminus Paris : les règles de la Grille, du Défi et du Pendu, le calcul des points selon la fréquentation des stations et le classement du jour.',
   body: `<span class="plaque">Règles du jeu</span>
 <h1>Comment jouer à Terminus Paris</h1>
-<p class="chapo">Chaque jour à minuit (heure de Paris), trois nouveaux jeux sur les stations du métro parisien vous attendent : la Grille, le Défi et le Pendu. Ils sont les mêmes pour tout le monde, ce qui permet de comparer vos scores avec vos amis et dans le classement du jour.</p>
+<p class="chapo">Chaque jour à minuit (heure de Paris), quatre nouveaux jeux sur les stations du métro parisien vous attendent : la Grille, le Défi, le Pendu et Prochain arrêt. Ils sont les mêmes pour tout le monde, ce qui permet de comparer vos scores avec vos amis et dans le classement du jour.</p>
 
 <div class="carte">
 <h2>La Grille</h2>
@@ -170,8 +171,13 @@ add('/regles/', {
 </div>
 
 <div class="carte">
+<h2>Prochain arrêt</h2>
+<p>Vous êtes dans une rame, mais sur quelle ligne ? La rame s'arrête station après station : à chaque arrêt, touchez la pastille d'une ligne, ou attendez la station suivante. Une seule proposition par station, cinq stations au maximum. Trouvée dès la 1re station, la ligne rapporte <strong>5 points</strong> ; à la 5e, 1 point. La première station est souvent une correspondance : vous pariez, ou vous attendez ?</p>
+</div>
+
+<div class="carte">
 <h2>Le classement du jour</h2>
-<p>Après chaque partie, vous pouvez choisir un pseudo pour apparaître dans le classement du jour ou de la semaine : la Grille se classe aux points, le Défi au nombre de stations trouvées, le Pendu au nombre d'erreurs. Seule la première partie du jour compte, et le serveur vérifie chaque réponse.</p>
+<p>Après chaque partie, vous pouvez choisir un pseudo pour apparaître dans le classement du jour ou de la semaine : la Grille se classe aux points, le Défi au nombre de stations trouvées, le Pendu au nombre d'erreurs, Prochain arrêt à la station où la ligne est trouvée. Seule la première partie du jour compte, et le serveur vérifie chaque réponse.</p>
 <h3>Des grilles en plus</h3>
 <p>La grille du jour est toujours gratuite. Vous gagnez 3 pièces chaque jour en ouvrant le jeu. Plus de tickets après 3 erreurs ? Une pièce rachète 3 tickets pour continuer la grille. Une fois le jeu du jour réussi (grille en 9/9, défi complet ou station du pendu trouvée), une pièce débloque une partie en plus du même jeu, hors classement. Les pièces ne s'achètent pas.</p>
 </div>
@@ -180,8 +186,8 @@ add('/regles/', {
 
 /* ---------------- FAQ ---------------- */
 const faq: [string, string][] = [
-  ['Terminus Paris est-il gratuit ?', 'Oui, entièrement. Les trois jeux du jour sont gratuits, sans compte ni inscription. Le jeu est financé par la publicité. Les pièces, qui permettent de jouer des grilles en plus, se gagnent en jouant et ne s’achètent jamais.'],
-  ['À quelle heure change le jeu ?', 'À minuit, heure de Paris, pour tout le monde. Les trois jeux (Grille, Défi, Pendu) sont les mêmes pour tous les joueurs de la journée.'],
+  ['Terminus Paris est-il gratuit ?', 'Oui, entièrement. Les quatre jeux du jour sont gratuits, sans compte ni inscription. Le jeu est financé par la publicité. Les pièces, qui permettent de jouer des grilles en plus, se gagnent en jouant et ne s’achètent jamais.'],
+  ['À quelle heure change le jeu ?', 'À minuit, heure de Paris, pour tout le monde. Les quatre jeux (Grille, Défi, Pendu, Prochain arrêt) sont les mêmes pour tous les joueurs de la journée.'],
   ['Quelles stations sont dans le jeu ?', `Les ${STATIONS.length} stations des lignes 1 à 14, 3 bis et 7 bis du métro parisien, dont les prolongements récents de la ligne 14 jusqu’à Saint-Denis Pleyel et l’aéroport d’Orly. Les lignes en projet du Grand Paris Express ne sont pas encore incluses.`],
   ['Comment sont calculés les points ?', 'Chaque bonne réponse de la Grille vaut entre 10 et 100 points selon la fréquentation de la station : plus elle est fréquentée, moins elle rapporte. Les stations sont classées de la plus fréquentée à la moins fréquentée à partir du nombre de validations publié par Île-de-France Mobilités.'],
   ['Que veut dire « Centre de Paris » ?', 'Les stations situées dans les quatre premiers arrondissements, qui forment depuis 2020 le secteur « Paris Centre ».'],
@@ -302,6 +308,7 @@ for (const day of archiveDays) {
   const p = generatePuzzle(dailySeed(day));
   const defi = generateDefi(day);
   const pendu = penduStation(day);
+  const trip = day >= ARRET_LAUNCH ? arretTrip(day) : null;
   // Une case peut avoir une centaine de réponses : on montre les 20 qui rapportent le plus.
   const cell = (ids: string[]) => {
     const best = [...ids].sort((a, b) => stationPoints(b) - stationPoints(a));
@@ -313,7 +320,7 @@ for (const day of archiveDays) {
     description: day < MODES_LAUNCH ? `Les réponses de la grille n°${n} du ${fmtDay(day)} : toutes les stations possibles de chaque case.` : `Les réponses des jeux du métro du ${fmtDay(day)} : toutes les stations possibles de la grille n°${n}, du défi « ${defi.a.label} × ${defi.b.label} » et la station du pendu.`,
     body: `<span class="plaque">Archives · n°${n}</span>
 <h1>Les jeux du ${esc(fmtDay(day))}</h1>
-<p class="chapo">Retrouvez toutes les réponses des trois jeux de Terminus Paris n°${n}. Entre parenthèses, les points que rapportait chaque station dans la Grille.</p>
+<p class="chapo">Retrouvez toutes les réponses des jeux de Terminus Paris n°${n}. Entre parenthèses, les points que rapportait chaque station dans la Grille.</p>
 <div class="carte">
 <h2 style="margin-top:0">La Grille n°${n}</h2>
 <div class="grille">
@@ -334,6 +341,10 @@ ${day < MODES_LAUNCH ? '' : `<div class="carte">
 <h2 style="margin-top:0">Le Pendu</h2>
 <p>La station à deviner était <strong>${esc(pendu.name)}</strong> ${badges(pendu)}, ${esc(place(pendu))}, en ${nameLetters(pendu.name).length} lettres.</p>
 </div>`}
+${trip ? `<div class="carte">
+<h2 style="margin-top:0">Prochain arrêt</h2>
+<p>La rame roulait sur la ligne ${badge(trip.line)} : ${trip.stops.map((id) => `<strong>${esc(stationById.get(id)!.name)}</strong>`).join(' → ')}.</p>
+</div>` : ''}
 <p>${archiveDays.indexOf(day) < archiveDays.length - 1 ? `<a href="/archives/${addDays(day, -1)}/">← Jour précédent</a> · ` : ''}<a href="/archives/">Toutes les archives</a>${archiveDays.indexOf(day) > 0 ? ` · <a href="/archives/${addDays(day, 1)}/">Jour suivant →</a>` : ''}</p>
 <p><a class="cta" href="/">Jouer aux jeux d'aujourd'hui</a></p>`,
   });

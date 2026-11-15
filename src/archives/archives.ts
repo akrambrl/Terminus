@@ -1,14 +1,16 @@
 import { addDays, dayNumber } from '../game/day';
-import { loadDaily, loadDefi, loadPendu } from '../game/storage';
+import { loadArret, loadDaily, loadDefi, loadPendu } from '../game/storage';
+import { ARRET_LAUNCH } from '../modes/arret/arret';
 import { generateDefi } from '../modes/defi/defi';
 
-export type ArchiveGame = 'grille' | 'defi' | 'pendu';
+export type ArchiveGame = 'grille' | 'defi' | 'pendu' | 'arret';
 
 /** Premier jour de chaque jeu (la grille est sortie avant le défi et le pendu). */
 export const GAME_LAUNCH: Record<ArchiveGame, string> = {
   grille: '2026-11-08',
   defi: '2026-11-12',
   pendu: '2026-11-12',
+  arret: ARRET_LAUNCH,
 };
 
 /** Prix d'une partie d'un jour passé (en pièces) ; une partie commencée se reprend gratuitement. */
@@ -45,6 +47,13 @@ export async function archiveState(game: ArchiveGame, day: string): Promise<Arch
     const total = generateDefi(day).answers.length;
     return g.finished
       ? { ...base, state: 'done', result: `${g.found.length}/${total}`, success: g.found.length === total }
+      : { ...base, state: 'started' };
+  }
+  if (game === 'arret') {
+    const a = await loadArret(day);
+    if (!a) return { ...base, state: 'none' };
+    return a.finished
+      ? { ...base, state: 'done', result: a.won ? `Ligne trouvée (${a.guesses.length}e)` : 'Ratée', success: a.won }
       : { ...base, state: 'started' };
   }
   const g = await loadPendu(day);

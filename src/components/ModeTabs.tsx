@@ -2,22 +2,24 @@ import { Pressable, StyleSheet, Text, View } from 'react-native';
 import { solidShadow } from '../design/ui';
 import { colors, fonts, textOn, ui } from '../theme';
 
-export type GameTab = 'grille' | 'defi' | 'pendu';
+export type GameTab = 'grille' | 'defi' | 'pendu' | 'arret';
 
 /** Couleur de chaque jeu (charte : défi violet, pendu bleu nuit, grille bleu outremer). */
 export const TAB_COLORS: Record<GameTab, string> = {
   grille: colors.blue,
   defi: colors.violet,
   pendu: colors.ink,
+  arret: colors.tomato,
 };
 
 const TABS: { id: GameTab; label: string }[] = [
   { id: 'grille', label: 'Grille' },
   { id: 'defi', label: 'Défi' },
   { id: 'pendu', label: 'Pendu' },
+  { id: 'arret', label: 'Arrêt' },
 ];
 
-/** Onglets des trois jeux du jour (pilules de 44 px), avec une coche quand le jeu a été joué aujourd'hui. */
+/** Onglets des quatre jeux du jour (pilules de 44 px), avec une coche quand le jeu a été joué aujourd'hui. */
 export function ModeTabs({
   value,
   done,
@@ -67,18 +69,18 @@ export function ModeTabs({
 }
 
 const styles = StyleSheet.create({
-  row: { flexDirection: 'row', gap: ui.space.m, marginBottom: ui.space.m + 2 },
+  row: { flexDirection: 'row', gap: ui.space.s, marginBottom: ui.space.m + 2 },
   tab: {
     flex: 1,
     minHeight: ui.touch,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
-    gap: 6,
+    gap: 4,
     borderRadius: ui.radiusPill,
     borderWidth: ui.border,
   },
-  label: { fontFamily: fonts.heavy, fontSize: 15 },
+  label: { fontFamily: fonts.heavy, fontSize: 14 },
   check: {
     width: 18,
     height: 18,

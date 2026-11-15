@@ -6,7 +6,12 @@ import { formatDay } from '../components/share';
 import { colors, fonts, ui } from '../theme';
 import { ARCHIVE_COST, archiveDays, archiveState, type ArchiveDay, type ArchiveGame } from './archives';
 
-const TITLES: Record<ArchiveGame, string> = { grille: 'Grilles passées', defi: 'Défis passés', pendu: 'Pendus passés' };
+const TITLES: Record<ArchiveGame, string> = {
+  grille: 'Grilles passées',
+  defi: 'Défis passés',
+  pendu: 'Pendus passés',
+  arret: 'Trajets passés',
+};
 
 /** Liste des jours passés d'un jeu : on en choisit un pour le jouer (ou revoir sa partie). */
 export function ArchivesModal({

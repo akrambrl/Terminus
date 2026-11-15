@@ -14,6 +14,7 @@ const TITLES = [
   '🔤 Une nouvelle station à deviner',
   '🎯 Le défi du jour t’attend',
   '🗺️ Tu connais vraiment le métro ?',
+  '🚦 Prochain arrêt : quelle ligne ?',
 ];
 
 /** Texte de la notification du matin pour un jour de jeu (AAAA-MM-JJ, heure de Paris). */
@@ -27,6 +28,6 @@ export function morningMessage(day: string): { title: string; body: string } {
     title: TITLES[((n % TITLES.length) + TITLES.length) % TITLES.length],
     body:
       `Grille n°${n}, Défi : ${defi.a.label} × ${defi.b.label}, ` +
-      `Pendu : ${letters} lettres (ligne${station.lines.length > 1 ? 's' : ''} ${lines}). À toi de jouer !`,
+      `Pendu : ${letters} lettres (ligne${station.lines.length > 1 ? 's' : ''} ${lines}), et un nouveau Prochain arrêt. À toi de jouer !`,
   };
 }

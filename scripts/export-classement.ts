@@ -1,4 +1,4 @@
-// Exporte les réponses du jour (Grille, Défi, Pendu) et les points des stations pour la base du classement.
+// Exporte les réponses du jour (Grille, Défi, Pendu, Prochain arrêt) et les points des stations pour la base du classement.
 // Le serveur s'en sert pour recalculer chaque score (supabase/terminus-classement.sql, fonction tp_submit).
 // Usage : npx tsx scripts/export-classement.ts 2026-11-01 800 > classement-data.json
 import { STATIONS } from '../src/data/stations';
@@ -7,6 +7,7 @@ import { dailySeed, generatePuzzle } from '../src/game/generator';
 import { stationPoints } from '../src/game/points';
 import { generateDefi } from '../src/modes/defi/defi';
 import { penduStation } from '../src/modes/pendu/pendu';
+import { ARRET_LAUNCH, arretTrip } from '../src/modes/arret/arret';
 
 const start = process.argv[2] ?? '2026-11-01';
 const days = Number(process.argv[3] ?? 800);
@@ -17,6 +18,10 @@ for (let i = 0; i < days; i++) {
   daily.push({ day, game: 'grille', data: { cells: p.answers.flat() } });
   daily.push({ day, game: 'defi', data: { answers: generateDefi(day).answers } });
   daily.push({ day, game: 'pendu', data: { station: penduStation(day).id } });
+  if (day >= ARRET_LAUNCH) {
+    const t = arretTrip(day);
+    daily.push({ day, game: 'arret', data: { line: t.line, stops: t.stops } });
+  }
 }
 const points = STATIONS.map((s) => ({ id: s.id, points: stationPoints(s.id) }));
 process.stdout.write(JSON.stringify({ points, daily }));

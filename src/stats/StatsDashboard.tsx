@@ -16,8 +16,8 @@ const RANGES = [
   { days: 90, label: '90 jours' },
 ];
 
-const GAME_LABEL: Record<string, string> = { grille: 'Grille', defi: 'Défi', pendu: 'Pendu', autre: 'Autre' };
-const GAME_COLOR: Record<string, string> = { grille: colors.blue, defi: colors.violet, pendu: colors.ink, autre: colors.muted };
+const GAME_LABEL: Record<string, string> = { grille: 'Grille', defi: 'Défi', pendu: 'Pendu', arret: 'Arrêt', autre: 'Autre' };
+const GAME_COLOR: Record<string, string> = { grille: colors.blue, defi: colors.violet, pendu: colors.ink, arret: colors.tomato, autre: colors.muted };
 const PLATFORM_LABEL: Record<string, string> = {
   ios: 'App iPhone',
   android: 'App Android',
