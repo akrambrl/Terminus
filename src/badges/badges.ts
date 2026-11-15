@@ -14,7 +14,6 @@ import { generateDefi } from '../modes/defi/defi';
  */
 export interface Badge {
   id: string;
-  emoji: string;
   title: string;
   description: string;
   /** Avancement : valeur actuelle / objectif. */
@@ -142,9 +141,8 @@ export async function computeBadges(): Promise<BadgeReport> {
   const bestLine = Math.max(0, ...lines.map((l) => (l.total ? l.found / l.total : 0)));
   const total = STATIONS.length;
 
-  const b = (id: string, emoji: string, title: string, description: string, current: number, target: number): Badge => ({
+  const b = (id: string, title: string, description: string, current: number, target: number): Badge => ({
     id,
-    emoji,
     title,
     description,
     current: Math.min(current, target),
@@ -153,25 +151,25 @@ export async function computeBadges(): Promise<BadgeReport> {
   });
 
   const badges: Badge[] = [
-    b('first', '🎫', 'Premier ticket', 'Terminer une grille', grids, 1),
-    b('trio', '🚇', 'Trio', 'Finir trois jeux le même jour', trio, 1),
-    b('quatuor', '🎟️', 'Carnet complet', 'Finir les quatre jeux le même jour', quatuor, 1),
-    b('perfect', '✅', 'Grille parfaite', 'Faire 9/9', perfect, 1),
-    b('flawless', '💎', 'Sans faute', 'Faire 9/9 sans aucune erreur', flawless, 1),
-    b('perfect10', '🏅', 'Abonné au 9/9', '10 grilles parfaites', perfect, 10),
-    b('gold', '⭐', 'Station en or', 'Placer la station en or dans une grille', gold, 1),
-    b('points600', '🦄', 'Explorateur', '600 points sur une grille', bestPoints, 600),
-    b('points800', '🗺️', 'Grand explorateur', '800 points sur une grille', bestPoints, 800),
-    b('defi', '🎯', 'Défi complet', 'Trouver toutes les stations d’un défi', defiComplete, 1),
-    b('pendu', '🔤', 'Pendu sans faute', 'Trouver la station du pendu sans erreur', penduFlawless, 1),
-    b('arret1', '🚦', 'Éclair', 'Trouver la ligne du Prochain arrêt en moins de 5 secondes', arretFirst, 1),
-    b('arret10', '🧳', 'Navigateur', 'Trouver 10 lignes au Prochain arrêt', arretWon, 10),
-    b('streak7', '🔥', 'Une semaine', 'Jouer 7 jours de suite (série)', bestStreak, 7),
-    b('streak30', '🚀', 'Un mois', 'Jouer 30 jours de suite (série)', bestStreak, 30),
-    b('col50', '🧭', 'Voyageur', 'Trouver 50 stations différentes', collection.size, 50),
-    b('col150', '🎒', 'Grand voyageur', 'Trouver 150 stations différentes', collection.size, 150),
-    b('line', '🚉', 'Ligne complète', 'Trouver toutes les stations d’une ligne', Math.floor(bestLine * 100), 100),
-    b('all', '👑', 'Tout le réseau', `Trouver les ${total} stations`, collection.size, total),
+    b('first', 'Premier ticket', 'Terminer une grille', grids, 1),
+    b('trio', 'Trio', 'Finir trois jeux le même jour', trio, 1),
+    b('quatuor', 'Carnet complet', 'Finir les quatre jeux le même jour', quatuor, 1),
+    b('perfect', 'Grille parfaite', 'Faire 9/9', perfect, 1),
+    b('flawless', 'Sans faute', 'Faire 9/9 sans aucune erreur', flawless, 1),
+    b('perfect10', 'Abonné au 9/9', '10 grilles parfaites', perfect, 10),
+    b('gold', 'Station en or', 'Placer la station en or dans une grille', gold, 1),
+    b('points600', 'Explorateur', '600 points sur une grille', bestPoints, 600),
+    b('points800', 'Grand explorateur', '800 points sur une grille', bestPoints, 800),
+    b('defi', 'Défi complet', 'Trouver toutes les stations d’un défi', defiComplete, 1),
+    b('pendu', 'Pendu sans faute', 'Trouver la station du pendu sans erreur', penduFlawless, 1),
+    b('arret1', 'Éclair', 'Trouver la ligne du Prochain arrêt en moins de 5 secondes', arretFirst, 1),
+    b('arret10', 'Navigateur', 'Trouver 10 lignes au Prochain arrêt', arretWon, 10),
+    b('streak7', 'Une semaine', 'Jouer 7 jours de suite (série)', bestStreak, 7),
+    b('streak30', 'Un mois', 'Jouer 30 jours de suite (série)', bestStreak, 30),
+    b('col50', 'Voyageur', 'Trouver 50 stations différentes', collection.size, 50),
+    b('col150', 'Grand voyageur', 'Trouver 150 stations différentes', collection.size, 150),
+    b('line', 'Ligne complète', 'Trouver toutes les stations d’une ligne', Math.floor(bestLine * 100), 100),
+    b('all', 'Tout le réseau', `Trouver les ${total} stations`, collection.size, total),
   ];
   return { badges, lines, collection: collection.size, totalStations: total };
 }

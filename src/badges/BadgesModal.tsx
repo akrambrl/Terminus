@@ -1,8 +1,9 @@
 import { useEffect, useState } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { Pressable, StyleSheet, Text, View } from 'react-native';
 import { InfoModal, infoStyles } from '../components/InfoModal';
 import { LineBadge } from '../components/LineBadge';
 import { colors, fonts, palette, ui } from '../theme';
+import { BadgeArt } from './BadgeArt';
 import { computeBadges, takeNewBadges, type Badge, type BadgeReport } from './badges';
 
 /** Mes badges et ma collection de stations (ligne par ligne). */
@@ -63,7 +64,7 @@ export function BadgesModal({ visible, onClose }: { visible: boolean; onClose: (
 function BadgeTile({ badge }: { badge: Badge }) {
   return (
     <View style={[styles.tile, !badge.unlocked && styles.locked]}>
-      <Text style={[styles.emoji, !badge.unlocked && { opacity: 0.35 }]}>{badge.emoji}</Text>
+      <BadgeArt id={badge.id} size={60} locked={!badge.unlocked} />
       <Text style={styles.title} numberOfLines={2}>
         {badge.title}
       </Text>
@@ -94,10 +95,17 @@ export function NewBadgesLine({ visible, onOpen }: { visible: boolean; onOpen?: 
   }, [visible]);
   if (!fresh.length) return null;
   return (
-    <Text style={styles.fresh} onPress={onOpen} suppressHighlighting>
-      🎖️ Nouveau badge{fresh.length > 1 ? 's' : ''} : {fresh.map((b) => `${b.emoji} ${b.title}`).join(', ')}
-      {onOpen ? <Text style={styles.freshLink}>{'\n'}Voir mes badges</Text> : null}
-    </Text>
+    <Pressable onPress={onOpen} disabled={!onOpen} style={styles.fresh} accessibilityRole="button">
+      <View style={styles.freshArts}>
+        {fresh.slice(0, 4).map((b) => (
+          <BadgeArt key={b.id} id={b.id} size={44} />
+        ))}
+      </View>
+      <Text style={styles.freshTitle}>
+        Nouveau badge{fresh.length > 1 ? 's' : ''} : {fresh.map((b) => b.title).join(', ')}
+      </Text>
+      {onOpen && <Text style={styles.freshLink}>Voir mes badges</Text>}
+    </Pressable>
   );
 }
 
@@ -114,7 +122,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   locked: { backgroundColor: colors.surface, borderColor: colors.border },
-  emoji: { fontSize: 28 },
   title: { fontFamily: fonts.heavy, fontSize: 14, color: colors.ink, textAlign: 'center', marginTop: 2 },
   desc: { fontFamily: fonts.bold, fontSize: 11, lineHeight: 14, color: colors.muted, textAlign: 'center', marginTop: 2 },
   progress: { fontFamily: fonts.heavy, fontSize: 12, color: colors.accent, marginTop: 4 },
@@ -124,16 +131,17 @@ const styles = StyleSheet.create({
   fill: { height: '100%', backgroundColor: colors.accent, borderRadius: 5 },
   lineCount: { width: 44, textAlign: 'right', fontFamily: fonts.heavy, fontSize: 12, color: colors.ink },
   fresh: {
-    fontFamily: fonts.heavy,
-    fontSize: 14,
-    color: colors.ink,
-    textAlign: 'center',
+    alignItems: 'center',
     backgroundColor: palette.sun,
-    borderRadius: 12,
-    overflow: 'hidden',
-    paddingVertical: 8,
+    borderRadius: 14,
+    borderWidth: 2,
+    borderColor: colors.ink,
+    paddingVertical: 10,
     paddingHorizontal: 10,
     marginVertical: 8,
+    gap: 4,
   },
-  freshLink: { fontFamily: fonts.bold, fontSize: 12, textDecorationLine: 'underline' },
+  freshArts: { flexDirection: 'row', gap: 6 },
+  freshTitle: { fontFamily: fonts.heavy, fontSize: 14, color: colors.ink, textAlign: 'center' },
+  freshLink: { fontFamily: fonts.bold, fontSize: 12, color: colors.ink, textDecorationLine: 'underline' },
 });

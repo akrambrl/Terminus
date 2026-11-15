@@ -41,6 +41,7 @@ import { ARCHIVE_COST, archiveState, type ArchiveDay, type ArchiveGame } from '.
 import { ArchivesLink } from './src/archives/ArchivesLink';
 import { ArchivesModal } from './src/archives/ArchivesModal';
 import { BadgesModal, NewBadgesLine } from './src/badges/BadgesModal';
+import { MedalIcon } from './src/badges/BadgeArt';
 import { STATION_BY_ID } from './src/game/lookup';
 import {
   EMPTY_STATS,
@@ -663,7 +664,7 @@ function Game() {
               accessibilityRole="button"
               accessibilityLabel="Mes badges"
             >
-              <Text style={styles.trophy}>🎖️</Text>
+              <MedalIcon size={24} />
             </Pressable>
             <Pressable onPress={() => { setShowHelp(true); track('help_opened', { game: tab }); }} style={styles.helpButton} accessibilityRole="button" accessibilityLabel="Règles du jeu">
               <Text style={styles.helpText}>?</Text>
