@@ -3,8 +3,8 @@ import { Animated, Easing, StyleSheet, Text, View } from 'react-native';
 import { useReducedMotion } from '../design/motion';
 import { alpha, colors, fonts } from '../theme';
 
-/** Une rame passe toutes les 3 secondes (traversée de 1,6 s, puis 1,4 s de voie libre). */
-const CROSS_MS = 1600;
+/** Une rame passe toutes les 3 secondes (traversée de 2,4 s, puis 0,6 s de voie libre). */
+const CROSS_MS = 2400;
 const PERIOD_MS = 3000;
 
 /**
@@ -15,20 +15,25 @@ const PERIOD_MS = 3000;
 export function TrainLane({ width }: { width: number }) {
   const reduced = useReducedMotion();
   const [x] = useState(() => new Animated.Value(0));
-  const carH = 38;
+  const carH = 46;
   const carW = carH * 2.3;
   const trainW = carW * 3 + 8 * 2;
 
+  // Un passage relancé toutes les 3 secondes (plus fiable sur Safari qu'une boucle d'animation).
   useEffect(() => {
     if (reduced) return;
-    const loop = Animated.loop(
-      Animated.sequence([
-        Animated.timing(x, { toValue: 1, duration: CROSS_MS, easing: Easing.inOut(Easing.cubic), useNativeDriver: true }),
-        Animated.delay(PERIOD_MS - CROSS_MS),
-      ]),
-    );
-    loop.start();
-    return () => loop.stop();
+    let anim: Animated.CompositeAnimation | null = null;
+    const pass = () => {
+      x.setValue(0);
+      anim = Animated.timing(x, { toValue: 1, duration: CROSS_MS, easing: Easing.inOut(Easing.quad), useNativeDriver: false });
+      anim.start();
+    };
+    pass();
+    const id = setInterval(pass, PERIOD_MS);
+    return () => {
+      clearInterval(id);
+      anim?.stop();
+    };
   }, [reduced, x]);
 
   const translateX = reduced
@@ -94,10 +99,10 @@ const styles = StyleSheet.create({
   headlight: { position: 'absolute', left: 5, width: 7, height: 7, borderRadius: 4, backgroundColor: colors.sun },
   plaque: { position: 'absolute', top: 3, alignSelf: 'center', backgroundColor: colors.ink, borderRadius: 3, paddingHorizontal: 4 },
   plaqueText: { fontFamily: fonts.heavy, fontSize: 6, letterSpacing: 1, color: colors.sun },
-  windows: { position: 'absolute', top: 11, left: 0, right: 0, flexDirection: 'row', gap: 6 },
-  window: { width: 12, height: 11, borderRadius: 3, backgroundColor: colors.ink },
+  windows: { position: 'absolute', top: 13, left: 0, right: 0, flexDirection: 'row', gap: 7 },
+  window: { width: 15, height: 13, borderRadius: 3, backgroundColor: colors.ink },
   door: { flexDirection: 'row', gap: 1.5 },
-  leaf: { width: 9, height: 22, borderRadius: 2, backgroundColor: colors.blue },
+  leaf: { width: 11, height: 27, borderRadius: 2, backgroundColor: colors.blue },
   band: { position: 'absolute', left: 0, right: 0, bottom: 3, height: 3, backgroundColor: colors.tomato },
   trails: { justifyContent: 'flex-start' },
   trail: { position: 'absolute', height: 3, borderRadius: 2, backgroundColor: alpha(colors.white, 0.5) },
