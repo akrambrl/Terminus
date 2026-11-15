@@ -131,6 +131,25 @@ const STATS_CODE = (() => {
  * Page de capture pour TikTok et Instagram : terminusparis.fr/?capture=arret (&stops=3, &reveal=1).
  * Le trajet du jour en plein écran 9:16, sans boutons, à filmer avec l'enregistrement d'écran.
  */
+/**
+ * Rejouer le Prochain arrêt du jour sur cet appareil (tests) : terminusparis.fr/?reset=arret.
+ * Efface seulement la partie enregistrée sur l'appareil ; le classement garde la première partie.
+ */
+(() => {
+  if (Platform.OS !== 'web') return;
+  try {
+    const g = globalThis as { location?: Location; localStorage?: Storage; history?: History };
+    const q = new URLSearchParams(g.location?.search ?? '');
+    if (q.get('reset') !== 'arret') return;
+    g.localStorage?.removeItem(`terminus:arret:${currentDayKey()}`);
+    q.delete('reset');
+    const rest = q.toString();
+    g.history?.replaceState(null, '', `${g.location?.pathname ?? '/'}${rest ? `?${rest}` : ''}`);
+  } catch {
+    // navigateur sans stockage : rien à effacer
+  }
+})();
+
 const CAPTURE = (() => {
   if (Platform.OS !== 'web') return null;
   try {
