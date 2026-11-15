@@ -70,6 +70,8 @@ export function ArretGame({
   const [replay, setReplay] = useState(0);
   const [showResult, setShowResult] = useState(false);
   const [copied, setCopied] = useState(false);
+  /** Message après une proposition (« Ce n'est pas la ligne 8 »), affiché jusqu'à la station suivante. */
+  const [feedback, setFeedback] = useState<{ text: string; bad: boolean } | null>(null);
   const [rideBox, setRideBox] = useState({ w: 0, h: 0 });
 
   useEffect(() => {
@@ -112,6 +114,18 @@ export function ArretGame({
     const finished = won || guesses.length >= ARRET_STOPS;
     const next = { ...game, guesses, won, finished };
     track('guess', { game: 'arret', correct: won, station: guesses.length, waited: line === null });
+    if (!won) {
+      const last = guesses.length >= ARRET_STOPS;
+      setFeedback({
+        bad: line !== null,
+        text:
+          line === null
+            ? last
+              ? 'Dommage…'
+              : '⏭️ Tu attends la station suivante…'
+            : `❌ Pas la ligne ${lineLabel(line)} !${last ? '' : ' La rame repart…'}`,
+      });
+    }
     setGame(next);
     saveArret(day, next);
     if (finished) finish(next);
@@ -172,8 +186,16 @@ export function ArretGame({
 
       {!game.finished ? (
         <>
-          <Text style={styles.question}>{canAnswer ? 'Quelle ligne ?' : 'La rame roule…'}</Text>
-          <Text style={styles.hint}>Une seule proposition par station</Text>
+          {feedback && !canAnswer ? (
+            <Text style={[styles.feedback, feedback.bad && styles.feedbackBad]}>{feedback.text}</Text>
+          ) : (
+            <>
+              <Text style={styles.question}>{canAnswer ? 'Quelle ligne ?' : 'La rame roule…'}</Text>
+              <Text style={styles.hint}>
+                {canAnswer && feedback?.bad ? feedback.text.replace(' La rame repart…', '') : 'Une seule proposition par station'}
+              </Text>
+            </>
+          )}
           <View style={[styles.lines, { width, opacity: canAnswer ? 1 : 0.55 }]}>
             {ARRET_LINES.map((l) => {
               const off = wrong.has(l);
@@ -299,6 +321,19 @@ const styles = StyleSheet.create({
   potentialUnit: { fontSize: 13 },
   rideArea: { flex: 1, minHeight: 200, marginTop: ui.space.s },
   question: { fontFamily: fonts.display, fontSize: 20, color: colors.white, marginTop: ui.space.m, textAlign: 'center' },
+  feedback: {
+    fontFamily: fonts.heavy,
+    fontSize: 15,
+    color: colors.ink,
+    backgroundColor: colors.white,
+    borderRadius: 12,
+    overflow: 'hidden',
+    paddingVertical: 8,
+    paddingHorizontal: 14,
+    marginTop: ui.space.m,
+    textAlign: 'center',
+  },
+  feedbackBad: { backgroundColor: colors.sun },
   hint: { fontFamily: fonts.bold, fontSize: 12, color: colors.white, textAlign: 'center', opacity: 0.85 },
   lines: { flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'center', gap: 6, marginTop: ui.space.s },
   cross: { position: 'absolute', left: 0, right: 0, top: 0, textAlign: 'center', color: colors.white, fontFamily: fonts.heavy },
