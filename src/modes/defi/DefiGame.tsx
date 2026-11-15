@@ -398,7 +398,7 @@ export function DefiGame({
         footer={
           <View style={{ gap: 10 }}>
             <Button
-              label={copied ? 'Lien copié !' : !ranked ? 'Partager mon résultat' : 'Défier mes amis 🎯'}
+              label={copied ? 'Lien copié !' : !ranked ? 'Partager mon résultat' : 'Défier mes amis'}
               onPress={share}
               primary
             />

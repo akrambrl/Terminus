@@ -128,11 +128,15 @@ export interface SavedPendu {
   won: boolean;
 }
 
-/** Prochain arrêt : une proposition de ligne par station (null : le joueur a attendu la suivante). */
+/** Prochain arrêt : lignes proposées (fausses, puis la bonne si trouvée) et chrono. */
 export interface SavedArret {
   /** Signature du trajet (ligne et stations). */
   trip: string;
-  guesses: (string | null)[];
+  guesses: string[];
+  /** Heure (ms) de l'arrivée à la 1re station : le chrono continue même si l'app est fermée. */
+  startedAt: number | null;
+  /** Temps final (ms), une fois la partie finie. */
+  ms: number | null;
   finished: boolean;
   won: boolean;
 }

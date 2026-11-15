@@ -17,7 +17,7 @@ export type ChallengeGame = 'grille' | 'defi' | 'pendu' | 'arret';
 export interface MyResult {
   /** Grille : stations trouvées ; défi : stations trouvées ; pendu : 1 si trouvé, sinon 0. */
   found: number;
-  /** Grille : points ; défi : nombre de réponses ; pendu : erreurs ; prochain arrêt : stations vues. */
+  /** Grille : points ; défi : nombre de réponses ; pendu : erreurs ; prochain arrêt : points (chrono). */
   extra: number;
 }
 
@@ -36,6 +36,7 @@ const cleanName = (v: string | null) =>
 /** Lien de défi pour le jeu du jour. */
 export async function challengeLink(game: ChallengeGame, day: string, r: MyResult): Promise<string> {
   const result = game === 'pendu' || game === 'arret' ? (r.found ? String(r.extra) : 'x') : `${r.found}.${r.extra}`;
+  // Prochain arrêt : r = points (1 à 100), ou « x » si pas trouvé.
   const params = new URLSearchParams({ c: CODES[game], j: day, r: result });
   const pseudo = await getLocalPseudo();
   if (pseudo) params.set('p', pseudo);
@@ -57,8 +58,8 @@ function parse(search: string): Challenge | null {
     else if (/^[0-5]$/.test(r)) [found, extra] = [1, Number(r)];
     else return null;
   } else if (game === 'arret') {
-    if (r === 'x') [found, extra] = [0, 5];
-    else if (/^[1-5]$/.test(r)) [found, extra] = [1, Number(r)];
+    if (r === 'x') [found, extra] = [0, 0];
+    else if (/^\d{1,3}$/.test(r) && Number(r) >= 1 && Number(r) <= 100) [found, extra] = [1, Number(r)];
     else return null;
   } else {
     const m = /^(\d{1,2})\.(\d{1,4})$/.exec(r);
@@ -127,7 +128,7 @@ export function dismissChallenge() {
 export function resultText(game: ChallengeGame, r: MyResult): string {
   if (game === 'grille') return `${r.found}/9 · ${r.extra} pts`;
   if (game === 'defi') return `${r.found}/${r.extra}`;
-  if (game === 'arret') return r.found ? `ligne trouvée à la ${r.extra === 1 ? '1re' : `${r.extra}e`} station` : 'ligne pas trouvée';
+  if (game === 'arret') return r.found ? `${r.extra} pts` : 'ligne pas trouvée';
   if (!r.found) return 'pas trouvé';
   return r.extra === 0 ? 'trouvé sans erreur' : `trouvé avec ${r.extra} erreur${r.extra > 1 ? 's' : ''}`;
 }
@@ -136,7 +137,8 @@ export function resultText(game: ChallengeGame, r: MyResult): string {
 function value(game: ChallengeGame, r: MyResult): number {
   if (game === 'grille') return r.extra * 10 + r.found;
   if (game === 'defi') return r.found;
-  return r.found ? 6 - r.extra : 0; // pendu (erreurs) et prochain arrêt (stations) : moins = mieux
+  if (game === 'arret') return r.found ? r.extra : 0;
+  return r.found ? 6 - r.extra : 0; // pendu : moins d'erreurs = mieux
 }
 
 /** Résultat du duel : 1 si je gagne, 0 égalité, -1 si l'ami gagne. */
@@ -162,7 +164,7 @@ export function challengeIntro(c: Challenge): string {
   }
   if (c.game === 'arret') {
     return c.found
-      ? `${who} a trouvé la ligne du Prochain arrêt à la ${c.extra === 1 ? '1re' : `${c.extra}e`} station. Fais mieux !`
+      ? `${who} a trouvé la ligne du Prochain arrêt : ${c.extra} pts. Fais mieux !`
       : `${who} n'a pas trouvé la ligne du Prochain arrêt. Fais mieux !`;
   }
   return `${who} a fait ${resultText(c.game, c)} ${c.game === 'grille' ? 'sur la grille' : 'au défi'} du jour. Fais mieux !`;

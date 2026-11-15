@@ -5,7 +5,6 @@ import { dailySeed, generatePuzzle } from '../game/generator';
 import { goldStations } from '../game/gold';
 import { gridPoints } from '../game/points';
 import { loadModeStats, loadStats, type SavedArret, type SavedDefi, type SavedGame, type SavedPendu } from '../game/storage';
-import { arretTrip } from '../modes/arret/arret';
 import type { LineId } from '../game/types';
 import { generateDefi } from '../modes/defi/defi';
 
@@ -118,13 +117,7 @@ export async function computeBadges(): Promise<BadgeReport> {
       if (!g?.finished || !Array.isArray(g.guesses)) continue;
       if (g.won) {
         arretWon++;
-        if (g.guesses.length === 1) arretFirst++;
-      }
-      // Stations vues pendant le trajet : elles rejoignent la collection.
-      try {
-        arretTrip(day).stops.slice(0, g.guesses.length).forEach((id) => collection.add(id));
-      } catch {
-        // trajet d'un ancien format : ignoré
+        if (typeof g.ms === 'number' && g.ms < 5000) arretFirst++;
       }
     } else {
       const g = data as SavedPendu;
@@ -171,7 +164,7 @@ export async function computeBadges(): Promise<BadgeReport> {
     b('points800', '🗺️', 'Grand explorateur', '800 points sur une grille', bestPoints, 800),
     b('defi', '🎯', 'Défi complet', 'Trouver toutes les stations d’un défi', defiComplete, 1),
     b('pendu', '🔤', 'Pendu sans faute', 'Trouver la station du pendu sans erreur', penduFlawless, 1),
-    b('arret1', '🚦', 'Du premier coup', 'Trouver la ligne du Prochain arrêt dès la 1re station', arretFirst, 1),
+    b('arret1', '🚦', 'Éclair', 'Trouver la ligne du Prochain arrêt en moins de 5 secondes', arretFirst, 1),
     b('arret10', '🧳', 'Navigateur', 'Trouver 10 lignes au Prochain arrêt', arretWon, 10),
     b('streak7', '🔥', 'Une semaine', 'Jouer 7 jours de suite (série)', bestStreak, 7),
     b('streak30', '🚀', 'Un mois', 'Jouer 30 jours de suite (série)', bestStreak, 30),

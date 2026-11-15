@@ -542,7 +542,7 @@ function Game() {
       } else if (game === 'pendu') {
         await savePendu(d.day, { station: penduStation(d.day).id, letters: [], wrongNames: [], errors: 0, finished: false, won: false });
       } else {
-        await saveArret(d.day, { trip: tripSignature(arretTrip(d.day)), guesses: [], finished: false, won: false });
+        await saveArret(d.day, { trip: tripSignature(arretTrip(d.day)), guesses: [], startedAt: null, ms: null, finished: false, won: false });
       }
     } else {
       track('archive_opened', { game, day: d.day, state: d.state });
@@ -908,7 +908,7 @@ function Game() {
         footer={
           <View style={{ gap: 10 }}>
             <Button
-              label={copied ? 'Lien copié !' : mode === 'daily' ? 'Défier mes amis 🎯' : 'Partager mon résultat'}
+              label={copied ? 'Lien copié !' : mode === 'daily' ? 'Défier mes amis' : 'Partager mon résultat'}
               onPress={share}
               primary
             />
@@ -1091,13 +1091,13 @@ function Game() {
         {tab === 'arret' && (
           <>
             <Text style={infoStyles.p}>
-              Tu es dans une rame, mais <Text style={infoStyles.strong}>sur quelle ligne ?</Text> La rame s'arrête station
-              après station : à chaque arrêt, touche la pastille de la ligne, ou attends la station suivante.
+              Tu es dans une rame, mais <Text style={infoStyles.strong}>sur quelle ligne ?</Text> La rame avance toute
+              seule et s'arrête 3 secondes à chaque station. Touche la pastille de la ligne dès que tu l'as reconnue.
             </Text>
             <Text style={infoStyles.p}>
-              Une seule proposition par station, {ARRET_STOPS} stations au maximum. Plus tu trouves tôt, plus tu marques :{' '}
-              <Text style={infoStyles.strong}>5 points</Text> à la 1re station, 1 point à la 5e. Attention, la 1re
-              station est souvent une correspondance : tu paries, ou tu attends ?
+              Le chrono démarre à la 1re station : <Text style={infoStyles.strong}>100 points</Text> au départ, 3 points
+              de moins par seconde et 15 de moins par erreur. {ARRET_STOPS} stations, 3 erreurs et 30 secondes au maximum.
+              La 1re station est souvent une correspondance : tu paries tout de suite, ou tu attends la suivante ?
             </Text>
           </>
         )}

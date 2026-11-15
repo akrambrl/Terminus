@@ -1,7 +1,7 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { addDays } from '../src/game/day';
-import { ARRET_LAUNCH, ARRET_STOPS, arretPoints, arretTrip, followsLine, possibleLines } from '../src/modes/arret/arret';
+import { ARRET_LAUNCH, ARRET_STOPS, arretScore, arretTrip, followsLine, possibleLines } from '../src/modes/arret/arret';
 
 test('le trajet du jour se suit sur sa ligne et n’a qu’une réponse à la fin', () => {
   for (let i = 0; i < 120; i++) {
@@ -20,8 +20,10 @@ test('pas la même ligne deux jours de suite', () => {
   }
 });
 
-test('points', () => {
-  assert.equal(arretPoints(true, 1), 5);
-  assert.equal(arretPoints(true, 5), 1);
-  assert.equal(arretPoints(false, 5), 0);
+test('points au chrono', () => {
+  assert.equal(arretScore(true, 0, 0), 100);
+  assert.equal(arretScore(true, 8400, 0), 75);
+  assert.equal(arretScore(true, 8400, 1), 60);
+  assert.equal(arretScore(true, 29000, 3), 5);
+  assert.equal(arretScore(false, 5000, 0), 0);
 });

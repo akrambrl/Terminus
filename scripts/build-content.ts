@@ -172,12 +172,12 @@ add('/regles/', {
 
 <div class="carte">
 <h2>Prochain arrêt</h2>
-<p>Vous êtes dans une rame, mais sur quelle ligne ? La rame s'arrête station après station : à chaque arrêt, touchez la pastille d'une ligne, ou attendez la station suivante. Une seule proposition par station, cinq stations au maximum. Trouvée dès la 1re station, la ligne rapporte <strong>5 points</strong> ; à la 5e, 1 point. La première station est souvent une correspondance : vous pariez, ou vous attendez ?</p>
+<p>Vous êtes dans une rame, mais sur quelle ligne ? La rame avance toute seule et s'arrête 3 secondes à chaque station : touchez la pastille de la ligne dès que vous l'avez reconnue. Le chrono démarre à la première station : <strong>100 points</strong> au départ, 3 points de moins par seconde et 15 de moins par erreur, avec cinq stations, trois erreurs et trente secondes au maximum. La première station est souvent une correspondance : vous pariez tout de suite, ou vous attendez ?</p>
 </div>
 
 <div class="carte">
 <h2>Le classement du jour</h2>
-<p>Après chaque partie, vous pouvez choisir un pseudo pour apparaître dans le classement du jour ou de la semaine : la Grille se classe aux points, le Défi au nombre de stations trouvées, le Pendu au nombre d'erreurs, Prochain arrêt à la station où la ligne est trouvée. Seule la première partie du jour compte, et le serveur vérifie chaque réponse.</p>
+<p>Après chaque partie, vous pouvez choisir un pseudo pour apparaître dans le classement du jour ou de la semaine : la Grille se classe aux points, le Défi au nombre de stations trouvées, le Pendu au nombre d'erreurs, Prochain arrêt aux points du chrono. Seule la première partie du jour compte, et le serveur vérifie chaque réponse.</p>
 <h3>Des grilles en plus</h3>
 <p>La grille du jour est toujours gratuite. Vous gagnez 3 pièces chaque jour en ouvrant le jeu. Plus de tickets après 3 erreurs ? Une pièce rachète 3 tickets pour continuer la grille. Une fois le jeu du jour réussi (grille en 9/9, défi complet ou station du pendu trouvée), une pièce débloque une partie en plus du même jeu, hors classement. Les pièces ne s'achètent pas.</p>
 </div>

@@ -1,4 +1,4 @@
--- Terminus Paris : quatrième jeu « Prochain arrêt » (deviner la ligne, station après station).
+-- Terminus Paris : quatrième jeu « Prochain arrêt » (deviner la ligne au chrono, la rame avance toute seule).
 -- À coller dans Supabase → SQL Editor → Run, APRÈS supabase/terminus-originalite.sql.
 -- Ajoute le jeu 'arret' au classement ; les trajets du jour sont chargés ensuite par le script du jeu.
 
@@ -51,14 +51,14 @@ begin
     v_found := coalesce(array_length(ids, 1), 0);
     v_score := v_found;
   elsif p_game = 'arret' then
-    -- Prochain arrêt : p_payload = {"line": "7", "stations": 1..5, "won": true|false} -> 5 points à la 1re station… 1 à la 5e.
+    -- Prochain arrêt, au chrono : p_payload = {"line": "7", "ms": 0..30000, "errors": 0..3, "won": true|false}
+    -- -> 100 points − 3 par seconde − 15 par erreur (5 au moins si trouvé), 0 si pas trouvé.
     v_found := case when (p_payload ->> 'won')::boolean then 1 else 0 end;
-    i := coalesce((p_payload ->> 'stations')::int, 0);
-    if i not between 1 and 5 then return null; end if;
-    if v_found = 1 and (p_payload ->> 'line') is distinct from (d ->> 'line') then return null; end if;
-    if v_found = 0 and i <> 5 then return null; end if;
-    v_errors := i - 1;
-    v_score := case when v_found = 1 then 6 - i else 0 end;
+    i := coalesce((p_payload ->> 'ms')::int, -1);
+    if i not between 0 and 30000 or v_errors not between 0 and 3 then return null; end if;
+    if v_found = 1 and ((p_payload ->> 'line') is distinct from (d ->> 'line') or v_errors = 3) then return null; end if;
+    if v_found = 0 and v_errors < 3 and i < 30000 then return null; end if;
+    v_score := case when v_found = 1 then greatest(5, 100 - (3 * i) / 1000 - 15 * v_errors) else 0 end;
   elsif p_game = 'pendu' then
     if v_errors not between 0 and 5 then return null; end if;
     v_found := case when (p_payload ->> 'won')::boolean then 1 else 0 end;

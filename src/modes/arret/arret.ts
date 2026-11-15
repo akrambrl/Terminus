@@ -5,10 +5,15 @@ import { createRng, pick, shuffle } from '../../game/rng';
 import type { LineId } from '../../game/types';
 
 /**
- * « Prochain arrêt » : la rame s'arrête station après station ; le joueur devine la ligne.
- * Une proposition par station ; trouvé à la 1re station = 5 points, à la 5e = 1 point.
+ * « Prochain arrêt » : la rame avance toute seule (3 s à chaque station) ; le joueur devine la ligne
+ * au chrono. 100 points au départ, −3 points par seconde, −15 par erreur (3 erreurs au plus), 30 s au plus.
  */
 export const ARRET_STOPS = 5;
+/** Temps passé à quai à chaque station. */
+export const ARRET_STOP_MS = 3000;
+/** Temps maximum (le chrono démarre à l'arrivée à la 1re station). */
+export const ARRET_LIMIT_MS = 30000;
+export const ARRET_MAX_ERRORS = 3;
 /** Premier jour du jeu (archives, classement). */
 export const ARRET_LAUNCH = '2026-11-15';
 
@@ -110,8 +115,14 @@ export function arretFromSeed(seed: string, day: string): Trip {
 
 export const tripSignature = (t: Trip) => `${t.line}:${t.stops.join(',')}`;
 
-/** Points : 5 si trouvé à la 1re station, … 1 à la 5e ; 0 si pas trouvé. */
-export const arretPoints = (won: boolean, stations: number) => (won ? ARRET_STOPS + 1 - stations : 0);
+/** Points : 100 − 3 par seconde − 15 par erreur (5 au moins si trouvé) ; 0 si pas trouvé. Même calcul sur le serveur. */
+export function arretScore(won: boolean, ms: number, errors: number): number {
+  if (!won) return 0;
+  return Math.max(5, 100 - Math.floor((3 * ms) / 1000) - 15 * errors);
+}
+
+/** « 8,4 s » */
+export const secondsText = (ms: number) => `${(Math.floor(ms / 100) / 10).toFixed(1).replace('.', ',')} s`;
 
 /** « 7 bis » pour l'affichage. */
 export const lineLabel = (l: string) => l.replace('bis', ' bis');

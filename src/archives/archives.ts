@@ -1,6 +1,6 @@
 import { addDays, dayNumber } from '../game/day';
 import { loadArret, loadDaily, loadDefi, loadPendu } from '../game/storage';
-import { ARRET_LAUNCH } from '../modes/arret/arret';
+import { ARRET_LAUNCH, arretScore, arretTrip } from '../modes/arret/arret';
 import { generateDefi } from '../modes/defi/defi';
 
 export type ArchiveGame = 'grille' | 'defi' | 'pendu' | 'arret';
@@ -53,7 +53,14 @@ export async function archiveState(game: ArchiveGame, day: string): Promise<Arch
     const a = await loadArret(day);
     if (!a) return { ...base, state: 'none' };
     return a.finished
-      ? { ...base, state: 'done', result: a.won ? `Ligne trouvée (${a.guesses.length}e)` : 'Ratée', success: a.won }
+      ? {
+          ...base,
+          state: 'done',
+          result: a.won
+            ? `${arretScore(true, a.ms ?? 0, a.guesses.filter((g) => g !== arretTrip(day).line).length)} pts`
+            : 'Ratée',
+          success: a.won,
+        }
       : { ...base, state: 'started' };
   }
   const g = await loadPendu(day);

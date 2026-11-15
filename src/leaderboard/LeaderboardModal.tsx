@@ -33,7 +33,7 @@ export function scoreText(game: RankedGame, r: Pick<RankRow, 'score' | 'found' |
   if (game === 'defi') return period === 'week' ? `${r.score} stations · ${r.games} défi${r.games > 1 ? 's' : ''}` : `${r.score} station${r.score > 1 ? 's' : ''}`;
   if (game === 'arret') {
     if (period === 'week') return `${r.score} pts · ${r.games} trajet${r.games > 1 ? 's' : ''}`;
-    return r.found ? `${r.score} pts · ${r.errors + 1}${r.errors === 0 ? 're' : 'e'} station` : 'pas trouvée';
+    return r.found ? `${r.score} pts${r.errors ? ` · ${r.errors} erreur${r.errors > 1 ? 's' : ''}` : ''}` : 'pas trouvée';
   }
   if (period === 'week') return `${r.found} trouvée${r.found > 1 ? 's' : ''} sur ${r.games}`;
   return r.found ? `trouvée · ${r.errors} erreur${r.errors > 1 ? 's' : ''}` : 'pas trouvée';
@@ -259,7 +259,7 @@ export function LeaderboardModal({
                 : game === 'defi'
                   ? 'Défi : classement au nombre de stations trouvées, puis au moins d’erreurs.'
                   : game === 'arret'
-                    ? 'Prochain arrêt : ligne trouvée le plus tôt possible (5 points à la 1re station).'
+                    ? 'Prochain arrêt : points au chrono (100 au départ, −3 par seconde, −15 par erreur).'
                     : 'Pendu : station trouvée avec le moins d’erreurs possible.'}{' '}
               Seule la première partie du jour compte. À égalité, le premier à finir passe devant.
             </Text>

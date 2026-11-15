@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 import { loadArret, loadDaily, loadDefi, loadPendu } from '../game/storage';
 import { generateDefi } from '../modes/defi/defi';
+import { arretScore, arretTrip } from '../modes/arret/arret';
 import { gridPoints } from '../game/points';
 import { colors, fonts, ui } from '../theme';
 import {
@@ -30,7 +31,9 @@ export async function myDailyResult(game: ChallengeGame, day: string): Promise<M
   if (game === 'arret') {
     const a = await loadArret(day);
     if (!a?.finished) return null;
-    return { found: a.won ? 1 : 0, extra: a.guesses.length };
+    if (!('startedAt' in a)) return null;
+    const errors = a.guesses.filter((g) => g !== arretTrip(day).line).length;
+    return { found: a.won ? 1 : 0, extra: arretScore(a.won, a.ms ?? 0, errors) };
   }
   const g = await loadPendu(day);
   if (!g?.finished) return null;

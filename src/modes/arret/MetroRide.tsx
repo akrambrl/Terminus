@@ -20,7 +20,13 @@ export function MetroRide({
   label,
   onArrived,
   fast,
+  speed = 1,
+  jump,
 }: {
+  /** Durées multipliées par ce facteur (0,6 : rame plus rapide). */
+  speed?: number;
+  /** Au premier affichage, la rame est déjà à quai à la station `stop` (partie reprise). */
+  jump?: boolean;
   names: string[];
   stop: number;
   replay?: number;
@@ -63,7 +69,7 @@ export function MetroRide({
   const play = useCallback(
     (to: number, from: number | null) => {
       const id = ++run.current;
-      const t = fast ? 0.6 : 1;
+      const t = (fast ? 0.6 : 1) * speed;
       const timing = (value: number, duration: number, easing: (x: number) => number) =>
         new Promise<void>((resolve) =>
           Animated.timing(platformX, { toValue: value, duration: duration * t, easing, useNativeDriver: true }).start(() =>
@@ -94,14 +100,24 @@ export function MetroRide({
         if (run.current === id) arrived.current?.(to);
       })();
     },
-    [fast, platformX, reduced],
+    [fast, speed, platformX, reduced],
   );
 
-  // Nouvelle station demandée : la rame avance jusqu'à elle.
+  // Nouvelle station demandée : la rame avance jusqu'à elle (ou y est déjà, pour une partie reprise).
+  const jumped = useRef(false);
   useEffect(() => {
     if (at.current === stop) return;
+    if (jump && !jumped.current && at.current === null) {
+      jumped.current = true;
+      platformX.setValue(0);
+      at.current = stop;
+      setShown(stop);
+      setMoving(false);
+      arrived.current?.(stop);
+      return;
+    }
     play(stop, at.current);
-  }, [stop, play]);
+  }, [stop, play, jump, platformX]);
 
   // Revoir le trajet depuis le début.
   useEffect(() => {
