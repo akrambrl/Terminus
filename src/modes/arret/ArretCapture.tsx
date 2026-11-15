@@ -65,7 +65,7 @@ export function ArretCapture({ stops: wanted, reveal }: { stops: number; reveal:
           <>
             <View style={styles.top}>
               <Plaque label={`Prochain arrêt · n°${dayNumber(day)}`} size={Math.max(11, w / 34)} />
-              <Text style={[styles.title, { fontSize: w / 17 }]}>Tu es sur quelle ligne ? 🚇</Text>
+              <Text style={[styles.title, { fontSize: w / 17 }]}>Tu es sur quelle ligne ?</Text>
             </View>
             <View style={{ width: rideW, height: rideH }}>
               {phase !== 'ready' && (
@@ -94,7 +94,7 @@ export function ArretCapture({ stops: wanted, reveal }: { stops: number; reveal:
                       <LineBadge line={trip.line} size={w / 8} ring />
                     </View>
                   ) : (
-                    <Text style={[styles.boxTitle, { fontSize: w / 13 }]}>Quelle ligne ? 🤔</Text>
+                    <Text style={[styles.boxTitle, { fontSize: w / 13 }]}>Quelle ligne ?</Text>
                   )}
                   <Text style={[styles.boxSub, { fontSize: w / 26 }]}>
                     {phase === 'answer' ? 'T’avais trouvé ?' : 'Réponds en commentaire'}

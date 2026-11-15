@@ -122,8 +122,8 @@ export function ArretGame({
           line === null
             ? last
               ? 'Dommage…'
-              : '⏭️ Tu attends la station suivante…'
-            : `❌ Pas la ligne ${lineLabel(line)} !${last ? '' : ' La rame repart…'}`,
+              : 'Tu attends la station suivante…'
+            : `Pas la ligne ${lineLabel(line)} !${last ? '' : ' La rame repart…'}`,
       });
     }
     setGame(next);
@@ -143,7 +143,7 @@ export function ArretGame({
     const tail = ranked
       ? `Fais mieux que moi 👀 ${await challengeLink('arret', day, { found: game.won ? 1 : 0, extra: stations })}`
       : SITE_LABEL;
-    const message = `Terminus Paris · ${title} · ${result}\n🚇 ${marks}\n\n${tail}`;
+    const message = `Terminus Paris · ${title} · ${result}\n${marks}\n\n${tail}`;
     track('result_shared', { game: 'arret', won: game.won, stations });
     if ((await shareMessage(message)) === 'copied') {
       setCopied(true);
@@ -295,8 +295,8 @@ export function ArretGame({
                   <LineBadge key={l} line={l as LineId} size={18} />
                 ))}
               </View>
-              <Text style={styles.stopMark}>
-                {i >= game.guesses.length ? '' : g === trip.line ? '✅' : g === null ? '⏭️' : '❌'}
+              <Text style={[styles.stopMark, g === trip.line && { color: colors.mint }]}>
+                {i >= game.guesses.length ? '' : g === trip.line ? 'Juste' : g === null ? 'Passé' : `Pas la ${lineLabel(g)}`}
               </Text>
             </View>
           );
@@ -344,5 +344,5 @@ const styles = StyleSheet.create({
   stopNum: { width: 18, fontFamily: fonts.heavy, fontSize: 13, color: colors.muted },
   stopName: { flex: 1, fontFamily: fonts.heavy, fontSize: 14, color: colors.ink },
   stopLines: { flexDirection: 'row', gap: 3 },
-  stopMark: { width: 24, textAlign: 'right', fontSize: 14 },
+  stopMark: { minWidth: 44, textAlign: 'right', fontFamily: fonts.heavy, fontSize: 12, color: colors.muted },
 });
