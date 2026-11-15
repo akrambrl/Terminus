@@ -133,7 +133,8 @@ export function ArretGame({
       }
       onDone(true, next.won);
       onGameFinished(next.won ? 9 : 0);
-      setTimeout(() => setShowResult(true), 900);
+      // Victoire : fenêtre après un moment ; défaite : le joueur voit d'abord la réponse et le trajet.
+      if (next.won) setTimeout(() => setShowResult(true), 2500);
     },
     [archive, day, onDone, ranked, trip.line],
   );

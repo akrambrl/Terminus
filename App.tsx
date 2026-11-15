@@ -105,6 +105,8 @@ import { AdBanner } from './src/ads/AdBanner';
 import { adsActive } from './src/ads/config';
 import { useFonts } from 'expo-font';
 import Svg, { Path } from 'react-native-svg';
+/** Délai avant la fenêtre de victoire (le temps de voir sa grille). */
+const RESULT_DELAY_MS = 2500;
 /** Erreurs permises par grille : les bonnes réponses ne coûtent rien. */
 const MAX_ERRORS = 3;
 type Mode = 'daily' | 'free' | 'archive';
@@ -381,7 +383,9 @@ function Game() {
         const count = finalCells.flat().filter(Boolean).length;
         setStats(await recordDaily(day, count, yesterdayKey(day), gridPoints(finalCells)));
       }
-      setTimeout(() => setShowResult(true), 400);
+      // Victoire : la fenêtre s'ouvre après un moment. Défaite : le joueur regarde d'abord les réponses
+      // (cases touchables), puis ouvre son résultat avec « Voir le résultat ».
+      if (finalCells.flat().every(Boolean)) setTimeout(() => setShowResult(true), RESULT_DELAY_MS);
     },
     [mode, day, gridDay, puzzle, freeSeed, markDone, bought],
   );

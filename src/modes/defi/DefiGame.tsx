@@ -165,7 +165,8 @@ export function DefiGame({
     setTrain(false);
     setFinished(true);
     onScreen('reponse');
-    setTimeout(() => setShowResult(true), 700);
+    // Défi complet : fenêtre après un moment ; sinon le joueur regarde d'abord les réponses.
+    if (found.length === total) setTimeout(() => setShowResult(true), 2500);
   };
 
   const submit = (station: Station) => {

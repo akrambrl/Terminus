@@ -441,7 +441,8 @@ export function PenduGame({
         <MetroTrain
           onDone={() => {
             setTrain(false);
-            setTimeout(() => setShowResult(true), 700);
+            // Station trouvée : fenêtre après un moment ; sinon le joueur voit d'abord le nom révélé.
+            if (game.won) setTimeout(() => setShowResult(true), 2500);
           }}
         />
       )}
