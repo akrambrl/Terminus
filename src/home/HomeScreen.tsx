@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { BadgeArt } from '../badges/BadgeArt';
+import { TrainLane } from './TrainLane';
 import { Coin } from '../components/CoinPill';
 import { TAB_COLORS, type GameTab } from '../components/ModeTabs';
 import { NextGame } from '../components/NextGame';
@@ -68,6 +69,7 @@ export function HomeScreen({
 }) {
   const [statuses, setStatuses] = useState<Record<GameTab, Status> | null>(null);
   const [streak, setStreak] = useState(0);
+  const [boxH, setBoxH] = useState(0);
 
   useEffect(() => {
     let alive = true;
@@ -89,9 +91,17 @@ export function HomeScreen({
   }, [day, refresh]);
 
   const tileW = (width - 12) / 2;
+  // Hauteur des tuiles : tout tient à l'écran (petits téléphones, bannière pub en bas).
+  const tileH = boxH ? Math.max(118, Math.min(tileW * 0.95, (boxH - 90 - 60 - 64 - 18 * 3 - 12) / 2)) : tileW * 0.95;
+  const medal = Math.min(76, tileH * 0.5);
 
   return (
-    <ScrollView style={{ width, flex: 1 }} contentContainerStyle={styles.scroll} showsVerticalScrollIndicator={false}>
+    <ScrollView
+      style={{ width, flex: 1 }}
+      contentContainerStyle={styles.scroll}
+      showsVerticalScrollIndicator={false}
+      onLayout={(e) => setBoxH(e.nativeEvent.layout.height)}
+    >
       <View style={styles.hero}>
         <Text style={styles.date}>{longDate(day)}</Text>
         <View style={styles.heroRow}>
@@ -103,6 +113,8 @@ export function HomeScreen({
           {streak > 1 && <Text style={styles.kicker}>SÉRIE {streak} J</Text>}
         </View>
       </View>
+
+      <TrainLane width={width} />
 
       <View style={styles.grid}>
         {GAMES.map((g) => {
@@ -118,7 +130,7 @@ export function HomeScreen({
               accessibilityLabel={`${g.title}${state === 'done' ? ', terminé' : ''}`}
               style={({ pressed }) => [
                 styles.tile,
-                { width: tileW, backgroundColor: bg },
+                { width: tileW, height: tileH, backgroundColor: bg, justifyContent: 'center', paddingTop: 8, paddingBottom: 8 },
                 solidShadow('#0A0820'),
                 pressed && styles.pressed,
               ]}
@@ -128,7 +140,7 @@ export function HomeScreen({
                   <Text style={styles.checkText}>✓</Text>
                 </View>
               )}
-              <BadgeArt id={g.art} size={Math.min(76, tileW * 0.46)} />
+              <BadgeArt id={g.art} size={medal} />
               <Text style={[styles.tileTitle, { color: fg }]} numberOfLines={1}>
                 {g.title}
               </Text>

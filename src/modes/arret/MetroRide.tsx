@@ -53,7 +53,9 @@ export function MetroRide({
 
   // Fenêtre : la place laissée par l'étiquette (≈ 40 px) et les banquettes (≈ 74 px).
   const winW = width - 40;
-  const winH = Math.max(110, height - 40 - 74 - 14);
+  // Petit écran (ou bannière pub) : pas de banquettes, toute la place pour la fenêtre.
+  const compact = height < 300;
+  const winH = Math.max(90, height - 40 - (compact ? 4 : 74) - 14);
 
   // Lumières du tunnel : défilent en boucle tant que la rame roule.
   useEffect(() => {
@@ -198,6 +200,7 @@ export function MetroRide({
       </View>
 
       {/* Banquettes : dossier et assise */}
+      {!compact && (
       <View style={[styles.seats, { width: winW }]}>
         {[0, 1].map((k) => (
           <View key={k} style={{ width: seatW }}>
@@ -208,6 +211,7 @@ export function MetroRide({
           </View>
         ))}
       </View>
+      )}
 
       {/* Barre de maintien jaune, avec sa poignée vers la fenêtre */}
       <View style={[styles.pole, { height: height - 22 }]} />
