@@ -654,6 +654,11 @@ function Game() {
           ? 'arret'
           : 'pendu';
   const dark = screens[screen].dark;
+  // Site : la barre du navigateur (et la zone de l'heure sur iPhone) prend la couleur de l'écran.
+  if (Platform.OS === 'web') {
+    const meta = (globalThis as { document?: Document }).document?.querySelector('meta[name="theme-color"]');
+    if (meta && meta.getAttribute('content') !== screens[screen].bg) meta.setAttribute('content', screens[screen].bg);
+  }
 
   return (
     <View style={styles.root}>
