@@ -36,3 +36,39 @@ const styles = StyleSheet.create({
   badge: { alignItems: 'center', justifyContent: 'center' },
   text: { fontFamily: fonts.heavy, includeFontPadding: false },
 });
+
+/** Couleurs des lignes de RER (pastilles rondes, pour les distinguer des lignes de métro). */
+const RER_COLORS: Record<string, { bg: string; fg: string }> = {
+  A: { bg: '#E3051C', fg: '#FFFFFF' },
+  B: { bg: '#5291CE', fg: '#FFFFFF' },
+  C: { bg: '#FFCE00', fg: '#15123D' },
+  D: { bg: '#00814F', fg: '#FFFFFF' },
+  E: { bg: '#C04191', fg: '#FFFFFF' },
+};
+
+/** Correspondances RER : petit « RER » puis une pastille ronde de couleur par ligne. */
+export function RerBadges({ lines, size = 20, light }: { lines: string[]; size?: number; light?: boolean }) {
+  if (!lines.length) return null;
+  return (
+    <View style={rerStyles.row} accessibilityLabel={`RER ${lines.join(', ')}`}>
+      <Text style={[rerStyles.label, { fontSize: size * 0.5, color: light ? colors.white : colors.ink }]}>RER</Text>
+      {lines.map((l) => {
+        const c = RER_COLORS[l] ?? { bg: colors.ink, fg: colors.white };
+        return (
+          <View key={l} style={[rerStyles.dot, { width: size, height: size, borderRadius: size / 2, backgroundColor: c.bg }]}>
+            <Text style={[rerStyles.text, { color: c.fg, fontSize: size * 0.56 }]} allowFontScaling={false}>
+              {l}
+            </Text>
+          </View>
+        );
+      })}
+    </View>
+  );
+}
+
+const rerStyles = StyleSheet.create({
+  row: { flexDirection: 'row', alignItems: 'center', gap: 3 },
+  label: { fontFamily: fonts.heavy, letterSpacing: 0.5, marginRight: 1 },
+  dot: { alignItems: 'center', justifyContent: 'center' },
+  text: { fontFamily: fonts.heavy, includeFontPadding: false },
+});

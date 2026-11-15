@@ -6,7 +6,7 @@ import { Grid } from './src/components/Grid';
 import { Confetti, InfoModal, infoStyles } from './src/components/InfoModal';
 import { CoinBurst } from './src/design/CoinBurst';
 import { HINT_COST, HintBox, letterCount, useHints } from './src/hints/hints';
-import { LineBadge } from './src/components/LineBadge';
+import { LineBadge, RerBadges } from './src/components/LineBadge';
 import { SearchModal } from './src/components/SearchModal';
 import { dailyNumber, dailySeed, generatePuzzle, puzzleSignature } from './src/game/generator';
 import { addDays, currentDayKey } from './src/game/day';
@@ -1018,10 +1018,13 @@ function Game() {
                     {s.lines.map((l) => (
                       <LineBadge key={l} line={l as LineId} size={18} />
                     ))}
-                    {s.rer.length > 0 && <Text style={styles.rer}>RER {s.rer.join(' ')}</Text>}
+                    <RerBadges lines={s.rer} size={18} />
                     <Text style={styles.answerPoints}>
                       +{stationPoints(id)}
-                      {picks && mode !== 'free' ? ` · ${percentText(pickPercent(picks, answersFor.row * 3 + answersFor.col, id) ?? 0)}` : ''}
+                      {(() => {
+                        const pc = picks && mode !== 'free' ? pickPercent(picks, answersFor.row * 3 + answersFor.col, id) : null;
+                        return pc ? ` · ${pc} %` : '';
+                      })()}
                     </Text>
                   </View>
                 </View>

@@ -3,7 +3,7 @@ import { Platform, Pressable, StyleSheet, Text, useWindowDimensions, View } from
 import { track } from '../../analytics';
 import { Button, Stat, sharedStyles } from '../../components/Button';
 import { InfoModal, infoStyles } from '../../components/InfoModal';
-import { LineBadge } from '../../components/LineBadge';
+import { LineBadge, RerBadges } from '../../components/LineBadge';
 import { SearchModal } from '../../components/SearchModal';
 import { formatDay, shareMessage, SITE_LABEL, ticketLine } from '../../components/share';
 import { challengeLink } from '../../share/challenge';
@@ -487,7 +487,7 @@ export function PenduGame({
           {station.lines.map((l) => (
             <LineBadge key={l} line={l as LineId} size={26} />
           ))}
-          {station.rer.length > 0 && <Text style={sharedStyles.rer}>RER {station.rer.join(' ')}</Text>}
+          <RerBadges lines={station.rer} size={24} />
         </View>
         <NewBadgesLine
           visible={showResult}

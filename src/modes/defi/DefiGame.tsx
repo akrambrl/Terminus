@@ -246,8 +246,8 @@ export function DefiGame({
                         <LineBadge key={l} line={l as LineId} size={rowH < 34 ? 16 : 20} />
                       ))}
                     </View>
-                    {picks && (
-                      <Text style={styles.percent}>{percentText(pickPercent(picks, 0, id) ?? 0)}</Text>
+                    {picks && (pickPercent(picks, 0, id) ?? 0) > 0 && (
+                      <Text style={styles.percent}>{pickPercent(picks, 0, id)} %</Text>
                     )}
                   </View>
                 );

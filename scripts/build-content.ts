@@ -49,7 +49,12 @@ function badge(l: string, size = 22) {
   const c = lineColor[l as keyof typeof lineColor];
   return `<a class="pastille" href="/lignes/${lineSlug(l)}/" style="background:${c.bg};color:${c.fg};width:${size}px;height:${size}px;font-size:${Math.round(size * (l.length > 2 ? 0.42 : 0.5))}px" title="${esc(lineName(l))}">${l.replace('bis', 'b')}</a>`;
 }
-const badges = (s: Station) => s.lines.map((l) => badge(l)).join('') + (s.rer.length ? `<span class="rer">RER ${s.rer.join(' ')}</span>` : '');
+const RER_COLORS: Record<string, [string, string]> = { A: ['#E3051C', '#fff'], B: ['#5291CE', '#fff'], C: ['#FFCE00', '#15123D'], D: ['#00814F', '#fff'], E: ['#C04191', '#fff'] };
+const rer = (s: Station) =>
+  s.rer.length
+    ? `<span class="rer">RER ${s.rer.map((l) => `<span class="rer-l" style="background:${RER_COLORS[l]?.[0] ?? '#15123D'};color:${RER_COLORS[l]?.[1] ?? '#fff'}">${l}</span>`).join('')}</span>`
+    : '';
+const badges = (s: Station) => s.lines.map((l) => badge(l)).join('') + rer(s);
 const place = (s: Station) => (s.arr.length ? s.arr.map((a) => (a === 1 ? '1er' : `${a}e`)).join(', ') + ' arr.' : s.communes.join(', '));
 
 function layout(o: { path: string; title: string; description: string; body: string; ads?: boolean }) {
@@ -99,7 +104,8 @@ p, li { font-size: 16px; }
 .carte { background: #fff; border: 3px solid var(--tp-ink); border-radius: 22px; box-shadow: 0 5px 0 var(--tp-ink); padding: 18px 20px; margin: 18px 0; }
 .plaque { display: inline-block; background: var(--tp-ink); color: #fff; border: 3px solid #fff; border-radius: 10px; padding: 4px 12px; font-weight: 800; letter-spacing: .14em; text-transform: uppercase; font-size: 13px; }
 .pastille { display: inline-flex; align-items: center; justify-content: center; border-radius: 28%; font-weight: 800; text-decoration: none; margin: 1px 2px 1px 0; vertical-align: middle; }
-.rer { display: inline-block; background: var(--tp-ink); color: #fff; border-radius: 5px; padding: 1px 5px; font-size: 11px; font-weight: 800; margin-left: 2px; vertical-align: middle; }
+.rer { display: inline-flex; align-items: center; gap: 2px; color: var(--tp-ink); font-size: 10px; font-weight: 800; margin-left: 4px; vertical-align: middle; }
+.rer-l { display: inline-flex; align-items: center; justify-content: center; width: 18px; height: 18px; border-radius: 50%; font-size: 11px; font-weight: 800; }
 table { width: 100%; border-collapse: collapse; font-size: 15px; }
 th, td { text-align: left; padding: 8px 6px; border-bottom: 1px solid var(--tp-line-empty); vertical-align: middle; }
 th { font-size: 12px; text-transform: uppercase; letter-spacing: .08em; color: var(--tp-ink-muted); }
