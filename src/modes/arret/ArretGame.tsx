@@ -3,6 +3,9 @@ import { Pressable, StyleSheet, Text, View } from 'react-native';
 import { track } from '../../analytics';
 import { submitScore } from '../../analytics/supabase';
 import { ArchivesLink } from '../../archives/ArchivesLink';
+import { useHints } from '../../hints/hints';
+import { Coin } from '../../components/CoinPill';
+import { createRng, shuffle } from '../../game/rng';
 import { NewBadgesLine } from '../../badges/BadgesModal';
 import { Button, Stat, sharedStyles } from '../../components/Button';
 import { DayHeader } from '../../components/DayHeader';
@@ -63,7 +66,10 @@ export function ArretGame({
   onArchives,
   onBadges,
   onBackToDaily,
+  onBuyHint,
 }: {
+  /** Achat d'un indice (1 pièce) ; vrai si la pièce a été dépensée. */
+  onBuyHint?: () => Promise<boolean>;
   day: string;
   width: number;
   onDone: (done: boolean, success?: boolean) => void;
@@ -108,6 +114,12 @@ export function ArretGame({
   const elapsed = game.finished ? (game.ms ?? 0) : game.startedAt !== null ? Math.min(ARRET_LIMIT_MS, now - game.startedAt) : 0;
   const points = game.finished ? arretScore(game.won, game.ms ?? 0, errors) : arretScore(true, elapsed, errors);
   const wrong = new Set(game.guesses.filter((g) => g !== trip.line));
+  // Indices : chaque indice retire 5 mauvaises lignes (2 indices au plus), sans pénalité.
+  const [hintLevel, setHintLevel] = useHints<number>(`arret:${day}`, 0);
+  const eliminated = useMemo(
+    () => new Set(shuffle(createRng(`terminus-indice-${day}`), ARRET_LINES.filter((l) => l !== trip.line)).slice(0, hintLevel * 5)),
+    [day, trip.line, hintLevel],
+  );
 
   const finish = useCallback(
     async (next: SavedArret) => {
@@ -263,13 +275,29 @@ export function ArretGame({
 
       {!game.finished ? (
         <>
-          <Text style={styles.question}>{running ? 'Quelle ligne ?' : 'La rame arrive…'}</Text>
+          <View style={styles.questionRow}>
+            <Text style={styles.question}>{running ? 'Quelle ligne ?' : 'La rame arrive…'}</Text>
+            {onBuyHint && running && hintLevel < 2 && (
+              <Pressable
+                onPress={async () => {
+                  if (await onBuyHint()) setHintLevel(hintLevel + 1);
+                }}
+                accessibilityRole="button"
+                accessibilityLabel="Indice : retirer 5 mauvaises lignes, 1 pièce"
+                style={({ pressed }) => [styles.hintPill, pressed && { transform: [{ translateY: 2 }] }]}
+              >
+                <Text style={styles.hintPillText}>−5 lignes · 1</Text>
+                <Coin size={14} />
+              </Pressable>
+            )}
+          </View>
           <Text style={[styles.hint, feedback && styles.hintBad]}>
             {feedback ?? `Plus tu es rapide, plus tu marques · ${left} erreur${left > 1 ? 's' : ''} possible${left > 1 ? 's' : ''}`}
           </Text>
           <View style={[styles.lines, { width, opacity: running ? 1 : 0.55 }]}>
             {ARRET_LINES.map((l) => {
-              const off = wrong.has(l);
+              const removed = eliminated.has(l) && !wrong.has(l);
+              const off = wrong.has(l) || removed;
               return (
                 <Pressable
                   key={l}
@@ -390,7 +418,20 @@ const styles = StyleSheet.create({
   chrono: { fontFamily: fonts.display, fontSize: 20, color: colors.sun },
   chronoPts: { fontFamily: fonts.heavy, fontSize: 12, color: colors.white },
   rideArea: { flex: 1, minHeight: 200, marginTop: ui.space.s },
-  question: { fontFamily: fonts.display, fontSize: 20, color: colors.white, marginTop: ui.space.m, textAlign: 'center' },
+  questionRow: { flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 10, marginTop: ui.space.m },
+  hintPill: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 4,
+    backgroundColor: colors.sun,
+    borderRadius: ui.radiusPill,
+    borderWidth: 2,
+    borderColor: colors.white,
+    paddingVertical: 4,
+    paddingHorizontal: 10,
+  },
+  hintPillText: { fontFamily: fonts.heavy, fontSize: 12, color: colors.ink },
+  question: { fontFamily: fonts.display, fontSize: 20, color: colors.white, textAlign: 'center' },
   hintBad: { color: colors.sun, opacity: 1, fontFamily: fonts.heavy, fontSize: 14 },
   hint: { fontFamily: fonts.bold, fontSize: 12, color: colors.white, textAlign: 'center', opacity: 0.85 },
   lines: { flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'center', gap: 6, marginTop: ui.space.s },

@@ -27,7 +27,8 @@ export type GameEvent =
   | 'tickets_bought'
   | 'archive_started'
   | 'archive_opened'
-  | 'badges_opened';
+  | 'badges_opened'
+  | 'hint_bought';
 
 type Sink = (event: GameEvent, properties?: Props) => void;
 let sink: Sink | null = null;

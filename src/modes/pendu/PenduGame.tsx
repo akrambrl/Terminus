@@ -27,6 +27,7 @@ import { DayHeader } from '../../components/DayHeader';
 import { submitScore } from '../../analytics/supabase';
 import { NextGame } from '../../components/NextGame';
 import { ArchivesLink } from '../../archives/ArchivesLink';
+import { HintBox, useHints } from '../../hints/hints';
 import { NewBadgesLine } from '../../badges/BadgesModal';
 import { NotifPrompt } from '../../notifications/NotifPrompt';
 import { MetroTrain } from '../../design/MetroTrain';
@@ -52,7 +53,10 @@ export function PenduGame({
   archive,
   onArchives,
   onBadges,
+  onBuyHint,
 }: {
+  /** Achat d'un indice (1 pièce) ; vrai si la pièce a été dépensée. */
+  onBuyHint?: () => Promise<boolean>;
   /** Ouvre « Mes badges ». */
   onBadges?: () => void;
   /** Pendu d'un jour passé (archives) : ni classement, ni statistiques. */
@@ -114,6 +118,25 @@ export function PenduGame({
   }, [day, station, seed, free, ranked]);
 
   const letters = useMemo(() => new Set(nameLetters(station.name)), [station]);
+  // Indices : 1 = arrondissement ou commune, 2 et 3 = une lettre révélée (sans perdre de ticket).
+  const [hintLevel, setHintLevel] = useHints<number>(`pendu:${seed ?? day}`, 0);
+  const place = station.arr.length
+    ? `Dans le ${station.arr[0]}${station.arr[0] === 1 ? 'er' : 'e'} arrondissement`
+    : `À ${station.communes[0] ?? 'Paris'}`;
+  const buyPenduHint = async () => {
+    if (!onBuyHint || game.finished || hintLevel >= 3) return;
+    if (!(await onBuyHint())) return;
+    setHintLevel(hintLevel + 1);
+    if (hintLevel + 1 >= 2) {
+      // Révèle la première lettre encore cachée du nom.
+      const next = nameLetters(station.name).find((l) => !game.letters.includes(l));
+      if (next) {
+        const nextLetters = [...game.letters, next];
+        const won = isSolved(station.name, new Set(nextLetters));
+        update({ ...game, letters: nextLetters, won, finished: won, lastChance: won ? false : game.lastChance });
+      }
+    }
+  };
   const guessed = useMemo(() => new Set(game.letters), [game.letters]);
 
   const update = useCallback(
@@ -268,6 +291,7 @@ export function PenduGame({
         {station.lines.map((l) => (
           <LineBadge key={l} line={l as LineId} size={24} ring />
         ))}
+        {hintLevel >= 1 && <Text style={styles.placeHint}>{place}</Text>}
       </View>
 
       <View style={[styles.board, { width }]} onLayout={(e) => setBoardH(e.nativeEvent.layout.height)}>
@@ -406,6 +430,11 @@ export function PenduGame({
           </>
         )}
       </View>
+      {!revealed && onBuyHint && hintLevel < 3 && (
+        <View style={{ marginTop: 10 }}>
+          <HintBox revealed={[]} remaining={3 - hintLevel} dark onBuy={buyPenduHint} />
+        </View>
+      )}
       {revealed && ranked && onArchives && <ArchivesLink onPress={onArchives} color={colors.white} />}
 
       {train && (
@@ -507,6 +536,17 @@ const styles = StyleSheet.create({
   light: { color: colors.white },
   title: { fontFamily: fonts.display, fontSize: 26, letterSpacing: -0.5, color: colors.white, textAlign: 'center' },
   hint: { flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: ui.space.xs + 2, marginTop: ui.space.s },
+  placeHint: {
+    fontFamily: fonts.heavy,
+    fontSize: 13,
+    color: colors.ink,
+    backgroundColor: colors.sun,
+    borderRadius: 8,
+    overflow: 'hidden',
+    paddingHorizontal: 8,
+    paddingVertical: 3,
+    marginLeft: 4,
+  },
   hintLabel: { fontFamily: fonts.heavy, fontSize: 13, color: colors.white, marginRight: 2 },
   board: { flex: 1, minHeight: 0, alignItems: 'center', justifyContent: 'center', overflow: 'hidden' },
   words: { flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'center', rowGap: 10, columnGap: 12 },

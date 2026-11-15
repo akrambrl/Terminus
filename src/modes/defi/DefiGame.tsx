@@ -28,6 +28,7 @@ import { DayHeader } from '../../components/DayHeader';
 import { submitScore } from '../../analytics/supabase';
 import { NextGame } from '../../components/NextGame';
 import { ArchivesLink } from '../../archives/ArchivesLink';
+import { HintBox, letterCount, useHints } from '../../hints/hints';
 import { NewBadgesLine } from '../../badges/BadgesModal';
 import { percentText, pickPercent, rarestPick, usePicks } from '../../game/originality';
 import { NotifPrompt } from '../../notifications/NotifPrompt';
@@ -51,7 +52,10 @@ export function DefiGame({
   archive,
   onArchives,
   onBadges,
+  onBuyHint,
 }: {
+  /** Achat d'un indice (1 pièce) ; vrai si la pièce a été dépensée. */
+  onBuyHint?: () => Promise<boolean>;
   /** Ouvre « Mes badges ». */
   onBadges?: () => void;
   /** Défi d'un jour passé (archives) : ni classement, ni statistiques. */
@@ -98,6 +102,16 @@ export function DefiGame({
   /** Réponses des autres joueurs ce jour-là (défi du jour ou jour passé terminé). */
   const picks = usePicks(day, 'defi', !free && finished);
   const rarest = !free ? rarestPick(picks, found.map((id) => ({ cell: 0, id }))) : null;
+  // Indices : niveau acheté (1 à 3) pour chaque station visée.
+  const [hints, setHints] = useHints<Record<string, number>>(`defi:${seed ?? day}`, {});
+  const missing = defi.answers.filter((id) => !found.includes(id));
+  const hintId = missing.find((id) => (hints[id] ?? 0) > 0) ?? missing[0];
+  const hintLevel = hintId ? (hints[hintId] ?? 0) : 0;
+  const hintSt = hintId ? STATION_BY_ID.get(hintId) : undefined;
+  const hintTexts: string[] = [];
+  if (hintSt && hintLevel >= 1) hintTexts.push(`Une station manquante commence par « ${hintSt.name.charAt(0)} », en ${letterCount(hintSt.name)} lettres.`);
+  if (hintSt && hintLevel >= 2) hintTexts.push(`Elle est sur ${hintSt.lines.length > 1 ? 'les lignes' : 'la ligne'} ${hintSt.lines.join(', ').replace(/bis/g, ' bis')}.`);
+  if (hintSt && hintLevel >= 3) hintTexts.push(`C'est ${hintSt.name} !`);
   const popA = usePop(80, day);
   const popB = usePop(220, day);
 
@@ -385,6 +399,18 @@ export function DefiGame({
         feedback={feedback}
         onSubmit={submit}
         onClose={() => setSearching(false)}
+        extra={
+          onBuyHint && !finished ? (
+            <HintBox
+              revealed={hintTexts}
+              remaining={hintId ? 3 - hintLevel : 0}
+              compact
+              onBuy={async () => {
+                if (hintId && (await onBuyHint())) setHints({ ...hints, [hintId]: hintLevel + 1 });
+              }}
+            />
+          ) : undefined
+        }
       />
 
       <InfoModal visible={!!info} title={info ? defi[info].label : ''} onClose={() => setInfo(null)}>

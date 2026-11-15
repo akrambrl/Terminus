@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, type ReactNode } from 'react';
 import {
   FlatList,
   KeyboardAvoidingView,
@@ -31,6 +31,8 @@ interface Props {
   feedback: string | null;
   onSubmit: (station: Station) => void;
   onClose: () => void;
+  /** Encadré affiché sous l'en-tête (indices payants). */
+  extra?: ReactNode;
 }
 
 interface VisualViewportLike {
@@ -68,7 +70,7 @@ function useVisibleArea(active: boolean): { top: number; height: number } | null
   return area;
 }
 
-export function SearchModal({ visible, row, col, title, hint, usedText = 'déjà utilisée', usedIds, errorsLeft, feedback, onSubmit, onClose }: Props) {
+export function SearchModal({ visible, row, col, title, hint, usedText = 'déjà utilisée', usedIds, errorsLeft, feedback, onSubmit, onClose, extra }: Props) {
   const [query, setQuery] = useState('');
   const insets = useSafeAreaInsets();
   const area = useVisibleArea(visible);
@@ -111,6 +113,7 @@ export function SearchModal({ visible, row, col, title, hint, usedText = 'déjà
           </Pressable>
         </View>
         {feedback && <Text style={styles.feedback}>{feedback}</Text>}
+        {extra && <View style={styles.extra}>{extra}</View>}
           <TextInput
             value={query}
             onChangeText={setQuery}
@@ -180,6 +183,7 @@ export function SearchModal({ visible, row, col, title, hint, usedText = 'déjà
 }
 
 const styles = StyleSheet.create({
+  extra: { paddingHorizontal: 16, paddingBottom: 10 },
   screen: { flex: 1, backgroundColor: colors.background, paddingHorizontal: 16 },
   topBar: { flexDirection: 'row', alignItems: 'center', gap: 12 },
   topText: { flex: 1, minWidth: 0 },

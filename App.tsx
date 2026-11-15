@@ -5,6 +5,7 @@ import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 import { Grid } from './src/components/Grid';
 import { Confetti, InfoModal, infoStyles } from './src/components/InfoModal';
 import { CoinBurst } from './src/design/CoinBurst';
+import { HINT_COST, HintBox, letterCount, useHints } from './src/hints/hints';
 import { LineBadge } from './src/components/LineBadge';
 import { SearchModal } from './src/components/SearchModal';
 import { dailyNumber, dailySeed, generatePuzzle, puzzleSignature } from './src/game/generator';
@@ -597,6 +598,48 @@ function Game() {
   };
 
   /** Pub vidéo facultative : des pièces en échange d'une pub regardée jusqu'au bout. */
+  /**
+   * Achat d'un indice (1 pièce) pour n'importe quel jeu. Pas assez de pièces : fenêtre « Plus de pièces ».
+   * Renvoie vrai si la pièce a été dépensée.
+   */
+  const buyHint = useCallback(
+    async (game: GameTab): Promise<boolean> => {
+      const paid = await spendCoins(HINT_COST, day);
+      setCoins(paid.coins);
+      setAdsLeft(paid.adsLeft);
+      if (!paid.ok) {
+        track('not_enough_coins', { coins: paid.coins, for: `hint-${game}` });
+        setActive(null);
+        setShowNoCoins(true);
+        return false;
+      }
+      track('hint_bought', { game, coins_left: paid.coins });
+      return true;
+    },
+    [day],
+  );
+
+  // Indices de la grille : niveau acheté (1 à 3) pour chaque case (0 à 8).
+  const [gridHints, setGridHints] = useHints<Record<string, number>>(`grille:${mode === 'free' ? freeSeed : gridDay}`, {});
+  /** Réponse visée par les indices d'une case : la plus rare des stations encore libres. */
+  const hintTarget = (row: number, col: number) =>
+    [...puzzle.answers[row][col]].sort((a, b) => stationPoints(b) - stationPoints(a)).find((id) => !usedIds.has(id));
+  const gridHintTexts = (row: number, col: number): string[] => {
+    const level = gridHints[row * 3 + col] ?? 0;
+    const id = hintTarget(row, col);
+    const st = id ? STATION_BY_ID.get(id) : undefined;
+    if (!st || level === 0) return [];
+    const lines = st.lines.filter((l) => l !== puzzle.rows[row].line && l !== puzzle.cols[col].line);
+    const texts = [`Une réponse commence par « ${st.name.charAt(0)} ».`];
+    if (level >= 2) {
+      texts.push(
+        `Elle s'écrit en ${letterCount(st.name)} lettres${lines.length ? ` et passe par la ligne ${(lines[0] ?? '').replace('bis', ' bis')}` : ''}.`,
+      );
+    }
+    if (level >= 3) texts.push(`C'est ${st.name} !`);
+    return texts;
+  };
+
   const watchAd = async () => {
     setWatchingAd(true);
     setAdMessage(null);
@@ -753,6 +796,7 @@ function Game() {
             seed={defiSeed ?? undefined}
             archive={!!defiArchive}
             onArchives={() => setArchivesFor('defi')}
+            onBuyHint={() => buyHint('defi')}
             onBadges={openBadges}
             onDone={(_, ok) => {
               if (defiArchive) return;
@@ -778,6 +822,7 @@ function Game() {
             width={contentWidth}
             archive={!!arretArchive}
             onArchives={() => setArchivesFor('arret')}
+            onBuyHint={() => buyHint('arret')}
             onBadges={openBadges}
             onNewDay={newDay}
             onRanking={arretArchive ? undefined : openRanking}
@@ -794,6 +839,7 @@ function Game() {
             seed={penduSeed ?? undefined}
             archive={!!penduArchive}
             onArchives={() => setArchivesFor('pendu')}
+            onBuyHint={() => buyHint('pendu')}
             onBadges={openBadges}
             onNewDay={newDay}
             onRanking={penduSeed || penduArchive ? undefined : openRanking}
@@ -927,6 +973,19 @@ function Game() {
         feedback={feedback}
         onSubmit={submit}
         onClose={() => setActive(null)}
+        extra={
+          active && !finished ? (
+            <HintBox
+              revealed={gridHintTexts(active.row, active.col)}
+              remaining={hintTarget(active.row, active.col) ? 3 - (gridHints[active.row * 3 + active.col] ?? 0) : 0}
+              compact
+              onBuy={async () => {
+                const k = active.row * 3 + active.col;
+                if (await buyHint('grille')) setGridHints({ ...gridHints, [k]: (gridHints[k] ?? 0) + 1 });
+              }}
+            />
+          ) : undefined
+        }
       />
 
       <InfoModal visible={!!criterionInfo} title={criterionInfo?.label ?? ''} onClose={() => setCriterionInfo(null)}>
@@ -1214,7 +1273,7 @@ function Game() {
           (jusqu'à {MAX_COINS} en réserve) : plus de tickets après 3 erreurs ? {TICKETS_COST} pièce rachète 3 tickets pour
           continuer. Jeu du jour réussi (grille en 9/9, défi complet, station du pendu trouvée) ? {GRID_COST} pièce débloque
           une partie en plus du même jeu, hors classement. Les jours passés se rejouent aussi pour {ARCHIVE_COST} pièce
-          (📅 sous le jeu du jour terminé). Les pièces ne
+          (📅 sous le jeu du jour terminé). Un indice coûte aussi {HINT_COST} pièce. Les pièces ne
           s'achètent pas : elles se gagnent seulement en jouant.
         </Text>
         </>
