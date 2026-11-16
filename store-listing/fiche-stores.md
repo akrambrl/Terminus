@@ -15,44 +15,50 @@ Terminus Paris : jeu du métro
 
 **Sous-titre** (30/30)
 ```
-3 jeux par jour sur le métro !
+4 jeux par jour sur le métro !
 ```
 
-**Mots-clés** (≤ 100, virgules sans espaces, ne pas répéter les mots du nom / sous-titre)
+**Mots-clés** (99/100, virgules sans espaces, ne pas répéter les mots du nom / sous-titre)
 ```
-station,ligne,grille,pendu,defi,quiz,parisien,rer,devinette,culture,casse-tete,sudoku,enigme,carte
-```
-
-**Texte promotionnel** (≤ 170, modifiable à tout moment sans nouvelle version)
-```
-Chaque matin : une grille de 9 stations, un défi et un pendu du métro parisien. Les stations rares rapportent plus de points. Grimpe au classement !
+station,ligne,grille,pendu,defi,quiz,parisien,rer,devinette,culture,casse-tete,enigme,trajet,badges
 ```
 
-**Description**
+**Texte promotionnel** (148/170, modifiable à tout moment sans nouvelle version)
+```
+Chaque matin : une grille, un défi, un pendu et un trajet mystère sur le métro parisien. Indices, badges et classement du jour. Gratuit, sans achat.
+```
+
+**Description** (version 1.1.0)
 ```
 Tu prends le métro tous les jours ? Prouve-le !
 
-Terminus Paris, c'est 3 jeux quotidiens sur les stations du métro parisien. Chaque jour à minuit, une nouvelle Grille, un nouveau Défi et un nouveau Pendu, les mêmes pour tout le monde.
+Terminus Paris, c'est 4 jeux quotidiens sur les stations du métro parisien. Chaque jour à minuit, de nouveaux jeux, les mêmes pour tout le monde.
 
-🧩 LA GRILLE
-Chaque case de la grille 3×3 croise deux critères : trouve une station qui respecte les deux. Ligne, quartier, monument proche, nom de la station, correspondances… 9 stations à trouver, 3 erreurs permises.
+LA GRILLE
+Chaque case de la grille 3×3 croise deux critères : trouve une station qui respecte les deux. Ligne, quartier, monument proche, nom de la station, correspondances… Chaque grille cache une station en or qui remplit les 6 critères à la fois.
 
-⭐ DES POINTS SELON LA RARETÉ
-Chaque bonne réponse rapporte de 10 à 100 points selon la fréquentation réelle de la station. Châtelet ne vaut que 10 points ; une petite station tranquille en vaut 100. Trouve les stations les moins connues pour battre ton record !
+DES POINTS SELON LA RARETÉ
+Chaque bonne réponse rapporte de 10 à 100 points selon la fréquentation réelle de la station. Châtelet ne vaut que 10 points ; une petite station tranquille en vaut 100. Et découvre quelle part des joueurs a choisi les mêmes stations que toi.
 
-🎯 LE DÉFI
+LE DÉFI
 Deux critères, par exemple « Ligne 4 » et « Commence par S » : trouve toutes les stations qui conviennent.
 
-🔤 LE PENDU DU MÉTRO
+LE PENDU DU MÉTRO
 Devine la station du jour lettre par lettre, avec les lignes qui la desservent pour indice.
 
-🏆 LE CLASSEMENT DU JOUR
-Choisis un pseudo et compare-toi aux autres joueurs, aujourd'hui ou sur la semaine. Partage ton score avec tes amis en un geste.
+PROCHAIN ARRÊT
+Tu es dans la rame, mais sur quelle ligne ? Le métro s'arrête station après station : trouve la ligne au plus vite, le chrono tourne.
 
-🪙 SANS ACHAT
-Tu gagnes des pièces chaque jour en jouant : rachète des tickets quand tu es bloqué, ou débloque une grille, un défi ou un pendu en plus après avoir réussi celui du jour. Aucun achat avec de l'argent réel.
+INDICES, BADGES ET JOURS PASSÉS
+Bloqué ? Un indice te met sur la voie. Collectionne les badges, complète les lignes station par station et rejoue les jours que tu as manqués.
 
-🔔 UN RAPPEL CHAQUE MATIN
+CLASSEMENT ET DÉFIS ENTRE AMIS
+Choisis un pseudo et compare-toi aux autres joueurs, aujourd'hui ou sur la semaine. Envoie ton score à tes amis : ils voient ton résultat et tentent de te battre.
+
+SANS ACHAT
+Tu gagnes des pièces chaque jour en jouant : indices, tickets en plus, parties en plus ou jours passés. Aucun achat avec de l'argent réel.
+
+UN RAPPEL CHAQUE MATIN
 Si tu le souhaites, une notification t'annonce les jeux du jour à 8 h.
 
 Plus de 300 stations des lignes 1 à 14, de La Défense à l'aéroport d'Orly. Parisien, banlieusard ou amoureux de Paris : teste ta connaissance du réseau… et apprends plein de choses.
@@ -60,16 +66,14 @@ Plus de 300 stations des lignes 1 à 14, de La Défense à l'aéroport d'Orly. P
 Jeu non officiel, sans lien avec la RATP ni Île-de-France Mobilités.
 ```
 
-**Nouveautés de cette version** (version suivant la 1.0)
+**Nouveautés de cette version** (1.1.0)
 ```
 Grosse mise à jour !
-• 2 nouveaux jeux chaque jour : le Défi et le Pendu du métro
-• Des points selon la rareté des stations : les petites stations rapportent plus
-• Un classement du jour et de la semaine
-• Rachète 3 tickets quand tu es bloqué
-• Des défis et des pendus en plus avec tes pièces
-• Un rappel chaque matin (facultatif)
-• Toute nouvelle apparence
+- Nouvel accueil avec les 4 jeux du jour
+- Nouveau jeu : Prochain arrêt, devine la ligne de la rame au chrono
+- Indices, badges à collectionner et jours passés à rejouer
+- Défie tes amis et grimpe au classement du jour
+- Nouveau look, plus fun et plus lisible
 ```
 
 **Catégories** : principale **Jeux**, sous-catégories **Réflexion** et **Quiz**.
