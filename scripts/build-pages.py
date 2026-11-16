@@ -6,6 +6,7 @@ Usage : npm run build:pages
 Ajoute au index.html généré ce qu'il faut pour l'installer sur l'écran d'accueil
 (manifeste, icône Apple, couleurs), puis copie le tout dans docs/.
 """
+import re
 import glob, os, shutil
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -52,7 +53,26 @@ assert '</head>' in html
 html = html.replace('</head>', head, 1)
 # Page d'accueil vide jusqu'au démarrage du jeu (fond bleu nuit, aucun texte affiché) ;
 # le contenu lisible par les moteurs de recherche est dans les pages /regles/, /faq/, /lignes/…
-html = html.replace('You need to enable JavaScript to run this app.', 'Active JavaScript pour jouer à Terminus Paris.')
+NOSCRIPT = """
+      <main style="max-width:640px;margin:0 auto;padding:24px 16px;color:#fff;font-family:system-ui,sans-serif;line-height:1.5">
+        <h1>Terminus Paris : 4 jeux par jour sur le métro parisien</h1>
+        <p>Terminus Paris est un jeu quotidien gratuit sur les stations du métro et du RER parisien. Chaque jour, quatre nouvelles parties :</p>
+        <ul>
+          <li><strong>La Grille</strong> : place 9 stations dans une grille 3×3 en croisant les critères des lignes et des colonnes (ligne, arrondissement, correspondances…).</li>
+          <li><strong>Le Défi</strong> : trouve un maximum de stations qui respectent deux critères croisés.</li>
+          <li><strong>Le Pendu</strong> : devine le nom d'une station lettre par lettre, avec cinq tickets.</li>
+          <li><strong>Prochain arrêt</strong> : regarde défiler les stations depuis la fenêtre de la rame et devine la ligne le plus vite possible.</li>
+        </ul>
+        <p>Les mêmes jeux pour tout le monde, un classement quotidien, des badges et des défis entre amis. Active JavaScript pour jouer.</p>
+        <nav>
+          <a href="/regles/">Règles</a> · <a href="/faq/">FAQ</a> · <a href="/lignes/">Les lignes</a> ·
+          <a href="/stations/">Les stations</a> · <a href="/archives/">Archives</a> · <a href="/a-propos/">À propos</a>
+        </nav>
+        <p><small>Jeu non officiel, sans lien avec la RATP ni Île-de-France Mobilités.</small></p>
+      </main>
+    """
+# Rien n'est affiché au démarrage (pas de flash) : ce texte n'est lu que sans JavaScript (robots).
+html = re.sub(r'<noscript>.*?</noscript>', '<noscript>' + NOSCRIPT + '</noscript>', html, count=1, flags=re.S)
 open(index, 'w', encoding='utf-8').write(html)
 
 shutil.rmtree(DOCS, ignore_errors=True)

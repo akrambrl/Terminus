@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { Platform, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { BadgeArt } from '../badges/BadgeArt';
 import { TrainLane } from './TrainLane';
 import { Coin } from '../components/CoinPill';
@@ -11,6 +11,16 @@ import { loadArret, loadDaily, loadDefi, loadModeStats, loadPendu, loadStats } f
 import { resultText } from '../share/challenge';
 import { myDailyResult } from '../share/ChallengeBanner';
 import { colors, fonts, ui } from '../theme';
+
+/** Pages de contenu du site (vrais liens <a>, lus par Google). */
+const SITE_LINKS = [
+  { href: '/regles/', label: 'Règles' },
+  { href: '/faq/', label: 'FAQ' },
+  { href: '/lignes/', label: 'Lignes' },
+  { href: '/stations/', label: 'Stations' },
+  { href: '/archives/', label: 'Archives' },
+  { href: '/a-propos/', label: 'À propos' },
+];
 
 const GAMES: { id: GameTab; title: string; text: string; art: string }[] = [
   { id: 'grille', title: 'La Grille', text: '9 stations à placer', art: 'perfect' },
@@ -153,6 +163,16 @@ export function HomeScreen({
       </View>
 
       <NextGame day={day} label="Nouveaux jeux" color={colors.white} onNewDay={onNewDay} />
+      {Platform.OS === 'web' && (
+        <View style={styles.links} accessibilityRole="navigation">
+          {SITE_LINKS.map((l) => (
+            // @ts-expect-error href : rendu en lien <a> par React Native Web
+            <Text key={l.href} href={l.href} style={styles.link}>
+              {l.label}
+            </Text>
+          ))}
+        </View>
+      )}
       <Text style={styles.unofficial}>Jeu non officiel, sans lien avec la RATP ni Île-de-France Mobilités.</Text>
     </ScrollView>
   );
@@ -194,5 +214,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   checkText: { fontFamily: fonts.heavy, fontSize: 14, color: colors.white },
+  links: { flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'center', columnGap: 14, rowGap: 6 },
+  link: { fontFamily: fonts.bold, fontSize: 12, color: colors.white, opacity: 0.75, textDecorationLine: 'underline' },
   unofficial: { fontFamily: fonts.bold, fontSize: 11, color: colors.white, opacity: 0.6, textAlign: 'center' },
 });
