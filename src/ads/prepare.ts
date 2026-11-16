@@ -1,4 +1,5 @@
 import { Platform } from 'react-native';
+import { setAdStatus } from './status';
 
 let pending: Promise<boolean> | null = null;
 
@@ -18,18 +19,25 @@ async function run(): Promise<boolean> {
   try {
     // eslint-disable-next-line @typescript-eslint/no-require-imports
     const ads = require('react-native-google-mobile-ads');
+    setAdStatus('consentement en cours');
     const consent = await ads.AdsConsent.gatherConsent();
-    if (!consent.canRequestAds) return false;
+    if (!consent.canRequestAds) {
+      setAdStatus(`consentement refusé (${consent.status ?? '?'}) : aucune pub`);
+      return false;
+    }
 
     if (Platform.OS === 'ios') {
       // eslint-disable-next-line @typescript-eslint/no-require-imports
       const tracking = require('expo-tracking-transparency');
-      await tracking.requestTrackingPermissionsAsync();
+      const t = await tracking.requestTrackingPermissionsAsync();
+      setAdStatus(`suivi iOS : ${t.status}`);
     }
 
     await ads.default().initialize();
+    setAdStatus('SDK prêt, en attente d’une pub');
     return true;
-  } catch {
+  } catch (e) {
+    setAdStatus(`erreur de préparation : ${e instanceof Error ? e.message : String(e)}`);
     return false;
   }
 }

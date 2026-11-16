@@ -4,6 +4,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { colors, fonts } from '../theme';
 import { adsActive, BANNER_UNIT_ID, IN_EXPO_GO, SHOW_AD_PLACEHOLDER } from './config';
 import { prepareAds } from './prepare';
+import { setAdStatus } from './status';
 
 /**
  * Bannière fixée en bas de l'écran, sous la zone qui défile : la grille et les boutons
@@ -38,8 +39,14 @@ export function AdBanner() {
         // En développement, bannière de test Google : ne jamais cliquer sur ses propres pubs.
         unitId={__DEV__ ? TestIds.ADAPTIVE_BANNER : BANNER_UNIT_ID}
         size={BannerAdSize.LARGE_ANCHORED_ADAPTIVE_BANNER}
-        onAdLoaded={() => setLoaded(true)}
-        onAdFailedToLoad={() => setLoaded(false)}
+        onAdLoaded={() => {
+          setLoaded(true);
+          setAdStatus('bannière affichée');
+        }}
+        onAdFailedToLoad={(e: { code?: string; message?: string }) => {
+          setLoaded(false);
+          setAdStatus(`pas de pub : ${e?.code ?? ''} ${e?.message ?? ''}`.trim());
+        }}
       />
     );
   }

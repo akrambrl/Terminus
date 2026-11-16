@@ -103,6 +103,7 @@ import { Logo } from './src/components/Logo';
 import { Intro } from './src/components/Intro';
 import { AdBanner } from './src/ads/AdBanner';
 import { adsActive } from './src/ads/config';
+import { getAdStatus } from './src/ads/status';
 import { useFonts } from 'expo-font';
 import Svg, { Path } from 'react-native-svg';
 /** Délai avant la fenêtre de victoire (le temps de voir sa grille). */
@@ -1313,6 +1314,11 @@ function Game() {
           >
             {noStats ? 'Compter de nouveau mes visites (statistiques anonymes)' : 'Ne pas compter mes visites (statistiques anonymes)'}
           </Text>
+          {Platform.OS !== 'web' && (
+            <Text style={infoStyles.small}>
+              Publicité : {adsActive ? getAdStatus() : 'désactivée sur cette version'}
+            </Text>
+          )}
           {notificationsSupported && (
             <Text
               style={styles.privacyLink}
