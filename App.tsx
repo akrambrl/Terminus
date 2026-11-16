@@ -43,7 +43,7 @@ import { ARCHIVE_COST, archiveState, type ArchiveDay, type ArchiveGame } from '.
 import { ArchivesLink } from './src/archives/ArchivesLink';
 import { ArchivesModal } from './src/archives/ArchivesModal';
 import { BadgesModal, NewBadgesLine } from './src/badges/BadgesModal';
-import { MedalIcon } from './src/badges/BadgeArt';
+import { MedalIcon, TrophyIcon } from './src/badges/BadgeArt';
 import { HomeScreen } from './src/home/HomeScreen';
 import { STATION_BY_ID } from './src/game/lookup';
 import {
@@ -758,7 +758,7 @@ function Game() {
           </View>
           <View style={styles.headerButtons}>
             <Pressable onPress={openRanking} style={styles.helpButton} accessibilityRole="button" accessibilityLabel="Classement du jour">
-              <Text style={styles.trophy}>🏆</Text>
+              <TrophyIcon size={26} />
             </Pressable>
             <Pressable
               onPress={() => {

@@ -264,3 +264,32 @@ export function MedalIcon({ size = 24 }: { size?: number }) {
     </Svg>
   );
 }
+
+/** Icône du bouton « Classement » : coupe dorée sur son socle. */
+export function TrophyIcon({ size = 24 }: { size?: number }) {
+  return (
+    <Svg width={size} height={size} viewBox="0 0 100 100">
+      <Path d="M28 18 H72 V40 C72 56 62 64 50 64 C38 64 28 56 28 40 Z" fill={colors.sun} stroke={colors.ink} strokeWidth={6} strokeLinejoin="round" />
+      <Path d="M28 26 H16 C16 42 22 48 32 50 M72 26 H84 C84 42 78 48 68 50" fill="none" stroke={colors.ink} strokeWidth={6} strokeLinecap="round" />
+      <Rect x={44} y={62} width={12} height={14} fill={colors.sun} stroke={colors.ink} strokeWidth={5} />
+      <Rect x={30} y={76} width={40} height={12} rx={4} fill={colors.tomato} stroke={colors.ink} strokeWidth={6} />
+      <Path d="M40 28 L40 42" stroke={colors.white} strokeWidth={5} strokeLinecap="round" />
+    </Svg>
+  );
+}
+
+/** Médaille de podium (1re, 2e, 3e place) : disque or, argent ou bronze avec son rang. */
+export function PodiumMedal({ rank, size = 28 }: { rank: 1 | 2 | 3; size?: number }) {
+  const fill = rank === 1 ? colors.sun : rank === 2 ? '#C9CFEE' : '#E39A5B';
+  const ribbon = rank === 1 ? colors.tomato : rank === 2 ? colors.blue : colors.violet;
+  return (
+    <Svg width={size} height={size} viewBox="0 0 100 100">
+      <Polygon points="30,4 46,4 54,36 38,36" fill={ribbon} stroke={colors.ink} strokeWidth={5} strokeLinejoin="round" />
+      <Polygon points="70,4 54,4 46,36 62,36" fill={ribbon} stroke={colors.ink} strokeWidth={5} strokeLinejoin="round" />
+      <Circle cx={50} cy={62} r={32} fill={fill} stroke={colors.ink} strokeWidth={6} />
+      <SvgText x={50} y={76} fontSize={40} fontFamily={fonts.display} fontWeight="800" fill={colors.ink} textAnchor="middle">
+        {String(rank)}
+      </SvgText>
+    </Svg>
+  );
+}

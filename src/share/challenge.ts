@@ -150,7 +150,7 @@ export function duel(c: Challenge, mine: MyResult): -1 | 0 | 1 {
 export function duelText(c: Challenge, mine: MyResult): string {
   const who = c.from ?? 'Ton ami';
   const d = duel(c, mine);
-  if (d > 0) return `🏆 Tu bats ${who} !`;
+  if (d > 0) return `Tu bats ${who} !`;
   if (d < 0) return `${who} garde l'avantage… Revanche demain !`;
   return `Égalité avec ${who} !`;
 }

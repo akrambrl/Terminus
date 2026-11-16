@@ -13,6 +13,7 @@ import {
 } from '../analytics/supabase';
 import { track } from '../analytics';
 import { Button } from '../components/Button';
+import { PodiumMedal } from '../badges/BadgeArt';
 import { BrickWall, Card, Plaque, solidShadow } from '../design/ui';
 import { colors, fonts, textOn, ui, WEB_TOP_GAP } from '../theme';
 
@@ -218,9 +219,13 @@ export function LeaderboardModal({
                 </Text>
                 {data.top.map((r, i) => (
                   <View key={`${i}-${r.rank}`} style={[styles.row, r.me && styles.rowMe]}>
-                    <Text style={[styles.rank, r.rank <= 3 && styles.podium]}>
-                      {r.rank === 1 ? '🥇' : r.rank === 2 ? '🥈' : r.rank === 3 ? '🥉' : `${r.rank}`}
-                    </Text>
+                    {r.rank <= 3 ? (
+                      <View style={styles.rankMedal}>
+                        <PodiumMedal rank={r.rank as 1 | 2 | 3} size={30} />
+                      </View>
+                    ) : (
+                      <Text style={styles.rank}>{r.rank}</Text>
+                    )}
                     <Text style={[styles.name, !r.pseudo && styles.anon]} numberOfLines={1}>
                       {r.pseudo ?? (r.me ? 'Toi (sans pseudo)' : 'Joueur anonyme')}
                     </Text>
@@ -271,6 +276,7 @@ export function LeaderboardModal({
 }
 
 const styles = StyleSheet.create({
+  rankMedal: { width: 34, alignItems: 'center' },
   top: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingHorizontal: 16, paddingBottom: 8 },
   close: { minHeight: ui.touch, justifyContent: 'center', paddingLeft: 12 },
   closeText: { fontFamily: fonts.heavy, fontSize: 16, color: colors.accent },
@@ -330,7 +336,7 @@ const styles = StyleSheet.create({
     borderBottomColor: colors.border,
   },
   rowMe: { backgroundColor: colors.accentSoft, borderRadius: 10 },
-  rank: { width: 30, textAlign: 'center', fontFamily: fonts.display, fontSize: 16, color: colors.ink },
+  rank: { width: 34, textAlign: 'center', fontFamily: fonts.display, fontSize: 16, color: colors.ink },
   podium: { fontSize: 20 },
   name: { flex: 1, fontFamily: fonts.heavy, fontSize: 15, color: colors.ink },
   anon: { fontFamily: fonts.bold, color: colors.muted },
