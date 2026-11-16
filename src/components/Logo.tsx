@@ -56,9 +56,14 @@ export function GridMark({ size }: { size: number }) {
     palette.violet, palette.sun, palette.ultramarine,
   ];
   return (
-    <View style={{ width: size, height: size, flexDirection: 'row', flexWrap: 'wrap', gap: cell * 0.3 }}>
-      {tints.map((c, i) => (
-        <View key={i} style={{ width: cell, height: cell, borderRadius: cell * 0.3, backgroundColor: c }} />
+    // Trois rangées explicites (un retour à la ligne automatique cassait la grille sur iPhone, à l'arrondi près).
+    <View style={{ width: size, height: size, justifyContent: 'space-between' }}>
+      {[0, 1, 2].map((r) => (
+        <View key={r} style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+          {tints.slice(r * 3, r * 3 + 3).map((c, i) => (
+            <View key={i} style={{ width: cell, height: cell, borderRadius: cell * 0.3, backgroundColor: c }} />
+          ))}
+        </View>
       ))}
     </View>
   );
