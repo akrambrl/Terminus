@@ -1207,89 +1207,75 @@ function Game() {
 
       <InfoModal
         visible={showHelp && !showIntro}
-        title={tab === 'defi' ? 'Le Défi' : tab === 'pendu' ? 'Le Pendu du métro' : tab === 'arret' ? 'Prochain arrêt' : 'Comment jouer'}
+        title={
+          home
+            ? 'Comment jouer'
+            : tab === 'defi'
+              ? 'Le Défi'
+              : tab === 'pendu'
+                ? 'Le Pendu'
+                : tab === 'arret'
+                  ? 'Prochain arrêt'
+                  : 'La Grille'
+        }
         onClose={() => {
           setShowHelp(false);
           markHelpSeen();
         }}
       >
-        {tab === 'defi' && (
+        {home && (
           <>
             <Text style={infoStyles.p}>
-              Chaque jour, <Text style={infoStyles.strong}>deux critères</Text> se croisent, par exemple « Ligne 4 » ×
-              « Commence par S ». Trouve le plus possible de stations qui remplissent les deux.
+              Chaque jour à minuit, <Text style={infoStyles.strong}>4 jeux</Text> sur le métro parisien, les mêmes pour
+              tout le monde :
             </Text>
             <Text style={infoStyles.p}>
-              Propose les stations une par une. Une mauvaise réponse coûte un ticket :{' '}
-              <Text style={infoStyles.strong}>{DEFI_MAX_ERRORS} erreurs</Text> maximum. Tu peux aussi abandonner, et
-              découvrir alors toutes les réponses.
+              <Text style={infoStyles.strong}>La Grille</Text> : 9 stations, chacune croise deux critères.{'\n'}
+              <Text style={infoStyles.strong}>Le Défi</Text> : toutes les stations qui cochent deux critères.{'\n'}
+              <Text style={infoStyles.strong}>Le Pendu</Text> : la station du jour, lettre par lettre.{'\n'}
+              <Text style={infoStyles.strong}>Prochain arrêt</Text> : devine la ligne de la rame, au chrono.
+            </Text>
+            <Text style={infoStyles.p}>
+              Tu gagnes {DAILY_BONUS} pièces par jour : elles servent aux indices, aux tickets en plus, aux parties en plus
+              et aux jours passés. Elles ne s'achètent pas.
+            </Text>
+            <Text style={infoStyles.small}>Touche « ? » dans un jeu pour ses règles.</Text>
+          </>
+        )}
+        {!home && tab === 'defi' && (
+          <Text style={infoStyles.p}>
+            Deux critères se croisent, par exemple « Ligne 4 » × « Commence par S ». Trouve toutes les stations qui
+            remplissent les deux. <Text style={infoStyles.strong}>{DEFI_MAX_ERRORS} erreurs</Text> maximum.
+          </Text>
+        )}
+        {!home && tab === 'arret' && (
+          <Text style={infoStyles.p}>
+            La rame s'arrête 3 secondes à chaque station : touche la ligne dès que tu la reconnais.{' '}
+            <Text style={infoStyles.strong}>100 points</Text> au départ, −3 par seconde, −15 par erreur. {ARRET_STOPS}{' '}
+            stations, 3 erreurs, 30 secondes au maximum.
+          </Text>
+        )}
+        {!home && tab === 'pendu' && (
+          <Text style={infoStyles.p}>
+            Devine la station lettre par lettre ; les lignes qui la desservent sont ton indice.{' '}
+            <Text style={infoStyles.strong}>{MAX_PENDU_ERRORS} erreurs</Text> maximum, puis une dernière chance de proposer
+            le nom.
+          </Text>
+        )}
+        {!home && tab === 'grille' && (
+          <>
+            <Text style={infoStyles.p}>
+              Chaque case attend une station qui respecte le critère de sa ligne et celui de sa colonne.{' '}
+              <Text style={infoStyles.strong}>{MAX_ERRORS} erreurs</Text> maximum ; touche un critère pour sa définition.
+            </Text>
+            <Text style={infoStyles.p}>
+              Les stations peu fréquentées rapportent plus de points (10 à 100). Une{' '}
+              <Text style={infoStyles.strong}>station en or</Text> remplit les 6 critères à la fois.
             </Text>
           </>
         )}
-        {tab === 'arret' && (
+        {home && (
           <>
-            <Text style={infoStyles.p}>
-              Tu es dans une rame, mais <Text style={infoStyles.strong}>sur quelle ligne ?</Text> La rame avance toute
-              seule et s'arrête 3 secondes à chaque station. Touche la pastille de la ligne dès que tu l'as reconnue.
-            </Text>
-            <Text style={infoStyles.p}>
-              Le chrono démarre à la 1re station : <Text style={infoStyles.strong}>100 points</Text> au départ, 3 points
-              de moins par seconde et 15 de moins par erreur. {ARRET_STOPS} stations, 3 erreurs et 30 secondes au maximum.
-              La 1re station est souvent une correspondance : tu paries tout de suite, ou tu attends la suivante ?
-            </Text>
-          </>
-        )}
-        {tab === 'pendu' && (
-          <>
-            <Text style={infoStyles.p}>
-              Chaque jour, <Text style={infoStyles.strong}>une station à deviner</Text>, lettre par lettre. Les pastilles
-              des lignes qui la desservent sont ton indice.
-            </Text>
-            <Text style={infoStyles.p}>
-              Une lettre juste apparaît partout dans le nom (É compte comme E) ; une lettre absente coûte un ticket :{' '}
-              <Text style={infoStyles.strong}>{MAX_PENDU_ERRORS} erreurs</Text> maximum. Tu peux proposer le nom complet à
-              tout moment, mais un mauvais nom coûte aussi un ticket.
-            </Text>
-          </>
-        )}
-        {tab === 'grille' && (
-        <>
-        <Text style={infoStyles.p}>
-          Remplis la grille avec <Text style={infoStyles.strong}>9 stations de métro parisiennes</Text>.
-        </Text>
-        <Text style={infoStyles.p}>
-          Chaque case doit recevoir une station qui respecte à la fois le critère de sa ligne et celui de sa colonne.
-          Par exemple : une station de la ligne 6 à moins de 2 km de la tour Eiffel.
-        </Text>
-        <Text style={infoStyles.p}>
-          Tu as droit à <Text style={infoStyles.strong}>{MAX_ERRORS} erreurs</Text> : les bonnes réponses ne comptent pas.
-          Chaque station ne peut servir qu'une fois.
-          Touche un critère pour lire sa définition exacte.
-        </Text>
-        <Text style={infoStyles.p}>
-          <Text style={infoStyles.strong}>Points</Text> : chaque bonne réponse rapporte de 10 à 100 points selon la
-          fréquentation de la station. Châtelet ou Saint-Lazare, très fréquentées, valent 10 points ; une petite station
-          comme Pelleport en vaut 100. Trouve les stations les moins connues pour battre ton record !
-        </Text>
-        <Text style={infoStyles.p}>
-          <Text style={infoStyles.strong}>Station en or</Text> : chaque grille est construite autour d'une station
-          qui remplit les 6 critères à la fois. La trouveras-tu ? Et à la fin, découvre quelle part des joueurs a
-          choisi les mêmes stations que toi : ta réponse la plus originale est mise en avant.
-        </Text>
-        <Text style={infoStyles.p}>
-          Une nouvelle grille gratuite t'attend chaque jour. Tu gagnes {DAILY_BONUS} pièces chaque jour en ouvrant l'app
-          (jusqu'à {MAX_COINS} en réserve) : plus de tickets après 3 erreurs ? {TICKETS_COST} pièce rachète 3 tickets pour
-          continuer. Jeu du jour réussi (grille en 9/9, défi complet, station du pendu trouvée) ? {GRID_COST} pièce débloque
-          une partie en plus du même jeu, hors classement. Les jours passés se rejouent aussi pour {ARCHIVE_COST} pièce
-          (lien « Rejouer les jours passés » sous le jeu du jour terminé). Un indice coûte aussi {HINT_COST} pièce. Les pièces ne
-          s'achètent pas : elles se gagnent seulement en jouant.
-        </Text>
-        </>
-        )}
-        <Text style={infoStyles.p}>
-          Trois jeux t'attendent chaque jour, les mêmes pour tout le monde : la Grille, le Défi et le Pendu. Ils changent
-          à minuit, heure de Paris.
-        </Text>
         <Text style={infoStyles.small}>
           Jeu non officiel, sans lien avec la RATP ni Île-de-France Mobilités. Données des stations : Wikidata
           (licence CC0) ; fréquentation : open data Île-de-France Mobilités (validations 2026). Les lignes en projet
@@ -1348,6 +1334,8 @@ function Game() {
           )}
           <Text style={infoStyles.small}>Contact : {CONTACT_EMAIL} · Version {APP_VERSION}</Text>
         </View>
+          </>
+        )}
       </InfoModal>
     </SafeAreaView>
     <LeaderboardModal visible={showRanking} initialGame={tab} onClose={() => setShowRanking(false)} />
