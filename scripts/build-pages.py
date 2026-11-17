@@ -117,6 +117,40 @@ for folder, source in LINK_PAGES.items():
     os.makedirs(os.path.join(DOCS, folder), exist_ok=True)
     open(os.path.join(DOCS, folder, 'index.html'), 'w', encoding='utf-8').write(page)
 
+# terminusparis.fr/android : lien court pour les testeurs Android (test fermé Google Play).
+TEST_URL = 'https://play.google.com/apps/testing/com.terminusparis.app'
+android_page = f"""<!doctype html>
+<html lang="fr"><head><meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="robots" content="noindex" />
+<meta name="theme-color" content="#15123D" />
+<title>Tester Terminus Paris sur Android</title>
+<style>
+  body {{ margin:0; background:#15123D; color:#fff; font-family:system-ui,-apple-system,sans-serif; line-height:1.5; }}
+  main {{ max-width:480px; margin:0 auto; padding:40px 20px; }}
+  h1 {{ font-size:26px; margin:0 0 8px; }}
+  p {{ opacity:.85; margin:0 0 20px; }}
+  ol {{ padding-left:22px; margin:0 0 28px; }}
+  li {{ margin-bottom:10px; }}
+  a.btn {{ display:block; text-align:center; background:#FFC72C; color:#15123D; font-weight:800; font-size:18px;
+          padding:16px; border-radius:999px; text-decoration:none; border:3px solid #fff; }}
+  small {{ display:block; margin-top:24px; opacity:.6; font-size:12px; }}
+</style></head>
+<body><main>
+  <h1>Teste Terminus Paris sur Android</h1>
+  <p>Merci de m'aider à sortir le jeu sur le Play Store !</p>
+  <ol>
+    <li>Ouvre le lien ci-dessous avec <strong>l'adresse Gmail que tu m'as donnée</strong>.</li>
+    <li>Clique sur <strong>« Devenir testeur »</strong>.</li>
+    <li>Installe l'app depuis le Play Store sur ton téléphone Android, et <strong>garde-la 14 jours</strong>.</li>
+  </ol>
+  <a class="btn" href="{TEST_URL}">Devenir testeur</a>
+  <small>Jeu non officiel, sans lien avec la RATP ni Île-de-France Mobilités.</small>
+</main></body></html>
+"""
+os.makedirs(os.path.join(DOCS, 'android'), exist_ok=True)
+open(os.path.join(DOCS, 'android', 'index.html'), 'w', encoding='utf-8').write(android_page)
+
 # Sans ce fichier, GitHub Pages ignore le dossier _expo (nom commençant par « _ »).
 open(os.path.join(DOCS, '.nojekyll'), 'w').close()
 print('docs/ prêt :', sum(len(f) for _, _, f in os.walk(DOCS)), 'fichiers')
