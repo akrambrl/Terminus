@@ -57,7 +57,7 @@ async function schedule() {
   if (Platform.OS === 'android') {
     await Notifications.setNotificationChannelAsync(CHANNEL, {
       name: 'Jeux du jour',
-      description: 'Un rappel chaque matin quand la grille, le défi et le pendu du jour sont prêts.',
+      description: 'Un rappel chaque matin quand les 4 jeux du jour sont prêts.',
       importance: AndroidImportance.DEFAULT,
     });
   }

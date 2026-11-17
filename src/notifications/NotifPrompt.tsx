@@ -24,9 +24,9 @@ export function NotifPrompt() {
     <View style={styles.card}>
       {state === 'ask' && (
         <>
-          <Text style={styles.title}>🔔 Un rappel chaque matin ?</Text>
+          <Text style={styles.title}>Un rappel chaque matin ?</Text>
           <Text style={styles.text}>
-            À {MORNING_HOUR} h, on te prévient quand la nouvelle grille, le défi et le pendu du jour sont prêts.
+            À {MORNING_HOUR} h, on te prévient quand les 4 nouveaux jeux du jour sont prêts.
           </Text>
           <View style={styles.actions}>
             <Button
@@ -44,11 +44,11 @@ export function NotifPrompt() {
           </View>
         </>
       )}
-      {state === 'on' && <Text style={styles.text}>C’est noté : rendez-vous demain à {MORNING_HOUR} h ! 🚇</Text>}
+      {state === 'on' && <Text style={styles.text}>C’est noté : rendez-vous demain à {MORNING_HOUR} h !</Text>}
       {state === 'refused' && (
         <Text style={styles.text}>
           Les notifications sont bloquées sur ce téléphone. Tu peux les autoriser dans les réglages, puis activer le
-          rappel depuis le bouton ?.
+          rappel en bas de l'aide (bouton ?).
         </Text>
       )}
     </View>
