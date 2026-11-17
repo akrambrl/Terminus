@@ -7,14 +7,14 @@ export const MORNING_HOUR = 8;
 export const MORNING_MINUTE = 0;
 
 const TITLES = [
-  '🚇 Les jeux du jour sont arrivés !',
-  '☕ Ta dose de métro du matin',
-  '🧩 Nouvelle grille, nouveau défi',
-  '🚉 Terminus, tout le monde descend… et joue !',
-  '🔤 Une nouvelle station à deviner',
-  '🎯 Le défi du jour t’attend',
-  '🗺️ Tu connais vraiment le métro ?',
-  '🚦 Prochain arrêt : quelle ligne ?',
+  'Les jeux du jour sont arrivés !',
+  'Ta dose de métro du matin',
+  'Nouvelle grille, nouveau défi',
+  'Terminus, tout le monde descend… et joue !',
+  'Une nouvelle station à deviner',
+  'Le défi du jour t’attend',
+  'Tu connais vraiment le métro ?',
+  'Prochain arrêt : quelle ligne ?',
 ];
 
 /** Texte de la notification du matin pour un jour de jeu (AAAA-MM-JJ, heure de Paris). */
