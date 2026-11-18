@@ -28,7 +28,8 @@ export type GameEvent =
   | 'archive_started'
   | 'archive_opened'
   | 'badges_opened'
-  | 'hint_bought';
+  | 'hint_bought'
+  | 'streak_bonus';
 
 type Sink = (event: GameEvent, properties?: Props) => void;
 let sink: Sink | null = null;

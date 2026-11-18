@@ -48,7 +48,7 @@ export function NotifPrompt() {
       {state === 'refused' && (
         <Text style={styles.text}>
           Les notifications sont bloquées sur ce téléphone. Tu peux les autoriser dans les réglages, puis activer le
-          rappel en bas de l'aide (bouton ?).
+          rappel en bas de l’aide (bouton ?).
         </Text>
       )}
     </View>

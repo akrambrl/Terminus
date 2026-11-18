@@ -5,7 +5,8 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
  * - DAILY_BONUS pièces à la première ouverture de chaque jour (pas de bonus de bienvenue en plus).
  * - Une grille en plus de la grille du jour coûte GRID_COST pièce.
  * - Une pub vidéo facultative rapporte AD_REWARD pièces, au plus MAX_ADS_PER_DAY fois par jour.
- * - Le stock est plafonné à MAX_COINS pour garder l'envie de revenir chaque jour.
+ * - Le bonus du jour et les pubs s'arrêtent à MAX_COINS pour garder l'envie de revenir chaque jour ;
+ *   les bonus de série (7 et 30 jours) peuvent dépasser ce plafond.
  */
 export const DAILY_BONUS = 3;
 export const GRID_COST = 1;
@@ -36,7 +37,7 @@ async function load(): Promise<Wallet | null> {
     const raw = await AsyncStorage.getItem(WALLET_KEY);
     if (!raw) return null;
     const w = JSON.parse(raw) as Wallet;
-    return { ...w, coins: Math.min(w.coins, MAX_COINS) };
+    return w;
   } catch {
     return null;
   }
@@ -49,6 +50,9 @@ async function save(w: Wallet) {
     // Le jeu reste jouable sans sauvegarde.
   }
 }
+
+/** Ajout plafonné à MAX_COINS, sans jamais retirer un solde déjà au-dessus (bonus de série). */
+const capped = (coins: number, add: number) => Math.max(coins, Math.min(coins + add, MAX_COINS));
 
 const adsLeft = (w: Wallet, day: string) =>
   MAX_ADS_PER_DAY - (w.adsDay === day ? (w.adsCount ?? 0) : 0);
@@ -69,7 +73,7 @@ export async function claimDailyBonus(day: string): Promise<BonusResult> {
     return { ...state(w, day), granted: w.coins, welcome: true };
   }
   if (wallet.lastBonusDay === day) return { ...state(wallet, day), granted: 0, welcome: false };
-  const coins = Math.min(wallet.coins + DAILY_BONUS, MAX_COINS);
+  const coins = capped(wallet.coins, DAILY_BONUS);
   const next = { ...wallet, coins, lastBonusDay: day };
   await save(next);
   return { ...state(next, day), granted: coins - wallet.coins, welcome: false };
@@ -88,7 +92,7 @@ export async function spendCoins(amount: number, day: string): Promise<WalletSta
 export async function grantAdReward(day: string): Promise<WalletState & { granted: number }> {
   const wallet = (await load()) ?? { coins: 0, lastBonusDay: null };
   if (adsLeft(wallet, day) <= 0) return { ...state(wallet, day), granted: 0 };
-  const coins = Math.min(wallet.coins + AD_REWARD, MAX_COINS);
+  const coins = capped(wallet.coins, AD_REWARD);
   const next = {
     ...wallet,
     coins,
@@ -97,4 +101,12 @@ export async function grantAdReward(day: string): Promise<WalletState & { grante
   };
   await save(next);
   return { ...state(next, day), granted: coins - wallet.coins };
+}
+
+/** Bonus de série (7 ou 30 jours de suite) : crédité sans plafond. */
+export async function grantCoins(amount: number, day: string): Promise<WalletState> {
+  const wallet = (await load()) ?? { coins: 0, lastBonusDay: null };
+  const next = { ...wallet, coins: wallet.coins + amount };
+  await save(next);
+  return state(next, day);
 }

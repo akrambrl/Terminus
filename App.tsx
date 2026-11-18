@@ -97,6 +97,7 @@ import {
   spendCoins,
   type BonusResult,
 } from './src/game/coins';
+import { clearPendingStreakBonus, pendingStreakBonus, recordPlayDay, STREAK_REWARDS } from './src/game/streakBonus';
 import { rewardedAdsAvailable, showRewardedAd } from './src/ads/rewarded';
 import { TicketTrack } from './src/components/TicketTrack';
 import { Logo } from './src/components/Logo';
@@ -228,6 +229,19 @@ function Game() {
   useEffect(() => {
     if (done.grille && done.defi && done.pendu && done.arret) skipTodayNotification(day);
   }, [done, day]);
+  // Série de jours (tous jeux confondus) : un jeu du jour terminé compte la journée, bonus à 7 et 30 jours.
+  const [streakBonus, setStreakBonus] = useState<{ streak: number; granted: number } | null>(null);
+  const [streakTick, setStreakTick] = useState(0);
+  const playedToday = done.grille || done.defi || done.pendu || done.arret;
+  useEffect(() => {
+    if (!playedToday) return;
+    recordPlayDay(day).then((r) => {
+      if (r.coins === undefined) return;
+      setCoins(r.coins);
+      setStreakTick((n) => n + 1);
+      track('streak_bonus', { streak: r.streak, granted: r.granted });
+    });
+  }, [playedToday, day]);
   const markDone = useCallback((t: GameTab) => setDone((d) => (d[t] ? d : { ...d, [t]: true })), []);
   const [mode, setMode] = useState<Mode>('daily');
   const [freeSeed, setFreeSeed] = useState(() => `libre-${Date.now()}`);
@@ -280,6 +294,15 @@ function Game() {
   const [bonus, setBonus] = useState<BonusResult | null>(null);
   const [showNoCoins, setShowNoCoins] = useState(false);
   const [freeSaved, setFreeSaved] = useState<SavedFreeGame | null>(null);
+  // Bonus de série gagné : montré à l'accueil (après la partie, ou à la prochaine ouverture).
+  useEffect(() => {
+    if (!home || bonus || showIntro || showHelp || streakBonus) return;
+    let alive = true;
+    pendingStreakBonus().then((p) => alive && p && setStreakBonus(p));
+    return () => {
+      alive = false;
+    };
+  }, [home, bonus, showIntro, showHelp, streakBonus, streakTick]);
 
   // Chargement de la grille du jour sauvegardée et des statistiques.
   useEffect(() => {
@@ -1129,11 +1152,39 @@ function Game() {
         <View style={styles.wallet}>
           <Coin size={18} />
           <Text style={styles.walletText}>
-            Ton solde : {bonus?.coins} pièce{(bonus?.coins ?? 0) > 1 ? 's' : ''} (maximum {MAX_COINS})
+            Ton solde : {bonus?.coins} pièce{(bonus?.coins ?? 0) > 1 ? 's' : ''}
+            {(bonus?.coins ?? 0) <= MAX_COINS ? ` (bonus du jour jusqu'à ${MAX_COINS})` : ''}
           </Text>
         </View>
         <Text style={[infoStyles.small, { textAlign: 'center' }]}>
-          1 pièce = une partie en plus, 3 tickets de plus ou un jour passé.
+          Série de 7 jours : {STREAK_REWARDS[7]} pièces. Série de 30 jours : {STREAK_REWARDS[30]} pièces.
+        </Text>
+      </InfoModal>
+
+      <InfoModal
+        visible={!!streakBonus}
+        title={`Série de ${streakBonus?.streak ?? 0} jours !`}
+        accent={colors.mint}
+        onClose={() => {
+          setStreakBonus(null);
+          clearPendingStreakBonus();
+        }}
+        decor={<Confetti count={24} />}
+      >
+        <CoinBurst amount={streakBonus?.granted ?? 0} />
+        <Text style={[infoStyles.p, styles.bonusText]}>
+          {`Tu as joué ${streakBonus?.streak ?? 0} jours de suite. Voici ${streakBonus?.granted ?? 0} pièces en cadeau !`}
+        </Text>
+        <View style={styles.wallet}>
+          <Coin size={18} />
+          <Text style={styles.walletText}>
+            Ton solde : {coins} pièce{coins > 1 ? 's' : ''}
+          </Text>
+        </View>
+        <Text style={[infoStyles.small, { textAlign: 'center' }]}>
+          {(streakBonus?.streak ?? 0) < 30
+            ? `Prochain bonus : ${STREAK_REWARDS[30]} pièces à 30 jours de suite.`
+            : `Prochain bonus : ${STREAK_REWARDS[30]} pièces tous les 30 jours de suite.`}
         </Text>
       </InfoModal>
 

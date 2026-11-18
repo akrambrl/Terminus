@@ -7,7 +7,8 @@ import { TAB_COLORS, type GameTab } from '../components/ModeTabs';
 import { NextGame } from '../components/NextGame';
 import { solidShadow } from '../design/ui';
 import { dayNumber } from '../game/day';
-import { loadArret, loadDaily, loadDefi, loadModeStats, loadPendu, loadStats } from '../game/storage';
+import { loadArret, loadDaily, loadDefi, loadPendu } from '../game/storage';
+import { currentPlayStreak, nextStreakReward } from '../game/streakBonus';
 import { resultText } from '../share/challenge';
 import { myDailyResult } from '../share/ChallengeBanner';
 import { colors, fonts, ui } from '../theme';
@@ -80,20 +81,15 @@ export function HomeScreen({
   const [statuses, setStatuses] = useState<Record<GameTab, Status> | null>(null);
   const [streak, setStreak] = useState(0);
   const [boxH, setBoxH] = useState(0);
+  const next = nextStreakReward(streak);
 
   useEffect(() => {
     let alive = true;
     (async () => {
-      const [st, stats, ...modes] = await Promise.all([
-        loadStatuses(day),
-        loadStats(),
-        loadModeStats('defi'),
-        loadModeStats('pendu'),
-        loadModeStats('arret'),
-      ]);
+      const [st, s] = await Promise.all([loadStatuses(day), currentPlayStreak(day)]);
       if (!alive) return;
       setStatuses(st);
-      setStreak(Math.max(stats.streak, ...modes.map((m) => m.streak)));
+      setStreak(s);
     })();
     return () => {
       alive = false;
@@ -122,6 +118,11 @@ export function HomeScreen({
           </View>
           {streak > 1 && <Text style={styles.kicker}>SÉRIE {streak} J</Text>}
         </View>
+        {streak > 0 && next.at - streak <= 3 && (
+          <Text style={styles.streakHint}>
+            {`Encore ${next.at - streak} jour${next.at - streak > 1 ? 's' : ''} de suite : +${next.coins} pièces`}
+          </Text>
+        )}
       </View>
 
       <TrainLane width={width} />
@@ -216,5 +217,6 @@ const styles = StyleSheet.create({
   checkText: { fontFamily: fonts.heavy, fontSize: 14, color: colors.white },
   links: { flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'center', columnGap: 14, rowGap: 6 },
   link: { fontFamily: fonts.bold, fontSize: 12, color: colors.white, opacity: 0.75, textDecorationLine: 'underline' },
+  streakHint: { fontFamily: fonts.bold, fontSize: 12, color: colors.white, opacity: 0.8 },
   unofficial: { fontFamily: fonts.bold, fontSize: 11, color: colors.white, opacity: 0.6, textAlign: 'center' },
 });

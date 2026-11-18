@@ -33,6 +33,7 @@ const KEPT = new Set<GameEvent>([
   'archive_started',
   'badges_opened',
   'hint_bought',
+  'streak_bonus',
 ]);
 
 const headers = {
