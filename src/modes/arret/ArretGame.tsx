@@ -367,6 +367,8 @@ export function ArretGame({
             ? `Trouvée en ${secondsText(game.ms ?? 0)}${errors ? ` avec ${errors} erreur${errors > 1 ? 's' : ''}` : ' sans erreur'} : ${points} points.`
             : `C'était la ligne ${lineLabel(trip.line)}.`}
         </Text>
+        {/* Proposé en haut du résultat : visible sans faire défiler. */}
+        <NotifPrompt />
         <NewBadgesLine
           visible={showResult}
           onOpen={
@@ -408,7 +410,6 @@ export function ArretGame({
             <Stat value={stats.bestStreak} label="Record" />
           </View>
         )}
-        <NotifPrompt />
         <Text style={sharedStyles.unofficial}>Jeu non officiel, sans lien avec la RATP ni Île-de-France Mobilités.</Text>
       </InfoModal>
     </>

@@ -489,6 +489,8 @@ export function PenduGame({
           ))}
           <RerBadges lines={station.rer} size={24} />
         </View>
+        {/* Proposé en haut du résultat : visible sans faire défiler. */}
+        <NotifPrompt />
         <NewBadgesLine
           visible={showResult}
           onOpen={
@@ -513,7 +515,6 @@ export function PenduGame({
           <Stat value={stats.streak} label="Série" />
           <Stat value={stats.bestStreak} label="Record" />
         </View>}
-        <NotifPrompt />
         <Text style={sharedStyles.unofficial}>Jeu non officiel, sans lien avec la RATP ni Île-de-France Mobilités.</Text>
       </InfoModal>
     </>

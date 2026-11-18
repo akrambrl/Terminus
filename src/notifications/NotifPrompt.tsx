@@ -29,18 +29,22 @@ export function NotifPrompt() {
             À {MORNING_HOUR} h, on te prévient quand les 4 nouveaux jeux du jour sont prêts.
           </Text>
           <View style={styles.actions}>
-            <Button
-              label="Oui, chaque matin"
-              primary
-              onPress={async () => setState((await enableMorningNotifications()) ? 'on' : 'refused')}
-            />
-            <Button
-              label="Non merci"
-              onPress={() => {
-                declineMorningNotifications();
-                setState('hidden');
-              }}
-            />
+            <View style={styles.action}>
+              <Button
+                label="Oui"
+                primary
+                onPress={async () => setState((await enableMorningNotifications()) ? 'on' : 'refused')}
+              />
+            </View>
+            <View style={styles.action}>
+              <Button
+                label="Non merci"
+                onPress={() => {
+                  declineMorningNotifications();
+                  setState('hidden');
+                }}
+              />
+            </View>
           </View>
         </>
       )}
@@ -57,15 +61,16 @@ export function NotifPrompt() {
 
 const styles = StyleSheet.create({
   card: {
-    marginTop: ui.space.l,
-    padding: ui.space.l,
-    gap: ui.space.s,
+    marginBottom: ui.space.m,
+    padding: ui.space.m,
+    gap: 6,
     borderRadius: ui.radiusFor(90),
     backgroundColor: colors.accentSoft,
     borderWidth: ui.borderThin,
     borderColor: colors.ink,
   },
-  title: { fontFamily: fonts.display, fontSize: 18, color: colors.ink },
-  text: { fontFamily: fonts.bold, fontSize: 14, lineHeight: 19, color: colors.ink },
-  actions: { flexDirection: 'row', flexWrap: 'wrap', gap: ui.space.s, marginTop: 4 },
+  title: { fontFamily: fonts.display, fontSize: 17, color: colors.ink },
+  text: { fontFamily: fonts.bold, fontSize: 13, lineHeight: 18, color: colors.ink },
+  actions: { flexDirection: 'row', gap: ui.space.s, marginTop: 2 },
+  action: { flex: 1 },
 });

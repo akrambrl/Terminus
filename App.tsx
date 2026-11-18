@@ -1082,6 +1082,8 @@ function Game() {
         }
       >
         <Text style={styles.bigScore}>{found}/9</Text>
+        {/* Proposé en haut du résultat : visible sans faire défiler. */}
+        <NotifPrompt />
         <NewBadgesLine
           visible={showResult}
           onOpen={() => {
@@ -1134,7 +1136,6 @@ function Game() {
             <Stat value={stats.bestStreak} label="Record" />
           </View>
         )}
-        <NotifPrompt />
       </InfoModal>
 
       <InfoModal

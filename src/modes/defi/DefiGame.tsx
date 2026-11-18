@@ -444,6 +444,8 @@ export function DefiGame({
         <Text style={sharedStyles.bigScore}>
           {found.length}/{total}
         </Text>
+        {/* Proposé en haut du résultat : visible sans faire défiler. */}
+        <NotifPrompt />
         <NewBadgesLine
           visible={showResult}
           onOpen={
@@ -470,7 +472,6 @@ export function DefiGame({
           <Stat value={stats.streak} label="Série" />
           <Stat value={stats.bestStreak} label="Record" />
         </View>}
-        <NotifPrompt />
         <Text style={sharedStyles.unofficial}>Jeu non officiel, sans lien avec la RATP ni Île-de-France Mobilités.</Text>
       </InfoModal>
     </>
