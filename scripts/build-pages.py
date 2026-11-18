@@ -44,6 +44,8 @@ head = f'''
     <meta name="mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="black" />
     <meta name="apple-mobile-web-app-title" content="Terminus" />
+    <!-- Bannière officielle d'Apple en haut de Safari sur iPhone : « Ouvrir » / « Obtenir » l'app. -->
+    <meta name="apple-itunes-app" content="app-id=6832730062" />
     <link rel="manifest" href="{BASE}/manifest.webmanifest" />
     <link rel="apple-touch-icon" href="{BASE}/apple-touch-icon.png" />
     <style>html, body {{ background: #15123D; }}

@@ -41,7 +41,7 @@ export function StoreBanner() {
     <View style={styles.card}>
       <View style={styles.text}>
         <Text style={styles.title}>Terminus existe en app</Text>
-        <Text style={styles.sub}>Plus rapide, en plein écran, avec ta série de grilles.</Text>
+        <Text style={styles.sub}>Plein écran et rappel chaque matin des 4 jeux du jour.</Text>
       </View>
       <View style={styles.buttons}>
         {links.map((l) => (

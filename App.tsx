@@ -82,6 +82,7 @@ import { readAcquisition } from './src/analytics/acquisition';
 import { hasPrivacyChoices, openPrivacyChoices, startConsent } from './src/privacy/consent';
 import { CONTACT_EMAIL, PRIVACY_URL } from './src/privacy/links';
 import { StoreBanner } from './src/store/StoreBanner';
+import { AppPromo, markAppPromoShown, shouldShowAppPromo } from './src/store/AppPromo';
 import { WEB_URL } from './src/store/links';
 import { onGameFinished } from './src/store/review';
 import { Coin, CoinPill } from './src/components/CoinPill';
@@ -303,6 +304,23 @@ function Game() {
       alive = false;
     };
   }, [home, bonus, showIntro, showHelp, streakBonus, streakTick]);
+  // Site sur iPhone : après une partie, de retour à l'accueil, on propose l'app (le bonus de série passe avant).
+  const [appPromo, setAppPromo] = useState(false);
+  useEffect(() => {
+    if (!home || !playedToday || bonus || showIntro || showHelp || streakBonus || appPromo) return;
+    let alive = true;
+    const t = setTimeout(async () => {
+      if (!(await shouldShowAppPromo()) || (await pendingStreakBonus())) return;
+      if (!alive) return;
+      await markAppPromoShown();
+      setAppPromo(true);
+      track('app_promo_shown');
+    }, 1200);
+    return () => {
+      alive = false;
+      clearTimeout(t);
+    };
+  }, [home, playedToday, bonus, showIntro, showHelp, streakBonus, appPromo]);
 
   // Chargement de la grille du jour sauvegardée et des statistiques.
   useEffect(() => {
@@ -1161,6 +1179,8 @@ function Game() {
           Série de 7 jours : {STREAK_REWARDS[7]} pièces. Série de 30 jours : {STREAK_REWARDS[30]} pièces.
         </Text>
       </InfoModal>
+
+      <AppPromo visible={appPromo} onClose={() => setAppPromo(false)} />
 
       <InfoModal
         visible={!!streakBonus}
