@@ -155,7 +155,9 @@ const styles = StyleSheet.create({
     maxWidth: '100%',
   },
   title: { fontFamily: fonts.display, fontSize: 25, letterSpacing: -0.5, lineHeight: 28 },
-  body: { flexGrow: 0 },
+  // flexShrink : sur iPhone et Android, la zone qui défile doit rétrécir pour laisser la place aux boutons du bas
+  // (sinon elle passe dessous). Le site le faisait déjà.
+  body: { flexGrow: 0, flexShrink: 1 },
   close: {
     marginTop: 12,
     alignSelf: 'center',
