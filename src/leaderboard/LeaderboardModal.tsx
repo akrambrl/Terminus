@@ -10,6 +10,7 @@ import {
   type RankPeriod,
   type RankRow,
   type RankedGame,
+  isAutoPseudo,
 } from '../analytics/supabase';
 import { track } from '../analytics';
 import { Button } from '../components/Button';
@@ -55,6 +56,7 @@ export function LeaderboardModal({
   const [data, setData] = useState<Leaderboard | null>(null);
   const [error, setError] = useState(false);
   const [pseudo, setPseudoState] = useState<string | null>(null);
+  const [autoName, setAutoName] = useState(false);
   const [editing, setEditing] = useState(false);
   const [draft, setDraft] = useState('');
   const [message, setMessage] = useState<string | null>(null);
@@ -65,6 +67,7 @@ export function LeaderboardModal({
       const d = await fetchLeaderboard(game, period);
       setData(d);
       setPseudoState(d.pseudo);
+      isAutoPseudo().then(setAutoName);
       setError(false);
     } catch {
       setError(true);
@@ -168,6 +171,7 @@ export function LeaderboardModal({
                   <Text style={styles.pseudoText}>
                     Tu joues sous le nom <Text style={styles.strong}>{pseudo}</Text>
                   </Text>
+                  {autoName && <Text style={styles.autoHint}>Pseudo tiré au hasard : choisis le tien avec « Changer ».</Text>}
                   <View style={styles.pseudoActions}>
                     <Text
                       style={styles.link}
@@ -312,6 +316,7 @@ const styles = StyleSheet.create({
   strong: { fontFamily: fonts.heavy, color: colors.ink },
   link: { fontFamily: fonts.heavy, fontSize: 14, color: colors.accent, textDecorationLine: 'underline', paddingVertical: 6 },
   pseudoRow: { gap: 4 },
+  autoHint: { fontFamily: fonts.bold, fontSize: 12, color: colors.muted },
   pseudoText: { fontFamily: fonts.bold, fontSize: 15, color: colors.ink },
   pseudoActions: { flexDirection: 'row', flexWrap: 'wrap', columnGap: 18 },
   input: {

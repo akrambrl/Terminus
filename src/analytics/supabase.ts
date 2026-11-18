@@ -220,6 +220,50 @@ export async function getLocalPseudo(): Promise<string | null> {
   }
 }
 
+/* Pseudo automatique : sans lui, presque tout le classement s'affichait « Joueur anonyme ».
+   Après la première partie classée, le joueur reçoit un pseudo tiré au hasard (« Renard Futé »),
+   qu'il peut changer ou supprimer dans le classement. Une seule fois par appareil. */
+const AUTO_KEY = 'terminus:pseudo-auto';
+const ANIMALS = ['Renard', 'Hibou', 'Pigeon', 'Chat', 'Lapin', 'Panda', 'Loup', 'Moineau', 'Castor', 'Koala',
+  'Hérisson', 'Blaireau', 'Corbeau', 'Lynx', 'Faucon', 'Ours', 'Tigre', 'Raton', 'Écureuil', 'Pingouin'];
+const ADJECTIVES = ['Futé', 'Rapide', 'Malin', 'Curieux', 'Pressé', 'Rêveur', 'Matinal', 'Joyeux', 'Discret',
+  'Express', 'Agile', 'Zen', 'Têtu', 'Perdu', 'Pétillant', 'Noctambule', 'Gourmand', 'Flâneur', 'Intrépide', 'Ponctuel'];
+
+/** Pseudo au hasard de 16 caractères au plus (format accepté par tp_pseudo_ok), avec un numéro si besoin. */
+export function randomPseudo(withNumber = false): string {
+  const pick = <T,>(a: T[]) => a[Math.floor(Math.random() * a.length)];
+  for (;;) {
+    const base = `${pick(ANIMALS)} ${pick(ADJECTIVES)}`;
+    const name = withNumber ? `${base} ${10 + Math.floor(Math.random() * 90)}` : base;
+    if (name.length <= 16) return name;
+  }
+}
+
+/** Ce pseudo a-t-il été donné automatiquement (et jamais changé) ? */
+export async function isAutoPseudo(): Promise<boolean> {
+  try {
+    const [auto, pseudo] = await Promise.all([AsyncStorage.getItem(AUTO_KEY), AsyncStorage.getItem(PSEUDO_KEY)]);
+    return !!pseudo && auto === pseudo;
+  } catch {
+    return false;
+  }
+}
+
+async function autoPseudo(): Promise<void> {
+  if (optedOut) return;
+  if ((await getLocalPseudo()) || (await AsyncStorage.getItem(AUTO_KEY))) return;
+  for (let i = 0; i < 4; i++) {
+    const name = randomPseudo(i > 0);
+    const r = await setPseudo(name);
+    if (r === 'ok') {
+      await AsyncStorage.setItem(AUTO_KEY, name);
+      return;
+    }
+    if (r === 'error') return; // hors ligne : on réessaiera à la prochaine partie
+  }
+  await AsyncStorage.setItem(AUTO_KEY, 'off');
+}
+
 /** Choisit le pseudo du classement. Renvoie 'ok', 'invalid' (format ou mot interdit), 'taken' ou 'error'. */
 export async function setPseudo(pseudo: string): Promise<'ok' | 'invalid' | 'taken' | 'error'> {
   const device = await ensureDevice();
@@ -240,6 +284,7 @@ export async function deletePlayer(): Promise<boolean> {
   try {
     await rpc('tp_delete_player', { p_device: device });
     await AsyncStorage.removeItem(PSEUDO_KEY);
+    await AsyncStorage.setItem(AUTO_KEY, 'off'); // ne plus lui donner de pseudo automatique
     return true;
   } catch {
     return false;
@@ -255,6 +300,7 @@ export async function submitScore(day: string, game: RankedGame, payload: Record
   if (!device) return;
   try {
     await rpc('tp_submit', { p_device: device, p_day: day, p_game: game, p_payload: payload });
+    await autoPseudo();
   } catch {
     // Hors ligne : la partie sera renvoyée au prochain lancement.
   }
