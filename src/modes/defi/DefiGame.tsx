@@ -407,7 +407,10 @@ export function DefiGame({
               remaining={hintId ? 3 - hintLevel : 0}
               compact
               onBuy={async () => {
-                if (hintId && (await onBuyHint())) setHints({ ...hints, [hintId]: hintLevel + 1 });
+                if (!hintId) return;
+                const ok = await onBuyHint();
+                if (ok) setHints({ ...hints, [hintId]: hintLevel + 1 });
+                return ok;
               }}
             />
           ) : undefined

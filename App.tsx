@@ -655,8 +655,9 @@ function Game() {
       setAdsLeft(paid.adsLeft);
       if (!paid.ok) {
         track('not_enough_coins', { coins: paid.coins, for: `hint-${game}` });
-        setActive(null);
-        setShowNoCoins(true);
+        // Grille et Défi : l'indice est dans la fenêtre de recherche ; iOS ne peut pas ouvrir une 2e fenêtre
+        // par-dessus, le message s'affiche donc sous le bouton (HintBox). Ailleurs : fenêtre « Plus de pièces ».
+        if (game !== 'grille' && game !== 'defi') setShowNoCoins(true);
         return false;
       }
       track('hint_bought', { game, coins_left: paid.coins });
@@ -1027,7 +1028,9 @@ function Game() {
               compact
               onBuy={async () => {
                 const k = active.row * 3 + active.col;
-                if (await buyHint('grille')) setGridHints({ ...gridHints, [k]: (gridHints[k] ?? 0) + 1 });
+                const ok = await buyHint('grille');
+                if (ok) setGridHints({ ...gridHints, [k]: (gridHints[k] ?? 0) + 1 });
+                return ok;
               }}
             />
           ) : undefined

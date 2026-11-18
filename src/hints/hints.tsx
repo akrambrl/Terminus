@@ -2,6 +2,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useEffect, useState } from 'react';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 import { Coin } from '../components/CoinPill';
+import { DAILY_BONUS } from '../game/coins';
 import { colors, fonts, ui } from '../theme';
 
 /** Prix d'un indice (en pièces, jamais en argent réel). */
@@ -48,11 +49,14 @@ export function HintBox({
   revealed: string[];
   /** Indices encore disponibles (0 : plus d'indice). */
   remaining: number;
-  onBuy: () => void;
+  /** Achat : renvoie false si le joueur n'a plus assez de pièces (message affiché sous le bouton). */
+  onBuy: () => void | Promise<boolean | void>;
   /** Sur fond sombre : bouton clair. */
   dark?: boolean;
   compact?: boolean;
 }) {
+  // Plus de pièces : message sur place (une 2e fenêtre ne peut pas s'ouvrir par-dessus la recherche sur iPhone).
+  const [broke, setBroke] = useState(false);
   return (
     <View style={[styles.wrap, compact && { gap: 6 }]}>
       {revealed.map((t, i) => (
@@ -62,7 +66,7 @@ export function HintBox({
       ))}
       {remaining > 0 && (
         <Pressable
-          onPress={onBuy}
+          onPress={async () => setBroke((await onBuy()) === false)}
           accessibilityRole="button"
           accessibilityLabel={`Acheter un indice pour ${HINT_COST} pièce`}
           style={({ pressed }) => [styles.button, dark && styles.buttonDark, pressed && { transform: [{ translateY: 2 }] }]}
@@ -72,6 +76,11 @@ export function HintBox({
           </Text>
           <Coin size={16} />
         </Pressable>
+      )}
+      {broke && remaining > 0 && (
+        <Text style={[styles.broke, dark && { color: colors.white }]}>
+          Plus assez de pièces. Tu en gagnes {DAILY_BONUS} chaque jour en ouvrant le jeu, et un bonus avec ta série de jours.
+        </Text>
       )}
     </View>
   );
@@ -94,6 +103,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 12,
     textAlign: 'center',
   },
+  broke: { fontFamily: fonts.bold, fontSize: 13, lineHeight: 18, color: colors.tomato, textAlign: 'center' },
   hintCompact: { fontSize: 13, paddingVertical: 5 },
   button: {
     flexDirection: 'row',
